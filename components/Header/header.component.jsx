@@ -26,7 +26,7 @@ const Header = () => {
             >
               <ul className={styles.navbar}>
                 {links.map((item, i) => (
-                  <Link href={i === 0 ? "/" : `${item}`}>
+                  <Link href={i === 0 ? "/" : `${item}`} key={i}>
                     <a>
                       <li className={styles.link} key={i}>
                         {item}

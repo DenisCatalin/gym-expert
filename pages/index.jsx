@@ -44,6 +44,7 @@ const Home = () => {
           src={"/static/undraw_healthy_habit_bh-5-w.svg"}
           alt=""
           layout="fill"
+          priority
         />
       </motion.div>
     </div>
