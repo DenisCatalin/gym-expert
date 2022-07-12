@@ -1,0 +1,40 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background: #140630;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --background:#140630;
+  --purple: #622CCE;
+  --pink: #DC82F2;
+  --yellow: #FFA800;
+  --white: #EEEEEE;
+  --redish: #B96B6B;
+  --hotred: #FC6681;
+  --pink65: rgba(220, 130, 242, .65);
+  --pinkButton: #E87BFF;
+  --testimonialBg: #7C62B0;
+  --font: 'Kodchasan', sans-serif;
+  --logoGradient: radial-gradient(73.37% 73.37% at 49.75% 12.5%, #622CCE 0%, #E87BFF 100%);
+  --heroGradient: linear-gradient(90deg, #622CCE 5.23%, #B96B6B 100%);
+  --avatarGradient: linear-gradient(180deg, #500DBF 0%, #DC82F2 100%);
+  --pricing1Gradient: linear-gradient(334.52deg, #E87BFF 0%, #622CCE 100%);
+  --pricingBigGradient: linear-gradient(155.76deg, #FC6681 0.82%, #622CCE 100%);
+  --pricing2Gradient: linear-gradient(180deg, #FBBEBE 0%, #622CCE 100%);
+  --buttonGradient: linear-gradient(93.71deg, #E87BFF 1.75%, rgba(220, 130, 242, 0.65) 100%);
+  --heroButton: linear-gradient(271.28deg, #622CCE 5.16%, rgba(220, 130, 242, 0.65) 98.9%);
+  --menuBackground: #141414;
+}

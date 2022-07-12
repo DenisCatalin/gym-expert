@@ -1,0 +1,340 @@
+.container {
+    width: 100%;
+    min-height:  100vh;
+    background: var(--background);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero {
+    width: 50%;
+    height: 70vh;
+    padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    width: 90%;
+    font-family: var(--font);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 4em;
+    line-height: 83px;
+    text-align: center;
+    animation: pulse 2s infinite;
+
+    background: var(--heroGradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.mainButton {
+    width: 30%;
+    height: 13%;
+    z-index: 1;
+
+    background: var(--heroButton);
+    color: var(--white);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 50px;
+    font-family: var(--font);
+    font-size: 1.8em;
+    cursor: pointer;
+    
+    border: none;
+    outline: none;
+
+    margin-top: 3em;
+
+    transition: all 1 ease-in-out;
+}
+
+.heroImage {
+
+    position: absolute;
+    top: 15%;
+    left: 48%;
+    width: 50%;
+    height: 70vh;
+}
+
+@media screen and (max-width: 1600px) {
+    .title {
+        font-size: 3.5em;
+    }
+    .mainButton {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 1450px) {
+    .title {
+        font-size: 2.6em;
+    }
+    .mainButton {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 1368px) and (max-height: 920px) {
+    .title {
+        width: 90%;
+        font-size: 2.7em;
+    }
+    .mainButton {
+        width: 50%;
+    }
+}    
+
+@media screen and (max-width: 1300px) {
+    .title {
+        font-size: 3em;
+    }
+    .mainButton {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .title {
+        font-size: 2.5em;
+        line-height: 50px;
+    }
+    .mainButton {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .hero {
+        height: 80vh;
+    }
+    .title {
+        font-size: 2.2em;
+        line-height: 50px;
+    }
+    .mainButton {
+        width: 50%;
+        font-size: 1.5em;
+    }
+}   
+
+@media screen and (max-width: 912px) and (max-height: 1368px) {
+    .hero {
+        height: 80vh;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .title {
+        width: 90%;
+        font-size: 2.5em;
+        line-height: 50px;
+    }
+    .mainButton {
+        width: 50%;
+        height: 10%;
+        font-size: 2.3em;
+    }
+    .heroImage {
+        width: 80%;
+        height: 65vh;
+        left: 10%;
+    }
+} 
+
+@media screen and (max-width: 920px) and (max-height: 440px) {
+    .hero {
+        width: 50%;
+        height: 80vh;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .title {
+        font-size: 1.7em;
+        line-height: 50px;
+    }
+    .mainButton {
+        width: 45%;
+        height: 15%;
+        font-size: 1.2em;
+    }
+    .heroImage {
+        width: 50%;
+        height: 65vh;
+        left: 50%;
+    }
+}
+
+@media screen and (max-width: 820px) {
+    .hero {
+        width: 100%;
+        height: 80vh;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .title {
+        font-size: 2.2em;
+        line-height: 50px;
+    }
+    .mainButton {
+        width: 40%;
+        height: 11%;
+        font-size: 1.6em;
+    }
+    .heroImage {
+        width: 70%;
+        height: 70vh;
+        left: 15%;
+    }
+}
+
+@media screen and (max-width: 750px) and (max-height: 540px) {
+    .hero {
+        width: 100%;
+        height: 85vh;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .title {
+        width: 70%;
+        font-size: 1.5em;
+        line-height: 45px;
+    }
+    .mainButton {
+        width: 30%;
+        height: 12%;
+        font-size: 1.3em;
+    }
+    .heroImage {
+        width: 80%;
+        height: 40vh;
+        left: 10%;
+        top: 35%;
+    }
+}    
+
+@media screen and (max-width: 550px) {
+    .hero {
+        width: 100%;
+        height: 80vh;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .title {
+        font-size: 1.6em;
+        line-height: 45px;
+    }
+    .mainButton {
+        width: 40%;
+        height: 10%;
+        font-size: 1.3em;
+    }
+    .heroImage {
+        width: 80%;
+        height: 70vh;
+        left: 10%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .hero {
+        width: 100%;
+        height: 80vh;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .title {
+        font-size: 1.6em;
+        line-height: 45px;
+    }
+    .mainButton {
+        width: 60%;
+        height: 10%;
+        font-size: 1.3em;
+    }
+    .heroImage {
+        width: 80%;
+        height: 70vh;
+        left: 10%;
+    }
+}
+
+@media screen and (max-height: 380px) {
+    .hero {
+        height: 90vh;
+    }
+    .title {
+        font-size: 1.7em;
+        line-height: 45px;
+    }
+    .mainButton {
+        width: 30%;
+        height: 15%;
+        font-size: 1.4em;
+    }
+    .heroImage {
+        width: 70%;
+        top: 40%;
+        height: 40vh;
+    }
+}    
+
+@media screen and (max-width: 450px) and (max-height: 330px) {
+    .hero {
+        height: 90vh;
+    }
+    .title {
+        font-size: 1em;
+        line-height: 25px;
+    }
+    .mainButton {
+        width: 40%;
+        height: 15%;
+        font-size: 1.1em;
+    }
+    .heroImage {
+        width: 70%;
+        top: 35%;
+        left: 15%;
+        height: 40vh;
+    }
+}
+
+@media screen and (max-width: 330px) {
+    .title {
+        width: 80%;
+        font-size: 1.2em;
+        line-height: 25px;
+    }
+    .heroImage {
+        width: 70%;
+        top: 35%;
+        left: 15%;
+        height: 40vh;
+    }
+    .mainButton {
+        width: 60%;
+        height: 13%;
+        font-size: 1.2em;
+    }
+}
+
+@keyframes pulse {
+    10% { opacity: 1}
+    20% { opacity: 0.9; }
+    30% { opacity: 0.8; }
+    40% { opacity: 0.7; }
+    50% { opacity: 0.6; }
+    60% { opacity: 0.5; }
+    70% { opacity: 0.6; }
+    80% { opacity: 0.7; }
+    90% { opacity: 0.9; }
+    100% { opacity: 1; }
+}
