@@ -142,7 +142,7 @@ const Pricing = () => {
           </div>
           <div className={styles.cardContent}>
             <h1 className={styles.planPrice}>$35</h1>
-            <h1 className={styles.planName}>The Plan Name</h1>
+            <h1 className={styles.planName}>$35</h1>
             <div className={styles.planFeatures}>
               <ThemeProvider theme={theme2}>
                 <div className={styles.feature}>

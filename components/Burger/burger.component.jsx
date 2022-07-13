@@ -9,7 +9,12 @@ const Burger = () => {
   const [state, setState] = useState(false);
   return (
     <>
-      <div className={styles.burger} onClick={() => setState(true)}>
+      <div
+        className={styles.burger}
+        onClick={() => {
+          setState(true);
+        }}
+      >
         <div className={styles.line1}></div>
         <div className={styles.line2}></div>
         <div className={styles.line3}></div>
@@ -23,7 +28,10 @@ const Burger = () => {
       </div>
       <div
         className={styles.mobileNavbar}
-        style={{ left: state ? "50%" : "150%" }}
+        style={{
+          opacity: state ? "1" : "0",
+          pointerEvents: state ? "all" : "none",
+        }}
       >
         <div className={styles.drawer}>
           <div className={styles.drawerAvatar}>
