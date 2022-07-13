@@ -1,7 +1,9 @@
 import styles from "../../css/components/Burger.module.css";
-import Drawer from "@mui/material/Drawer";
+import Link from "next/link";
 import { useState } from "react";
 import ProfileButton from "../Header/profile/profile.component";
+
+const links = ["home", "exercises", "pricing", "news", "about", "contact"];
 
 const Burger = () => {
   const [state, setState] = useState(false);
@@ -27,12 +29,15 @@ const Burger = () => {
           <div className={styles.drawerAvatar}>
             <ProfileButton />
           </div>
-          <h1 className={styles.drawerLink}>home</h1>
-          <h1 className={styles.drawerLink}>exercises</h1>
-          <h1 className={styles.drawerLink}>pricing</h1>
-          <h1 className={styles.drawerLink}>news</h1>
-          <h1 className={styles.drawerLink}>about</h1>
-          <h1 className={styles.drawerLink}>contact</h1>
+          {links.map((item, i) => (
+            <Link href={i === 0 ? "/" : `/${item}`} key={i}>
+              <a>
+                <h1 className={styles.drawerLink} key={i}>
+                  {item}
+                </h1>
+              </a>
+            </Link>
+          ))}
         </div>
       </div>
     </>

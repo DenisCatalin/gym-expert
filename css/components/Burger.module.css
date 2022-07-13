@@ -133,6 +133,19 @@
     }
 }
 
+@media screen and (max-height: 420px) {
+    .burger {
+        height: 80%;
+    }
+    .line1, .line3 {
+        width: 35px;
+        border: 1px solid var(--white);
+    }
+    .line2 {
+        width: 25px;
+        border: 1px solid var(--white);
+    }
+}  
 
 @media screen and (max-height: 380px) {
     .burger {

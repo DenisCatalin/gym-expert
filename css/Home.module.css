@@ -149,6 +149,7 @@
     }
 } 
 
+
 @media screen and (max-width: 920px) and (max-height: 440px) {
     .hero {
         width: 50%;
@@ -194,6 +195,7 @@
         left: 15%;
     }
 }
+
 
 @media screen and (max-width: 750px) and (max-height: 540px) {
     .hero {
@@ -275,7 +277,7 @@
         line-height: 45px;
     }
     .mainButton {
-        width: 30%;
+        width: 35%;
         height: 15%;
         font-size: 1.4em;
     }
@@ -284,7 +286,28 @@
         top: 40%;
         height: 40vh;
     }
-}    
+}  
+
+@media screen and (max-height: 340px) {
+    .hero {
+        height: 90vh;
+    }
+    .title {
+        font-size: 1.7em;
+        line-height: 45px;
+    }
+    .mainButton {
+        width: 50%;
+        height: 25%;
+        font-size: 1.2em;
+    }
+    .heroImage {
+        width: 70%;
+        top: 20%;
+        left: 40%;
+        height:70vh;
+    }
+}  
 
 @media screen and (max-width: 450px) and (max-height: 330px) {
     .hero {
@@ -325,6 +348,7 @@
         font-size: 1.2em;
     }
 }
+
 
 @keyframes pulse {
     10% { opacity: 1}

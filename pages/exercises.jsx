@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Pagination from "@mui/material/Pagination";
 import IconButton from "@mui/material/IconButton";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Image from "next/image";
+import Head from "next/head";
 import CircularProgress from "@mui/material/CircularProgress";
 import { fetchData, exerciseOptions } from "../utils/fetchData";
 import ExerciseCard from "../components/ExerciseCard/exercise-card.component";
@@ -284,26 +284,33 @@ const Exercises = () => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Gym-Expert - Exercises</title>
+      </Head>
       <Header />
       <div className={styles.content}>
         <div className={styles.exercises}>
           <div className={styles.altContent}>
-            <div className={styles.header}>
+            <motion.div
+              className={styles.header}
+              animate={{ opacity: [0, 1], y: [100, 0] }}
+            >
               {width > 900 ? (
                 booodyParts.map((item, i) => (
-                  <motion.button
+                  <button
                     className={styles.bodyPart}
                     key={i}
                     onClick={(e) => setBodyPart(e.target.textContent)}
                   >
                     {item}
-                  </motion.button>
+                  </button>
                 ))
               ) : (
                 <>
                   <ThemeProvider theme={theme2}>
                     <IconButton
                       onClick={decreaseCategories}
+                      S
                       className={styles.iconButton}
                       style={{
                         pointerEvents: bodyPartsPage < 2 ? "none" : "all",
@@ -381,32 +388,46 @@ const Exercises = () => {
               ) : (
                 <CircularProgress />
               )} */}
-            </div>
+            </motion.div>
             <div className={styles.exercisess}>
               {bodyPart === "" ? (
                 <>
-                  <h1 className={styles.text}>Choose a body part</h1>
+                  <motion.h1
+                    className={styles.text}
+                    animate={{ opacity: [0, 1] }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    Choose a body part
+                  </motion.h1>
                 </>
               ) : (
-                currentExercises.map((item, i) => (
-                  <ExerciseCard item={item} key={i} />
-                ))
+                currentExercises.map((item, i) =>
+                  currentExercises.length === 1 ? (
+                    <>
+                      <ExerciseCard item={item} key={i} last={true} />
+                    </>
+                  ) : (
+                    <ExerciseCard item={item} key={i} />
+                  )
+                )
               )}
             </div>
           </div>
         </div>
         <div className={styles.pagination}>
-          <ThemeProvider theme={theme}>
-            <Pagination
-              count={Math.ceil(exercise.length / exercisesPerPage)}
-              page={page}
-              onChange={handleChange}
-              defaultPage={1}
-              variant="outlined"
-              color="secondary"
-              size={height > 420 ? "large" : "medium"}
-            />
-          </ThemeProvider>
+          {bodyPart === "" ? null : (
+            <ThemeProvider theme={theme}>
+              <Pagination
+                count={Math.ceil(exercise.length / exercisesPerPage)}
+                page={page}
+                onChange={handleChange}
+                defaultPage={1}
+                variant="outlined"
+                color="secondary"
+                size={height > 420 ? "large" : "medium"}
+              />
+            </ThemeProvider>
+          )}
         </div>
       </div>
     </div>

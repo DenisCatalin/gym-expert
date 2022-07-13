@@ -1,7 +1,8 @@
 import styles from "../../css/components/Header.module.css";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import ProfileButton from "./profile/profile.component";
 import { motion } from "framer-motion";
 import useWindowDimensions from "../../utils/useWindowDimensions";
@@ -11,13 +12,14 @@ const links = ["home", "exercises", "pricing", "news", "about", "contact"];
 
 const Header = () => {
   const { width } = useWindowDimensions();
+  const router = useRouter();
 
   const [mounted, setMounted] = useState(null);
 
   useEffect(() => {
     setMounted(
       <>
-        {width > 820 ? (
+        {width > 850 ? (
           <>
             <motion.div
               className={styles.navbarContainer}
@@ -52,7 +54,7 @@ const Header = () => {
       transition={{ delay: 0.2 }}
       initial={{ opacity: 0 }}
     >
-      <div className={styles.logoContainer}>
+      <div className={styles.logoContainer} onClick={() => router.push("/")}>
         <div className={styles.logo}>
           <Image src={"/static/logo-gym.png"} alt="" layout="fill" />
         </div>
