@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-}
+};
 
-module.exports = nextConfig
+module.exports = {
+  nextConfig,
+  images: {
+    domains: [
+      "themealdb.com",
+      "www.themealdb.com",
+      "res.cloudinary.com",
+      "d205bpvrqc9yn1.cloudfront.net",
+    ],
+  },
+};
