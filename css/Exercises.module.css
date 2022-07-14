@@ -154,6 +154,16 @@
     }
 }
 
+@media screen and (max-width: 450px) and (max-height: 340px) {
+
+    .bodyPart {
+        width: 30%;
+        margin-left: 0.3em;
+        height: 80%;
+        font-size: .9em;
+    }
+}
+
 @media screen and (max-width: 380px) {
 
     .bodyPart {

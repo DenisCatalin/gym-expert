@@ -5,6 +5,7 @@ import Header from "../components/Header/header.component";
 import Image from "next/image";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import useWindowDimensions from "../utils/useWindowDimensions";
 
 const theme2 = createTheme({
   status: {
@@ -27,13 +28,20 @@ const theme2 = createTheme({
 });
 
 const Pricing = () => {
+  const { width } = useWindowDimensions();
+  const setScaleCard = () => {
+    let scale = 1;
+    if (width < 1150) scale = 0.9;
+    return scale;
+  };
+
   return (
     <div className={styles.container}>
       <Header />
       <div className={styles.content}>
         <motion.div
           className={styles.card}
-          animate={{ opacity: [0, 1], x: [-400, 0] }}
+          animate={{ opacity: [0, 1], x: [-400, 0], scale: setScaleCard() }}
         >
           <div className={styles.imageCard}>
             <Image
@@ -80,7 +88,7 @@ const Pricing = () => {
         </motion.div>
         <motion.div
           className={styles.cardBig}
-          animate={{ opacity: [0, 1], y: [400, 0] }}
+          animate={{ opacity: [0, 1], y: [400, 0], scale: setScaleCard() }}
         >
           <div className={styles.imageCard}>
             <Image
@@ -131,7 +139,7 @@ const Pricing = () => {
         </motion.div>
         <motion.div
           className={styles.card}
-          animate={{ opacity: [0, 1], x: [400, 0] }}
+          animate={{ opacity: [0, 1], x: [400, 0], scale: setScaleCard() }}
         >
           <div className={styles.imageCard}>
             <Image
@@ -147,23 +155,38 @@ const Pricing = () => {
               <ThemeProvider theme={theme2}>
                 <div className={styles.feature}>
                   <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
+                  <VerifiedIcon
+                    color="neutral"
+                    className={styles.featureIcon}
+                  />
                 </div>
                 <div className={styles.feature}>
                   <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
+                  <VerifiedIcon
+                    color="neutral"
+                    className={styles.featureIcon}
+                  />
                 </div>
                 <div className={styles.feature}>
                   <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
+                  <VerifiedIcon
+                    color="neutral"
+                    className={styles.featureIcon}
+                  />
                 </div>
                 <div className={styles.feature}>
                   <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
+                  <VerifiedIcon
+                    color="neutral"
+                    className={styles.featureIcon}
+                  />
                 </div>
                 <div className={styles.feature}>
                   <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
+                  <VerifiedIcon
+                    color="neutral"
+                    className={styles.featureIcon}
+                  />
                 </div>
               </ThemeProvider>
             </div>

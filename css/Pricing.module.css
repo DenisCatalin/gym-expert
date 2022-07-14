@@ -160,8 +160,6 @@
         height: 65%;
     }
     .featureText { font-size: 1.3em; }
-    .planPrice { font-size: 2em; }
-    .planButton { height: 12%; }
     .card::after {
         width: 260px;
         height: 260px;
@@ -170,9 +168,16 @@
         width: 280px;
         height: 280px;
     }
-    .card, .cardBig {
-        width: 30%;
+    .card {
+        width: 27%;
     }
+    .cardBig { width: 30%; }
+    .planPrice { font-size: 1.5em;}
+    .planName { font-size: 1.5em; }
+    .feature { font-size: .8em; line-height: 2px; }
+    .featureIcon { font-size: 1.8em; }
+    .planButton { font-size: 1em; height: 15%; }
+    .imageCard { width: 35%; height: 35%; }
 }
 
 @media screen and (max-width: 1150px) {
@@ -197,30 +202,29 @@
 }
 
 @media screen and (max-width: 1050px) {
-    .content {
-        display: flex;
-        flex-flow: wrap row;
-        overflow: auto;
-        gap: 2ch;
+    .planFeatures {
+        height: 65%;
     }
-    .card {
-        width: 40%;
-        height: 85vh;
-        margin-left: 2em;
-        margin-right: 2em;
-    }
+    .featureText { font-size: 1.3em; }
     .card::after {
-        width: 300px;
-        height: 300px;
-    }
-    .cardBig {
-        width: 40%;
-        height: 85vh;
+        width: 260px;
+        height: 260px;
     }
     .cardBig::after {
-        width: 300px;
-        height: 300px;
+        width: 280px;
+        height: 280px;
     }
+    .card {
+        width: 30%;
+        height: 70vh;
+    }
+    .cardBig { width: 35%; height: 75vh}
+    .planPrice { font-size: 1.5em;}
+    .planName { font-size: 1.5em; }
+    .feature { font-size: .8em; line-height: 2px; }
+    .featureIcon { font-size: 1.8em; }
+    .planButton { font-size: 1em; height: 12%; }
+    .imageCard { width: 35%; height: 35%; }
 }
 
 
@@ -252,35 +256,40 @@
     }
 }
 
-@media screen and (max-width: 920px) and (min-height: 390px) {
+@media screen and (max-width: 920px) and (min-height: 320px) and (max-height: 950px) {
     .content {
         display: flex;
         flex-flow: wrap row;
         overflow: auto;
         gap: 5ch;
         padding: 1rem;
+        height: 120vh;
     }
     .card {
-        width: 45%;
-        height: 130vh;
+        width: 27%;
+        height: 100vh;
+        margin: 0;
+        
+    }
+    .cardBig {
+        width: 32%;
+        height: 110vh;
         margin: 0;
     }
     .card::after {
-        width: 250px;
-        height: 250px;
-    }
-    .cardBig {
-        width: 50%;
-        height: 135vh;
+        width: 150px;
+        height: 150px;
     }
     .cardBig::after {
-        width: 280px;
-        height: 280px;
+        width: 170px;
+        height: 170px;
     }
-    .imageCard {
-        width: 35%;
-        height: 35%;
-    }
+    .planPrice { font-size: 1.2em;}
+    .planName { font-size: 1.2em; }
+    .feature { font-size: .6em; line-height: 10px; }
+    .featureIcon { font-size: 1.5em; }
+    .planButton { font-size: .75em; height: 20%; }
+    .imageCard { width: 27%; height: 27%;}
 }
 
 @media screen and (max-width: 920px) and (min-height: 1300px) {
@@ -313,7 +322,6 @@
         height: 35%;
     }
 }
-
 @media screen and (max-width: 830px) and (min-height: 1150px) {
     .content {
         display: flex;
@@ -371,35 +379,40 @@
     }
 }
 
-@media screen and (max-width: 740px) and (max-height: 420px) {
+@media screen and (max-width: 850px) and (max-height: 375px) {
     .content {
         display: flex;
         flex-flow: wrap row;
         overflow: auto;
-        gap: 5ch;
+        gap: 0ch;
+        margin: 0;
         padding: 1rem;
+        height: 120vh;
     }
     .card {
-        width: 60%;
-        height: 140vh;
+        width: 33%;
+        height: 100vh;
+        margin: 0;
+        
+    }
+    .cardBig {
+        width: 33%;
+        height: 100vh;
         margin: 0;
     }
     .card::after {
-        width: 250px;
-        height: 250px;
-    }
-    .cardBig {
-        width: 60%;
-        height: 145vh;
+        width: 150px;
+        height: 150px;
     }
     .cardBig::after {
-        width: 280px;
-        height: 280px;
+        width: 170px;
+        height: 170px;
     }
-    .imageCard {
-        width: 35%;
-        height: 35%;
-    }
+    .planPrice { font-size: 1.2em;}
+    .planName { font-size: 1.2em; }
+    .feature { font-size: .6em; line-height: 10px; }
+    .featureIcon { font-size: 1.8em; }
+    .planButton { font-size: .75em; height: 20%; }
 }
 
 @media screen and (max-width: 700px) and (min-height: 360px) {
@@ -409,9 +422,10 @@
         overflow: auto;
         gap: 5ch;
         padding: 1rem;
+        height: 120vh;
     }
     .card {
-        width: 50%;
+        width: 45%;
         height: 130vh;
         margin: 0;
     }
@@ -420,19 +434,20 @@
         height: 250px;
     }
     .cardBig {
-        width: 60%;
+        width: 45%;
         height: 135vh;
     }
     .cardBig::after {
-        width: 280px;
-        height: 280px;
+        width: 250px;
+        height: 250px;
     }
     .imageCard {
         width: 35%;
         height: 35%;
     }
+    .planButton { font-size: .75em; height: 15%; }
 }
-
+/* 
 @media screen and (max-width: 555px) and (min-height: 768px) {
     .content {
         display: flex;
@@ -462,9 +477,9 @@
         width: 35%;
         height: 35%;
     }
-}
+} */
 
-@media screen and (max-width: 555px) and (min-height: 720px) {
+/* @media screen and (max-width: 555px) and (min-height: 720px) {
     .content {
         display: flex;
         flex-flow: wrap row;
@@ -493,7 +508,7 @@
         width: 35%;
         height: 35%;
     }
-}
+} */
 
 @media screen and (max-width: 435px) and (max-height: 950px) {
     .content {
@@ -502,10 +517,11 @@
         overflow: auto;
         gap: 5ch;
         padding: 1rem;
+        height: 90vh;
     }
     .card {
         width: 90%;
-        height: 65vh;
+        height: 60vh;
         margin: 0;
     }
     .card::after {
@@ -514,7 +530,7 @@
     }
     .cardBig {
         width: 95%;
-        height: 75vh;
+        height: 65vh;
     }
     .cardBig::after {
         width: 280px;
@@ -524,6 +540,11 @@
         width: 35%;
         height: 35%;
     }
+    .planPrice { font-size: 1.4em;}
+    .planName { font-size: 1.4em; }
+    .feature { font-size: .85em; line-height: 10px; }
+    .featureIcon { font-size: 1.8em; }
+    .planButton { font-size: .9em; height: 15%; }
 }
 
 @media screen and (max-width: 460px) and (max-height: 350px) {
@@ -564,6 +585,7 @@
         overflow: auto;
         gap: 5ch;
         padding: 1rem;
+        height: 90vh;
     }
     .card {
         width: 100%;
@@ -586,6 +608,11 @@
         width: 35%;
         height: 35%;
     }
+    .planPrice { font-size: 1.4em;}
+    .planName { font-size: 1.4em; }
+    .feature { font-size: .85em; line-height: 10px; }
+    .featureIcon { font-size: 1.8em; }
+    .planButton { font-size: .9em; height: 15%; }
 }
 
 @media screen and (max-width: 360px) {
