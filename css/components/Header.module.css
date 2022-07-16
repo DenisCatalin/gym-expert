@@ -5,6 +5,7 @@
     justify-content: space-between;
     align-items: center;
     padding: .5rem;
+    z-index: 4;
 }
 
 .logoContainer {
@@ -257,8 +258,8 @@
         width: 80%;
     }
     .logo {
-        width: 55px;
-        height: 55px;
+        width: 45px;
+        height: 45px;
     }
     .logoName {
         font-size: 1.2em;

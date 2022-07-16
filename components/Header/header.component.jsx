@@ -10,7 +10,7 @@ import Burger from "../Burger/burger.component";
 
 const links = ["home", "exercises", "pricing", "news", "about", "contact"];
 
-const Header = () => {
+const Header = ({ sticky = false }) => {
   const { width } = useWindowDimensions();
   const router = useRouter();
 
@@ -53,6 +53,10 @@ const Header = () => {
       animate={{ opacity: [0, 1] }}
       transition={{ delay: 0.2 }}
       initial={{ opacity: 0 }}
+      style={{
+        position: sticky ? "fixed" : "initial",
+        backdropFilter: sticky ? "blur(10px)" : "none",
+      }}
     >
       <div className={styles.logoContainer} onClick={() => router.push("/")}>
         <div className={styles.logo}>
