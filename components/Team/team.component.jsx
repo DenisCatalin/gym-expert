@@ -30,6 +30,7 @@ const Team = () => {
   const router = useRouter();
   return (
     <div className={styles.container}>
+      <h1 className={styles.teamButtonText}>Our team</h1>
       <div className={styles.content}>
         <TeamProfile image={"/static/test.jpg"} />
         <TeamProfile image={"/static/test2.jpg"} />

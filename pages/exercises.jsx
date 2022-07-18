@@ -310,7 +310,6 @@ const Exercises = () => {
                   <ThemeProvider theme={theme2}>
                     <IconButton
                       onClick={decreaseCategories}
-                      S
                       className={styles.iconButton}
                       style={{
                         pointerEvents: bodyPartsPage < 2 ? "none" : "all",

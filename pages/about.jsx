@@ -8,6 +8,8 @@ import useWindowDimensions from "../utils/useWindowDimensions";
 import AboutContainer from "../components/About/About.component";
 import { useRouter } from "next/router";
 import Team from "../components/Team/team.component";
+import Testimonials from "../components/Testimonials/testimonials.component";
+import Head from "next/head";
 
 const theme2 = createTheme({
   status: {
@@ -51,6 +53,16 @@ const About = () => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>
+          Gym Expert -{" "}
+          {router.asPath === "/about"
+            ? "About"
+            : router.asPath === "/about#team"
+            ? "Team"
+            : "Testimonials"}
+        </title>
+      </Head>
       <Header sticky={true} />
       {scrollValue > width / 3 ? (
         <ThemeProvider theme={theme2}>
@@ -75,10 +87,10 @@ const About = () => {
       <section className={styles.teamContainer} id="team">
         <Team />
       </section>
-      <section
-        className={styles.testimonialsContainer}
-        id="testimonials"
-      ></section>
+      <section className={styles.testimonialsContainer} id="testimonials">
+        <div className={styles.space}></div>
+        <Testimonials />
+      </section>
     </div>
   );
 };
