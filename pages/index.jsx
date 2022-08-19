@@ -3,6 +3,7 @@ import styles from "../css/Home.module.css";
 import Header from "../components/Header/header.component";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Image from "next/image";
+import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 
@@ -11,9 +12,10 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Gym-Expert Homepage</title>
+        <title>Gym Expert - Homepage</title>
       </Head>
       <Header />
+      <CustomSnackbar />
       <motion.div
         className={styles.hero}
         transition={{ delay: 0.2 }}

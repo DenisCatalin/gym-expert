@@ -1,204 +1,33 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import styles from "../css/Pricing.module.css";
 import Header from "../components/Header/header.component";
-import Image from "next/image";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import useWindowDimensions from "../utils/useWindowDimensions";
-
-const theme2 = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#434343",
-      darker: "#434343",
-    },
-    neutral: {
-      main: "#EEE",
-      contrastText: "#EEE",
-    },
-    dark: {
-      main: "#434343",
-      contrastText: "#434343",
-    },
-  },
-});
+import PricingCard from "../components/pricing-cards/pricing-card.component";
+import Head from "next/head";
+import CustomSnackbar from "../components/Snackbar/snackbar.component";
 
 const Pricing = () => {
-  const { width } = useWindowDimensions();
-  const setScaleCard = () => {
-    let scale = 1;
-    if (width < 1150) scale = 0.9;
-    return scale;
-  };
-
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Gym Expert - Pricing</title>
+      </Head>
       <Header />
+      <CustomSnackbar />
       <div className={styles.content}>
-        <motion.div
-          className={styles.card}
-          animate={{ opacity: [0, 1], x: [-400, 0], scale: setScaleCard() }}
-        >
-          <div className={styles.imageCard}>
-            <Image
-              src={"/static/undraw_mindfulness_scgo.svg"}
-              alt=""
-              layout="fill"
-            />
-          </div>
-          <div className={styles.cardContent}>
-            <h1 className={styles.planPrice}>$35</h1>
-            <h1 className={styles.planName}>The Plan Name</h1>
-            <div className={styles.planFeatures}>
-              <ThemeProvider theme={theme2}>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-              </ThemeProvider>
-            </div>
-            <motion.button
-              className={styles.planButton}
-              animate={{ y: [100, 0], opacity: [0, 1] }}
-              whileTap={{ scale: 0.9 }}
-            >
-              Select Plan
-            </motion.button>
-          </div>
-        </motion.div>
-        <motion.div
-          className={styles.cardBig}
-          animate={{ opacity: [0, 1], y: [400, 0], scale: setScaleCard() }}
-        >
-          <div className={styles.imageCard}>
-            <Image
-              src={"/static/undraw_activity_tracker_re_2lvv.svg"}
-              alt=""
-              layout="fill"
-            />
-          </div>
-          <div className={styles.cardContent}>
-            <h1 className={styles.planPrice}>$35</h1>
-            <h1 className={styles.planName}>The Plan Name</h1>
-            <div className={styles.planFeatures}>
-              <ThemeProvider theme={theme2}>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon color="neutral" />
-                </div>
-              </ThemeProvider>
-            </div>
-            <motion.button
-              className={styles.planButton}
-              animate={{ y: [100, 0], opacity: [0, 1] }}
-              whileTap={{ scale: 0.9 }}
-            >
-              Select Plan
-            </motion.button>
-          </div>
-        </motion.div>
-        <motion.div
-          className={styles.card}
-          animate={{ opacity: [0, 1], x: [400, 0], scale: setScaleCard() }}
-        >
-          <div className={styles.imageCard}>
-            <Image
-              src={"/static/undraw_fitness_tracker_3033.svg"}
-              alt=""
-              layout="fill"
-            />
-          </div>
-          <div className={styles.cardContent}>
-            <h1 className={styles.planPrice}>$35</h1>
-            <h1 className={styles.planName}>$35</h1>
-            <div className={styles.planFeatures}>
-              <ThemeProvider theme={theme2}>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon
-                    color="neutral"
-                    className={styles.featureIcon}
-                  />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon
-                    color="neutral"
-                    className={styles.featureIcon}
-                  />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon
-                    color="neutral"
-                    className={styles.featureIcon}
-                  />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon
-                    color="neutral"
-                    className={styles.featureIcon}
-                  />
-                </div>
-                <div className={styles.feature}>
-                  <h2 className={styles.featureText}>Select Plan</h2>
-                  <VerifiedIcon
-                    color="neutral"
-                    className={styles.featureIcon}
-                  />
-                </div>
-              </ThemeProvider>
-            </div>
-            <motion.button
-              className={styles.planButton}
-              animate={{ y: [100, 0], opacity: [0, 1] }}
-              whileTap={{ scale: 0.9 }}
-            >
-              Select Plan
-            </motion.button>
-          </div>
-        </motion.div>
+        <PricingCard
+          price={10}
+          period={"week"}
+          image={"/static/undraw_mindfulness_scgo.svg"}
+        />
+        <PricingCard
+          price={250}
+          image={"/static/undraw_activity_tracker_re_2lvv.svg"}
+          period={"year"}
+        />
+        <PricingCard
+          price={30}
+          period={"month"}
+          image={"/static/undraw_fitness_tracker_3033.svg"}
+        />
       </div>
     </div>
   );

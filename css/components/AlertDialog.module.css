@@ -1,0 +1,14 @@
+.background {
+    background: var(--menuBackground);
+    font-family: var(--font);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.text {
+    font-family: var(--font);
+    color: var(--white);
+}
+
+.emphasize {
+    color: var(--pink);
+}

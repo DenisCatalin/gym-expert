@@ -171,6 +171,85 @@
     cursor: pointer;
 }
 
+.dialogContainer {
+    width: 500px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upperSide {
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-direction: column;
+}
+
+.image {
+    width: 30%;
+    height: 100%;
+    position: relative;
+}
+
+.title {
+    font-family: var(--font);
+    color: var(--white);
+}
+
+.textarea {
+    width: 90%;
+    margin: 5px 5px 0 0;
+    outline: 1px solid rgba(0, 0, 0, .5);
+    border: none;
+    border-radius: 5px;
+    padding: .3rem;
+    color: var(--white);
+    background: var(--background);
+    resize: none;
+    padding: .5rem;
+}
+
+.textarea:focus {
+    outline: 2px solid #c700d5cb;
+}
+
+.buttonPost {
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.postButton {
+    width: 40%;
+    height: 70%;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    background: var(--background);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+}
+
+.rating {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.postButtonText {
+    font-family: var(--font);
+    color: var(--white);
+    font-size: 1.5em;
+}
+
 @media screen and (max-width: 1500px) {
     .blur {
         display: flex;
@@ -221,6 +300,34 @@
         height: 70px;
         margin: 0 8em 0 8em;
     }
+    .image {
+        width: 15%;
+        height: 100px;
+        position: relative;
+    }
+    
+    .title {
+        font-family: var(--font);
+        color: var(--white);
+        font-size: 1.5em;
+    }
+    
+    .textarea:focus {
+        outline: 2px solid #c700d5cb;
+    }
+    
+    .postButton {
+        width: 40%;
+        height: 80%;
+        border-radius: 50px;
+        border: none;
+        outline: none;
+        background: var(--background);
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        cursor: pointer;
+    }
 }
 
 @media screen and (max-width: 1000px) {
@@ -245,7 +352,6 @@
     }
 }
 
-
 @media screen and (max-width: 920px) {
     .content {
         height:75vh;
@@ -262,6 +368,39 @@
     }
 }
 
+@media screen and (max-width: 920px) and (max-height: 450px) {
+    .content {
+        height:75vh;
+    }
+    .ourTeamButton {
+        width: 20%;
+        height: 12%;
+        font-size: .7em;
+    }
+    .arrowBackground {
+        width: 60px;
+        height: 60px;
+        margin: 0 1.5em 0 1.5em;
+    }
+    .dialogContainer {
+        width: 540px;
+        height: 100vh;
+    }
+    .rating {
+        height: 20vh;
+    }
+    .image {
+        display: none;
+    }
+    .textarea {
+        width: 100%;
+    }
+    .postButton {
+        width: 30%;
+        height: 100%;
+    }
+}
+
 @media screen and (max-width: 820px) {
     .ourTeamButton {
         width: 20%;
@@ -272,6 +411,12 @@
         width: 70px;
         height: 70px;
         margin: 0 1.2em 0 1.2em;
+    }
+    .dialogContainer {
+        width: 500px;
+    }
+    .textarea {
+        width: 90%;
     }
 }
 
@@ -319,5 +464,19 @@
     }
     .arrowIcon {
         font-size: 3em;
+    }
+    .dialogContainer {
+        width: 278px;
+    }
+    .image {
+        width: 30%;
+        height: 40%;
+    }
+    .textarea {
+        width: 100%;
+    }
+    .postButton {
+        width: 60%;
+        height: 60%;
     }
 }

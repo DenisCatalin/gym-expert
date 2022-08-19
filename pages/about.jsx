@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Header from "../components/Header/header.component";
 import styles from "../css/About.module.css";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import useWindowDimensions from "../utils/useWindowDimensions";
 import AboutContainer from "../components/About/About.component";
@@ -10,31 +10,16 @@ import { useRouter } from "next/router";
 import Team from "../components/Team/team.component";
 import Testimonials from "../components/Testimonials/testimonials.component";
 import Head from "next/head";
-
-const theme2 = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#434343",
-      darker: "#434343",
-    },
-    neutral: {
-      main: "#EEE",
-      contrastText: "#EEE",
-    },
-    dark: {
-      main: "#434343",
-      contrastText: "#434343",
-    },
-  },
-});
+import { userContext } from "../lib/userContext";
+import { theme2 } from "../utils/muiTheme";
+import CustomSnackbar from "../components/Snackbar/snackbar.component";
 
 const About = () => {
   const { width } = useWindowDimensions();
   const [scrollValue, setScrollValue] = useState(0);
   const router = useRouter();
+
+  const { user, setUser } = useContext(userContext);
 
   useEffect(() => {
     const onScroll = (e) => {
@@ -63,6 +48,7 @@ const About = () => {
             : "Testimonials"}
         </title>
       </Head>
+      <CustomSnackbar />
       <Header sticky={true} />
       {scrollValue > width / 3 ? (
         <ThemeProvider theme={theme2}>

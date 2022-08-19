@@ -39,7 +39,8 @@ a {
   --pinkButton: #E87BFF;
   --purple10: rgba(98, 44, 206, .1);
   --purple20: rgba(98, 44, 206, .2);
-  --testimonialBg: #7C62B0;
+  --testimonialBg: linear-gradient(135deg, #622CCE 5.23%, #DC82F2 100%);
+  --accordionBg: linear-gradient(135deg, #6b45b8 5.23%, #DC82F2 100%);
   --testimonialText: #F7C4A7;
   --font: 'Kodchasan', sans-serif;
   --logoGradient: radial-gradient(73.37% 73.37% at 49.75% 12.5%, #622CCE 0%, #E87BFF 100%);

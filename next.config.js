@@ -7,10 +7,11 @@ module.exports = {
   nextConfig,
   images: {
     domains: [
-      "themealdb.com",
-      "www.themealdb.com",
       "res.cloudinary.com",
       "d205bpvrqc9yn1.cloudfront.net",
+      "gamecritics.com",
+      "prod-ne-cdn-media.puregym.com",
+      "iso.500px.com",
     ],
   },
 };

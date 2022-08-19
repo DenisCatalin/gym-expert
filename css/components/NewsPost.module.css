@@ -1,0 +1,154 @@
+.post {
+    width: 100%;
+    min-height: 25vh;
+    background: var(--purple20);
+    margin-bottom: 2em;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    font-family: var(--font);
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+}
+
+.profile {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.readMore {
+    color: var(--pink);
+    cursor: pointer;
+}
+
+.readMore:hover {
+    text-decoration: underline;
+}
+
+.profilePic {
+    width: 150px;
+    height: 150px;
+    background: white;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.postInfo {
+    width: 80%;
+    height: 100%;
+    padding: 0rem;
+}
+
+.title {
+    font-size: 1.5em;
+    color: var(--pink65);
+}
+
+@media screen and (max-width: 1350px) {
+    .post {
+        min-height: 20vh;
+    }
+
+    .profilePic {
+        width: 120px;
+        height: 120px;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
+
+    .postText {
+        font-size: .9em;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .title {
+        font-size: 1.15em;
+    }
+}
+
+@media screen and (max-width: 1050px) and (max-height: 650px) {
+    .post {
+        min-height: 20vh;
+    }
+
+    .profilePic {
+        width: 90px;
+        height: 90px;
+    }
+
+    .title {
+        font-size: .9em;
+    }
+
+    .postText {
+        font-size: .7em;
+    }
+}
+
+@media screen and (max-width: 1040px) {
+    .post {
+        min-height: 20vh;
+    }
+
+    .profilePic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .title {
+        font-size: .9em;
+    }
+
+    .postText {
+        font-size: .8em;
+    }
+}
+
+@media screen and (max-width: 950px) and (max-height: 1200px) {
+    .post {
+        min-height: 20vh;
+    }
+
+    .profilePic {
+        width: 130px;
+        height: 130px;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
+
+    .postText {
+        font-weight: 100;
+        font-size: 1em;
+    }
+}
+
+@media screen and (max-width: 950px) and (max-height: 450px) {
+    .post {
+        min-height: 25vh;
+    }
+
+    .profilePic {
+        width: 80px;
+        height: 80px;
+    }
+
+    .title {
+        font-size: .8em;
+    }
+
+    .postText {
+        font-size: .7em;
+    }
+}

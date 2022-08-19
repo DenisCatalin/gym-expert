@@ -1,0 +1,106 @@
+.container {
+    overflow: hidden;
+}
+
+.text {
+    font-family: var(--font);
+    color: var(--white);
+    font-size: .9em;
+}
+
+.uploadContainer {
+    width: 100%;
+    height: 65vh;
+}
+
+.buttonUpload {
+    width: 50%;
+    height: 5vh;
+    background: var(--testimonialBg);
+    font-size: 1em;
+    font-family: var(--font);
+    color: var(--white);
+    border-radius: 20px;
+    margin-top: 2em;
+    border: none;
+    outline: none;
+}
+
+.spacing {
+    padding: 2rem;
+}
+
+.uploadInput {
+    display: none;
+}
+
+.mainButton2 {
+    width: 20%;
+    height: 6vh;
+    z-index: 1;
+
+    background: var(--heroButton);
+    color: var(--white);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 50px;
+    font-family: var(--font);
+    font-size: 1.8em;
+    cursor: pointer;
+
+    border: none;
+    outline: none;
+
+    margin-top: 3em;
+
+    transition: all 1 ease-in-out;
+}
+
+.upload {
+    width: 40%;
+    height: 5vh;
+    color: var(--white);
+    font-family: var(--font);
+    font-weight: 100;
+    font-size: 1.5em;
+    background: var(--buttonGradient);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.imageContainerModal {
+    width: 100%;
+    height: 75vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.photoContainer {
+    width: 20%;
+    height: 20%;
+    position: relative;
+}
+
+.textarea {
+    width: 100%;
+    margin: 5px 5px 0 0;
+    outline: 1px solid rgba(0, 0, 0, .5);
+    border: none;
+    border-radius: 5px;
+    padding: .3rem;
+    color: var(--white);
+    background: var(--background);
+    resize: none;
+    padding: .5rem;
+}
+
+.textarea:focus {
+    outline: 2px solid #c700d5cb;
+}

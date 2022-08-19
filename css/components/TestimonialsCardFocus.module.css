@@ -16,6 +16,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+.editTestimonial {
+    position: absolute;
+    z-index: 3;
+    top: 20%;
+    left: 95%;
+    cursor: pointer;
 }
 
 .profilePic {
@@ -23,7 +32,7 @@
     height: 120px;
     border-radius: 50%;
     background: rgb(145, 145, 145);
-    box-shadow: 2px 4px 5px 0px rgba(0, 0,0 ,0.5);
+    box-shadow: 2px 4px 5px 0px rgba(0, 0, 0, 0.5);
     position: relative;
 }
 
@@ -66,4 +75,21 @@
     color: var(--white);
     font-family: var(--font);
     font-weight: bold;
+}
+
+.textarea {
+    width: 90%;
+    margin: 5px 5px 0 0;
+    outline: 1px solid rgba(0, 0, 0, .5);
+    border: none;
+    border-radius: 5px;
+    padding: .3rem;
+    color: var(--white);
+    background: var(--background);
+    resize: none;
+    padding: .5rem;
+}
+
+.textarea:focus {
+    outline: 2px solid #c700d5cb;
 }

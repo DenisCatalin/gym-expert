@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    min-height:  100vh;
+    min-height: 100vh;
     background: var(--background);
     position: relative;
     overflow: hidden;
@@ -47,7 +47,7 @@
     font-family: var(--font);
     font-size: 1.8em;
     cursor: pointer;
-    
+
     border: none;
     outline: none;
 
@@ -69,6 +69,7 @@
     .title {
         font-size: 3.5em;
     }
+
     .mainButton {
         width: 40%;
     }
@@ -78,6 +79,7 @@
     .title {
         font-size: 2.6em;
     }
+
     .mainButton {
         width: 40%;
     }
@@ -88,15 +90,17 @@
         width: 90%;
         font-size: 2.7em;
     }
+
     .mainButton {
         width: 50%;
     }
-}    
+}
 
 @media screen and (max-width: 1300px) {
     .title {
         font-size: 3em;
     }
+
     .mainButton {
         width: 40%;
     }
@@ -107,6 +111,7 @@
         font-size: 2.5em;
         line-height: 50px;
     }
+
     .mainButton {
         width: 50%;
     }
@@ -116,15 +121,17 @@
     .hero {
         height: 80vh;
     }
+
     .title {
         font-size: 2.2em;
         line-height: 50px;
     }
+
     .mainButton {
         width: 50%;
         font-size: 1.5em;
     }
-}   
+}
 
 @media screen and (max-width: 912px) and (max-height: 1368px) {
     .hero {
@@ -132,22 +139,25 @@
         justify-content: space-between;
         width: 100%;
     }
+
     .title {
         width: 90%;
         font-size: 2.5em;
         line-height: 50px;
     }
+
     .mainButton {
         width: 50%;
         height: 10%;
         font-size: 2.3em;
     }
+
     .heroImage {
         width: 80%;
         height: 65vh;
         left: 10%;
     }
-} 
+}
 
 
 @media screen and (max-width: 920px) and (max-height: 440px) {
@@ -157,15 +167,18 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .title {
         font-size: 1.7em;
         line-height: 50px;
     }
+
     .mainButton {
         width: 45%;
         height: 15%;
         font-size: 1.2em;
     }
+
     .heroImage {
         width: 50%;
         height: 65vh;
@@ -180,15 +193,18 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .title {
         font-size: 2.2em;
         line-height: 50px;
     }
+
     .mainButton {
         width: 40%;
         height: 11%;
         font-size: 1.6em;
     }
+
     .heroImage {
         width: 70%;
         height: 70vh;
@@ -204,23 +220,26 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .title {
         width: 70%;
         font-size: 1.5em;
         line-height: 45px;
     }
+
     .mainButton {
         width: 30%;
         height: 12%;
         font-size: 1.3em;
     }
+
     .heroImage {
         width: 80%;
         height: 40vh;
         left: 10%;
         top: 35%;
     }
-}    
+}
 
 @media screen and (max-width: 550px) {
     .hero {
@@ -229,15 +248,18 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .title {
         font-size: 1.6em;
         line-height: 45px;
     }
+
     .mainButton {
         width: 40%;
         height: 10%;
         font-size: 1.3em;
     }
+
     .heroImage {
         width: 80%;
         height: 70vh;
@@ -252,15 +274,18 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .title {
         font-size: 1.6em;
         line-height: 45px;
     }
+
     .mainButton {
         width: 60%;
         height: 10%;
         font-size: 1.3em;
     }
+
     .heroImage {
         width: 80%;
         height: 70vh;
@@ -272,56 +297,65 @@
     .hero {
         height: 90vh;
     }
+
     .title {
         font-size: 1.7em;
         line-height: 45px;
     }
+
     .mainButton {
         width: 40%;
         height: 15%;
         font-size: 1.2em;
     }
+
     .heroImage {
         width: 70%;
         top: 40%;
         height: 40vh;
     }
-}  
+}
 
 @media screen and (max-height: 340px) {
     .hero {
         height: 90vh;
     }
+
     .title {
         font-size: 1.7em;
         line-height: 45px;
     }
+
     .mainButton {
         width: 50%;
         height: 25%;
         font-size: 1.2em;
     }
+
     .heroImage {
         width: 70%;
         top: 20%;
         left: 40%;
-        height:70vh;
+        height: 70vh;
     }
-}  
+}
 
 @media screen and (max-width: 450px) and (max-height: 330px) {
     .hero {
         height: 90vh;
     }
+
     .title {
         font-size: 1em;
         line-height: 25px;
     }
+
     .mainButton {
         width: 40%;
         height: 15%;
         font-size: 1.1em;
     }
+
     .heroImage {
         width: 70%;
         top: 35%;
@@ -336,12 +370,14 @@
         font-size: 1.2em;
         line-height: 25px;
     }
+
     .heroImage {
         width: 70%;
         top: 35%;
         left: 15%;
         height: 40vh;
     }
+
     .mainButton {
         width: 60%;
         height: 13%;
@@ -351,14 +387,43 @@
 
 
 @keyframes pulse {
-    10% { opacity: 1}
-    20% { opacity: 0.9; }
-    30% { opacity: 0.8; }
-    40% { opacity: 0.7; }
-    50% { opacity: 0.6; }
-    60% { opacity: 0.5; }
-    70% { opacity: 0.6; }
-    80% { opacity: 0.7; }
-    90% { opacity: 0.9; }
-    100% { opacity: 1; }
+    10% {
+        opacity: 1
+    }
+
+    20% {
+        opacity: 0.9;
+    }
+
+    30% {
+        opacity: 0.8;
+    }
+
+    40% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    60% {
+        opacity: 0.5;
+    }
+
+    70% {
+        opacity: 0.6;
+    }
+
+    80% {
+        opacity: 0.7;
+    }
+
+    90% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

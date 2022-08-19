@@ -1,0 +1,95 @@
+.container {
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.content {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%;
+    height: 60%;
+    border: none;
+    outline: 5px solid var(--pink65);
+    border-radius: 20px;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.userMsg {
+    color: var(--white);
+    font-family: var(--font);
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.text {
+    width: 70%;
+    height: 20%;
+    text-align: center;
+    color: var(--white);
+    font-family: var(--font);
+}
+
+.opacityText {
+    opacity: .5;
+    font-size: 1.2em;
+}
+
+.inputField {
+    width: 50%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+    height: 20%;
+    border-radius: 20px;
+    color: var(--white);
+    background: var(--buttonGradient);
+    outline: none;
+    border: none;
+    padding: 0 1rem;
+    font-family: var(--font);
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.login {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginButton {
+    width: 20%;
+    height: 60%;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    background: var(--buttonGradient);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+}
+
+.loginButtonText {
+    font-family: var(--font);
+    color: var(--white);
+    font-size: 1.5em;
+}

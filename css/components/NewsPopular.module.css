@@ -1,0 +1,174 @@
+.popularPosts {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    align-items: center;
+}
+
+.popularPosts h1 {
+    color: var(--white);
+    font-family: var(--font);
+    font-weight: 500;
+}
+
+.postsContainer {
+    width: 85%;
+    height: 90vh;
+    border-radius: 20px;
+}
+
+.postMin {
+    width: 100%;
+    height: 10vh;
+    background: var(--purple20);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 2em;
+    font-family: var(--font);
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+}
+
+.left {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right {
+    width: 70%;
+    height: 100%;
+}
+
+.popularPostPic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgb(138, 124, 124);
+    position: relative;
+    overflow: hidden;
+}
+
+.postTitle {
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--pink65);
+}
+
+.contentPopular {
+    font-size: 1em;
+    font-weight: 100;
+    color: var(--white);
+}
+
+@media screen and (max-width: 1350px) {
+    .postsContainer {
+        width: 100%;
+    }
+
+    .popularPostPic {
+        width: 60px;
+        height: 60px;
+    }
+
+    .postTitle {
+        font-size: .7em;
+    }
+
+    .contentPopular {
+        font-size: .75em;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
+}
+
+@media screen and (max-width: 1050px) and (max-height: 650px) {
+    .popularPosts {
+        overflow: auto;
+        height: 100%;
+    }
+
+    .postMin {
+        height: 15vh;
+    }
+
+    .profilePic {
+        width: 90px;
+        height: 90px;
+    }
+
+    .title {
+        font-size: .9em;
+    }
+
+    .postText {
+        font-size: .7em;
+    }
+}
+
+@media screen and (max-width: 950px) and (max-height: 1200px) {
+    .popularPosts {
+        overflow: auto;
+        height: 100%;
+        transform: translateY(10%);
+    }
+
+    .postMin {
+        height: 10vh;
+    }
+
+    .popularPostPic {
+        width: 90px;
+        height: 90px;
+    }
+
+    .title {
+        font-size: 1.5em;
+    }
+
+    .postTitle {
+        font-size: 1.2em;
+    }
+
+    .contentPopular {
+        font-size: 1em;
+    }
+}
+
+@media screen and (max-width: 950px) and (max-height: 450px) {
+    .popularPosts {
+        overflow: auto;
+        height: 100%;
+    }
+
+    .postMin {
+        height: 20vh;
+    }
+
+    .profilePic {
+        width: 10px;
+        height: 10px;
+    }
+
+    .title {
+        font-size: 1em;
+    }
+
+    .postTitle {
+        font-size: .64em;
+    }
+
+    .contentPopular {
+        font-size: .6em;
+    }
+}

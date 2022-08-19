@@ -1,42 +1,36 @@
-import React from "react";
+import { useContext } from "react";
 import TextField from "@mui/material/TextField";
 import Header from "../components/Header/header.component";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import SendIcon from "@mui/icons-material/Send";
 import styles from "../css/Contact.module.css";
 import useWindowDimensions from "../utils/useWindowDimensions";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
-const theme2 = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#434343",
-      darker: "#434343",
-    },
-    neutral: {
-      main: "#EEE",
-      contrastText: "#EEE",
-    },
-    dark: {
-      main: "#434343",
-      contrastText: "#434343",
-    },
-  },
-});
+import StayPrimaryPortraitIcon from "@mui/icons-material/StayPrimaryPortrait";
+import Head from "next/head";
+import CustomSnackbar from "../components/Snackbar/snackbar.component";
+import { snackbarContext } from "../lib/snackbarContext";
+import { theme2 } from "../utils/muiTheme";
 
 const Contact = () => {
   const { width, height } = useWindowDimensions();
+  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
+
+  const handleClick = () => {
+    setSnackbarContent("Nu tre' s-o iei personal, ia-o-n gura direct!");
+  };
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Gym Expert - Contact</title>
+      </Head>
       <Header />
-      {width < height ? (
+      <CustomSnackbar />
+      {height > 550 ? (
         <>
-          <div className={styles.content}>
+          <motion.div className={styles.content} animate={{ opacity: [0, 1] }}>
             <div className={styles.imageSide}>
               <Image
                 src={"/static/contact.jpg"}
@@ -93,17 +87,29 @@ const Contact = () => {
                     initial={{ y: 0 }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <h1 className={styles.reviewButtonText}>Send</h1>
+                    <h1
+                      className={styles.reviewButtonText}
+                      onClick={handleClick}
+                    >
+                      Send
+                    </h1>
                     <SendIcon color="neutral" className={styles.buttonIcon} />
                   </motion.button>
                 </ThemeProvider>
               </div>
             </div>
-          </div>
+          </motion.div>
         </>
       ) : (
         <>
-          <div className={styles.content}></div>
+          <div className={styles.mobile}>
+            <ThemeProvider theme={theme2}>
+              <StayPrimaryPortraitIcon
+                color="neutral"
+                style={{ fontSize: "5em" }}
+              />
+            </ThemeProvider>
+          </div>
         </>
       )}
     </div>

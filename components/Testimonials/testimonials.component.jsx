@@ -3,57 +3,84 @@ import styles from "../../css/components/Testimonials.module.css";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import Card from "./card/testimonials-card.component";
 import CardFocus from "./card-big/testimonials-card-focus.component";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import ResponsiveCard from "./responsive-card/testimonials-responsive-card";
-import { getTestimonials } from "../../lib/testimonials";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import Dialog from "@mui/material/Dialog";
+import { magic } from "../../lib/magic-client";
+import { useRouter } from "next/router";
+import CircularProgress from "@mui/material/CircularProgress";
+import { theme2 } from "../../utils/muiTheme";
+import PostTestimonial from "./post-testimonial/post-testimonial.component";
+import { testimonialContext } from "../../lib/testimonialContext";
+import { snackbarContext } from "../../lib/snackbarContext";
+import { userContext } from "../../lib/userContext";
 
-const theme2 = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#434343",
-      darker: "#434343",
-    },
-    neutral: {
-      main: "#EEE",
-      contrastText: "#EEE",
-    },
-    dark: {
-      main: "#434343",
-      contrastText: "#434343",
-    },
-  },
-});
 const Testimonials = () => {
   const { width } = useWindowDimensions();
-  const testimonials = getTestimonials();
   const [reviews, setReviews] = useState(null);
   const [count, setCount] = useState(0);
-  const [review, setReview] = useState(testimonials[0]);
-  const [reviewLeft, setReviewLeft] = useState(
-    testimonials[testimonials.length]
-  );
-  const [reviewRight, setReviewRight] = useState(testimonials[1]);
+  const [testimonial, setTestimonial] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [reviewLeft, setReviewLeft] = useState();
+  const [reviewRight, setReviewRight] = useState();
   const [fetched, setFetched] = useState(false);
   const [variant, setVariant] = useState(false);
+  const [testimonials, setTestimonials] = useState([]);
+  const { testimonialss, setTestimonialss } = useContext(testimonialContext);
+  const [open, setOpen] = useState(false);
+  const { user, setUser } = useContext(userContext);
+  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
+
+  const router = useRouter();
+
+  const handleClickOpen = async () => {
+    setIsLoading(true);
+    const isLoggedIn = await magic.user.isLoggedIn();
+    if (!isLoggedIn) router.push("/login");
+    else {
+      if (user.testimonial === 0) {
+        setOpen(true);
+        setIsLoading(false);
+      } else {
+        setSnackbarContent(
+          "You already posted a testimonial. You can edit it by pressing the edit icon on your testimonial."
+        );
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     setReviews(testimonials);
-    setFetched(true);
-    setReview(testimonials[count]);
+    // setFetched(true);
+    setTestimonial(testimonials[count]);
     setReviewLeft(testimonials[count]);
     setReviewRight(testimonials[count]);
-  }, []);
+  }, [testimonials]);
 
   useEffect(() => {
+    (async () => {
+      const res = await fetch("/api/getTestimonials", {
+        method: "POST",
+      });
+      const data = await res.json();
+      setFetched(true);
+      setTestimonials(data?.getTestimonialsForUser?.data?.testimonials);
+      // setReviews(data?.getTestimonialsForUser?.data?.testimonials);
+    })();
+  }, [testimonialss]);
+
+  useEffect(() => {
+    setTestimonial(testimonials[count]);
     setFetched(true);
-    setReview(testimonials[count]);
     if (reviews !== null) {
       if (count === 0) {
         setReviewLeft(reviews[testimonials.length - 1]);
@@ -69,7 +96,7 @@ const Testimonials = () => {
     }
 
     console.log(count);
-  }, [reviews, count, reviews]);
+  }, [reviews, count, testimonials]);
 
   const decreaseReview = () => {
     setFetched(false);
@@ -86,6 +113,7 @@ const Testimonials = () => {
     if (count === testimonials - 1) {
       setCount(0);
     } else setCount(count + 1);
+    ``;
   };
 
   return (
@@ -94,70 +122,112 @@ const Testimonials = () => {
         <h1 className={styles.title}>What our clients say</h1>
         <div className={styles.testimonials}>
           <div className={styles.blur}>
-            <div className={styles.arrows}>
-              <ThemeProvider theme={theme2}>
-                <motion.button
-                  className={styles.arrowBackground}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 1 }}
-                  onClick={decreaseReview}
-                >
-                  <ChevronLeftRoundedIcon
-                    color="neutral"
-                    className={styles.arrowIcon}
-                  />
-                </motion.button>
-                <motion.button
-                  className={styles.arrowBackground}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 1 }}
-                  onClick={increaseReview}
-                >
-                  <ChevronRightRoundedIcon
-                    color="neutral"
-                    className={styles.arrowIcon}
-                  />
-                </motion.button>
-              </ThemeProvider>
-            </div>
+            {testimonials.length < 2 ? null : (
+              <div className={styles.arrows}>
+                <ThemeProvider theme={theme2}>
+                  <motion.button
+                    className={styles.arrowBackground}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 1 }}
+                    onClick={decreaseReview}
+                  >
+                    <ChevronLeftRoundedIcon
+                      color="neutral"
+                      className={styles.arrowIcon}
+                    />
+                  </motion.button>
+                  <motion.button
+                    className={styles.arrowBackground}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 1 }}
+                    onClick={increaseReview}
+                  >
+                    <ChevronRightRoundedIcon
+                      color="neutral"
+                      className={styles.arrowIcon}
+                    />
+                  </motion.button>
+                </ThemeProvider>
+              </div>
+            )}
           </div>
           {fetched ? (
             <>
               {width > 1520 ? (
                 <>
-                  <CardFocus
-                    name={review.Name}
-                    pic={review.ProfilePic}
-                    text={review.Testimonial}
-                    date={review.Date}
-                    rating={review.Rating}
-                    variant={variant}
-                  />
-                  <Card
-                    name={reviewLeft.Name}
-                    pic={reviewLeft.ProfilePic}
-                    text={reviewLeft.Testimonial}
-                    date={reviewLeft.Date}
-                    rating={reviewLeft.Rating}
-                    right={true}
-                  />
-                  <Card
-                    name={reviewRight.Name}
-                    pic={reviewRight.ProfilePic}
-                    text={reviewRight.Testimonial}
-                    date={reviewRight.Date}
-                    rating={reviewRight.Rating}
-                    right={false}
-                  />
+                  {testimonials.length > 2 ? (
+                    <>
+                      {testimonial !== undefined ? (
+                        <>
+                          <CardFocus
+                            name={testimonial.name}
+                            pic={"/static/test.jpg"}
+                            text={testimonial.text}
+                            date={testimonial.date}
+                            rating={testimonial.rating}
+                            variant={variant}
+                          />
+                          {reviewLeft !== undefined ? (
+                            <>
+                              <Card
+                                name={reviewLeft.name}
+                                pic={"/static/test.jpg"}
+                                text={reviewLeft.text}
+                                date={reviewLeft.date}
+                                rating={reviewLeft.rating}
+                                right={true}
+                              />
+                            </>
+                          ) : null}
+                          {reviewRight !== undefined ? (
+                            <>
+                              <Card
+                                name={reviewRight.name}
+                                pic={"/static/test.jpg"}
+                                text={reviewRight.text}
+                                date={reviewRight.date}
+                                rating={reviewRight.rating}
+                                right={false}
+                              />
+                            </>
+                          ) : null}
+                        </>
+                      ) : null}
+                    </>
+                  ) : (
+                    <>
+                      {testimonial !== undefined ? (
+                        <>
+                          <CardFocus
+                            name={testimonial.name}
+                            pic={"/static/test.jpg"}
+                            text={testimonial.text}
+                            date={testimonial.date}
+                            rating={testimonial.rating}
+                          />
+                        </>
+                      ) : (
+                        <h1>null</h1>
+                      )}
+                    </>
+                  )}
                 </>
               ) : (
-                <ResponsiveCard
-                  name={review.Name}
-                  pic={review.ProfilePic}
-                  text={review.Testimonial}
-                  date={review.Date}
-                  rating={review.Rating}
-                />
+                <>
+                  {testimonial !== undefined ? (
+                    <>
+                      <ResponsiveCard
+                        name={testimonial.name}
+                        pic={"/static/test.jpg"}
+                        text={testimonial.text}
+                        date={testimonial.date}
+                        rating={testimonial.rating}
+                      />
+                    </>
+                  ) : (
+                    <h1>null</h1>
+                  )}
+                </>
               )}
             </>
           ) : null}
@@ -172,12 +242,28 @@ const Testimonials = () => {
               animate={{ x: [-500, 0], opacity: [0, 1] }}
               initial={{ y: 0 }}
               whileTap={{ scale: 0.9 }}
+              onClick={handleClickOpen}
             >
-              <h1 className={styles.reviewButtonText}>Review</h1>
-              <KeyboardDoubleArrowRightIcon color="neutral" />
+              {isLoading ? (
+                <CircularProgress color="secondary" />
+              ) : (
+                <>
+                  <h1 className={styles.reviewButtonText}>Review</h1>
+                  <KeyboardDoubleArrowRightIcon color="neutral" />
+                </>
+              )}
             </motion.button>
           </ThemeProvider>
         </div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          style={{ backdropFilter: "blur(5px)" }}
+        >
+          <PostTestimonial />
+        </Dialog>
       </div>
     </div>
   );

@@ -1,0 +1,212 @@
+import Head from "next/head";
+import { useState, useEffect } from "react";
+import Header from "../components/Header/header.component";
+import Post from "../components/News/news-post.component";
+import PopularPosts from "../components/News/popular-posts.component";
+import styles from "../css/News.module.css";
+import CircularProgress from "@mui/material/CircularProgress";
+import { motion } from "framer-motion";
+import useWindowDimensions from "../utils/useWindowDimensions";
+
+const News = () => {
+  const [posts, setPosts] = useState();
+  const [fetched, setFetched] = useState(false);
+  const [search, setSearch] = useState("");
+  const { width, height } = useWindowDimensions();
+
+  useEffect(() => {
+    (async () => {
+      if (!fetched) {
+        if (search === "") {
+          const res = await fetch("/api/getNews", {
+            method: "POST",
+          });
+          const data = await res.json();
+          setPosts(data?.getNewsForUser?.data?.news);
+          setFetched(true);
+        } else {
+          const res = await fetch("/api/getNewsByName", {
+            method: "POST",
+            headers: {
+              body: JSON.stringify({
+                name: search,
+              }),
+            },
+          });
+          const data = await res.json();
+          setPosts(data?.getNewsByNameForUser?.data?.news);
+          setFetched(true);
+        }
+      }
+    })();
+    console.log("hei", fetched);
+  }, [posts, fetched]);
+
+  useEffect(() => {
+    if (search === "") {
+      setFetched(false);
+    }
+  }, [search]);
+
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Gym Expert - News</title>
+      </Head>
+      <Header />
+      {width > 820 && width > height ? (
+        <div className={styles.content}>
+          <div className={styles.rightSide}>
+            {fetched ? (
+              <>
+                {posts.length !== 0 ? (
+                  <>
+                    {posts.map((item) => (
+                      <Post
+                        key={item.ID}
+                        id={item.ID}
+                        image={item.Image}
+                        title={item.Title}
+                        content={item.Content}
+                        date={item.Date}
+                        views={item.Views}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    <h1
+                      style={{
+                        color: "var(--white)",
+                        fontFamily: "var(--font)",
+                      }}
+                    >
+                      No post found
+                    </h1>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <CircularProgress color="secondary" />
+              </div>
+            )}
+          </div>
+          <div className={styles.leftSide}>
+            <div className={styles.searchInput}>
+              {fetched ? (
+                <motion.input
+                  className={styles.input}
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                  placeholder="Search for post titles..."
+                  onKeyPress={(event) => {
+                    if (event.key === "Enter") {
+                      setFetched(false);
+                    }
+                  }}
+                  animate={{ opacity: [0, 1], scale: [0.5, 1] }}
+                  transition={{ duration: 2 }}
+                />
+              ) : null}
+            </div>
+            <PopularPosts />
+          </div>
+        </div>
+      ) : (
+        <div className={styles.content}>
+          <div className={styles.leftSide}>
+            <div className={styles.searchInput}>
+              {fetched ? (
+                <motion.input
+                  className={styles.input}
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                  placeholder="Search for post titles..."
+                  onKeyPress={(event) => {
+                    if (event.key === "Enter") {
+                      setFetched(false);
+                    }
+                  }}
+                  animate={{ opacity: [0, 1], scale: [0.5, 1] }}
+                  transition={{ duration: 2 }}
+                />
+              ) : null}
+            </div>
+            <PopularPosts />
+          </div>
+          <div className={styles.rightSide}>
+            {fetched ? (
+              <>
+                {posts.length !== 0 ? (
+                  <>
+                    {posts.map((item) => (
+                      <Post
+                        key={item.ID}
+                        id={item.ID}
+                        image={item.Image}
+                        title={item.Title}
+                        content={item.Content}
+                        date={item.Date}
+                        views={item.Views}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    <h1
+                      style={{
+                        color: "var(--white)",
+                        fontFamily: "var(--font)",
+                      }}
+                    >
+                      No post found
+                    </h1>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <CircularProgress color="secondary" />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default News;
