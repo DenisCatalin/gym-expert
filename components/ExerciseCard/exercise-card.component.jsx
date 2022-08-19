@@ -15,7 +15,14 @@ const ExerciseCard = ({ item, last = false }) => {
       onMouseLeave={() => setHover(false)}
     >
       <Image src={item.gifUrl} alt="" layout="fill" />
-      <h1 className={styles.exerciseName}>{item.name}</h1>
+      <motion.div
+        className={styles.hoverContainer}
+        animate={{ y: hover ? 0 : 280 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className={styles.exerciseName}>{item.name}</h1>
+        <button className={styles.addToFav}>Add to favourites</button>
+      </motion.div>
     </motion.div>
   );
 };
