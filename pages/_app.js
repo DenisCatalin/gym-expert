@@ -8,6 +8,7 @@ import { cropContext } from "../lib/cropContext";
 import { testimonialContext } from "../lib/testimonialContext";
 import { snackbarContext } from "../lib/snackbarContext";
 import { reviewContext } from "../lib/reviewContext";
+import { exerciseContext } from "../lib/exerciseContext";
 
 function MyApp({ Component, pageProps }) {
   const [didToken, setDidToken] = useState("");
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }) {
   const [testimonialss, setTestimonialss] = useState(false);
   const [review, setReview] = useState(false);
   const [snackbarContent, setSnackbarContent] = useState("");
+  const [updateExercises, setUpdateExercises] = useState(false);
   const [subscription, setSubscription] = useState({
     price: 0,
     plan: "",
@@ -52,7 +54,11 @@ function MyApp({ Component, pageProps }) {
                   value={{ snackbarContent, setSnackbarContent }}
                 >
                   <reviewContext.Provider value={{ review, setReview }}>
-                    <Component {...pageProps} />
+                    <exerciseContext.Provider
+                      value={{ updateExercises, setUpdateExercises }}
+                    >
+                      <Component {...pageProps} />
+                    </exerciseContext.Provider>
                   </reviewContext.Provider>
                 </snackbarContext.Provider>
               </testimonialContext.Provider>
