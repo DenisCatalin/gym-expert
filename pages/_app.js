@@ -8,9 +8,14 @@ import { cropContext } from "../lib/cropContext";
 import { testimonialContext } from "../lib/testimonialContext";
 import { snackbarContext } from "../lib/snackbarContext";
 import { reviewContext } from "../lib/reviewContext";
+<<<<<<< HEAD
 import { exerciseContext } from "../lib/exerciseContext";
 import { Provider } from "react-redux";
 import store from "../redux/store";
+=======
+import { Provider } from "react-redux";
+import store  from '../lib/redux/store';
+>>>>>>> 93b3e37dd2956642b43b0f54f91bb46a59d9e99a
 
 function MyApp({ Component, pageProps }) {
   const [didToken, setDidToken] = useState("");
@@ -56,6 +61,7 @@ function MyApp({ Component, pageProps }) {
                   value={{ snackbarContent, setSnackbarContent }}
                 >
                   <reviewContext.Provider value={{ review, setReview }}>
+<<<<<<< HEAD
                     <exerciseContext.Provider
                       value={{ updateExercises, setUpdateExercises }}
                     >
@@ -63,6 +69,11 @@ function MyApp({ Component, pageProps }) {
                         <Component {...pageProps} />
                       </Provider>
                     </exerciseContext.Provider>
+=======
+                    <Provider store={store}>
+                      <Component {...pageProps} />
+                    </Provider>
+>>>>>>> 93b3e37dd2956642b43b0f54f91bb46a59d9e99a
                   </reviewContext.Provider>
                 </snackbarContext.Provider>
               </testimonialContext.Provider>

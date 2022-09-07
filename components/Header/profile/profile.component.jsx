@@ -97,6 +97,10 @@ const ProfileButton = () => {
   console.log("redux", displaynume);
 
   useEffect(() => {
+    dispatch(setDisplayNameRedux(displayName));
+  }, [displayName]);
+
+  useEffect(() => {
     (async () => {
       if (!user.logged) {
         const isLoggedIn = await magic.user.isLoggedIn();
@@ -108,6 +112,8 @@ const ProfileButton = () => {
 
               const res = await fetch("/api/userDetails");
               const data = await res.json();
+
+              dispatch(setDisplayNameRedux("setDisplayName"));
 
               if (isMounted.current) {
                 setProfilePic(data?.userDetails?.data?.users[0].profilePic);
@@ -224,6 +230,8 @@ const ProfileButton = () => {
       isMounted.current = false;
     };
   }, [profilePic]);
+
+  console.log("redux", displaynume);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

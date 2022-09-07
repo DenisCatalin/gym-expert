@@ -24,7 +24,7 @@ const AccordionProfile = () => {
           style={{ opacity: 1 }}
         >
           <Typography
-            sx={{ width: "92%", flexShrink: 0 }}
+            sx={{ width: "85%", flexShrink: 0 }}
             className={styles.text}
           >
             Member Since

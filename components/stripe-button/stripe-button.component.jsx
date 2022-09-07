@@ -113,7 +113,7 @@ const StripeCheckoutButton = ({ price, period }) => {
   return (
     <StripeCheckout
       label="Pay Now"
-      name="FOOD APP"
+      name="GYM"
       billingAddress
       shippingAddress
       image="https://p.kindpng.com/picc/s/45-451836_transparent-king-crown-clipart-king-crown-clipart-hd.png"
