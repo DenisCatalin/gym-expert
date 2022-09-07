@@ -9,6 +9,8 @@ import { testimonialContext } from "../lib/testimonialContext";
 import { snackbarContext } from "../lib/snackbarContext";
 import { reviewContext } from "../lib/reviewContext";
 import { exerciseContext } from "../lib/exerciseContext";
+import { Provider } from "react-redux";
+import store from "../redux/store";
 
 function MyApp({ Component, pageProps }) {
   const [didToken, setDidToken] = useState("");
@@ -57,7 +59,9 @@ function MyApp({ Component, pageProps }) {
                     <exerciseContext.Provider
                       value={{ updateExercises, setUpdateExercises }}
                     >
-                      <Component {...pageProps} />
+                      <Provider store={store}>
+                        <Component {...pageProps} />
+                      </Provider>
                     </exerciseContext.Provider>
                   </reviewContext.Provider>
                 </snackbarContext.Provider>

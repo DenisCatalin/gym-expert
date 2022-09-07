@@ -19,6 +19,25 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { cropImages } from "../../../lib/cropImages";
 import Image from "next/image";
 import { snackbarContext } from "../../../lib/snackbarContext";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setDisplayNameRedux,
+  setProfilePicRedux,
+  setCropAreaRedux,
+  setAdminRedux,
+  setTestimonialRedux,
+  setEmailRedux,
+  setPaidPlanRedux,
+  setPlanExpireDateRedux,
+  setMagicTokenRedux,
+  setIssuerRedux,
+  setMemberSinceRedux,
+  setSubscribedSinceRedux,
+  setSecretKeywordRedux,
+  setLoggedRedux,
+  setProfileAvatarRedux,
+  setFavouritesRedux,
+} from "../../../redux/user.slice";
 
 const ProfileButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,6 +51,9 @@ const ProfileButton = () => {
   const [profilePic, setProfilePic] = useState();
   const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
+
+  const dispatch = useDispatch();
+  const displaynume = useSelector((state) => state.user);
 
   async function checkPlan() {
     if (user.paidPlan !== null && user.planExpireDate !== 0) {
@@ -72,6 +94,8 @@ const ProfileButton = () => {
     }
   };
 
+  console.log("redux", displaynume);
+
   useEffect(() => {
     (async () => {
       if (!user.logged) {
@@ -88,6 +112,68 @@ const ProfileButton = () => {
               if (isMounted.current) {
                 setProfilePic(data?.userDetails?.data?.users[0].profilePic);
                 setDisplayName(data?.userDetails?.data?.users[0].displayName);
+                dispatch(
+                  setDisplayNameRedux(
+                    data?.userDetails?.data?.users[0].displayName
+                  )
+                );
+                dispatch(
+                  setProfilePicRedux(
+                    data?.userDetails?.data?.users[0].profilePic
+                  )
+                );
+                dispatch(
+                  setCropAreaRedux(data?.userDetails?.data?.users[0].cropArea)
+                );
+                dispatch(
+                  setAdminRedux(data?.userDetails?.data?.users[0].admin)
+                );
+                dispatch(
+                  setTestimonialRedux(
+                    data?.userDetails?.data?.users[0].testimonial
+                  )
+                );
+                dispatch(
+                  setEmailRedux(data?.userDetails?.data?.users[0].email)
+                );
+                dispatch(
+                  setPaidPlanRedux(data?.userDetails?.data?.users[0].paidPlan)
+                );
+                dispatch(
+                  setPlanExpireDateRedux(
+                    data?.userDetails?.data?.users[0].planExpireDate
+                  )
+                );
+                dispatch(setMagicTokenRedux(didToken));
+                dispatch(
+                  setIssuerRedux(data?.userDetails?.data?.users[0].issuer)
+                );
+                dispatch(
+                  setMemberSinceRedux(
+                    data?.userDetails?.data?.users[0].registerDate
+                  )
+                );
+                dispatch(
+                  setSubscribedSinceRedux(
+                    data?.userDetails?.data?.users[0].subscribedIn
+                  )
+                );
+                dispatch(
+                  setSecretKeywordRedux(
+                    data?.userDetails?.data?.users[0].secretKeyword
+                  )
+                );
+                dispatch(setLoggedRedux(true));
+                dispatch(
+                  setProfileAvatarRedux(
+                    data?.userDetails?.data?.users[0].profilePic
+                  )
+                );
+                dispatch(
+                  setFavouritesRedux(
+                    data?.userDetails?.data?.users[0].favouriteExercises
+                  )
+                );
                 user.displayName =
                   data?.userDetails?.data?.users[0].displayName;
                 user.profilePic = data?.userDetails?.data?.users[0].profilePic;

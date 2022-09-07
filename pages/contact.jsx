@@ -19,7 +19,9 @@ const Contact = () => {
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
   const handleClick = () => {
-    setSnackbarContent("Nu tre' s-o iei personal, ia-o-n gura direct!");
+    setSnackbarContent(
+      "Please fill all the fields in order to send us a message!"
+    );
   };
   return (
     <div className={styles.container}>
