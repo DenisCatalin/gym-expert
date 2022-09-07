@@ -15,7 +15,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
     "@mui/styled-engine-sc": "^5.8.0",
-    "@reduxjs/toolkit": "^1.8.3",
+    "@reduxjs/toolkit": "^1.8.5",
     "cookie": "^0.5.0",
     "framer-motion": "^6.4.3",
     "jsonwebtoken": "^8.5.1",

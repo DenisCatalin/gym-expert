@@ -19,7 +19,7 @@ const Contact = () => {
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
   const handleClick = () => {
-    setSnackbarContent("Nu tre' s-o iei personal, ia-o-n gura direct!");
+    setSnackbarContent("Please fill all the fields below");
   };
   return (
     <div className={styles.container}>
@@ -44,7 +44,7 @@ const Contact = () => {
                 <h1 className={styles.title}>Contact us</h1>
                 <h1 className={styles.opacityText}>
                   Do you have any questions about our platform or you simply
-                  found a bug? feel free to email us
+                  found a bug? Feel free to email us
                 </h1>
               </div>
               <div className={styles.midPart}>

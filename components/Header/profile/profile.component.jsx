@@ -19,6 +19,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { cropImages } from "../../../lib/cropImages";
 import Image from "next/image";
 import { snackbarContext } from "../../../lib/snackbarContext";
+import { useSelector, useDispatch } from 'react-redux';
+import { setDisplayNameRedux } from '../../../lib/redux/user.slice';
 
 const ProfileButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,6 +34,10 @@ const ProfileButton = () => {
   const [profilePic, setProfilePic] = useState();
   const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
+
+  const dispatch = useDispatch();
+  const displaynume = useSelector((state) => state.user);
+
 
   async function checkPlan() {
     if (user.paidPlan !== null && user.planExpireDate !== 0) {
@@ -73,6 +79,11 @@ const ProfileButton = () => {
   };
 
   useEffect(() => {
+    dispatch(setDisplayNameRedux(displayName));
+
+  }, [displayName]);
+
+  useEffect(() => {
     (async () => {
       if (!user.logged) {
         const isLoggedIn = await magic.user.isLoggedIn();
@@ -84,6 +95,8 @@ const ProfileButton = () => {
 
               const res = await fetch("/api/userDetails");
               const data = await res.json();
+
+              dispatch(setDisplayNameRedux("setDisplayName"));
 
               if (isMounted.current) {
                 setProfilePic(data?.userDetails?.data?.users[0].profilePic);
@@ -115,7 +128,7 @@ const ProfileButton = () => {
                 await checkPlan();
                 setLoggedIn(true);
                 setDidToken(didToken);
-                cropPhoto();
+                cropPhoto();      
               }
             }
           } catch (error) {
@@ -135,6 +148,8 @@ const ProfileButton = () => {
       isMounted.current = false;
     };
   }, [profilePic]);
+
+  console.log("redux", displaynume);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

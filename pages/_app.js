@@ -8,6 +8,8 @@ import { cropContext } from "../lib/cropContext";
 import { testimonialContext } from "../lib/testimonialContext";
 import { snackbarContext } from "../lib/snackbarContext";
 import { reviewContext } from "../lib/reviewContext";
+import { Provider } from "react-redux";
+import store  from '../lib/redux/store';
 
 function MyApp({ Component, pageProps }) {
   const [didToken, setDidToken] = useState("");
@@ -52,7 +54,9 @@ function MyApp({ Component, pageProps }) {
                   value={{ snackbarContent, setSnackbarContent }}
                 >
                   <reviewContext.Provider value={{ review, setReview }}>
-                    <Component {...pageProps} />
+                    <Provider store={store}>
+                      <Component {...pageProps} />
+                    </Provider>
                   </reviewContext.Provider>
                 </snackbarContext.Provider>
               </testimonialContext.Provider>
