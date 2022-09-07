@@ -88,6 +88,7 @@ const PricingCard = ({ price, period, image }) => {
             className={styles.planButton}
             animate={{ y: [100, 0], opacity: [0, 1] }}
             whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
             onClick={openDialog}
             style={{ pointerEvents: planSelected ? "none" : "all" }}
           >

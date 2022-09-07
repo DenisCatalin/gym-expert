@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import { theme, theme2 } from "../utils/muiTheme";
+import { exerciseContext } from "../lib/exerciseContext";
 
 const breakPointWidth = 719;
 
@@ -58,7 +59,9 @@ const Exercises = () => {
   const [bodyPartsPage, setBodyPartsPage] = useState(1);
   const [exercises, setExercises] = useState([]);
   const { user, setUser } = useContext(userContext);
+  const [favourites, setFavourites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
   const router = useRouter();
 
@@ -71,7 +74,7 @@ const Exercises = () => {
   const exercisesPerPage = 8;
   const indexOfLastExercise = page * exercisesPerPage;
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
-  const currentExercises = exercise.slice(
+  const currentExercises = exercises.slice(
     indexOfFirstExercise,
     indexOfLastExercise
   );
@@ -85,6 +88,22 @@ const Exercises = () => {
   );
 
   useEffect(() => {
+    (async () => {
+      const res2 = await fetch("/api/getFavourites", {
+        method: "POST",
+        headers: {
+          body: JSON.stringify({
+            issuer: user.issuer,
+          }),
+        },
+      });
+      const data2 = await res2.json();
+      setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
+      console.log(data2?.getToFavouritesForUser?.data?.favourites);
+    })();
+  }, [updateExercises]);
+
+  useEffect(() => {
     if (width > breakPointWidth) {
       setBodyPartsPage(1);
     }
@@ -93,6 +112,17 @@ const Exercises = () => {
   useEffect(() => {
     (async () => {
       if (user.logged) {
+        const res2 = await fetch("/api/getFavourites", {
+          method: "POST",
+          headers: {
+            body: JSON.stringify({
+              issuer: user.issuer,
+            }),
+          },
+        });
+        const data2 = await res2.json();
+        setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
+        console.log(data2?.getToFavouritesForUser?.data?.favourites);
         if (user.paidPlan === null && user.planExpireDate === 0)
           router.push("/pricing");
         else setIsLoading(false);
@@ -102,6 +132,7 @@ const Exercises = () => {
         else {
           const res = await fetch("/api/userDetails");
           const data = await res.json();
+
           const { paidPlan, planExpireDate } =
             data?.userDetails?.data?.users[0];
           if (paidPlan === null && planExpireDate === 0)
@@ -230,15 +261,44 @@ const Exercises = () => {
               </motion.div>
               <div className={styles.exercisess}>
                 {bodyPart === "" ? (
-                  <>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <motion.h1
                       className={styles.text}
                       animate={{ opacity: [0, 1] }}
                       transition={{ delay: 0.5 }}
                     >
-                      Choose a body part
+                      Favourites
                     </motion.h1>
-                  </>
+                    <div
+                      style={{
+                        display: "grid",
+                        gap: "2ch",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(350px, 1fr)",
+                        overflow: "auto",
+                      }}
+                    >
+                      {favourites.map((item, i) =>
+                        favourites.length === 1 ? (
+                          <>
+                            <ExerciseCard
+                              item={item}
+                              key={i}
+                              last={true}
+                              fav={true}
+                            />
+                          </>
+                        ) : (
+                          <ExerciseCard item={item} key={i} fav={true} />
+                        )
+                      )}
+                    </div>
+                  </div>
                 ) : (
                   currentExercises.map((item, i) =>
                     currentExercises.length === 1 ? (
@@ -257,7 +317,7 @@ const Exercises = () => {
             {bodyPart === "" ? null : (
               <ThemeProvider theme={theme}>
                 <Pagination
-                  count={Math.ceil(exercise.length / exercisesPerPage)}
+                  count={Math.ceil(exercises.length / exercisesPerPage)}
                   page={page}
                   onChange={handleChange}
                   defaultPage={1}

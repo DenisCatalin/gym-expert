@@ -125,6 +125,9 @@ const ProfileButton = () => {
                 user.logged = true;
                 user.profileAvatar =
                   data?.userDetails?.data?.users[0].profilePic;
+                user.favourites =
+                  data?.userDetails?.data?.users[0].favouriteExercises;
+
                 await checkPlan();
                 setLoggedIn(true);
                 setDidToken(didToken);
