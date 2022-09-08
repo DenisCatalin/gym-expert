@@ -17,6 +17,7 @@ const initialState = {
   logged: false,
   profileAvatar: "",
   cropped: false,
+  favourites: [],
 };
 
 export const userSlice = createSlice({

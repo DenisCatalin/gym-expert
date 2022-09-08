@@ -123,6 +123,8 @@ const ProfileButton = () => {
       data?.userDetails?.data?.users[0].favouriteExercises
     );
 
+    localStorage.setItem("issuer", data?.userDetails?.data?.users[0].issuer);
+
     dispatch(
       setDisplayNameRedux(data?.userDetails?.data?.users[0].displayName)
     );

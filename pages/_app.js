@@ -25,20 +25,7 @@ function MyApp({ Component, pageProps }) {
     plan: "",
   });
   const [user, setUser] = useState({
-    displayName: "",
-    profilePic: "",
-    cropArea: {},
-    admin: 0,
-    testimonial: 0,
-    email: "",
-    magicToken: "",
-    paidPlan: null,
-    planExpireDate: 0,
-    issuer: "",
-    memberSince: "",
-    subscribedSince: 0,
     secretKeyword: null,
-    logged: false,
     profileAvatar: "",
     cropped: false,
   });

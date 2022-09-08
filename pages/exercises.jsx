@@ -18,6 +18,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import { theme, theme2 } from "../utils/muiTheme";
 import { exerciseContext } from "../lib/exerciseContext";
+import { useSelector, useDispatch } from "react-redux";
 
 const breakPointWidth = 719;
 
@@ -63,6 +64,9 @@ const Exercises = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const router = useRouter();
 
   const handleChange = (event, value) => {
@@ -74,7 +78,7 @@ const Exercises = () => {
   const exercisesPerPage = 8;
   const indexOfLastExercise = page * exercisesPerPage;
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
-  const currentExercises = exercises.slice(
+  const currentExercises = exercise.slice(
     indexOfFirstExercise,
     indexOfLastExercise
   );
@@ -93,7 +97,7 @@ const Exercises = () => {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            issuer: user.issuer,
+            issuer: userRedux.issuer,
           }),
         },
       });
@@ -111,19 +115,21 @@ const Exercises = () => {
 
   useEffect(() => {
     (async () => {
-      if (user.logged) {
+      if (userRedux.logged) {
         const res2 = await fetch("/api/getFavourites", {
           method: "POST",
           headers: {
             body: JSON.stringify({
-              issuer: user.issuer,
+              issuer: JSON.parse(localStorage.getItem("logged") === true)
+                ? localStorage.getItem("issuer")
+                : userRedux.issuer,
             }),
           },
         });
         const data2 = await res2.json();
         setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
         console.log(data2?.getToFavouritesForUser?.data?.favourites);
-        if (user.paidPlan === null && user.planExpireDate === 0)
+        if (userRedux.paidPlan === null && userRedux.planExpireDate === 0)
           router.push("/pricing");
         else setIsLoading(false);
       } else {
@@ -317,7 +323,7 @@ const Exercises = () => {
             {bodyPart === "" ? null : (
               <ThemeProvider theme={theme}>
                 <Pagination
-                  count={Math.ceil(exercises.length / exercisesPerPage)}
+                  count={Math.ceil(exercise.length / exercisesPerPage)}
                   page={page}
                   onChange={handleChange}
                   defaultPage={1}
