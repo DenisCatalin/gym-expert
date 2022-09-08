@@ -13,6 +13,7 @@ import { useState, useEffect, useContext } from "react";
 import { TextareaAutosize, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { userContext } from "../lib/userContext";
+import { useSelector } from "react-redux";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);
@@ -22,6 +23,8 @@ const AdminPage = () => {
   const router = useRouter();
   const { user, setUser } = useContext(userContext);
   const [text, setText] = useState("");
+
+  const userRedux = useSelector((state) => state.user);
 
   let d = new Date();
   const currentMonth = d.getMonth();
@@ -45,7 +48,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     (async () => {
-      if (user.admin !== 1) router.push("/");
+      if (userRedux.admin !== 1) router.push("/");
     })();
   }, []);
 

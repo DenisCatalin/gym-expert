@@ -11,6 +11,7 @@ import { ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useSelector, useDispatch } from "react-redux";
 import { snackbarContext } from "../../../lib/snackbarContext";
 
 const SetSecretKey = () => {
@@ -18,8 +19,10 @@ const SetSecretKey = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [secretKeyword, setSecretKeyword] = useState("");
   const [secretKeywordConfirm, setSecretKeywordConfirm] = useState("");
-  const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
+
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -27,7 +30,7 @@ const SetSecretKey = () => {
 
   const setUpKeyword = async () => {
     setIsLoading(true);
-    if (user.logged) {
+    if (userRedux.logged) {
       if (secretKeyword === "") {
         setSnackbarContent("The secret key should not be empty.");
         setIsLoading(false);
@@ -49,7 +52,7 @@ const SetSecretKey = () => {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            issuer: user.issuer,
+            issuer: userRedux.issuer,
             keyword: secretKeyword,
           }),
         },

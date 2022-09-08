@@ -14,6 +14,8 @@ import { motion } from "framer-motion";
 import { userContext } from "../../../lib/userContext";
 import { testimonialContext } from "../../../lib/testimonialContext";
 import { reviewContext } from "../../../lib/reviewContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setTestimonialRedux } from "../../../redux/user.slice";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;
@@ -27,6 +29,9 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
 
   const { user, setUser } = useContext(userContext);
   const { testimonialss, setTestimonialss } = useContext(testimonialContext);
+
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   let d = new Date();
   const currentMonth = d.getMonth();
@@ -56,7 +61,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
           method: "POST",
           headers: {
             body: JSON.stringify({
-              issuer: user.issuer,
+              issuer: userRedux.issuer,
               date: dateString,
               text: testimonial,
               rating: rating,
@@ -72,8 +77,8 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
           method: "POST",
           headers: {
             body: JSON.stringify({
-              displayName: user.displayName,
-              issuer: user.issuer,
+              displayName: userRedux.displayName,
+              issuer: userRedux.issuer,
               date: dateString,
               text: testimonial,
               rating: rating,
@@ -88,13 +93,13 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
           method: "POST",
           headers: {
             body: JSON.stringify({
-              issuer: user.issuer,
+              issuer: userRedux.issuer,
             }),
           },
         });
         const response2 = await res2.json();
         console.log(response2);
-        user.testimonial = 1;
+        dispatch(setTestimonialRedux(1));
 
         setReview(false);
       }

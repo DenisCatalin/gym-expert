@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState({
     displayName: "",
     profilePic: "",
-    cropArea: null,
+    cropArea: {},
     admin: 0,
     testimonial: 0,
     email: "",

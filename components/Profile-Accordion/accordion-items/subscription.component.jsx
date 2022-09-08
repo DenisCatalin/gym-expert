@@ -17,6 +17,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { snackbarContext } from "../../../lib/snackbarContext";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setPaidPlanRedux,
+  setPlanExpireDateRedux,
+  setSubscribedSinceRedux,
+} from "../../../redux/user.slice";
 
 const Subscription = () => {
   const [expanded, setExpanded] = useState(false);
@@ -25,8 +31,13 @@ const Subscription = () => {
   const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
-  const dateToExpire = new Date(Math.round(user.planExpireDate) * 1000);
-  const subscribedSince = new Date(Math.round(user.subscribedSince) * 1000);
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const dateToExpire = new Date(Math.round(userRedux.planExpireDate) * 1000);
+  const subscribedSince = new Date(
+    Math.round(userRedux.subscribedSince) * 1000
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,16 +53,17 @@ const Subscription = () => {
 
   const cancelSubscription = async () => {
     setIsLoading(true);
-    user.paidPlan = null;
-    user.planExpireDate = 0;
-    user.subscribedSince = 0;
+
+    dispatch(setPaidPlanRedux(null));
+    dispatch(setPlanExpireDateRedux(0));
+    dispatch(setSubscribedSinceRedux(0));
     const res2 = await fetch("/api/updateSubscription", {
       method: "POST",
       headers: {
         body: JSON.stringify({
-          issuer: user.issuer,
-          planExpireDate: user.planExpireDate,
-          paidPlan: user.paidPlan,
+          issuer: userRedux.issuer,
+          planExpireDate: userRedux.planExpireDate,
+          paidPlan: userRedux.paidPlan,
           subscribedIn: 0,
         }),
       },
@@ -81,7 +93,7 @@ const Subscription = () => {
             Manage Subscription
           </Typography>
           <Typography sx={{ color: "text.secondary" }} className={styles.text}>
-            {user.paidPlan ? "Subscribed" : "Not subscribed"}
+            {userRedux.paidPlan ? "Subscribed" : "Not subscribed"}
           </Typography>
         </AccordionSummary>
       </ThemeProvider>
@@ -89,7 +101,7 @@ const Subscription = () => {
         <div>
           <Typography className={styles.text}>
             Subscribed Since:{" "}
-            {user.subscribedSince === 0
+            {userRedux.subscribedSince === 0
               ? "Not subscribed"
               : subscribedSince.toString()}
           </Typography>
@@ -106,7 +118,9 @@ const Subscription = () => {
           whileTap={{ scale: 0.9 }}
           className={styles.accordionButton}
           onClick={handleClickOpen}
-          style={{ display: user.subscribedSince === 0 ? "none" : "initial" }}
+          style={{
+            display: userRedux.subscribedSince === 0 ? "none" : "initial",
+          }}
         >
           {isLoading ? <CircularProgress color="inherit" /> : "Cancel"}
         </motion.button>

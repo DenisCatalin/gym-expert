@@ -53,14 +53,116 @@ const ProfileButton = () => {
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
   const dispatch = useDispatch();
-  const displaynume = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user);
+
+  function dispatchFromLocalStorage() {
+    dispatch(setDisplayNameRedux(localStorage.getItem("displayName")));
+    dispatch(setProfilePicRedux(localStorage.getItem("profilePic")));
+    dispatch(setCropAreaRedux(JSON.parse(localStorage.getItem("cropArea"))));
+    dispatch(setAdminRedux(JSON.parse(localStorage.getItem("admin"))));
+    dispatch(
+      setTestimonialRedux(JSON.parse(localStorage.getItem("testimonial")))
+    );
+    dispatch(setEmailRedux(localStorage.getItem("email")));
+    dispatch(setPaidPlanRedux(localStorage.getItem("paidPlan")));
+    dispatch(
+      setPlanExpireDateRedux(JSON.parse(localStorage.getItem("planExpireDate")))
+    );
+    dispatch(setMagicTokenRedux(didToken));
+    dispatch(setIssuerRedux(localStorage.getItem("issuer")));
+    dispatch(setMemberSinceRedux(localStorage.getItem("memberSince")));
+    dispatch(setSubscribedSinceRedux(localStorage.getItem("subscribedSince")));
+    dispatch(setLoggedRedux(true));
+    dispatch(setProfileAvatarRedux(localStorage.getItem("profileAvatar")));
+    dispatch(setFavouritesRedux(localStorage.getItem("favourites")));
+  }
+
+  function dispatchFromFetch(data) {
+    localStorage.setItem("logged", true);
+    localStorage.setItem(
+      "displayName",
+      data?.userDetails?.data?.users[0].displayName
+    );
+    localStorage.setItem(
+      "profilePic",
+      data?.userDetails?.data?.users[0].profilePic
+    );
+    localStorage.setItem(
+      "cropArea",
+      data?.userDetails?.data?.users[0].cropArea
+    );
+
+    localStorage.setItem("admin", data?.userDetails?.data?.users[0].admin);
+    localStorage.setItem(
+      "testimonial",
+      data?.userDetails?.data?.users[0].testimonial
+    );
+    localStorage.setItem("email", data?.userDetails?.data?.users[0].email);
+    localStorage.setItem(
+      "paidPlan",
+      data?.userDetails?.data?.users[0].paidPlan
+    );
+    localStorage.setItem(
+      "planExpireDate",
+      data?.userDetails?.data?.users[0].planExpireDate
+    );
+    localStorage.setItem(
+      "memberSince",
+      data?.userDetails?.data?.users[0].registerDate
+    );
+    localStorage.setItem(
+      "subscribedSince",
+      data?.userDetails?.data?.users[0].subscribedIn
+    );
+    localStorage.setItem(
+      "profileAvatar",
+      data?.userDetails?.data?.users[0].profilePic
+    );
+    localStorage.setItem(
+      "favourites",
+      data?.userDetails?.data?.users[0].favouriteExercises
+    );
+
+    dispatch(
+      setDisplayNameRedux(data?.userDetails?.data?.users[0].displayName)
+    );
+    dispatch(setProfilePicRedux(data?.userDetails?.data?.users[0].profilePic));
+    dispatch(setCropAreaRedux(data?.userDetails?.data?.users[0].cropArea));
+    dispatch(setAdminRedux(data?.userDetails?.data?.users[0].admin));
+    dispatch(
+      setTestimonialRedux(data?.userDetails?.data?.users[0].testimonial)
+    );
+    dispatch(setEmailRedux(data?.userDetails?.data?.users[0].email));
+    dispatch(setPaidPlanRedux(data?.userDetails?.data?.users[0].paidPlan));
+    dispatch(
+      setPlanExpireDateRedux(data?.userDetails?.data?.users[0].planExpireDate)
+    );
+    dispatch(setMagicTokenRedux(didToken));
+    dispatch(setIssuerRedux(data?.userDetails?.data?.users[0].issuer));
+    dispatch(
+      setMemberSinceRedux(data?.userDetails?.data?.users[0].registerDate)
+    );
+    dispatch(
+      setSubscribedSinceRedux(data?.userDetails?.data?.users[0].subscribedIn)
+    );
+    dispatch(
+      setSecretKeywordRedux(data?.userDetails?.data?.users[0].secretKeyword)
+    );
+    dispatch(setLoggedRedux(true));
+    dispatch(
+      setProfileAvatarRedux(data?.userDetails?.data?.users[0].profilePic)
+    );
+    dispatch(
+      setFavouritesRedux(data?.userDetails?.data?.users[0].favouriteExercises)
+    );
+  }
 
   async function checkPlan() {
-    if (user.paidPlan !== null && user.planExpireDate !== 0) {
+    if (userRedux.paidPlan !== null && userRedux.planExpireDate !== 0) {
       const dateNow = Math.floor(Date.now() / 1000);
-      if (dateNow > user.planExpireDate) {
-        user.paidPlan = null;
-        user.planExpireDate = 0;
+      if (dateNow > userRedux.planExpireDate) {
+        userRedux.paidPlan = null;
+        userRedux.planExpireDate = 0;
         setSnackbarContent(
           "Your subscription on our platform has expired. You can renew it by visiting the pricing page."
         );
@@ -68,9 +170,9 @@ const ProfileButton = () => {
           method: "POST",
           headers: {
             body: JSON.stringify({
-              issuer: user.issuer,
-              planExpireDate: user.planExpireDate,
-              paidPlan: user.paidPlan,
+              issuer: userRedux.issuer,
+              planExpireDate: userRedux.planExpireDate,
+              paidPlan: userRedux.paidPlan,
               subscribedIn: 0,
             }),
           },
@@ -83,144 +185,60 @@ const ProfileButton = () => {
 
   const cropPhoto = async () => {
     if (
-      user.profilePic !== "" &&
-      user.logged &&
-      user.cropped === false &&
-      user.cropArea !== null
+      userRedux.profilePic !== "" &&
+      userRedux.logged &&
+      userRedux.cropped === false &&
+      userRedux.cropArea !== null
     ) {
       user.cropped = true;
-      const img = await cropImages(user.profilePic, user.cropArea);
-      user.profilePic = img;
+      const img = await cropImages(userRedux.profilePic, userRedux.cropArea);
+      dispatch(setProfilePicRedux(img));
     }
   };
 
-  console.log("redux", displaynume);
-
-  useEffect(() => {
-    dispatch(setDisplayNameRedux(displayName));
-  }, [displayName]);
+  console.log("redux", userRedux);
 
   useEffect(() => {
     (async () => {
-      if (!user.logged) {
+      if (!userRedux.logged) {
         const isLoggedIn = await magic.user.isLoggedIn();
         if (isLoggedIn) {
-          try {
-            const { email } = await magic.user.getMetadata();
-            if (email) {
-              const didToken = await magic.user.getIdToken();
+          if (JSON.parse(localStorage.getItem("logged")) === true) {
+            setProfilePic(localStorage.getItem("profilePic"));
+            setDisplayName(localStorage.getItem("displayName"));
+            dispatchFromLocalStorage();
+          } else {
+            try {
+              const { email } = await magic.user.getMetadata();
+              if (email) {
+                const didToken = await magic.user.getIdToken();
 
-              const res = await fetch("/api/userDetails");
-              const data = await res.json();
+                const res = await fetch("/api/userDetails");
+                const data = await res.json();
 
-              dispatch(setDisplayNameRedux("setDisplayName"));
+                if (isMounted.current) {
+                  setProfilePic(data?.userDetails?.data?.users[0].profilePic);
+                  setDisplayName(data?.userDetails?.data?.users[0].displayName);
 
-              if (isMounted.current) {
-                setProfilePic(data?.userDetails?.data?.users[0].profilePic);
-                setDisplayName(data?.userDetails?.data?.users[0].displayName);
-                dispatch(
-                  setDisplayNameRedux(
-                    data?.userDetails?.data?.users[0].displayName
-                  )
-                );
-                dispatch(
-                  setProfilePicRedux(
-                    data?.userDetails?.data?.users[0].profilePic
-                  )
-                );
-                dispatch(
-                  setCropAreaRedux(data?.userDetails?.data?.users[0].cropArea)
-                );
-                dispatch(
-                  setAdminRedux(data?.userDetails?.data?.users[0].admin)
-                );
-                dispatch(
-                  setTestimonialRedux(
-                    data?.userDetails?.data?.users[0].testimonial
-                  )
-                );
-                dispatch(
-                  setEmailRedux(data?.userDetails?.data?.users[0].email)
-                );
-                dispatch(
-                  setPaidPlanRedux(data?.userDetails?.data?.users[0].paidPlan)
-                );
-                dispatch(
-                  setPlanExpireDateRedux(
-                    data?.userDetails?.data?.users[0].planExpireDate
-                  )
-                );
-                dispatch(setMagicTokenRedux(didToken));
-                dispatch(
-                  setIssuerRedux(data?.userDetails?.data?.users[0].issuer)
-                );
-                dispatch(
-                  setMemberSinceRedux(
-                    data?.userDetails?.data?.users[0].registerDate
-                  )
-                );
-                dispatch(
-                  setSubscribedSinceRedux(
-                    data?.userDetails?.data?.users[0].subscribedIn
-                  )
-                );
-                dispatch(
-                  setSecretKeywordRedux(
-                    data?.userDetails?.data?.users[0].secretKeyword
-                  )
-                );
-                dispatch(setLoggedRedux(true));
-                dispatch(
-                  setProfileAvatarRedux(
-                    data?.userDetails?.data?.users[0].profilePic
-                  )
-                );
-                dispatch(
-                  setFavouritesRedux(
-                    data?.userDetails?.data?.users[0].favouriteExercises
-                  )
-                );
-                user.displayName =
-                  data?.userDetails?.data?.users[0].displayName;
-                user.profilePic = data?.userDetails?.data?.users[0].profilePic;
-                user.cropArea = JSON.parse(
-                  data?.userDetails?.data?.users[0].cropArea
-                );
-                user.admin = data?.userDetails?.data?.users[0].admin;
-                user.testimonial =
-                  data?.userDetails?.data?.users[0].testimonial;
-                user.email = data?.userDetails?.data?.users[0].email;
-                user.paidPlan = data?.userDetails?.data?.users[0].paidPlan;
-                user.planExpireDate =
-                  data?.userDetails?.data?.users[0].planExpireDate;
-                user.magicToken = didToken;
-                user.issuer = data?.userDetails?.data?.users[0].issuer;
-                user.memberSince =
-                  data?.userDetails?.data?.users[0].registerDate;
-                user.subscribedSince =
-                  data?.userDetails?.data?.users[0].subscribedIn;
-                user.secretKeyword =
-                  data?.userDetails?.data?.users[0].secretKeyword;
-                user.logged = true;
-                user.profileAvatar =
-                  data?.userDetails?.data?.users[0].profilePic;
-                user.favourites =
-                  data?.userDetails?.data?.users[0].favouriteExercises;
+                  dispatchFromFetch(data);
 
-                await checkPlan();
-                setLoggedIn(true);
-                setDidToken(didToken);
-                cropPhoto();
+                  setUserDetails(data);
+
+                  await checkPlan();
+                  setLoggedIn(true);
+                  setDidToken(didToken);
+                  cropPhoto();
+                }
               }
+            } catch (error) {
+              console.error("Can't retrieve email in NavBar", error);
             }
-          } catch (error) {
-            console.error("Can't retrieve email in NavBar", error);
           }
         }
       } else {
-        setDisplayName(user.displayName);
-        setLoggedIn(user.logged);
-        setProfilePic(user.profilePic);
+        setDisplayName(userRedux.displayName);
+        setLoggedIn(userRedux.logged);
+        setProfilePic(userRedux.profilePic);
       }
 
       setIsLoading(false);
@@ -230,8 +248,6 @@ const ProfileButton = () => {
       isMounted.current = false;
     };
   }, [profilePic]);
-
-  console.log("redux", displaynume);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -243,13 +259,15 @@ const ProfileButton = () => {
   const logout = async (e) => {
     e.preventDefault();
 
-    user.displayName = "";
-    user.profilePic = "";
-    user.admin = "";
-    user.testimonial = "";
-    user.email = "";
-    user.magicToken = "";
-    user.logged = false;
+    dispatch(setDisplayNameRedux(""));
+    dispatch(setProfilePicRedux(""));
+    dispatch(setAdminRedux(0));
+    dispatch(setTestimonialRedux(""));
+    dispatch(setEmailRedux(""));
+    dispatch(setMagicTokenRedux(""));
+    dispatch(setLoggedRedux(false));
+
+    localStorage.removeItem("logged");
 
     try {
       const res = await fetch("/api/logout", {
@@ -278,11 +296,11 @@ const ProfileButton = () => {
           {loggedIn ? (
             <>
               <Avatar className={styles.avatar} onClick={handleClick}>
-                {user.profilePic === null ? (
+                {userRedux.profilePic === null ? (
                   displayName[0]
                 ) : (
                   <Image
-                    src={user.profilePic}
+                    src={userRedux.profilePic}
                     alt=""
                     layout="fill"
                     objectFit="cover"
@@ -333,7 +351,7 @@ const ProfileButton = () => {
             Profile Dashboard
           </MenuItem>
           <Divider />
-          {user.admin === 1 ? (
+          {userRedux.admin === 1 ? (
             <MenuItem onClick={() => router.push("/adminPage")}>
               <ListItemIcon>
                 <Settings fontSize="small" color="pink" />

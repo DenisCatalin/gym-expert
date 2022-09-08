@@ -12,6 +12,8 @@ import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { snackbarContext } from "../../../lib/snackbarContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setDisplayNameRedux } from "../../../redux/user.slice";
 
 const ChangeDisplayName = () => {
   const [expanded, setExpanded] = useState(false);
@@ -21,13 +23,16 @@ const ChangeDisplayName = () => {
   const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   const changeDisplayName = async () => {
     setIsLoading(true);
-    if (user.logged) {
+    if (userRedux.logged) {
       if (newName === "") {
         setSnackbarContent("The new display name must be provided.");
         setIsLoading(false);
@@ -45,7 +50,7 @@ const ChangeDisplayName = () => {
         setIsLoading(false);
         return;
       }
-      if (secretKeyword !== user.secretKeyword) {
+      if (secretKeyword !== userRedux.secretKeyword) {
         setSnackbarContent("Wrong secret keyword.");
         setIsLoading(false);
         return;
@@ -54,7 +59,7 @@ const ChangeDisplayName = () => {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            issuer: user.issuer,
+            issuer: userRedux.issuer,
             newName: newName,
           }),
         },
@@ -65,7 +70,7 @@ const ChangeDisplayName = () => {
           method: "POST",
           headers: {
             body: JSON.stringify({
-              issuer: user.issuer,
+              issuer: userRedux.issuer,
               newName: newName,
             }),
           },
@@ -74,7 +79,7 @@ const ChangeDisplayName = () => {
         console.log(data2);
         setSecretKeyword("");
         setNewName("");
-        user.displayName = newName;
+        dispatch(setDisplayNameRedux(newName));
         setSnackbarContent("You have successfully changed your display name.");
       } else setSnackbarContent("Display name already exists");
     }
@@ -99,7 +104,7 @@ const ChangeDisplayName = () => {
             Display Name
           </Typography>
           <Typography sx={{ color: "text.secondary" }} className={styles.text}>
-            {user.displayName}
+            {userRedux.displayName}
           </Typography>
         </AccordionSummary>
       </ThemeProvider>

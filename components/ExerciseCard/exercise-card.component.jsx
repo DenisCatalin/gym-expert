@@ -5,6 +5,7 @@ import { useState, useContext, useEffect } from "react";
 import { userContext } from "../../lib/userContext";
 import { exerciseContext } from "../../lib/exerciseContext";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useSelector } from "react-redux";
 
 const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [hover, setHover] = useState(false);
@@ -13,13 +14,15 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
+  const userRedux = useSelector((state) => state.user);
+
   useEffect(() => {
     (async () => {
       const res = await fetch("/api/checkFavourites", {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            issuer: user.issuer,
+            issuer: userRedux.issuer,
             gif: item.gifUrl,
           }),
         },
@@ -39,7 +42,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            issuer: user.issuer,
+            issuer: userRedux.issuer,
             gif: item.gifUrl,
           }),
         },
@@ -52,7 +55,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
           method: "POST",
           headers: {
             body: JSON.stringify({
-              issuer: user.issuer,
+              issuer: userRedux.issuer,
               gif: item.gifUrl,
               name: item.name,
             }),
@@ -67,7 +70,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            issuer: user.issuer,
+            issuer: userRedux.issuer,
             gif: fav ? item.gif : item.gifUrl,
           }),
         },

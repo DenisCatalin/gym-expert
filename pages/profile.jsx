@@ -7,9 +7,11 @@ import AccordionProfile from "../components/Profile-Accordion/accordion.componen
 import Head from "next/head";
 import ProfilePic from "../components/PhotoCrop/profile-pic.component";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const { user, setUser } = useContext(userContext);
+  const userRedux = useSelector((state) => state.user);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -18,7 +20,7 @@ const Profile = () => {
       <Header />
       <CustomSnackbar />
       <div className={styles.content}>
-        {user.logged ? (
+        {userRedux.logged ? (
           <>
             <ProfilePic />
             <AccordionProfile />

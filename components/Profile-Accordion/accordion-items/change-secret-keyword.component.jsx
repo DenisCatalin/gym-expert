@@ -4,7 +4,6 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import { useContext, useState } from "react";
-import { userContext } from "../../../lib/userContext";
 import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
@@ -12,6 +11,8 @@ import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { snackbarContext } from "../../../lib/snackbarContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setSecretKeywordRedux } from "../../../redux/user.slice";
 
 const ChangePassword = () => {
   const [expanded, setExpanded] = useState(false);
@@ -19,8 +20,10 @@ const ChangePassword = () => {
   const [newSecretKeyword, setNewSecretKeyword] = useState("");
   const [newSecretKeywordConfirm, setNewSecretKeywordConfirm] = useState("");
   const [secretKeyword, setSecretKeyword] = useState("");
-  const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
+
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -28,7 +31,7 @@ const ChangePassword = () => {
 
   const changeSecretKeyword = async () => {
     setIsLoading(true);
-    if (user.logged) {
+    if (userRedux.logged) {
       if (secretKeyword === "") {
         setSnackbarContent("The current secret keyword must be provided.");
         setIsLoading(false);
@@ -49,7 +52,7 @@ const ChangePassword = () => {
         setIsLoading(false);
         return;
       }
-      if (secretKeyword !== user.secretKeyword) {
+      if (secretKeyword !== userRedux.secretKeyword) {
         setSnackbarContent("Wrong secret keyword.");
         setIsLoading(false);
         return;
@@ -58,7 +61,7 @@ const ChangePassword = () => {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            issuer: user.issuer,
+            issuer: userRedux.issuer,
             newSecretKeyword: newSecretKeyword,
           }),
         },
@@ -71,7 +74,7 @@ const ChangePassword = () => {
     setNewSecretKeyword("");
     setNewSecretKeywordConfirm("");
     setSnackbarContent("You have successfully changed your secret keyword.");
-    user.secretKeyword = newSecretKeyword;
+    dispatch(setSecretKeywordRedux(newSecretKeyword));
   };
 
   return (

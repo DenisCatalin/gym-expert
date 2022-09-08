@@ -5,15 +5,14 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import styles from "../../css/components/Accordion.module.css";
 import Subscription from "./accordion-items/subscription.component";
-import { useContext } from "react";
-import { userContext } from "../../lib/userContext";
 import SetSecretKey from "./accordion-items/set-secret-keyword.component";
+import { useSelector } from "react-redux";
 
 const AccordionProfile = () => {
-  const { user, setUser } = useContext(userContext);
+  const userRedux = useSelector((state) => state.user);
   return (
     <div style={{ width: "100%", height: "100vh" }}>
-      {user.secretKeyword === null ? <SetSecretKey /> : null}
+      {userRedux.secretKeyword === null ? <SetSecretKey /> : null}
       <ChangeDisplayName />
       <ChangeSecretKeyword />
       <Subscription />
@@ -29,7 +28,9 @@ const AccordionProfile = () => {
           >
             Member Since
           </Typography>
-          <Typography className={styles.text}>{user.memberSince}</Typography>
+          <Typography className={styles.text}>
+            {userRedux.memberSince}
+          </Typography>
         </AccordionSummary>
       </Accordion>
     </div>

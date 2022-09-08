@@ -11,6 +11,8 @@ import PhotoCrop from "./cropper/cropper.component";
 import { cropContext } from "../../lib/cropContext";
 import { cropImages } from "../../lib/cropImages";
 import { snackbarContext } from "../../lib/snackbarContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setCropAreaRedux, setProfilePicRedux } from "../../redux/user.slice";
 
 const ProfilePic = () => {
   const { user, setUser } = useContext(userContext);
@@ -23,29 +25,31 @@ const ProfilePic = () => {
   const { cropImage, setCropImage } = useContext(cropContext);
   const [hasToClick, setHasToClick] = useState(false);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user.logged) {
-      setImgSrc(user.profileAvatar);
+    if (userRedux.logged) {
+      setImgSrc(userRedux.profileAvatar);
       setHasImg(true);
       setCroppedAreaPixels(null);
       cropPhoto();
-      user.cropArea = { width: 1440, height: 1080, x: 240, y: 0 };
+      dispatch(setCropAreaRedux({ width: 1440, height: 1080, x: 240, y: 0 }));
     }
   }, [user, open, hasToClick]);
 
   const cropPhoto = async () => {
     if (
-      user.profilePic !== "" &&
-      user.logged &&
-      user.cropped === false &&
-      user.cropArea !== null
+      userRedux.profilePic !== "" &&
+      userRedux.logged &&
+      userRedux.cropped === false &&
+      userRedux.cropArea !== null
     ) {
       user.cropped = true;
-      const img = await cropImages(user.profilePic, user.cropArea);
+      const img = await cropImages(userRedux.profilePic, userRedux.cropArea);
       setImgSrc(img);
       setCroppedPhotoUrl(img);
-      user.profilePic = img;
+      dispatch(setProfilePicRedux(img));
     }
   };
 
@@ -91,7 +95,7 @@ const ProfilePic = () => {
       method: "POST",
       headers: {
         body: JSON.stringify({
-          displayName: user.displayName,
+          displayName: userRedux.displayName,
           cropArea: JSON.stringify(croppedAreaPixels),
         }),
       },
@@ -113,14 +117,16 @@ const ProfilePic = () => {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            displayName: user.displayName,
+            displayName: userRedux.displayName,
             profilePic: data.secure_url,
-            issuer: user.issuer,
+            issuer: userRedux.issuer,
           }),
         },
       });
-      user.profilePic = data.secure_url;
-      user.profileAvatar = data.secure_url;
+
+      dispatch(setProfilePicRedux(data.secure_url));
+      dispatch(setProfileAvatarRedux(data.secure_url));
+
       const response = await res.json();
       setSnackbarContent(
         "You have successfully uploaded your profile picture."
@@ -131,13 +137,12 @@ const ProfilePic = () => {
     user.cropped = true;
     handleClose();
     cropPhoto();
-    console.log("profilePic: " + user.profilePic);
   };
 
   const saveCropArea = () => {
     setCroppedAreaPixels(cropImage);
-    user.cropArea = cropImage;
-    user.profilePic = user.profileAvatar;
+    dispatch(setCropAreaRedux(cropImage));
+    dispatch(setProfilePicRedux(userRedux.profileAvatar));
     user.cropped = false;
     cropPhoto();
   };
@@ -145,9 +150,9 @@ const ProfilePic = () => {
   return (
     <div className={styles.profilePicContainer}>
       <div className={styles.profilePic} onClick={handleClickOpen}>
-        {user.profilePic !== null ? (
+        {userRedux.profilePic !== null ? (
           <Image
-            src={user.profilePic}
+            src={userRedux.profilePic}
             alt=""
             layout="fill"
             objectFit="cover"

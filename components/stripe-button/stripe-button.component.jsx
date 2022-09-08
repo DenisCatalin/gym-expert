@@ -2,23 +2,30 @@ import StripeCheckout from "react-stripe-checkout";
 import { purchaseContext } from "../../lib/purchaseContext";
 import { dialogContext } from "../../lib/dialogContext";
 import { useContext, useState, useEffect } from "react";
-import { userContext } from "../../lib/userContext";
 import { snackbarContext } from "../../lib/snackbarContext";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setPaidPlanRedux,
+  setPlanExpireDateRedux,
+  setSubscribedSinceRedux,
+} from "../../redux/user.slice";
 
 const StripeCheckoutButton = ({ price, period }) => {
   const priceForStripe = price * 100.00002;
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_API_PUBLISHABLE_KEY;
   const { subscription, setSubscription } = useContext(purchaseContext);
   const { dialogAlert, setDialogAlert } = useContext(dialogContext);
-  const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
   const correctPeriod = period === "year" ? 365 : period === "month" ? 30 : 7;
   const [issuer, setIssuer] = useState();
   const [email, setEmail] = useState();
 
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     (async () => {
-      if (!user.logged) {
+      if (!userRedux.logged) {
         const res = await fetch("/api/userDetails");
         const data = await res.json();
 
@@ -26,8 +33,8 @@ const StripeCheckoutButton = ({ price, period }) => {
         setEmail(data?.userDetails?.data?.users[0].email);
         console.log(data);
       } else {
-        setIssuer(user.issuer);
-        setEmail(user.email);
+        setIssuer(userRedux.issuer);
+        setEmail(userRedux.email);
       }
     })();
   }, []);
@@ -57,9 +64,9 @@ const StripeCheckoutButton = ({ price, period }) => {
     const initialDate = Math.floor(
       Date.now() / 1000 + correctPeriod * 24 * 60 * 60
     );
-    const difference = user.planExpireDate - Date.now() / 1000;
+    const difference = userRedux.planExpireDate - Date.now() / 1000;
     const expireDate =
-      user.planExpireDate === 0
+      userRedux.planExpireDate === 0
         ? Math.floor(initialDate)
         : initialDate + difference;
 
@@ -104,9 +111,10 @@ const StripeCheckoutButton = ({ price, period }) => {
     });
     const data2 = await res2.json();
 
-    user.paidPlan = period;
-    user.planExpireDate = Math.round(expireDate);
-    user.subscribedSince = Math.floor(Date.now() / 1000);
+    dispatch(setPaidPlanRedux(period));
+    dispatch(setPlanExpireDateRedux(Math.round(expireDate)));
+    dispatch(setSubscribedSinceRedux(Math.floor(Date.now() / 1000)));
+
     console.log(data2);
   };
 

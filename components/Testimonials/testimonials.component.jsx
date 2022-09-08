@@ -18,6 +18,7 @@ import PostTestimonial from "./post-testimonial/post-testimonial.component";
 import { testimonialContext } from "../../lib/testimonialContext";
 import { snackbarContext } from "../../lib/snackbarContext";
 import { userContext } from "../../lib/userContext";
+import { useSelector, useDispatch } from "react-redux";
 
 const Testimonials = () => {
   const { width } = useWindowDimensions();
@@ -35,6 +36,9 @@ const Testimonials = () => {
   const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const router = useRouter();
 
   const handleClickOpen = async () => {
@@ -42,7 +46,7 @@ const Testimonials = () => {
     const isLoggedIn = await magic.user.isLoggedIn();
     if (!isLoggedIn) router.push("/login");
     else {
-      if (user.testimonial === 0) {
+      if (userRedux.testimonial === 0) {
         setOpen(true);
         setIsLoading(false);
       } else {
