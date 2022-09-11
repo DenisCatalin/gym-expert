@@ -57,6 +57,7 @@ const ProfileButton = () => {
 
   function dispatchFromLocalStorage() {
     dispatch(setDisplayNameRedux(localStorage.getItem("displayName")));
+    dispatch(setSecretKeywordRedux(localStorage.getItem("secretKeyword")));
     dispatch(setProfilePicRedux(localStorage.getItem("profilePic")));
     dispatch(setCropAreaRedux(JSON.parse(localStorage.getItem("cropArea"))));
     dispatch(setAdminRedux(JSON.parse(localStorage.getItem("admin"))));
@@ -82,6 +83,10 @@ const ProfileButton = () => {
     localStorage.setItem(
       "displayName",
       data?.userDetails?.data?.users[0].displayName
+    );
+    localStorage.setItem(
+      "secretKeyword",
+      data?.userDetails?.data?.users[0].secretKeyword
     );
     localStorage.setItem(
       "profilePic",
