@@ -12,13 +12,12 @@ import ExerciseCard from "../components/ExerciseCard/exercise-card.component";
 import useWindowDimensions from "../utils/useWindowDimensions";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import { userContext } from "../lib/userContext";
 import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import { theme, theme2 } from "../utils/muiTheme";
 import { exerciseContext } from "../lib/exerciseContext";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const breakPointWidth = 719;
 
@@ -59,17 +58,15 @@ const Exercises = () => {
   const [bodyPart, setBodyPart] = useState("");
   const [bodyPartsPage, setBodyPartsPage] = useState(1);
   const [exercises, setExercises] = useState([]);
-  const { user, setUser } = useContext(userContext);
   const [favourites, setFavourites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
   const userRedux = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const router = useRouter();
 
-  const handleChange = (event, value) => {
+  const handleChange = (value) => {
     setPage(value);
   };
 
@@ -78,7 +75,7 @@ const Exercises = () => {
   const exercisesPerPage = 8;
   const indexOfLastExercise = page * exercisesPerPage;
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
-  const currentExercises = exercise.slice(
+  const currentExercises = exercises.slice(
     indexOfFirstExercise,
     indexOfLastExercise
   );
@@ -323,7 +320,7 @@ const Exercises = () => {
             {bodyPart === "" ? null : (
               <ThemeProvider theme={theme}>
                 <Pagination
-                  count={Math.ceil(exercise.length / exercisesPerPage)}
+                  count={Math.ceil(exercises.length / exercisesPerPage)}
                   page={page}
                   onChange={handleChange}
                   defaultPage={1}

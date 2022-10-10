@@ -11,7 +11,6 @@ import { ratingLabels } from "../../../lib/ratingLabels";
 import styles from "../../../css/components/Testimonials.module.css";
 import { ThemeProvider } from "@mui/material/styles";
 import { motion } from "framer-motion";
-import { userContext } from "../../../lib/userContext";
 import { testimonialContext } from "../../../lib/testimonialContext";
 import { reviewContext } from "../../../lib/reviewContext";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,8 +25,6 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
   const [hover, setHover] = useState(-1);
   const [testimonial, setTestimonial] = useState("");
   const { review, setReview } = useContext(reviewContext);
-
-  const { user, setUser } = useContext(userContext);
   const { testimonialss, setTestimonialss } = useContext(testimonialContext);
 
   const userRedux = useSelector((state) => state.user);

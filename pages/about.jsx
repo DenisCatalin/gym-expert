@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 import Team from "../components/Team/team.component";
 import Testimonials from "../components/Testimonials/testimonials.component";
 import Head from "next/head";
-import { userContext } from "../lib/userContext";
 import { theme2 } from "../utils/muiTheme";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
 
@@ -18,8 +17,6 @@ const About = () => {
   const { width } = useWindowDimensions();
   const [scrollValue, setScrollValue] = useState(0);
   const router = useRouter();
-
-  const { user, setUser } = useContext(userContext);
 
   useEffect(() => {
     const onScroll = (e) => {

@@ -1,8 +1,6 @@
 import styles from "../css/Profile.module.css";
 import Header from "../components/Header/header.component";
 import LinearProgress from "@mui/material/LinearProgress";
-import { useContext, useState } from "react";
-import { userContext } from "../lib/userContext";
 import AccordionProfile from "../components/Profile-Accordion/accordion.component";
 import Head from "next/head";
 import ProfilePic from "../components/PhotoCrop/profile-pic.component";

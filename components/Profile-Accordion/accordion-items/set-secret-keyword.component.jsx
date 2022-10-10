@@ -4,7 +4,6 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import { useContext, useState } from "react";
-import { userContext } from "../../../lib/userContext";
 import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";

@@ -4,7 +4,6 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import { useContext, useState } from "react";
-import { userContext } from "../../../lib/userContext";
 import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
@@ -28,7 +27,6 @@ const Subscription = () => {
   const [expanded, setExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
   const userRedux = useSelector((state) => state.user);

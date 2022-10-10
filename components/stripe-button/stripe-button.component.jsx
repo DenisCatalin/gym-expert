@@ -1,5 +1,4 @@
 import StripeCheckout from "react-stripe-checkout";
-import { purchaseContext } from "../../lib/purchaseContext";
 import { dialogContext } from "../../lib/dialogContext";
 import { useContext, useState, useEffect } from "react";
 import { snackbarContext } from "../../lib/snackbarContext";
@@ -9,11 +8,11 @@ import {
   setPlanExpireDateRedux,
   setSubscribedSinceRedux,
 } from "../../redux/user.slice";
+import { setSubscriptionState } from "../../redux/subscription.slice";
 
 const StripeCheckoutButton = ({ price, period }) => {
   const priceForStripe = price * 100.00002;
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_API_PUBLISHABLE_KEY;
-  const { subscription, setSubscription } = useContext(purchaseContext);
   const { dialogAlert, setDialogAlert } = useContext(dialogContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
   const correctPeriod = period === "year" ? 365 : period === "month" ? 30 : 7;
@@ -21,6 +20,7 @@ const StripeCheckoutButton = ({ price, period }) => {
   const [email, setEmail] = useState();
 
   const userRedux = useSelector((state) => state.user);
+  const subscription = useSelector((state) => state.subscription.subscription);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -61,23 +61,21 @@ const StripeCheckoutButton = ({ price, period }) => {
       "December",
     ];
 
-    const initialDate = Math.floor(
-      Date.now() / 1000 + correctPeriod * 24 * 60 * 60
-    );
+    const initialDate = Math.floor(Date.now() / 1000 + correctPeriod * 24 * 60 * 60);
     const difference = userRedux.planExpireDate - Date.now() / 1000;
     const expireDate =
-      userRedux.planExpireDate === 0
-        ? Math.floor(initialDate)
-        : initialDate + difference;
+      userRedux.planExpireDate === 0 ? Math.floor(initialDate) : initialDate + difference;
 
     setSnackbarContent(
       `Payment Successful! You have just bought a ${subscription.plan}ly subscription for $${subscription.price}. You may now use the exercise page.`
     );
     setDialogAlert(false);
-    setSubscription({
-      price: 0,
-      plan: "",
-    });
+    dispatch(
+      setSubscriptionState({
+        price: 0,
+        plan: "",
+      })
+    );
 
     const dateToExpire = new Date(Math.round(expireDate) * 1000);
     const dateString = `${months[currentMonth]}-${currentDay}-${currentYear}`;

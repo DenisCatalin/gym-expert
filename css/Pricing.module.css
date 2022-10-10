@@ -633,6 +633,10 @@
         line-height: 10px;
     }
 
+    .featureText {
+        font-size: 1.2em;
+    }
+
     .featureIcon {
         font-size: 1.8em;
     }

@@ -2,14 +2,12 @@ import styles from "../../css/components/ExerciseCard.module.css";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useContext, useEffect } from "react";
-import { userContext } from "../../lib/userContext";
 import { exerciseContext } from "../../lib/exerciseContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
 
 const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [hover, setHover] = useState(false);
-  const { user, setUser } = useContext(userContext);
   const [favourite, setFavourite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { updateExercises, setUpdateExercises } = useContext(exerciseContext);

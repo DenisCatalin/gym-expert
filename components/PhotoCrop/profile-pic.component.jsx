@@ -34,7 +34,7 @@ const ProfilePic = () => {
       setHasImg(true);
       setCroppedAreaPixels(null);
       cropPhoto();
-      dispatch(setCropAreaRedux({ width: 1440, height: 1080, x: 240, y: 0 }));
+      // dispatch(setCropAreaRedux({ width: 1440, height: 1080, x: 240, y: 0 }));
     }
   }, [user, open, hasToClick]);
 

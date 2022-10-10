@@ -6,24 +6,29 @@ import useWindowDimensions from "../../utils/useWindowDimensions";
 import Image from "next/image";
 import { useContext, useState } from "react";
 import { dialogContext } from "../../lib/dialogContext";
-import { purchaseContext } from "../../lib/purchaseContext";
 import AlertDialog from "../AlertDialog/alert-dialog.component";
 import { theme2 } from "../../utils/muiTheme";
 import { magic } from "../../lib/magic-client";
 import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
+import { PURCHASE_DIALOG } from "../../utils/captions";
+import { setSubscriptionState } from "../../redux/subscription.slice";
+import { useDispatch } from "react-redux";
 
 const PricingCard = ({ price, period, image }) => {
   const { width } = useWindowDimensions();
   const { dialogAlert, setDialogAlert } = useContext(dialogContext);
   const [planSelected, setPlanSelected] = useState(false);
-  const { subscription, setSubscription } = useContext(purchaseContext);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  const dispatch = useDispatch();
+
   const setScaleCard = () => {
     let scale = 1;
-    if (width < 1150) scale = 0.9;
+    if (width < 1150) {
+      scale = 0.9;
+    }
     return scale;
   };
 
@@ -34,10 +39,12 @@ const PricingCard = ({ price, period, image }) => {
     if (!isLoggedIn) router.push("/login");
     else {
       setDialogAlert(true);
-      setSubscription({
-        price: price,
-        plan: period,
-      });
+      dispatch(
+        setSubscriptionState({
+          price: price,
+          plan: period,
+        })
+      );
       setPlanSelected(false);
       setIsLoading(false);
     }
@@ -52,20 +59,17 @@ const PricingCard = ({ price, period, image }) => {
 
   return (
     <>
-      <AlertDialog dialogOpen={dialogAlert} />
+      <AlertDialog
+        dialogOpen={dialogAlert}
+        title={PURCHASE_DIALOG.title}
+        content={PURCHASE_DIALOG.content}
+      />
       <motion.div
         className={styles.card}
         animate={{ opacity: [0, 1], x: [-400, 0], scale: setScaleCard() }}
       >
         <div className={styles.imageCard}>
-          <Image
-            src={image}
-            alt=""
-            layout="fill"
-            priority
-            placeholder="blur"
-            blurDataURL={image}
-          />
+          <Image src={image} alt="" layout="fill" priority placeholder="blur" blurDataURL={image} />
         </div>
         <div className={styles.cardContent}>
           <h1 className={styles.planPrice}>

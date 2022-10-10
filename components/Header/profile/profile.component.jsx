@@ -61,14 +61,10 @@ const ProfileButton = () => {
     dispatch(setProfilePicRedux(localStorage.getItem("profilePic")));
     dispatch(setCropAreaRedux(JSON.parse(localStorage.getItem("cropArea"))));
     dispatch(setAdminRedux(JSON.parse(localStorage.getItem("admin"))));
-    dispatch(
-      setTestimonialRedux(JSON.parse(localStorage.getItem("testimonial")))
-    );
+    dispatch(setTestimonialRedux(JSON.parse(localStorage.getItem("testimonial"))));
     dispatch(setEmailRedux(localStorage.getItem("email")));
     dispatch(setPaidPlanRedux(localStorage.getItem("paidPlan")));
-    dispatch(
-      setPlanExpireDateRedux(JSON.parse(localStorage.getItem("planExpireDate")))
-    );
+    dispatch(setPlanExpireDateRedux(JSON.parse(localStorage.getItem("planExpireDate"))));
     dispatch(setMagicTokenRedux(didToken));
     dispatch(setIssuerRedux(localStorage.getItem("issuer")));
     dispatch(setMemberSinceRedux(localStorage.getItem("memberSince")));
@@ -80,88 +76,39 @@ const ProfileButton = () => {
 
   function dispatchFromFetch(data) {
     localStorage.setItem("logged", true);
-    localStorage.setItem(
-      "displayName",
-      data?.userDetails?.data?.users[0].displayName
-    );
-    localStorage.setItem(
-      "secretKeyword",
-      data?.userDetails?.data?.users[0].secretKeyword
-    );
-    localStorage.setItem(
-      "profilePic",
-      data?.userDetails?.data?.users[0].profilePic
-    );
-    localStorage.setItem(
-      "cropArea",
-      data?.userDetails?.data?.users[0].cropArea
-    );
+    localStorage.setItem("displayName", data?.userDetails?.data?.users[0].displayName);
+    localStorage.setItem("secretKeyword", data?.userDetails?.data?.users[0].secretKeyword);
+    localStorage.setItem("profilePic", data?.userDetails?.data?.users[0].profilePic);
+    localStorage.setItem("cropArea", data?.userDetails?.data?.users[0].cropArea);
 
     localStorage.setItem("admin", data?.userDetails?.data?.users[0].admin);
-    localStorage.setItem(
-      "testimonial",
-      data?.userDetails?.data?.users[0].testimonial
-    );
+    localStorage.setItem("testimonial", data?.userDetails?.data?.users[0].testimonial);
     localStorage.setItem("email", data?.userDetails?.data?.users[0].email);
-    localStorage.setItem(
-      "paidPlan",
-      data?.userDetails?.data?.users[0].paidPlan
-    );
-    localStorage.setItem(
-      "planExpireDate",
-      data?.userDetails?.data?.users[0].planExpireDate
-    );
-    localStorage.setItem(
-      "memberSince",
-      data?.userDetails?.data?.users[0].registerDate
-    );
-    localStorage.setItem(
-      "subscribedSince",
-      data?.userDetails?.data?.users[0].subscribedIn
-    );
-    localStorage.setItem(
-      "profileAvatar",
-      data?.userDetails?.data?.users[0].profilePic
-    );
-    localStorage.setItem(
-      "favourites",
-      data?.userDetails?.data?.users[0].favouriteExercises
-    );
+    localStorage.setItem("paidPlan", data?.userDetails?.data?.users[0].paidPlan);
+    localStorage.setItem("planExpireDate", data?.userDetails?.data?.users[0].planExpireDate);
+    localStorage.setItem("memberSince", data?.userDetails?.data?.users[0].registerDate);
+    localStorage.setItem("subscribedSince", data?.userDetails?.data?.users[0].subscribedIn);
+    localStorage.setItem("profileAvatar", data?.userDetails?.data?.users[0].profilePic);
+    localStorage.setItem("favourites", data?.userDetails?.data?.users[0].favouriteExercises);
 
     localStorage.setItem("issuer", data?.userDetails?.data?.users[0].issuer);
 
-    dispatch(
-      setDisplayNameRedux(data?.userDetails?.data?.users[0].displayName)
-    );
+    dispatch(setDisplayNameRedux(data?.userDetails?.data?.users[0].displayName));
     dispatch(setProfilePicRedux(data?.userDetails?.data?.users[0].profilePic));
     dispatch(setCropAreaRedux(data?.userDetails?.data?.users[0].cropArea));
     dispatch(setAdminRedux(data?.userDetails?.data?.users[0].admin));
-    dispatch(
-      setTestimonialRedux(data?.userDetails?.data?.users[0].testimonial)
-    );
+    dispatch(setTestimonialRedux(data?.userDetails?.data?.users[0].testimonial));
     dispatch(setEmailRedux(data?.userDetails?.data?.users[0].email));
     dispatch(setPaidPlanRedux(data?.userDetails?.data?.users[0].paidPlan));
-    dispatch(
-      setPlanExpireDateRedux(data?.userDetails?.data?.users[0].planExpireDate)
-    );
+    dispatch(setPlanExpireDateRedux(data?.userDetails?.data?.users[0].planExpireDate));
     dispatch(setMagicTokenRedux(didToken));
     dispatch(setIssuerRedux(data?.userDetails?.data?.users[0].issuer));
-    dispatch(
-      setMemberSinceRedux(data?.userDetails?.data?.users[0].registerDate)
-    );
-    dispatch(
-      setSubscribedSinceRedux(data?.userDetails?.data?.users[0].subscribedIn)
-    );
-    dispatch(
-      setSecretKeywordRedux(data?.userDetails?.data?.users[0].secretKeyword)
-    );
+    dispatch(setMemberSinceRedux(data?.userDetails?.data?.users[0].registerDate));
+    dispatch(setSubscribedSinceRedux(data?.userDetails?.data?.users[0].subscribedIn));
+    dispatch(setSecretKeywordRedux(data?.userDetails?.data?.users[0].secretKeyword));
     dispatch(setLoggedRedux(true));
-    dispatch(
-      setProfileAvatarRedux(data?.userDetails?.data?.users[0].profilePic)
-    );
-    dispatch(
-      setFavouritesRedux(data?.userDetails?.data?.users[0].favouriteExercises)
-    );
+    dispatch(setProfileAvatarRedux(data?.userDetails?.data?.users[0].profilePic));
+    dispatch(setFavouritesRedux(data?.userDetails?.data?.users[0].favouriteExercises));
   }
 
   async function checkPlan() {
@@ -202,8 +149,6 @@ const ProfileButton = () => {
       dispatch(setProfilePicRedux(img));
     }
   };
-
-  console.log("redux", userRedux);
 
   useEffect(() => {
     (async () => {
@@ -306,12 +251,7 @@ const ProfileButton = () => {
                 {userRedux.profilePic === null ? (
                   displayName[0]
                 ) : (
-                  <Image
-                    src={userRedux.profilePic}
-                    alt=""
-                    layout="fill"
-                    objectFit="cover"
-                  />
+                  <Image src={userRedux.profilePic} alt="" layout="fill" objectFit="cover" />
                 )}
               </Avatar>
             </>
@@ -358,14 +298,14 @@ const ProfileButton = () => {
             Profile Dashboard
           </MenuItem>
           <Divider />
-          {userRedux.admin === 1 ? (
+          {userRedux.admin === 1 && (
             <MenuItem onClick={() => router.push("/adminPage")}>
               <ListItemIcon>
                 <Settings fontSize="small" color="pink" />
               </ListItemIcon>
               Admin Page
             </MenuItem>
-          ) : null}
+          )}
           <MenuItem onClick={logout}>
             <ListItemIcon>
               <Logout fontSize="small" color="pink" />

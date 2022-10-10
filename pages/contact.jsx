@@ -47,6 +47,7 @@ const Contact = () => {
                   found a bug? Feel free to email us
                 </h1>
               </div>
+
               <div className={styles.midPart}>
                 <TextField
                   id="outlined-basic"

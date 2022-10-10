@@ -17,7 +17,6 @@ import { theme2 } from "../../utils/muiTheme";
 import PostTestimonial from "./post-testimonial/post-testimonial.component";
 import { testimonialContext } from "../../lib/testimonialContext";
 import { snackbarContext } from "../../lib/snackbarContext";
-import { userContext } from "../../lib/userContext";
 import { useSelector, useDispatch } from "react-redux";
 
 const Testimonials = () => {
@@ -33,7 +32,6 @@ const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const { testimonialss, setTestimonialss } = useContext(testimonialContext);
   const [open, setOpen] = useState(false);
-  const { user, setUser } = useContext(userContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
   const userRedux = useSelector((state) => state.user);
