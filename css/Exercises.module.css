@@ -59,6 +59,7 @@
 .exercisess {
     padding: 1rem;
     display: grid;
+    height: 98%;
     gap: 2ch;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     overflow: auto;

@@ -12,7 +12,7 @@ export const subscriptionSlice = createSlice({
   initialState,
   reducers: {
     setSubscriptionState(state, action) {
-      console.log("[REDUX] Subscription State: ", action.payload);
+      console.log("[REDUX-UPDATE] Subscription State: ", action.payload);
       state.subscription = {
         ...action.payload,
       };
