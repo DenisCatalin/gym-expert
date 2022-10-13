@@ -2,7 +2,6 @@ import "../css/globals.css";
 import { didTokenContext } from "../lib/didTokenContext";
 import { userContext } from "../lib/userContext";
 import { useState } from "react";
-import { dialogContext } from "../lib/dialogContext";
 import { cropContext } from "../lib/cropContext";
 import { testimonialContext } from "../lib/testimonialContext";
 import { snackbarContext } from "../lib/snackbarContext";
@@ -13,7 +12,6 @@ import store from "../redux/store";
 
 function MyApp({ Component, pageProps }) {
   const [didToken, setDidToken] = useState("");
-  const [dialogAlert, setDialogAlert] = useState(false);
   const [cropImage, setCropImage] = useState({});
   const [testimonialss, setTestimonialss] = useState(false);
   const [review, setReview] = useState(false);
@@ -28,21 +26,19 @@ function MyApp({ Component, pageProps }) {
   return (
     <userContext.Provider value={{ user, setUser }}>
       <didTokenContext.Provider value={{ didToken, setDidToken }}>
-        <dialogContext.Provider value={{ dialogAlert, setDialogAlert }}>
-          <cropContext.Provider value={{ cropImage, setCropImage }}>
-            <testimonialContext.Provider value={{ testimonialss, setTestimonialss }}>
-              <snackbarContext.Provider value={{ snackbarContent, setSnackbarContent }}>
-                <reviewContext.Provider value={{ review, setReview }}>
-                  <exerciseContext.Provider value={{ updateExercises, setUpdateExercises }}>
-                    <Provider store={store}>
-                      <Component {...pageProps} />
-                    </Provider>
-                  </exerciseContext.Provider>
-                </reviewContext.Provider>
-              </snackbarContext.Provider>
-            </testimonialContext.Provider>
-          </cropContext.Provider>
-        </dialogContext.Provider>
+        <cropContext.Provider value={{ cropImage, setCropImage }}>
+          <testimonialContext.Provider value={{ testimonialss, setTestimonialss }}>
+            <snackbarContext.Provider value={{ snackbarContent, setSnackbarContent }}>
+              <reviewContext.Provider value={{ review, setReview }}>
+                <exerciseContext.Provider value={{ updateExercises, setUpdateExercises }}>
+                  <Provider store={store}>
+                    <Component {...pageProps} />
+                  </Provider>
+                </exerciseContext.Provider>
+              </reviewContext.Provider>
+            </snackbarContext.Provider>
+          </testimonialContext.Provider>
+        </cropContext.Provider>
       </didTokenContext.Provider>
     </userContext.Provider>
   );

@@ -5,7 +5,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import Image from "next/image";
 import { useContext, useState } from "react";
-import { dialogContext } from "../../lib/dialogContext";
 import AlertDialog from "../AlertDialog/alert-dialog.component";
 import { theme2 } from "../../utils/muiTheme";
 import { magic } from "../../lib/magic-client";
@@ -13,15 +12,16 @@ import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 import { PURCHASE_DIALOG } from "../../utils/captions";
 import { setSubscriptionState } from "../../redux/subscription.slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setDialog } from "../../redux/dialog.slice";
 
 const PricingCard = ({ price, period, image }) => {
   const { width } = useWindowDimensions();
-  const { dialogAlert, setDialogAlert } = useContext(dialogContext);
   const [planSelected, setPlanSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  const dialog = useSelector((state) => state.dialog);
   const dispatch = useDispatch();
 
   const setScaleCard = () => {
@@ -38,7 +38,7 @@ const PricingCard = ({ price, period, image }) => {
     const isLoggedIn = await magic.user.isLoggedIn();
     if (!isLoggedIn) router.push("/login");
     else {
-      setDialogAlert(true);
+      dispatch(setDialog(true));
       dispatch(
         setSubscriptionState({
           price: price,
@@ -60,7 +60,7 @@ const PricingCard = ({ price, period, image }) => {
   return (
     <>
       <AlertDialog
-        dialogOpen={dialogAlert}
+        dialogOpen={dialog}
         title={PURCHASE_DIALOG.title}
         content={PURCHASE_DIALOG.content}
       />

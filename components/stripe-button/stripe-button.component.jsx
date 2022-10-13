@@ -1,31 +1,26 @@
 import StripeCheckout from "react-stripe-checkout";
-import { dialogContext } from "../../lib/dialogContext";
 import { useContext, useState, useEffect } from "react";
 import { snackbarContext } from "../../lib/snackbarContext";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setPaidPlanRedux,
-  setPlanExpireDateRedux,
-  setSubscribedSinceRedux,
-} from "../../redux/user.slice";
+import { setUserState } from "../../redux/user.slice";
 import { setSubscriptionState } from "../../redux/subscription.slice";
+import { setDialog } from "../../redux/dialog.slice";
 
 const StripeCheckoutButton = ({ price, period }) => {
   const priceForStripe = price * 100.00002;
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_API_PUBLISHABLE_KEY;
-  const { dialogAlert, setDialogAlert } = useContext(dialogContext);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
   const correctPeriod = period === "year" ? 365 : period === "month" ? 30 : 7;
   const [issuer, setIssuer] = useState();
   const [email, setEmail] = useState();
 
-  const userRedux = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
   const subscription = useSelector((state) => state.subscription.subscription);
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      if (!userRedux.logged) {
+      if (!user.logged) {
         const res = await fetch("/api/userDetails");
         const data = await res.json();
 
@@ -33,8 +28,8 @@ const StripeCheckoutButton = ({ price, period }) => {
         setEmail(data?.userDetails?.data?.users[0].email);
         console.log(data);
       } else {
-        setIssuer(userRedux.issuer);
-        setEmail(userRedux.email);
+        setIssuer(user.issuer);
+        setEmail(user.email);
       }
     })();
   }, []);
@@ -62,14 +57,14 @@ const StripeCheckoutButton = ({ price, period }) => {
     ];
 
     const initialDate = Math.floor(Date.now() / 1000 + correctPeriod * 24 * 60 * 60);
-    const difference = userRedux.planExpireDate - Date.now() / 1000;
+    const difference = user.planExpireDate - Date.now() / 1000;
     const expireDate =
-      userRedux.planExpireDate === 0 ? Math.floor(initialDate) : initialDate + difference;
+      user.planExpireDate === 0 ? Math.floor(initialDate) : initialDate + difference;
 
     setSnackbarContent(
       `Payment Successful! You have just bought a ${subscription.plan}ly subscription for $${subscription.price}. You may now use the exercise page.`
     );
-    setDialogAlert(false);
+    dispatch(setDialog(false));
     dispatch(
       setSubscriptionState({
         price: 0,
@@ -108,12 +103,15 @@ const StripeCheckoutButton = ({ price, period }) => {
       },
     });
     const data2 = await res2.json();
-
-    dispatch(setPaidPlanRedux(period));
-    dispatch(setPlanExpireDateRedux(Math.round(expireDate)));
-    dispatch(setSubscribedSinceRedux(Math.floor(Date.now() / 1000)));
-
     console.log(data2);
+
+    dispatch(
+      setUserState({
+        paidPlan: period,
+        planExpireDate: Math.round(expireDate),
+        subscribedSince: Math.floor(Date.now() / 1000),
+      })
+    );
   };
 
   return (
