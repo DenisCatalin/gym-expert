@@ -3,7 +3,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
@@ -15,27 +15,20 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { snackbarContext } from "../../../lib/snackbarContext";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setPaidPlanRedux,
-  setPlanExpireDateRedux,
-  setSubscribedSinceRedux,
-} from "../../../redux/user.slice";
+import { setUserState } from "../../../redux/user.slice";
+import { setSnackbar } from "../../../redux/snackbar.slice";
 
 const Subscription = () => {
   const [expanded, setExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
-  const userRedux = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   const dateToExpire = new Date(Math.round(userRedux.planExpireDate) * 1000);
-  const subscribedSince = new Date(
-    Math.round(userRedux.subscribedSince) * 1000
-  );
+  const subscribedSince = new Date(Math.round(userRedux.subscribedSince) * 1000);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,9 +45,15 @@ const Subscription = () => {
   const cancelSubscription = async () => {
     setIsLoading(true);
 
-    dispatch(setPaidPlanRedux(null));
-    dispatch(setPlanExpireDateRedux(0));
-    dispatch(setSubscribedSinceRedux(0));
+    dispatch(
+      setUserState({
+        ...userRedux,
+        paidPlan: null,
+        planExpireDate: 0,
+        subscribedSince: 0,
+      })
+    );
+
     const res2 = await fetch("/api/updateSubscription", {
       method: "POST",
       headers: {
@@ -70,7 +69,12 @@ const Subscription = () => {
     console.log(data2);
     setIsLoading(false);
     handleClose();
-    setSnackbarContent("You have successfully canceled your subscription.");
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "You have successfully canceled your subscription.",
+      })
+    );
   };
   return (
     <Accordion
@@ -84,10 +88,7 @@ const Subscription = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography
-            sx={{ width: "33%", flexShrink: 0 }}
-            className={styles.text}
-          >
+          <Typography sx={{ width: "33%", flexShrink: 0 }} className={styles.text}>
             Manage Subscription
           </Typography>
           <Typography sx={{ color: "text.secondary" }} className={styles.text}>
@@ -99,13 +100,10 @@ const Subscription = () => {
         <div>
           <Typography className={styles.text}>
             Subscribed Since:{" "}
-            {userRedux.subscribedSince === 0
-              ? "Not subscribed"
-              : subscribedSince.toString()}
+            {userRedux.subscribedSince === 0 ? "Not subscribed" : subscribedSince.toString()}
           </Typography>
           <Typography className={styles.text}>
-            Subscription expiring:{" "}
-            {dateToExpire < Date.now() ? "Expired" : dateToExpire.toString()}
+            Subscription expiring: {dateToExpire < Date.now() ? "Expired" : dateToExpire.toString()}
           </Typography>
         </div>
         <motion.button
@@ -133,12 +131,9 @@ const Subscription = () => {
           {"We need you to be aware of the fact that..."}
         </DialogTitle>
         <DialogContent className={styles.background}>
-          <DialogContentText
-            id="alert-dialog-description"
-            className={styles.text}
-          >
-            You are about to cancel your subscription. Which means that you will
-            no longer be able to see the exercises page. Are you sure?
+          <DialogContentText id="alert-dialog-description" className={styles.text}>
+            You are about to cancel your subscription. Which means that you will no longer be able
+            to see the exercises page. Are you sure?
           </DialogContentText>
         </DialogContent>
         <DialogActions className={styles.background}>

@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 import { testimonialContext } from "../../../lib/testimonialContext";
 import { reviewContext } from "../../../lib/reviewContext";
 import { useSelector, useDispatch } from "react-redux";
-import { setTestimonialRedux } from "../../../redux/user.slice";
+import { setUserState } from "../../../redux/user.slice";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;
@@ -27,7 +27,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
   const { review, setReview } = useContext(reviewContext);
   const { testimonialss, setTestimonialss } = useContext(testimonialContext);
 
-  const userRedux = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   let d = new Date();
@@ -96,7 +96,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
         });
         const response2 = await res2.json();
         console.log(response2);
-        dispatch(setTestimonialRedux(1));
+        dispatch(setUserState({ ...userRedux, testimonial: 1 }));
 
         setReview(false);
       }
@@ -144,14 +144,10 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
               onChangeActive={(event, newHover) => {
                 setHover(newHover);
               }}
-              emptyIcon={
-                <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-              }
+              emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
             />
             {rating !== null && (
-              <Box sx={{ ml: 2 }}>
-                {ratingLabels[hover !== -1 ? hover : rating]}
-              </Box>
+              <Box sx={{ ml: 2 }}>{ratingLabels[hover !== -1 ? hover : rating]}</Box>
             )}
           </motion.div>
           <div className={styles.buttonPost}>

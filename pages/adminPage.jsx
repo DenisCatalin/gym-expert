@@ -24,7 +24,7 @@ const AdminPage = () => {
   const { user, setUser } = useContext(userContext);
   const [text, setText] = useState("");
 
-  const userRedux = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user.user);
 
   let d = new Date();
   const currentMonth = d.getMonth();
@@ -77,9 +77,7 @@ const AdminPage = () => {
     e.preventDefault();
     if (imgSrc !== null && text !== "" && title !== "") {
       const form = e.currentTarget;
-      const fileInput = Array.from(form.elements).find(
-        ({ name }) => name === "file"
-      );
+      const fileInput = Array.from(form.elements).find(({ name }) => name === "file");
 
       const formData = new FormData();
 
@@ -92,13 +90,10 @@ const AdminPage = () => {
       formData.append("upload_preset", "restaurant-app-profile-pics");
 
       if (uploadData === true) {
-        const data = await fetch(
-          "https://api.cloudinary.com/v1_1/dgkdpysp5/image/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        ).then((r) => r.json());
+        const data = await fetch("https://api.cloudinary.com/v1_1/dgkdpysp5/image/upload", {
+          method: "POST",
+          body: formData,
+        }).then((r) => r.json());
 
         const res = await fetch("/api/postNews", {
           method: "POST",
@@ -155,16 +150,9 @@ const AdminPage = () => {
         >
           {"Upload a photo for your news post"}
         </DialogTitle>
-        <DialogContent
-          style={{ background: "var(--background)", height: "80vh" }}
-        >
-          <DialogContentText
-            id="alert-dialog-description"
-            className={styles.text}
-          >
-            {
-              "Choose a picture. This picture will be used along with the news as the cover."
-            }
+        <DialogContent style={{ background: "var(--background)", height: "80vh" }}>
+          <DialogContentText id="alert-dialog-description" className={styles.text}>
+            {"Choose a picture. This picture will be used along with the news as the cover."}
           </DialogContentText>
           <div className={styles.uploadContainer}>
             <TextField
@@ -201,11 +189,7 @@ const AdminPage = () => {
                 Upload Photo <CloudUploadIcon />
               </label>
               <label className={styles.upload}>
-                <button
-                  type="submit"
-                  name="submit"
-                  className={styles.uploadInput}
-                />
+                <button type="submit" name="submit" className={styles.uploadInput} />
                 Post
               </label>
             </form>

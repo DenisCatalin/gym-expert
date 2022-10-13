@@ -17,7 +17,7 @@ import { theme2 } from "../../utils/muiTheme";
 import PostTestimonial from "./post-testimonial/post-testimonial.component";
 import { testimonialContext } from "../../lib/testimonialContext";
 import { snackbarContext } from "../../lib/snackbarContext";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Testimonials = () => {
   const { width } = useWindowDimensions();
@@ -34,8 +34,7 @@ const Testimonials = () => {
   const [open, setOpen] = useState(false);
   const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
-  const userRedux = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const userRedux = useSelector((state) => state.user.user);
 
   const router = useRouter();
 
@@ -133,10 +132,7 @@ const Testimonials = () => {
                     whileTap={{ scale: 1 }}
                     onClick={decreaseReview}
                   >
-                    <ChevronLeftRoundedIcon
-                      color="neutral"
-                      className={styles.arrowIcon}
-                    />
+                    <ChevronLeftRoundedIcon color="neutral" className={styles.arrowIcon} />
                   </motion.button>
                   <motion.button
                     className={styles.arrowBackground}
@@ -144,10 +140,7 @@ const Testimonials = () => {
                     whileTap={{ scale: 1 }}
                     onClick={increaseReview}
                   >
-                    <ChevronRightRoundedIcon
-                      color="neutral"
-                      className={styles.arrowIcon}
-                    />
+                    <ChevronRightRoundedIcon color="neutral" className={styles.arrowIcon} />
                   </motion.button>
                 </ThemeProvider>
               </div>

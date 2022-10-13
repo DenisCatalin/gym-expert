@@ -3,16 +3,16 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
-import { snackbarContext } from "../../../lib/snackbarContext";
 import { useSelector, useDispatch } from "react-redux";
-import { setSecretKeywordRedux } from "../../../redux/user.slice";
+import { setUserState } from "../../../redux/user.slice";
+import { setSnackbar } from "../../../redux/snackbar.slice";
 
 const ChangePassword = () => {
   const [expanded, setExpanded] = useState(false);
@@ -20,9 +20,8 @@ const ChangePassword = () => {
   const [newSecretKeyword, setNewSecretKeyword] = useState("");
   const [newSecretKeywordConfirm, setNewSecretKeywordConfirm] = useState("");
   const [secretKeyword, setSecretKeyword] = useState("");
-  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
-  const userRedux = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -31,29 +30,55 @@ const ChangePassword = () => {
 
   const changeSecretKeyword = async () => {
     setIsLoading(true);
+    console.log("Click");
     if (userRedux.logged) {
       if (secretKeyword === "") {
-        setSnackbarContent("The current secret keyword must be provided.");
+        dispatch(
+          setSnackbar({
+            open: true,
+            content: "The current secret keyword must be provided.",
+          })
+        );
         setIsLoading(false);
         return;
       }
       if (newSecretKeyword === "") {
-        setSnackbarContent("You must provide your new desired secret keyword.");
+        dispatch(
+          setSnackbar({
+            open: true,
+            content: "You must provide your new desired secret keyword.",
+          })
+        );
         setIsLoading(false);
         return;
       }
       if (newSecretKeywordConfirm === "") {
-        setSnackbarContent("You must confirm the new secret keyword.");
+        dispatch(
+          setSnackbar({
+            open: true,
+            content: "You must confirm the new secret keyword.",
+          })
+        );
         setIsLoading(false);
         return;
       }
       if (newSecretKeywordConfirm !== newSecretKeyword) {
-        setSnackbarContent("Your new secret keywords are not the same.");
+        dispatch(
+          setSnackbar({
+            open: true,
+            content: "Your new secret keywords are not the same.",
+          })
+        );
         setIsLoading(false);
         return;
       }
       if (secretKeyword !== userRedux.secretKeyword) {
-        setSnackbarContent("Wrong secret keyword.");
+        dispatch(
+          setSnackbar({
+            open: true,
+            content: "Wrong secret keyword.",
+          })
+        );
         setIsLoading(false);
         return;
       }
@@ -73,8 +98,14 @@ const ChangePassword = () => {
     setSecretKeyword("");
     setNewSecretKeyword("");
     setNewSecretKeywordConfirm("");
-    setSnackbarContent("You have successfully changed your secret keyword.");
-    dispatch(setSecretKeywordRedux(newSecretKeyword));
+
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "You have successfully changed your secret keyword.",
+      })
+    );
+    dispatch(setUserState({ ...userRedux, secretKeyword: newSecretKeyword }));
   };
 
   return (
@@ -89,10 +120,7 @@ const ChangePassword = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography
-            sx={{ width: "33%", flexShrink: 0 }}
-            className={styles.text}
-          >
+          <Typography sx={{ width: "33%", flexShrink: 0 }} className={styles.text}>
             Secret Keyword
           </Typography>
         </AccordionSummary>

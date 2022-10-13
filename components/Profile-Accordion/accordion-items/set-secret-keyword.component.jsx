@@ -11,16 +11,14 @@ import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
-import { snackbarContext } from "../../../lib/snackbarContext";
 
 const SetSecretKey = () => {
   const [expanded, setExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [secretKeyword, setSecretKeyword] = useState("");
   const [secretKeywordConfirm, setSecretKeywordConfirm] = useState("");
-  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
-  const userRedux = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -31,19 +29,32 @@ const SetSecretKey = () => {
     setIsLoading(true);
     if (userRedux.logged) {
       if (secretKeyword === "") {
-        setSnackbarContent("The secret key should not be empty.");
+        dispatch(
+          setSnackbar({
+            open: true,
+            content: "The secret key should not be empty.",
+          })
+        );
         setIsLoading(false);
         return;
       }
       if (secretKeyword.length < 3) {
-        setSnackbarContent(
-          "The secret key must be at least 4 characters long."
+        dispatch(
+          setSnackbar({
+            open: true,
+            content: "The secret key must be at least 4 characters long.",
+          })
         );
         setIsLoading(false);
         return;
       }
       if (secretKeyword !== secretKeywordConfirm) {
-        setSnackbarContent("The secret keys are not the same.");
+        dispatch(
+          setSnackbar({
+            open: true,
+            content: "The secret keys are not the same.",
+          })
+        );
         setIsLoading(false);
         return;
       }
@@ -58,7 +69,12 @@ const SetSecretKey = () => {
       });
       const data2 = await res2.json();
       console.log(data2);
-      setSnackbarContent("You have successfully set up your secret keyword.");
+      dispatch(
+        setSnackbar({
+          open: true,
+          content: "You have successfully set up your secret keyword.",
+        })
+      );
     }
     setSecretKeyword("");
     setSecretKeywordConfirm("");
@@ -77,10 +93,7 @@ const SetSecretKey = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography
-            sx={{ width: "33%", flexShrink: 0 }}
-            className={styles.text}
-          >
+          <Typography sx={{ width: "33%", flexShrink: 0 }} className={styles.text}>
             Secret Key
           </Typography>
           <Typography sx={{ color: "text.secondary" }} className={styles.text}>

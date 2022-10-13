@@ -110,6 +110,7 @@ const StripeCheckoutButton = ({ price, period }) => {
         paidPlan: period,
         planExpireDate: Math.round(expireDate),
         subscribedSince: Math.floor(Date.now() / 1000),
+        ...userRedux,
       })
     );
   };

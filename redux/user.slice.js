@@ -19,7 +19,7 @@ const initialState = {
     profileAvatar: "",
     cropped: false,
     favourites: [],
-  }
+  },
 };
 
 export const userSlice = createSlice({
@@ -30,8 +30,8 @@ export const userSlice = createSlice({
       console.log("[REDUX-UPDATE] User state: ", action.payload);
       state.user = {
         ...action.payload,
-      }
-    }
+      };
+    },
   },
 });
 

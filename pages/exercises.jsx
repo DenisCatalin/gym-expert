@@ -62,7 +62,7 @@ const Exercises = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
-  const userRedux = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user.user);
 
   const router = useRouter();
 
@@ -75,18 +75,12 @@ const Exercises = () => {
   const exercisesPerPage = 8;
   const indexOfLastExercise = page * exercisesPerPage;
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
-  const currentExercises = exercises.slice(
-    indexOfFirstExercise,
-    indexOfLastExercise
-  );
+  const currentExercises = exercises.slice(indexOfFirstExercise, indexOfLastExercise);
 
   const bodyPartsPerPage = width > 719 ? 5 : 2;
   const indexOfLastBodyPart = bodyPartsPage * bodyPartsPerPage;
   const indexOfFirstBodyPart = indexOfLastBodyPart - bodyPartsPerPage;
-  const currentEBodyPart = bodyParts.slice(
-    indexOfFirstBodyPart,
-    indexOfLastBodyPart
-  );
+  const currentEBodyPart = bodyParts.slice(indexOfFirstBodyPart, indexOfLastBodyPart);
 
   useEffect(() => {
     (async () => {
@@ -126,8 +120,7 @@ const Exercises = () => {
         const data2 = await res2.json();
         setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
         console.log(data2?.getToFavouritesForUser?.data?.favourites);
-        if (userRedux.paidPlan === null && userRedux.planExpireDate === 0)
-          router.push("/pricing");
+        if (userRedux.paidPlan === null && userRedux.planExpireDate === 0) router.push("/pricing");
         else setIsLoading(false);
       } else {
         const isLoggedIn = await magic.user.isLoggedIn();
@@ -136,10 +129,8 @@ const Exercises = () => {
           const res = await fetch("/api/userDetails");
           const data = await res.json();
 
-          const { paidPlan, planExpireDate } =
-            data?.userDetails?.data?.users[0];
-          if (paidPlan === null && planExpireDate === 0)
-            router.push("/pricing");
+          const { paidPlan, planExpireDate } = data?.userDetails?.data?.users[0];
+          if (paidPlan === null && planExpireDate === 0) router.push("/pricing");
           else setIsLoading(false);
         }
       }
@@ -172,10 +163,7 @@ const Exercises = () => {
       </Head>
       <Header />
       {isLoading ? (
-        <div
-          className={styles.content}
-          stlye={{ height: isLoading ? "100vh" : "initial" }}
-        >
+        <div className={styles.content} stlye={{ height: isLoading ? "100vh" : "initial" }}>
           <div className={styles.exercises}>
             <Stack sx={{ width: "50%", color: "grey.500" }} spacing={2}>
               <LinearProgress color="secondary" />
@@ -186,10 +174,7 @@ const Exercises = () => {
         <div className={styles.content}>
           <div className={styles.exercises}>
             <div className={styles.altContent}>
-              <motion.div
-                className={styles.header}
-                animate={{ opacity: [0, 1], y: [100, 0] }}
-              >
+              <motion.div className={styles.header} animate={{ opacity: [0, 1], y: [100, 0] }}>
                 {width > 900 ? (
                   bodyParts.map((item, i) => (
                     <button
@@ -214,8 +199,7 @@ const Exercises = () => {
                         <KeyboardArrowLeftIcon
                           color="neutral"
                           style={{
-                            fontSize:
-                              width > breakPointWidth ? "2.5em" : "1.5em",
+                            fontSize: width > breakPointWidth ? "2.5em" : "1.5em",
                           }}
                         />
                       </IconButton>
@@ -253,8 +237,7 @@ const Exercises = () => {
                         <KeyboardArrowRightIcon
                           color="neutral"
                           style={{
-                            fontSize:
-                              width > breakPointWidth ? "2.5em" : "1.5em",
+                            fontSize: width > breakPointWidth ? "2.5em" : "1.5em",
                           }}
                         />
                       </IconButton>
@@ -281,20 +264,14 @@ const Exercises = () => {
                       style={{
                         display: "grid",
                         gap: "2ch",
-                        gridTemplateColumns:
-                          "repeat(auto-fit, minmax(350px, 1fr)",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr)",
                         overflow: "auto",
                       }}
                     >
                       {favourites.map((item, i) =>
                         favourites.length === 1 ? (
                           <>
-                            <ExerciseCard
-                              item={item}
-                              key={i}
-                              last={true}
-                              fav={true}
-                            />
+                            <ExerciseCard item={item} key={i} last={true} fav={true} />
                           </>
                         ) : (
                           <ExerciseCard item={item} key={i} fav={true} />

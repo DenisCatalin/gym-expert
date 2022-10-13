@@ -10,9 +10,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import PhotoCrop from "./cropper/cropper.component";
 import { cropContext } from "../../lib/cropContext";
 import { cropImages } from "../../lib/cropImages";
-import { snackbarContext } from "../../lib/snackbarContext";
 import { useSelector, useDispatch } from "react-redux";
-import { setCropAreaRedux, setProfilePicRedux } from "../../redux/user.slice";
+import { setUserState } from "../../redux/user.slice";
+import { setSnackbar } from "../../redux/snackbar.slice";
 
 const ProfilePic = () => {
   const { user, setUser } = useContext(userContext);
@@ -24,8 +24,7 @@ const ProfilePic = () => {
   const [open, setOpen] = useState(false);
   const { cropImage, setCropImage } = useContext(cropContext);
   const [hasToClick, setHasToClick] = useState(false);
-  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
-  const userRedux = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,7 +48,7 @@ const ProfilePic = () => {
       const img = await cropImages(userRedux.profilePic, userRedux.cropArea);
       setImgSrc(img);
       setCroppedPhotoUrl(img);
-      dispatch(setProfilePicRedux(img));
+      dispatch(setUserState({ ...userRedux, profilePic: img }));
     }
   };
 
@@ -79,9 +78,7 @@ const ProfilePic = () => {
   const uploadFile = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const fileInput = Array.from(form.elements).find(
-      ({ name }) => name === "file"
-    );
+    const fileInput = Array.from(form.elements).find(({ name }) => name === "file");
 
     const formData = new FormData();
 
@@ -102,16 +99,18 @@ const ProfilePic = () => {
     });
     const response = await res.json();
     console.log(response);
-    setSnackbarContent("You have successfully cropped your profile picture.");
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "You have successfully cropped your profile picture.",
+      })
+    );
 
     if (uploadData === true) {
-      const data = await fetch(
-        "https://api.cloudinary.com/v1_1/dgkdpysp5/image/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      ).then((r) => r.json());
+      const data = await fetch("https://api.cloudinary.com/v1_1/dgkdpysp5/image/upload", {
+        method: "POST",
+        body: formData,
+      }).then((r) => r.json());
 
       const res = await fetch("/api/uploadPhoto", {
         method: "POST",
@@ -124,14 +123,17 @@ const ProfilePic = () => {
         },
       });
 
-      dispatch(setProfilePicRedux(data.secure_url));
-      dispatch(setProfileAvatarRedux(data.secure_url));
+      dispatch(setUserState({ ...userRedux, profilePic: data.secure_url }));
+      dispatch(setUserState({ ...userRedux, profileAvatar: data.secure_url }));
 
       const response = await res.json();
-      setSnackbarContent(
-        "You have successfully uploaded your profile picture."
-      );
       console.log(response);
+      dispatch(
+        setSnackbar({
+          open: true,
+          content: "You have successfully uploaded your profile picture.",
+        })
+      );
     }
     setUploadData(false);
     user.cropped = true;
@@ -141,8 +143,8 @@ const ProfilePic = () => {
 
   const saveCropArea = () => {
     setCroppedAreaPixels(cropImage);
-    dispatch(setCropAreaRedux(cropImage));
-    dispatch(setProfilePicRedux(userRedux.profileAvatar));
+    dispatch(setUserState({ ...userRedux, cropArea: cropImage }));
+    dispatch(setUserState({ ...userRedux, profilePic: userRedux.profileAvatar }));
     user.cropped = false;
     cropPhoto();
   };
@@ -151,13 +153,7 @@ const ProfilePic = () => {
     <div className={styles.profilePicContainer}>
       <div className={styles.profilePic} onClick={handleClickOpen}>
         {userRedux.profilePic !== null ? (
-          <Image
-            src={userRedux.profilePic}
-            alt=""
-            layout="fill"
-            objectFit="cover"
-            priority
-          />
+          <Image src={userRedux.profilePic} alt="" layout="fill" objectFit="cover" priority />
         ) : (
           <>
             <h1 className={styles.text}>No Photo</h1>
@@ -183,10 +179,7 @@ const ProfilePic = () => {
           {"Upload a profile picture"}
         </DialogTitle>
         <DialogContent style={{ background: "var(--background)" }}>
-          <DialogContentText
-            id="alert-dialog-description"
-            className={styles.text}
-          >
+          <DialogContentText id="alert-dialog-description" className={styles.text}>
             Choose a photo for your profile picture. You can crop it later.
           </DialogContentText>
           {uploadData ? null : (
@@ -223,12 +216,7 @@ const ProfilePic = () => {
                 <>
                   <div className={styles.imageHolder}>
                     {uploadData ? (
-                      <Image
-                        src={imgSrc}
-                        alt=""
-                        layout="fill"
-                        objectFit="cover"
-                      />
+                      <Image src={imgSrc} alt="" layout="fill" objectFit="cover" />
                     ) : (
                       <PhotoCrop image={imgSrc} />
                     )}

@@ -18,9 +18,9 @@ import { ThemeProvider } from "@mui/material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { cropImages } from "../../../lib/cropImages";
 import Image from "next/image";
-import { snackbarContext } from "../../../lib/snackbarContext";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
+import { setSnackbar } from "../../../redux/snackbar.slice";
 
 const ProfileButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,7 +33,6 @@ const ProfileButton = () => {
   const [displayName, setDisplayName] = useState();
   const [profilePic, setProfilePic] = useState();
   const { user, setUser } = useContext(userContext);
-  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
   const dispatch = useDispatch();
   const userRedux = useSelector((state) => state.user.user);
@@ -41,6 +40,7 @@ const ProfileButton = () => {
   function dispatchFromLocalStorage() {
     dispatch(
       setUserState({
+        ...userRedux,
         displayName: localStorage.getItem("displayName"),
         profilePic: localStorage.getItem("profilePic"),
         cropArea: JSON.parse(localStorage.getItem("cropArea")),
@@ -53,6 +53,7 @@ const ProfileButton = () => {
         issuer: localStorage.getItem("issuer"),
         memberSince: localStorage.getItem("memberSince"),
         subscribedSince: localStorage.getItem("subscribedSince"),
+        secretKeyword: localStorage.getItem("secretKeyword"),
         logged: true,
         profileAvatar: localStorage.getItem("profileAvatar"),
         favourites: localStorage.getItem("favourites"),
@@ -81,6 +82,7 @@ const ProfileButton = () => {
 
     dispatch(
       setUserState({
+        ...userRedux,
         displayName: data?.userDetails?.data?.users[0].displayName,
         profilePic: data?.userDetails?.data?.users[0].profilePic,
         cropArea: data?.userDetails?.data?.users[0].cropArea,
@@ -93,6 +95,7 @@ const ProfileButton = () => {
         subscribedSince: data?.userDetails?.data?.users[0].subscribedSince,
         profileAvatar: data?.userDetails?.data?.users[0].profileAvatar,
         favourites: data?.userDetails?.data?.users[0].favourites,
+        secretKeyword: data?.userDetails?.data?.users[0].secretKeyword,
       })
     );
   }
@@ -103,8 +106,12 @@ const ProfileButton = () => {
       if (dateNow > userRedux.planExpireDate) {
         userRedux.paidPlan = null;
         userRedux.planExpireDate = 0;
-        setSnackbarContent(
-          "Your subscription on our platform has expired. You can renew it by visiting the pricing page."
+        dispatch(
+          setSnackbar({
+            open: true,
+            content:
+              "Your subscription on our platform has expired. You can renew it by visiting the pricing page.",
+          })
         );
         const res2 = await fetch("/api/updateSubscription", {
           method: "POST",
@@ -132,7 +139,12 @@ const ProfileButton = () => {
     ) {
       user.cropped = true;
       const img = await cropImages(userRedux.profilePic, userRedux.cropArea);
-      dispatch(setProfilePicRedux(img));
+      dispatch(
+        setUserState({
+          ...userRedux,
+          profilePic: img,
+        })
+      );
     }
   };
 
@@ -199,6 +211,7 @@ const ProfileButton = () => {
 
     dispatch(
       setUserState({
+        ...userRedux,
         displayName: "",
         profilePic: "",
         admin: 0,
@@ -241,7 +254,12 @@ const ProfileButton = () => {
                 {userRedux.profilePic === null ? (
                   displayName[0]
                 ) : (
-                  <Image src={userRedux.profilePic} alt="" layout="fill" objectFit="cover" />
+                  <Image
+                    src={localStorage.getItem("profilePic")}
+                    alt=""
+                    layout="fill"
+                    objectFit="cover"
+                  />
                 )}
               </Avatar>
             </>

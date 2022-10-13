@@ -9,7 +9,7 @@ import SetSecretKey from "./accordion-items/set-secret-keyword.component";
 import { useSelector } from "react-redux";
 
 const AccordionProfile = () => {
-  const userRedux = useSelector((state) => state.user);
+  const userRedux = useSelector((state) => state.user.user);
   console.log(userRedux.secretKeyword);
   return (
     <div style={{ width: "100%", height: "100vh" }}>
@@ -23,15 +23,10 @@ const AccordionProfile = () => {
           id="panel3a-header"
           style={{ opacity: 1 }}
         >
-          <Typography
-            sx={{ width: "85%", flexShrink: 0 }}
-            className={styles.text}
-          >
+          <Typography sx={{ width: "85%", flexShrink: 0 }} className={styles.text}>
             Member Since
           </Typography>
-          <Typography className={styles.text}>
-            {userRedux.memberSince}
-          </Typography>
+          <Typography className={styles.text}>{userRedux.memberSince}</Typography>
         </AccordionSummary>
       </Accordion>
     </div>
