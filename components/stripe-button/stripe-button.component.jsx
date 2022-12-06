@@ -1,15 +1,14 @@
 import StripeCheckout from "react-stripe-checkout";
-import { useContext, useState, useEffect } from "react";
-import { snackbarContext } from "../../lib/snackbarContext";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSubscriptionState } from "../../redux/subscription.slice";
 import { setDialog } from "../../redux/dialog.slice";
+import { setSnackbar } from "../../redux/snackbar.slice";
 
 const StripeCheckoutButton = ({ price, period }) => {
   const priceForStripe = price * 100.00002;
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_API_PUBLISHABLE_KEY;
-  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
   const correctPeriod = period === "year" ? 365 : period === "month" ? 30 : 7;
   const [issuer, setIssuer] = useState();
   const [email, setEmail] = useState();
@@ -61,8 +60,11 @@ const StripeCheckoutButton = ({ price, period }) => {
     const expireDate =
       user.planExpireDate === 0 ? Math.floor(initialDate) : initialDate + difference;
 
-    setSnackbarContent(
-      `Payment Successful! You have just bought a ${subscription.plan}ly subscription for $${subscription.price}. You may now use the exercise page.`
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: `Payment Successful! You have just bought a ${subscription.plan}ly subscription for $${subscription.price}. You may now use the exercise page.`,
+      })
     );
     dispatch(setDialog(false));
     dispatch(

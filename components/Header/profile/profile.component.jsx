@@ -45,7 +45,7 @@ const ProfileButton = () => {
         profilePic: localStorage.getItem("profilePic"),
         cropArea: JSON.parse(localStorage.getItem("cropArea")),
         admin: JSON.parse(localStorage.getItem("admin")),
-        testimonial: localStorage.getItem("testimonial"),
+        testimonial: JSON.parse(localStorage.getItem("testimonial")),
         email: localStorage.getItem("email"),
         paidPlan: localStorage.getItem("paidPlan"),
         planExpireDate: JSON.parse(localStorage.getItem("planExpireDate")),

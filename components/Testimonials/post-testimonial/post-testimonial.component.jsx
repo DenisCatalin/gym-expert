@@ -11,10 +11,10 @@ import { ratingLabels } from "../../../lib/ratingLabels";
 import styles from "../../../css/components/Testimonials.module.css";
 import { ThemeProvider } from "@mui/material/styles";
 import { motion } from "framer-motion";
-import { testimonialContext } from "../../../lib/testimonialContext";
-import { reviewContext } from "../../../lib/reviewContext";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
+import { setTestimonialState } from "../../../redux/testimonial.slice";
+import { setReviewState } from "../../../redux/review.slice";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;
@@ -24,9 +24,8 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(-1);
   const [testimonial, setTestimonial] = useState("");
-  const { review, setReview } = useContext(reviewContext);
-  const { testimonialss, setTestimonialss } = useContext(testimonialContext);
 
+  const testimonialss = useSelector((state) => state.testimonial);
   const userRedux = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
@@ -51,7 +50,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
   const dateString = `${months[currentMonth]}-${currentDay}-${currentYear}`;
 
   const postTestimonial = async () => {
-    setReview(false);
+    dispatch(setReviewState(false));
     if (testimonial !== "") {
       if (placeholder !== "Your message") {
         const res = await fetch("/api/updateTestimonial", {
@@ -67,8 +66,8 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
         });
         const response = await res.json();
         console.log(response);
-        setTestimonialss(!testimonialss);
-        setReview(false);
+        dispatch(setTestimonialState(!testimonialss.testimonial));
+        dispatch(setReviewState(false));
       } else {
         const res = await fetch("/api/addTestimonial", {
           method: "POST",
@@ -84,7 +83,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
         });
         const response = await res.json();
         console.log(response);
-        setTestimonialss(!testimonialss);
+        dispatch(setTestimonialState(!testimonialss.testimonial));
 
         const res2 = await fetch("/api/addTestimonialToUser", {
           method: "POST",
@@ -96,9 +95,8 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
         });
         const response2 = await res2.json();
         console.log(response2);
-        dispatch(setUserState({ ...userRedux, testimonial: 1 }));
-
-        setReview(false);
+        dispatch(setUserState({ ...userRedux, testimonial: true }));
+        dispatch(setReviewState(false));
       }
     }
   };

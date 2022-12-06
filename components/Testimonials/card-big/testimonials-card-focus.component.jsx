@@ -9,27 +9,30 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme2 } from "../../../utils/muiTheme";
 import { userContext } from "../../../lib/userContext";
 import { useContext, useState, useEffect } from "react";
-import { Dialog, TextareaAutosize } from "@mui/material";
+import { Dialog } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import PostTestimonial from "../post-testimonial/post-testimonial.component";
-import { reviewContext } from "../../../lib/reviewContext";
 
 const CardFocus = ({ name, pic, text, date, rating }) => {
   const { user, setUser } = useContext(userContext);
   const [editMode, setEditMode] = useState(false);
   const [open, setOpen] = useState("");
-  const { review, setReview } = useContext(reviewContext);
+
+  const review = useSelector((state) => state.review);
+  const dispatch = useDispatch();
+
   const handleOpen = () => {
     setEditMode(true);
-    setReview(true);
+    dispatch(setReviewState(true));
   };
 
   const handleClose = () => {
-    setReview(false);
+    dispatch(setReviewState(false));
     setEditMode(false);
   };
 
   useEffect(() => {
-    setOpen(review);
+    dispatch(setReviewState(review));
   }, [review]);
 
   return (
@@ -104,9 +107,7 @@ const CardFocus = ({ name, pic, text, date, rating }) => {
               readOnly
               precision={0.5}
               size="large"
-              emptyIcon={
-                <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-              }
+              emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
             />
             <Box sx={{ ml: 2 }}>{ratingLabels[rating]}</Box>
           </>

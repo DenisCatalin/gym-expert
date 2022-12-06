@@ -12,7 +12,7 @@ const CustomSnackbar = () => {
   const snackbar = useSelector((state) => state.snackbar.snackbar);
   const dispatch = useDispatch();
 
-  const handleClose = (event, reason) => {
+  const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }

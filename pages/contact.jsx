@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import TextField from "@mui/material/TextField";
 import Header from "../components/Header/header.component";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
@@ -11,15 +10,19 @@ import Image from "next/image";
 import StayPrimaryPortraitIcon from "@mui/icons-material/StayPrimaryPortrait";
 import Head from "next/head";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
-import { snackbarContext } from "../lib/snackbarContext";
 import { theme2 } from "../utils/muiTheme";
+import { useDispatch } from "react-redux";
 
 const Contact = () => {
   const { width, height } = useWindowDimensions();
-  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
   const handleClick = () => {
-    setSnackbarContent("Please fill all the fields below");
+    useDispatch(
+      setSnackbar({
+        open: true,
+        content: "Please fill all the fields below",
+      })
+    );
   };
   return (
     <div className={styles.container}>
@@ -32,19 +35,14 @@ const Contact = () => {
         <>
           <motion.div className={styles.content} animate={{ opacity: [0, 1] }}>
             <div className={styles.imageSide}>
-              <Image
-                src={"/static/contact.jpg"}
-                alt=""
-                layout="fill"
-                objectFit="cover"
-              />
+              <Image src={"/static/contact.jpg"} alt="" layout="fill" objectFit="cover" />
             </div>
             <div className={styles.contentSide}>
               <div className={styles.upperPart}>
                 <h1 className={styles.title}>Contact us</h1>
                 <h1 className={styles.opacityText}>
-                  Do you have any questions about our platform or you simply
-                  found a bug? Feel free to email us
+                  Do you have any questions about our platform or you simply found a bug? Feel free
+                  to email us
                 </h1>
               </div>
 
@@ -88,10 +86,7 @@ const Contact = () => {
                     initial={{ y: 0 }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <h1
-                      className={styles.reviewButtonText}
-                      onClick={handleClick}
-                    >
+                    <h1 className={styles.reviewButtonText} onClick={handleClick}>
                       Send
                     </h1>
                     <SendIcon color="neutral" className={styles.buttonIcon} />
@@ -105,10 +100,7 @@ const Contact = () => {
         <>
           <div className={styles.mobile}>
             <ThemeProvider theme={theme2}>
-              <StayPrimaryPortraitIcon
-                color="neutral"
-                style={{ fontSize: "5em" }}
-              />
+              <StayPrimaryPortraitIcon color="neutral" style={{ fontSize: "5em" }} />
             </ThemeProvider>
           </div>
         </>

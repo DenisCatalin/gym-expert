@@ -8,16 +8,15 @@ import Card from "./card/testimonials-card.component";
 import CardFocus from "./card-big/testimonials-card-focus.component";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import ResponsiveCard from "./responsive-card/testimonials-responsive-card";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import { magic } from "../../lib/magic-client";
 import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 import { theme2 } from "../../utils/muiTheme";
 import PostTestimonial from "./post-testimonial/post-testimonial.component";
-import { testimonialContext } from "../../lib/testimonialContext";
-import { snackbarContext } from "../../lib/snackbarContext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSnackbar } from "../../redux/snackbar.slice";
 
 const Testimonials = () => {
   const { width } = useWindowDimensions();
@@ -30,11 +29,12 @@ const Testimonials = () => {
   const [fetched, setFetched] = useState(false);
   const [variant, setVariant] = useState(false);
   const [testimonials, setTestimonials] = useState([]);
-  const { testimonialss, setTestimonialss } = useContext(testimonialContext);
   const [open, setOpen] = useState(false);
-  const { snackbarContent, setSnackbarContent } = useContext(snackbarContext);
 
+  const testimonialss = useSelector((state) => state.testimonial);
   const userRedux = useSelector((state) => state.user.user);
+
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -43,12 +43,16 @@ const Testimonials = () => {
     const isLoggedIn = await magic.user.isLoggedIn();
     if (!isLoggedIn) router.push("/login");
     else {
-      if (userRedux.testimonial === 0) {
+      if (userRedux.testimonial === false) {
         setOpen(true);
         setIsLoading(false);
       } else {
-        setSnackbarContent(
-          "You already posted a testimonial. You can edit it by pressing the edit icon on your testimonial."
+        dispatch(
+          setSnackbar({
+            open: true,
+            content:
+              "You already posted a testimonial. You can edit it by pressing the edit icon on your testimonial.",
+          })
         );
         setIsLoading(false);
       }
@@ -77,7 +81,7 @@ const Testimonials = () => {
       setTestimonials(data?.getTestimonialsForUser?.data?.testimonials);
       // setReviews(data?.getTestimonialsForUser?.data?.testimonials);
     })();
-  }, [testimonialss]);
+  }, [testimonialss.testimonial]);
 
   useEffect(() => {
     setTestimonial(testimonials[count]);
@@ -95,8 +99,6 @@ const Testimonials = () => {
         setReviewLeft(reviews[count - 1]);
       }
     }
-
-    console.log(count);
   }, [reviews, count, testimonials]);
 
   const decreaseReview = () => {

@@ -22,7 +22,6 @@ const ChangeDisplayName = () => {
 
   const userRedux = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-  console.log(userRedux);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
