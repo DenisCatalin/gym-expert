@@ -21,7 +21,7 @@ const PricingCard = ({ price, period, image }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const dialog = useSelector((state) => state.dialog);
+  const dialog = useSelector(state => state.dialog);
   const dispatch = useDispatch();
 
   const setScaleCard = () => {

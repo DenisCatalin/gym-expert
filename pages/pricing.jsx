@@ -13,11 +13,7 @@ const Pricing = () => {
       <Header />
       <CustomSnackbar />
       <div className={styles.content}>
-        <PricingCard
-          price={10}
-          period={"week"}
-          image={"/static/undraw_mindfulness_scgo.svg"}
-        />
+        <PricingCard price={10} period={"week"} image={"/static/undraw_mindfulness_scgo.svg"} />
         <PricingCard
           price={250}
           image={"/static/undraw_activity_tracker_re_2lvv.svg"}

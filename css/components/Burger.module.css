@@ -93,41 +93,52 @@
     .burger {
         height: 40%;
     }
-    .line1, .line3 {
+
+    .line1,
+    .line3 {
         width: 25px;
         border: 1px solid var(--white);
     }
+
     .line2 {
         width: 15px;
         border: 1px solid var(--white);
     }
+
     .drawerAvatar {
         width: 35%;
     }
+
     .drawerLink {
         font-size: 1.2em;
     }
-}   
+}
 
 @media screen and (max-width: 550px) {
     .burger {
         margin-right: 1em;
     }
-    .line1, .line3 {
+
+    .line1,
+    .line3 {
         width: 35px;
         border: 1px solid var(--white);
     }
+
     .line2 {
         width: 25px;
         border: 1px solid var(--white);
     }
+
     .drawerLink {
         font-size: .8em;
     }
+
     .drawerAvatar {
         width: 60%;
         height: 15%;
     }
+
     .drawerLink {
         font-size: 1.2em;
     }
@@ -137,53 +148,66 @@
     .burger {
         height: 80%;
     }
-    .line1, .line3 {
+
+    .line1,
+    .line3 {
         width: 35px;
         border: 1px solid var(--white);
     }
+
     .line2 {
         width: 25px;
         border: 1px solid var(--white);
     }
-}  
+}
 
 @media screen and (max-height: 380px) {
     .burger {
         height: 100%;
     }
-    .line1, .line3 {
+
+    .line1,
+    .line3 {
         width: 35px;
         border: 1px solid var(--white);
     }
+
     .line2 {
         width: 25px;
         border: 1px solid var(--white);
     }
+
     .drawerAvatar {
         width: 30%;
         height: 25%;
     }
+
     .drawerLink {
         font-size: .9em;
     }
-}   
+}
 
 @media screen and (max-width: 450px) and (max-height: 330px) {
     .burger {
         height: 100%;
     }
-    .line1, .line3 {
+
+    .line1,
+    .line3 {
         width: 30px;
         border: 1px solid var(--white);
     }
+
     .line2 {
         width: 22px;
         border: 1px solid var(--white);
     }
+
     .drawerAvatar {
         width: 50%;
         height: 25%;
     }
+
     .drawerLink {
         font-size: .8em;
     }
@@ -193,19 +217,24 @@
     .burger {
         height: 50%;
     }
-    .line1, .line3 {
+
+    .line1,
+    .line3 {
         width: 25px;
         border: 1px solid var(--white);
     }
+
     .line2 {
         width: 18px;
         border: 1px solid var(--white);
     }
+
     .drawerAvatar {
         width: 50%;
         height: 25%;
     }
+
     .drawerLink {
         font-size: 1em;
     }
-}   
+}

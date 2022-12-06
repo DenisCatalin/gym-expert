@@ -18,10 +18,10 @@ const SetSecretKey = () => {
   const [secretKeyword, setSecretKeyword] = useState("");
   const [secretKeywordConfirm, setSecretKeywordConfirm] = useState("");
 
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -110,7 +110,7 @@ const SetSecretKey = () => {
             type="password"
             className={styles.textField}
             value={secretKeyword}
-            onChange={(e) => setSecretKeyword(e.target.value)}
+            onChange={e => setSecretKeyword(e.target.value)}
             inputProps={{
               style: {
                 color: "white",
@@ -124,7 +124,7 @@ const SetSecretKey = () => {
             id="secretKeyConfirm"
             color="warning"
             type="password"
-            onChange={(e) => setSecretKeywordConfirm(e.target.value)}
+            onChange={e => setSecretKeywordConfirm(e.target.value)}
             className={styles.textField}
             value={secretKeywordConfirm}
             inputProps={{

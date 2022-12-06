@@ -9,10 +9,10 @@ const Alert = forwardRef(function Alert(props, ref) {
 });
 
 const CustomSnackbar = () => {
-  const snackbar = useSelector((state) => state.snackbar.snackbar);
+  const snackbar = useSelector(state => state.snackbar.snackbar);
   const dispatch = useDispatch();
 
-  const handleClose = (reason) => {
+  const handleClose = reason => {
     if (reason === "clickaway") {
       return;
     }

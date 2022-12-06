@@ -24,7 +24,7 @@ const Subscription = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
   const dateToExpire = new Date(Math.round(userRedux.planExpireDate) * 1000);
@@ -38,7 +38,7 @@ const Subscription = () => {
     setOpen(false);
   };
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 

@@ -7,11 +7,7 @@ export default async function ChangeDisplayName(req, res) {
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
       const newName = req ? JSON.parse(req.headers.body).newName : null;
 
-      const ChangeDisplayNameQueryForUser = await ChangeDisplayNameQuery(
-        token,
-        issuer,
-        newName
-      );
+      const ChangeDisplayNameQueryForUser = await ChangeDisplayNameQuery(token, issuer, newName);
 
       res.send({ message: "Complete", ChangeDisplayNameQueryForUser });
     } catch (error) {

@@ -62,11 +62,11 @@ const Exercises = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
 
   const router = useRouter();
 
-  const handleChange = (value) => {
+  const handleChange = value => {
     setPage(value);
   };
 
@@ -180,7 +180,7 @@ const Exercises = () => {
                     <button
                       className={styles.bodyPart}
                       key={i}
-                      onClick={(e) => setBodyPart(e.target.textContent)}
+                      onClick={e => setBodyPart(e.target.textContent)}
                     >
                       {item}
                     </button>
@@ -207,7 +207,7 @@ const Exercises = () => {
                         <motion.button
                           className={styles.bodyPart}
                           key={i}
-                          onClick={(e) => setBodyPart(e.target.textContent)}
+                          onClick={e => setBodyPart(e.target.textContent)}
                         >
                           {item}
                         </motion.button>

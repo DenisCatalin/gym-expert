@@ -13,13 +13,7 @@ const ResponsiveCard = ({ profilePic, name, date, text, rating }) => {
     <div className={styles.container}>
       <div className={styles.profile}>
         <div className={styles.profilePic}>
-          <Image
-            src={"/static/test.jpg"}
-            alt=""
-            layout="fill"
-            objectFit="cover"
-            priority
-          />
+          <Image src={"/static/test.jpg"} alt="" layout="fill" objectFit="cover" priority />
         </div>
         <div className={styles.profileInfo}>
           <h1 className={styles.userName}>{name}</h1>

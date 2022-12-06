@@ -24,7 +24,7 @@ const ProfilePic = () => {
   const [open, setOpen] = useState(false);
   const { cropImage, setCropImage } = useContext(cropContext);
   const [hasToClick, setHasToClick] = useState(false);
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const ProfilePic = () => {
     setOpen(false);
   };
 
-  const uploadPhoto = (e) => {
+  const uploadPhoto = e => {
     const reader = new FileReader();
 
     reader.onload = function (onLoadEvent) {
@@ -75,7 +75,7 @@ const ProfilePic = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const uploadFile = async (e) => {
+  const uploadFile = async e => {
     e.preventDefault();
     const form = e.currentTarget;
     const fileInput = Array.from(form.elements).find(({ name }) => name === "file");
@@ -110,7 +110,7 @@ const ProfilePic = () => {
       const data = await fetch("https://api.cloudinary.com/v1_1/dgkdpysp5/image/upload", {
         method: "POST",
         body: formData,
-      }).then((r) => r.json());
+      }).then(r => r.json());
 
       const res = await fetch("/api/uploadPhoto", {
         method: "POST",

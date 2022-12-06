@@ -24,11 +24,7 @@ const PopularNews = ({ id, title, content, image, date }) => {
             {title.length > 30 ? <>{title.substring(0, 25)}... </> : title}
           </h2>
           <h2 className={styles.contentPopular}>
-            {content.length > 35 ? (
-              <>{content.substring(0, 60)}... </>
-            ) : (
-              content
-            )}
+            {content.length > 35 ? <>{content.substring(0, 60)}... </> : content}
           </h2>
         </div>
       </div>

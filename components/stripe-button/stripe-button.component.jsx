@@ -13,8 +13,8 @@ const StripeCheckoutButton = ({ price, period }) => {
   const [issuer, setIssuer] = useState();
   const [email, setEmail] = useState();
 
-  const user = useSelector((state) => state.user.user);
-  const subscription = useSelector((state) => state.subscription.subscription);
+  const user = useSelector(state => state.user.user);
+  const subscription = useSelector(state => state.subscription.subscription);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const StripeCheckoutButton = ({ price, period }) => {
 
   const finalPrice = (priceForStripe / 100).toFixed(2);
 
-  const onToken = async (token) => {
+  const onToken = async token => {
     let d = new Date();
     const currentMonth = d.getMonth();
     const currentDay = d.getDate();

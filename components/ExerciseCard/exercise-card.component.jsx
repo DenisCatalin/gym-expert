@@ -12,7 +12,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
 
   useEffect(() => {
     (async () => {

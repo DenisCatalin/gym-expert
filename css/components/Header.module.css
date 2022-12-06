@@ -58,12 +58,12 @@
     align-items: center;
     justify-content: space-evenly;
     font-size: 1.2em;
-}   
+}
 
 .link {
     position: relative;
-     transition: all 0.2s ease-in-out; 
-    }
+    transition: all 0.2s ease-in-out;
+}
 
 .link:after {
     content: "";
@@ -81,13 +81,14 @@
 }
 
 .link:hover {
-    color:var(--pink);
+    color: var(--pink);
 }
 
 @media screen and (max-width: 1450px) {
     .navbarContainer {
         width: 60%;
     }
+
     .navbar {
         width: 100%;
     }
@@ -97,42 +98,52 @@
     .logoContainer {
         width: 23%;
     }
+
     .logo {
         width: 70px;
         height: 70px;
     }
+
     .logoName {
         font-size: 1.8em;
     }
+
     .navbarContainer {
         width: 60%;
     }
+
     .navbar {
         width: 100%;
     }
+
     .link {
         font-size: 1em;
     }
-}   
+}
 
 @media screen and (max-width: 1300px) {
     .logoContainer {
         width: 23%;
     }
+
     .logo {
         width: 55px;
         height: 55px;
     }
+
     .logoName {
         font-size: 1.5em;
     }
+
     .navbarContainer {
         /* background-color: var(--white); */
         width: 60%;
     }
+
     .navbar {
         width: 100%;
     }
+
     .link {
         font-size: .9em;
     }
@@ -142,20 +153,25 @@
     .logoContainer {
         width: 23%;
     }
+
     .logo {
         width: 55px;
         height: 55px;
     }
+
     .logoName {
         font-size: 1.5em;
     }
+
     .navbarContainer {
         /* background-color: var(--white); */
         width: 60%;
     }
+
     .navbar {
         width: 100%;
     }
+
     .link {
         font-size: .8em;
     }
@@ -165,19 +181,24 @@
     .logoContainer {
         width: 40%;
     }
+
     .logo {
         width: 80px;
         height: 80px;
     }
+
     .logoName {
         font-size: 1.5em;
     }
+
     .navbarContainer {
         width: 85%;
     }
+
     .navbar {
         width: 100%;
     }
+
     .link {
         font-size: .8em;
     }
@@ -187,19 +208,24 @@
     .logoContainer {
         width: 40%;
     }
+
     .logo {
         width: 45px;
         height: 45px;
     }
+
     .logoName {
         font-size: 1.2em;
     }
+
     .navbarContainer {
         width: 80%;
     }
+
     .navbar {
         width: 100%;
     }
+
     .link {
         font-size: .7em;
     }
@@ -209,19 +235,24 @@
     .logoContainer {
         width: 40%;
     }
+
     .logo {
         width: 70px;
         height: 70px;
     }
+
     .logoName {
         font-size: 1.5em;
     }
+
     .navbarContainer {
         display: none;
     }
+
     .navbar {
         width: 100%;
     }
+
     .link {
         font-size: .8em;
     }
@@ -231,23 +262,27 @@
     .logoContainer {
         width: 80%;
     }
+
     .logo {
         width: 55px;
         height: 55px;
     }
+
     .logoName {
         font-size: 1.3em;
     }
-}    
+}
 
 @media screen and (max-width: 540px) {
     .logoContainer {
         width: 80%;
     }
+
     .logo {
         width: 50px;
         height: 50px;
     }
+
     .logoName {
         font-size: 1.2em;
     }
@@ -257,13 +292,16 @@
     .logoContainer {
         width: 80%;
     }
+
     .logo {
         width: 45px;
         height: 45px;
     }
+
     .logoName {
         font-size: 1.2em;
     }
+
     .navbarContainer {
         display: none;
     }
@@ -274,13 +312,16 @@
         width: 80%;
         padding-top: 1rem;
     }
+
     .logo {
         width: 50px;
         height: 50px;
     }
+
     .logoName {
         font-size: 1.3em;
     }
+
     .navbarContainer {
         display: none;
     }
@@ -291,13 +332,16 @@
         width: 80%;
         padding-top: 1rem;
     }
+
     .logo {
         width: 45px;
         height: 45px;
     }
+
     .logoName {
         font-size: 1em;
     }
+
     .navbarContainer {
         display: none;
     }
@@ -308,13 +352,16 @@
         width: 80%;
         padding-top: 1rem;
     }
+
     .logo {
         width: 45px;
         height: 45px;
     }
+
     .logoName {
         font-size: 1em;
     }
+
     .navbarContainer {
         display: none;
     }

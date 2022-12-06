@@ -21,13 +21,7 @@ const Card = ({ profilePic, name, date, text, rating, right = false }) => {
     >
       <div className={styles.profile}>
         <div className={styles.profilePic}>
-          <Image
-            src={"/static/test.jpg"}
-            alt=""
-            layout="fill"
-            priority
-            objectFit="cover"
-          />
+          <Image src={"/static/test.jpg"} alt="" layout="fill" priority objectFit="cover" />
         </div>
       </div>
       <div className={styles.name}>

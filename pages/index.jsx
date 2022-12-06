@@ -22,11 +22,7 @@ const Home = () => {
         animate={{ opacity: [0, 1] }}
         initial={{ opacity: 0 }}
       >
-        <motion.h1
-          className={styles.title}
-          animate={{ x: [-500, 0] }}
-          initial={{ x: -500 }}
-        >
+        <motion.h1 className={styles.title} animate={{ x: [-500, 0] }} initial={{ x: -500 }}>
           Best exercises platform for gym enthusiasts at affordable prices
         </motion.h1>
         <motion.button
@@ -45,12 +41,7 @@ const Home = () => {
         animate={{ opacity: [0, 1], y: [500, 0] }}
         initial={{ opacity: 0 }}
       >
-        <Image
-          src={"/static/undraw_healthy_habit_bh-5-w.svg"}
-          alt=""
-          layout="fill"
-          priority
-        />
+        <Image src={"/static/undraw_healthy_habit_bh-5-w.svg"} alt="" layout="fill" priority />
       </motion.div>
     </div>
   );

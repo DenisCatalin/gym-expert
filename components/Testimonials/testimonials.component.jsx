@@ -31,8 +31,8 @@ const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const testimonialss = useSelector((state) => state.testimonial);
-  const userRedux = useSelector((state) => state.user.user);
+  const testimonialss = useSelector(state => state.testimonial);
+  const userRedux = useSelector(state => state.user.user);
 
   const dispatch = useDispatch();
 

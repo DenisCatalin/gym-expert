@@ -7,11 +7,7 @@ export default async function CheckFavourite(req, res) {
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
       const gif = req ? JSON.parse(req.headers.body).gif : null;
 
-      const checkFavouriteQueryForUser = await checkFavouriteQuery(
-        token,
-        issuer,
-        gif
-      );
+      const checkFavouriteQueryForUser = await checkFavouriteQuery(token, issuer, gif);
 
       res.send({ message: "Complete", checkFavouriteQueryForUser });
     } catch (error) {

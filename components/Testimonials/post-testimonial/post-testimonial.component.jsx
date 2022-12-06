@@ -25,8 +25,8 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
   const [hover, setHover] = useState(-1);
   const [testimonial, setTestimonial] = useState("");
 
-  const testimonialss = useSelector((state) => state.testimonial);
-  const userRedux = useSelector((state) => state.user.user);
+  const testimonialss = useSelector(state => state.testimonial);
+  const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
   let d = new Date();
@@ -122,7 +122,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             placeholder={placeholder}
             variant="filled"
             style={{ height: "60%" }}
-            onChange={(e) => setTestimonial(e.target.value)}
+            onChange={e => setTestimonial(e.target.value)}
             className={styles.textarea}
           />
           <motion.div

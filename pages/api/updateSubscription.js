@@ -6,12 +6,8 @@ export default async function UpdateSubscription(req, res) {
       const token = req ? req.cookies?.token : null;
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
       const planName = req ? JSON.parse(req.headers.body).paidPlan : null;
-      const planExpireDate = req
-        ? JSON.parse(req.headers.body).planExpireDate
-        : null;
-      const subscribedIn = req
-        ? JSON.parse(req.headers.body).subscribedIn
-        : null;
+      const planExpireDate = req ? JSON.parse(req.headers.body).planExpireDate : null;
+      const subscribedIn = req ? JSON.parse(req.headers.body).subscribedIn : null;
 
       const updateSubscriptionForUser = await updateSubscription(
         token,

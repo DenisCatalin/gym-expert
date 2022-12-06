@@ -94,12 +94,15 @@
     .content {
         width: 90%;
     }
+
     .aboutTitle {
         font-size: 1.8em;
     }
+
     .aboutTextContent {
         font-size: .8em;
     }
+
     .ourTeamButton {
         width: 15%;
         font-size: .8em;
@@ -110,12 +113,15 @@
     .content {
         width: 90%;
     }
+
     .aboutTitle {
         font-size: 1.5em;
     }
+
     .aboutTextContent {
         font-size: .7em;
     }
+
     .ourTeamButton {
         width: 15%;
         height: 8%;
@@ -133,8 +139,9 @@
 
 @media screen and (max-width: 920px) {
     .content {
-        height:75vh;
+        height: 75vh;
     }
+
     .ourTeamButton {
         width: 20%;
         height: 12%;
@@ -162,9 +169,11 @@
     .imageAbout {
         display: none;
     }
+
     .textSide {
         width: 100%;
     }
+
     .ourTeamButton {
         width: 50%;
         height: 7%;

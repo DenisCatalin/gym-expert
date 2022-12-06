@@ -17,13 +17,7 @@ const Post = ({ id, image, title, content, date, views }) => {
     >
       <div className={styles.profile}>
         <div className={styles.profilePic}>
-          <Image
-            src={image}
-            alt={title}
-            layout="fill"
-            objectFit="cover"
-            priority
-          />
+          <Image src={image} alt={title} layout="fill" objectFit="cover" priority />
         </div>
       </div>
       <div className={styles.postInfo}>
@@ -33,8 +27,7 @@ const Post = ({ id, image, title, content, date, views }) => {
         <h3 className={styles.postText}>
           {content.length > 35 ? (
             <>
-              {content.substring(0, 450)}...{" "}
-              <span className={styles.readMore}>read more</span>
+              {content.substring(0, 450)}... <span className={styles.readMore}>read more</span>
             </>
           ) : (
             content

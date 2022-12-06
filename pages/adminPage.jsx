@@ -24,7 +24,7 @@ const AdminPage = () => {
   const { user, setUser } = useContext(userContext);
   const [text, setText] = useState("");
 
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
 
   let d = new Date();
   const currentMonth = d.getMonth();
@@ -62,7 +62,7 @@ const AdminPage = () => {
     setImgSrc();
   };
 
-  const uploadPhoto = (e) => {
+  const uploadPhoto = e => {
     const reader = new FileReader();
 
     reader.onload = function (onLoadEvent) {
@@ -73,7 +73,7 @@ const AdminPage = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const uploadFile = async (e) => {
+  const uploadFile = async e => {
     e.preventDefault();
     if (imgSrc !== null && text !== "" && title !== "") {
       const form = e.currentTarget;
@@ -93,7 +93,7 @@ const AdminPage = () => {
         const data = await fetch("https://api.cloudinary.com/v1_1/dgkdpysp5/image/upload", {
           method: "POST",
           body: formData,
-        }).then((r) => r.json());
+        }).then(r => r.json());
 
         const res = await fetch("/api/postNews", {
           method: "POST",
@@ -161,7 +161,7 @@ const AdminPage = () => {
               variant="filled"
               color="secondary"
               style={{ width: "100%" }}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               className={styles.input}
               inputProps={{ style: { color: "white" } }}
               InputLabelProps={{ style: { color: "white" } }}
@@ -171,7 +171,7 @@ const AdminPage = () => {
               placeholder="News text"
               variant="filled"
               style={{ height: "50%" }}
-              onChange={(e) => setText(e.target.value)}
+              onChange={e => setText(e.target.value)}
               className={styles.textarea}
             />
             <form

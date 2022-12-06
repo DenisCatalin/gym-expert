@@ -10,13 +10,7 @@ export default async function UpdateTestimonial(req, res) {
       const rating = req ? JSON.parse(req.headers.body).rating : null;
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
 
-      const updateTestimonial = await updateTestimonialQuery(
-        token,
-        date,
-        text,
-        rating,
-        issuer
-      );
+      const updateTestimonial = await updateTestimonialQuery(token, date, text, rating, issuer);
 
       res.send({ message: "Complete", updateTestimonial });
     } catch (error) {

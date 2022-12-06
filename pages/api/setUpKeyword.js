@@ -7,11 +7,7 @@ export default async function SetKeyword(req, res) {
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
       const keyword = req ? JSON.parse(req.headers.body).keyword : null;
 
-      const SetKeywordQueryForUser = await SetKeywordQuery(
-        token,
-        issuer,
-        keyword
-      );
+      const SetKeywordQueryForUser = await SetKeywordQuery(token, issuer, keyword);
 
       res.send({ message: "Complete", SetKeywordQueryForUser });
     } catch (error) {

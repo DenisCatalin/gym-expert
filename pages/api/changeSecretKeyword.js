@@ -5,9 +5,7 @@ export default async function ChangeSecretKeyword(req, res) {
     try {
       const token = req ? req.cookies?.token : null;
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
-      const newSecretKeyword = req
-        ? JSON.parse(req.headers.body).newSecretKeyword
-        : null;
+      const newSecretKeyword = req ? JSON.parse(req.headers.body).newSecretKeyword : null;
 
       const ChangeSecretKeywordForUser = await ChangeSecretKeywordQuery(
         token,

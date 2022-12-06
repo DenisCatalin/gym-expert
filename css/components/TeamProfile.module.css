@@ -27,7 +27,7 @@
 }
 
 .img {
-    position:relative;
+    position: relative;
     width: 20%;
     height: 80%;
     object-fit: contain;
@@ -128,18 +128,22 @@
         width: 25%;
         height: 85%;
     }
+
     .team .name {
         font-size: 1.2em;
         transform: translateY(-60%);
     }
+
     .team .title {
         font-size: .9em;
         transform: translateY(-270%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(-60%);
     }
+
     .team .social .socialIcon {
         width: 40px;
         height: 40px;
@@ -151,18 +155,22 @@
         width: 30%;
         height: 80%;
     }
+
     .team .name {
         font-size: 1.3em;
         transform: translateY(-60%);
     }
+
     .team .title {
         font-size: 1em;
         transform: translateY(-240%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(-50%);
     }
+
     .team .social .socialIcon {
         width: 45px;
         height: 45px;
@@ -174,9 +182,11 @@
     .team {
         height: 90%;
     }
+
     .team:hover {
         width: 100%;
     }
+
     .team:hover .img {
         width: 60%;
         height: 65%;
@@ -184,37 +194,44 @@
         left: 20%;
         top: 2%;
     }
+
     .team .name {
         font-size: 2em;
         transform: translateY(60%);
     }
+
     .team .title {
         font-size: 1.25em;
         transform: translateY(90%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(60%);
     }
+
     .team .social .socialIcon {
         width: 55px;
         height: 55px;
     }
 }
 
-@media screen and (max-width: 920px) and (min-height: 1180px){
+@media screen and (max-width: 920px) and (min-height: 1180px) {
     .team .name {
         font-size: 2em;
         transform: translateY(90%);
     }
+
     .team .title {
         font-size: 1.25em;
         transform: translateY(210%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(100%);
     }
+
     .team .social .socialIcon {
         width: 60px;
         height: 60px;
@@ -225,6 +242,7 @@
     .team {
         height: 90%;
     }
+
     .team:hover .img {
         width: 60%;
         height: 60%;
@@ -232,18 +250,22 @@
         left: 20%;
         top: 2%;
     }
+
     .team .name {
         font-size: 1.2em;
         transform: translateY(-110%);
     }
+
     .team .title {
         font-size: .9em;
         transform: translateY(-380%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(-110%);
     }
+
     .team .social .socialIcon {
         width: 35px;
         height: 35px;
@@ -254,6 +276,7 @@
     .team {
         height: 85%;
     }
+
     .team:hover .img {
         width: 60%;
         height: 60%;
@@ -261,18 +284,22 @@
         left: 20%;
         top: 2%;
     }
+
     .team .name {
         font-size: 1em;
         transform: translateY(-140%);
     }
+
     .team .title {
         font-size: .8em;
         transform: translateY(-520%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(-135%);
     }
+
     .team .social .socialIcon {
         width: 35px;
         height: 35px;
@@ -283,9 +310,11 @@
     .team {
         height: 85%;
     }
+
     .team:hover {
         width: 250%;
     }
+
     .team:hover .img {
         width: 80%;
         height: 62%;
@@ -293,18 +322,22 @@
         left: 10%;
         top: 2%;
     }
+
     .team .name {
         font-size: 1.2em;
         transform: translateY(0%);
     }
+
     .team .title {
         font-size: .85em;
         transform: translateY(-60%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(20%);
     }
+
     .team .social .socialIcon {
         width: 42px;
         height: 42px;
@@ -315,9 +348,11 @@
     .team {
         height: 85%;
     }
+
     .team:hover {
         width: 250%;
     }
+
     .team:hover .img {
         width: 80%;
         height: 62%;
@@ -325,18 +360,22 @@
         left: 10%;
         top: 2%;
     }
+
     .team .name {
         font-size: 1.2em;
         transform: translateY(0%);
     }
+
     .team .title {
         font-size: .85em;
         transform: translateY(-60%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(0%);
     }
+
     .team .social .socialIcon {
         width: 42px;
         height: 42px;
@@ -347,9 +386,11 @@
     .team {
         height: 80%;
     }
+
     .team:hover {
         width: 250%;
     }
+
     .team:hover .img {
         width: 80%;
         height: 62%;
@@ -357,18 +398,22 @@
         left: 10%;
         top: 2%;
     }
+
     .team .name {
         font-size: 1em;
         transform: translateY(-100%);
     }
+
     .team .title {
         font-size: .7em;
         transform: translateY(-450%);
     }
+
     .team .social {
         width: 100%;
         transform: translateY(-90%);
     }
+
     .team .social .socialIcon {
         width: 35px;
         height: 35px;

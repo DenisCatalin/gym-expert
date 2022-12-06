@@ -19,7 +19,7 @@ const About = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const onScroll = (e) => {
+    const onScroll = e => {
       setScrollValue(e.target.documentElement.scrollTop);
     };
 
@@ -56,10 +56,7 @@ const About = () => {
             initial={{ opacity: 0 }}
             whileTap={{ scale: 0.9 }}
           >
-            <KeyboardArrowUpIcon
-              color="neutral"
-              className={styles.scrollToTopIcon}
-            />
+            <KeyboardArrowUpIcon color="neutral" className={styles.scrollToTopIcon} />
           </motion.button>
         </ThemeProvider>
       ) : null}

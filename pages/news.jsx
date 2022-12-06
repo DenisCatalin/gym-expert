@@ -61,7 +61,7 @@ const News = () => {
               <>
                 {posts.length !== 0 ? (
                   <>
-                    {posts.map((item) => (
+                    {posts.map(item => (
                       <Post
                         key={item.ID}
                         id={item.ID}
@@ -113,10 +113,10 @@ const News = () => {
               {fetched ? (
                 <motion.input
                   className={styles.input}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={e => setSearch(e.target.value)}
                   value={search}
                   placeholder="Search for post titles..."
-                  onKeyPress={(event) => {
+                  onKeyPress={event => {
                     if (event.key === "Enter") {
                       setFetched(false);
                     }
@@ -136,10 +136,10 @@ const News = () => {
               {fetched ? (
                 <motion.input
                   className={styles.input}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={e => setSearch(e.target.value)}
                   value={search}
                   placeholder="Search for post titles..."
-                  onKeyPress={(event) => {
+                  onKeyPress={event => {
                     if (event.key === "Enter") {
                       setFetched(false);
                     }
@@ -156,7 +156,7 @@ const News = () => {
               <>
                 {posts.length !== 0 ? (
                   <>
-                    {posts.map((item) => (
+                    {posts.map(item => (
                       <Post
                         key={item.ID}
                         id={item.ID}

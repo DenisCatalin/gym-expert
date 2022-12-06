@@ -20,10 +20,10 @@ const ChangeDisplayName = () => {
   const [newName, setNewName] = useState("");
   const [secretKeyword, setSecretKeyword] = useState("");
 
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -138,7 +138,7 @@ const ChangeDisplayName = () => {
             id="newName"
             color="warning"
             className={styles.textField}
-            onChange={(e) => setNewName(e.target.value)}
+            onChange={e => setNewName(e.target.value)}
             value={newName}
             inputProps={{
               style: {
@@ -154,7 +154,7 @@ const ChangeDisplayName = () => {
             color="warning"
             type="password"
             className={styles.textField}
-            onChange={(e) => setSecretKeyword(e.target.value)}
+            onChange={e => setSecretKeyword(e.target.value)}
             value={secretKeyword}
             inputProps={{
               style: {

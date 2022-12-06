@@ -12,28 +12,13 @@ const TeamProfile = ({ image }) => {
         <div className={styles.title}>Web Developer</div>
         <div className={styles.social}>
           <button className={styles.socialIcon}>
-            <Image
-              src={"/static/facebook-dark.svg"}
-              alt=""
-              width="150"
-              height="150"
-            />
+            <Image src={"/static/facebook-dark.svg"} alt="" width="150" height="150" />
           </button>
           <button className={styles.socialIcon}>
-            <Image
-              src={"/static/instagram-dark.svg"}
-              alt=""
-              width="150"
-              height="150"
-            />
+            <Image src={"/static/instagram-dark.svg"} alt="" width="150" height="150" />
           </button>
           <button className={styles.socialIcon}>
-            <Image
-              src={"/static/twitter-dark.svg"}
-              alt=""
-              width="150"
-              height="150"
-            />
+            <Image src={"/static/twitter-dark.svg"} alt="" width="150" height="150" />
           </button>
         </div>
       </div>

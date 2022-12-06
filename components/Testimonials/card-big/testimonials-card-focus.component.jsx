@@ -18,7 +18,7 @@ const CardFocus = ({ name, pic, text, date, rating }) => {
   const [editMode, setEditMode] = useState(false);
   const [open, setOpen] = useState("");
 
-  const review = useSelector((state) => state.review);
+  const review = useSelector(state => state.review);
   const dispatch = useDispatch();
 
   const handleOpen = () => {

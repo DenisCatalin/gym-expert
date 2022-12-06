@@ -10,7 +10,7 @@
     justify-content: space-between;
     margin-bottom: 1em;
     z-index: 3;
-    
+
 }
 
 .profile {
@@ -29,6 +29,7 @@
     position: relative;
     overflow: hidden;
 }
+
 .profileInfo {
     width: 50%;
     height: 100%;
@@ -99,21 +100,26 @@
     .container {
         width: 75%;
     }
+
     .profilePic {
         width: 55px;
         height: 55px;
     }
+
     .userName {
         font-size: 1.2em;
     }
+
     .date {
         font-size: .8em;
         height: 50%;
     }
+
     .testimonial {
         font-size: .8em;
         padding: .2rem;
     }
+
     .profile {
         height: 30%;
     }
@@ -124,21 +130,26 @@
     .container {
         width: 75%;
     }
+
     .profilePic {
         width: 55px;
         height: 55px;
     }
+
     .userName {
         font-size: 1.2em;
     }
+
     .date {
         font-size: .8em;
         height: 50%;
     }
+
     .testimonial {
         font-size: .8em;
         padding: .2rem;
     }
+
     .profile {
         height: 30%;
     }
@@ -149,27 +160,34 @@
         width: 95%;
         height: 80%;
     }
+
     .profilePic {
         width: 55px;
         height: 55px;
     }
+
     .userName {
         font-size: 1.2em;
     }
+
     .date {
         font-size: .8em;
         height: 50%;
     }
+
     .testimonial {
         font-size: .8em;
         padding: .2rem;
     }
+
     .profile {
         height: 30%;
     }
+
     .content {
         height: 55vh;
     }
+
     .profile {
         width: 100%;
         height: 8vh;
@@ -181,27 +199,34 @@
         width: 95%;
         height: 80%;
     }
+
     .profilePic {
         width: 55px;
         height: 55px;
     }
+
     .userName {
         font-size: 1.2em;
     }
+
     .date {
         font-size: .8em;
         height: 50%;
     }
+
     .testimonial {
         font-size: .8em;
         padding: .2rem;
     }
+
     .profile {
         height: 30%;
     }
+
     .content {
         height: 55vh;
     }
+
     .profile {
         width: 100%;
         height: 8vh;

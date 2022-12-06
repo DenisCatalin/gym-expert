@@ -7,11 +7,7 @@ export default async function deleteFavourites(req, res) {
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
       const gif = req ? JSON.parse(req.headers.body).gif : null;
 
-      const deleteFavouritesForUser = await deleteFavouritesQuery(
-        token,
-        issuer,
-        gif
-      );
+      const deleteFavouritesForUser = await deleteFavouritesQuery(token, issuer, gif);
 
       res.send({ message: "Complete", deleteFavouritesForUser });
     } catch (error) {

@@ -7,11 +7,7 @@ export default async function SetCropArea(req, res) {
       const displayName = req ? JSON.parse(req.headers.body).displayName : null;
       const cropArea = req ? JSON.parse(req.headers.body).cropArea : null;
 
-      const SetCroppedArea = await SetCroppedAreaQuery(
-        token,
-        displayName,
-        cropArea
-      );
+      const SetCroppedArea = await SetCroppedAreaQuery(token, displayName, cropArea);
 
       res.send({ message: "Complete", SetCroppedArea });
     } catch (error) {

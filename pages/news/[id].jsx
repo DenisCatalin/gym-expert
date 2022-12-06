@@ -80,10 +80,7 @@ const NewsPost = ({ news }) => {
                   </motion.h1>
                 </div>
                 <div className={styles.mainContent}>
-                  <motion.div
-                    className={styles.postImage}
-                    animate={{ opacity: [0, 1] }}
-                  >
+                  <motion.div className={styles.postImage} animate={{ opacity: [0, 1] }}>
                     <Image
                       src={newsPost.Image}
                       alt={newsPost.Title}
@@ -93,10 +90,7 @@ const NewsPost = ({ news }) => {
                     />
                   </motion.div>
                   <div className={styles.textContent}>
-                    <motion.h2
-                      className={styles.contentText}
-                      animate={{ opacity: [0, 1] }}
-                    >
+                    <motion.h2 className={styles.contentText} animate={{ opacity: [0, 1] }}>
                       {newsPost.Content}
                     </motion.h2>
                   </div>

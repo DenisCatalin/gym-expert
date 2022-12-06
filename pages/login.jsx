@@ -35,7 +35,7 @@ const Login = () => {
     };
   }, [router]);
 
-  const handleLoginWithEmail = async (e) => {
+  const handleLoginWithEmail = async e => {
     e.preventDefault();
     if (email) {
       if (email.includes("@") && email.includes(".com")) {
@@ -76,7 +76,7 @@ const Login = () => {
     }
   };
 
-  const handleOnChangeEmail = (e) => {
+  const handleOnChangeEmail = e => {
     setEmail(e.target.value);
     setUserMsg("");
   };
@@ -92,16 +92,12 @@ const Login = () => {
           <div className={styles.text}>
             <h1 className={styles.title}>Login</h1>
             <h2 className={styles.opacityText}>
-              In order to be able to explore our platform, you need to be signed
-              in. Enter your email in the field below.
+              In order to be able to explore our platform, you need to be signed in. Enter your
+              email in the field below.
             </h2>
           </div>
           <div className={styles.inputField}>
-            <input
-              type="email"
-              className={styles.input}
-              onChange={handleOnChangeEmail}
-            />
+            <input type="email" className={styles.input} onChange={handleOnChangeEmail} />
           </div>
           {userMsg !== "" ? <p className={styles.userMsg}>{userMsg}</p> : null}
           <div className={styles.login}>

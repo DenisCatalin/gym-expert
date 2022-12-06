@@ -6,10 +6,7 @@ export default async function CheckDisplayName(req, res) {
       const token = req ? req.cookies?.token : null;
       const newName = req ? JSON.parse(req.headers.body).newName : null;
 
-      const CheckDisplayNameQueryForUser = await checkDisplayNameQuery(
-        token,
-        newName
-      );
+      const CheckDisplayNameQueryForUser = await checkDisplayNameQuery(token, newName);
 
       res.send({ message: "Complete", CheckDisplayNameQueryForUser });
     } catch (error) {

@@ -34,7 +34,7 @@ const PopularPosts = () => {
         </motion.h1>
       ) : null}
       {fetched ? (
-        posts.map((item) => (
+        posts.map(item => (
           <PopularNews
             key={item.ID}
             id={item.ID}

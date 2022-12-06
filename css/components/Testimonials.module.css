@@ -99,7 +99,7 @@
     height: 120px;
     border-radius: 50%;
     background: rgb(145, 145, 145);
-    box-shadow: 2px 4px 5px 0px rgba(0, 0,0 ,0.5);
+    box-shadow: 2px 4px 5px 0px rgba(0, 0, 0, 0.5);
     position: relative;
     transition: all .2s ease-in-out;
 }
@@ -255,21 +255,24 @@
         display: flex;
         backdrop-filter: none;
     }
+
     .reviewButton {
         width: 15%;
         height: 80%;
         font-size: .7em;
     }
+
     .arrows {
         height: 20%;
         justify-content: space-between;
     }
+
     .arrowBackground {
         margin: 0 10em 0 10em;
     }
 }
 
-@media screen and (max-width: 1368px){
+@media screen and (max-width: 1368px) {
     .arrowBackground {
         width: 90px;
         height: 90px;
@@ -283,6 +286,7 @@
         height: 85%;
         font-size: .7em;
     }
+
     .arrowBackground {
         width: 80px;
         height: 80px;
@@ -295,27 +299,29 @@
         height: 60%;
         font-size: .7em;
     }
+
     .arrowBackground {
         width: 70px;
         height: 70px;
         margin: 0 8em 0 8em;
     }
+
     .image {
         width: 15%;
         height: 100px;
         position: relative;
     }
-    
+
     .title {
         font-family: var(--font);
         color: var(--white);
         font-size: 1.5em;
     }
-    
+
     .textarea:focus {
         outline: 2px solid #c700d5cb;
     }
-    
+
     .postButton {
         width: 40%;
         height: 80%;
@@ -335,6 +341,7 @@
         font-size: 1.2em;
         height: 0;
     }
+
     .reviewButton {
         width: 20%;
         height: 100%;
@@ -347,6 +354,7 @@
         align-items: center;
         cursor: pointer;
     }
+
     .reviewButtonText {
         font-size: 1em;
     }
@@ -354,13 +362,15 @@
 
 @media screen and (max-width: 920px) {
     .content {
-        height:75vh;
+        height: 75vh;
     }
+
     .ourTeamButton {
         width: 20%;
         height: 12%;
         font-size: .7em;
     }
+
     .arrowBackground {
         width: 60px;
         height: 60px;
@@ -370,31 +380,38 @@
 
 @media screen and (max-width: 920px) and (max-height: 450px) {
     .content {
-        height:75vh;
+        height: 75vh;
     }
+
     .ourTeamButton {
         width: 20%;
         height: 12%;
         font-size: .7em;
     }
+
     .arrowBackground {
         width: 60px;
         height: 60px;
         margin: 0 1.5em 0 1.5em;
     }
+
     .dialogContainer {
         width: 540px;
         height: 100vh;
     }
+
     .rating {
         height: 20vh;
     }
+
     .image {
         display: none;
     }
+
     .textarea {
         width: 100%;
     }
+
     .postButton {
         width: 30%;
         height: 100%;
@@ -407,14 +424,17 @@
         height: 6%;
         font-size: .7em;
     }
+
     .arrowBackground {
         width: 70px;
         height: 70px;
         margin: 0 1.2em 0 1.2em;
     }
+
     .dialogContainer {
         width: 500px;
     }
+
     .textarea {
         width: 90%;
     }
@@ -426,6 +446,7 @@
         height: 12%;
         font-size: .6em;
     }
+
     .arrowBackground {
         width: 60px;
         height: 60px;
@@ -437,14 +458,17 @@
     .imageAbout {
         display: none;
     }
+
     .textSide {
         width: 100%;
     }
+
     .reviewButton {
         width: 40%;
-        height:100%;
+        height: 100%;
         font-size: .8em;
     }
+
     .arrowBackground {
         width: 50px;
         height: 50px;
@@ -457,24 +481,30 @@
         height: 100%;
         align-items: start;
     }
+
     .arrowBackground {
         width: 50px;
         height: 50px;
         margin: 0 .5em 0 .5em;
     }
+
     .arrowIcon {
         font-size: 3em;
     }
+
     .dialogContainer {
         width: 278px;
     }
+
     .image {
         width: 30%;
         height: 40%;
     }
+
     .textarea {
         width: 100%;
     }
+
     .postButton {
         width: 60%;
         height: 60%;

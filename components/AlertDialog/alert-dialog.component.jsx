@@ -11,8 +11,8 @@ import { setSubscriptionState } from "../../redux/subscription.slice";
 import { setDialog } from "../../redux/dialog.slice";
 
 const AlertDialog = ({ title, content }) => {
-  const subscription = useSelector((state) => state.subscription.subscription);
-  const dialog = useSelector((state) => state.dialog.dialog);
+  const subscription = useSelector(state => state.subscription.subscription);
+  const dialog = useSelector(state => state.dialog.dialog);
   const dispatch = useDispatch();
 
   const handleClose = () => {

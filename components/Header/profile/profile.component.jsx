@@ -35,7 +35,7 @@ const ProfileButton = () => {
   const { user, setUser } = useContext(userContext);
 
   const dispatch = useDispatch();
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
 
   function dispatchFromLocalStorage() {
     dispatch(
@@ -199,14 +199,14 @@ const ProfileButton = () => {
     };
   }, [profilePic]);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const logout = async (e) => {
+  const logout = async e => {
     e.preventDefault();
 
     dispatch(

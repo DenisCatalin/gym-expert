@@ -1,7 +1,7 @@
 import PURCHASE_STYLES from "../css/components/AlertDialog.module.css";
 import { useSelector } from "react-redux";
 const Purchase = () => {
-  const subscription = useSelector((state) => state.subscription.subscription);
+  const subscription = useSelector(state => state.subscription.subscription);
   return (
     <>
       {" "}

@@ -9,7 +9,7 @@ import SetSecretKey from "./accordion-items/set-secret-keyword.component";
 import { useSelector } from "react-redux";
 
 const AccordionProfile = () => {
-  const userRedux = useSelector((state) => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
   return (
     <div style={{ width: "100%", height: "100vh" }}>
       {userRedux.secretKeyword === null ? <SetSecretKey /> : null}

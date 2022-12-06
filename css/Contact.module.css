@@ -10,7 +10,7 @@
 
 .content {
     width: 60%;
-    height:87vh;
+    height: 87vh;
     background: var(--purple20);
     border-radius: 20px;
     display: flex;
@@ -24,7 +24,7 @@
 }
 
 .contentSide {
-    width:65%;
+    width: 65%;
     height: 87vh;
     overflow: auto;
     padding: 0rem 2rem;
@@ -142,22 +142,28 @@
     .content {
         width: 95%;
     }
+
     .contentSide {
         height: 80vh;
         overflow: auto;
     }
+
     .upperPart {
         justify-content: center;
     }
+
     .title {
         font-size: 1.5em;
     }
+
     .opacityText {
         font-size: .8em;
     }
+
     .midPart {
         height: 60%;
     }
+
     .bottomPart {
         height: 20%;
     }
@@ -167,30 +173,39 @@
     .content {
         width: 95%;
     }
+
     .contentSide {
         height: 80vh;
         overflow: auto;
     }
+
     .upperPart {
         justify-content: center;
         width: 100%;
     }
+
     .title {
         font-size: 1.5em;
     }
+
     .opacityText {
         width: 100%;
         font-size: .8em;
     }
+
     .midPart {
         height: 60%;
     }
-    .input, .textarea {
+
+    .input,
+    .textarea {
         width: 90%;
     }
+
     .bottomPart {
         height: 20%;
     }
+
     .reviewButton {
         width: 50%;
     }
@@ -200,6 +215,7 @@
     .imageSide {
         display: none;
     }
+
     .contentSide {
         width: 100%;
     }
@@ -209,20 +225,26 @@
     .title {
         font-size: 1em;
     }
+
     .opacityText {
         width: 100%;
         font-size: .5em;
     }
-    .input, .textarea {
+
+    .input,
+    .textarea {
         width: 100%;
     }
+
     .reviewButton {
         height: 50%;
         width: 50%;
     }
+
     .reviewButtonText {
         font-size: 1em;
     }
+
     .buttonIcon {
         font-size: 1em;
     }

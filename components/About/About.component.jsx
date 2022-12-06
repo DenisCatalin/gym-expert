@@ -53,10 +53,7 @@ const AboutContainer = () => {
           onClick={() => router.push("#team")}
         >
           <h1 className={styles.teamButtonText}>Our Team</h1>
-          <KeyboardDoubleArrowDownIcon
-            color="neutral"
-            className={styles.teamButtonIcon}
-          />
+          <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />
         </motion.button>
       </ThemeProvider>
     </div>

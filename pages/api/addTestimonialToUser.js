@@ -6,10 +6,7 @@ export default async function AddTestimonial(req, res) {
       const token = req ? req.cookies?.token : null;
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
 
-      const addTestimonialForUser = await addTestimonialToUserQuery(
-        token,
-        issuer
-      );
+      const addTestimonialForUser = await addTestimonialToUserQuery(token, issuer);
 
       res.send({ message: "Complete", addTestimonialForUser });
     } catch (error) {

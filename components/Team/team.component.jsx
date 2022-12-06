@@ -29,10 +29,7 @@ const Team = () => {
           onClick={() => router.push("#testimonials")}
         >
           <h1 className={styles.teamButtonText}>Testimonials</h1>
-          <KeyboardDoubleArrowDownIcon
-            color="neutral"
-            className={styles.teamButtonIcon}
-          />
+          <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />
         </motion.button>
       </ThemeProvider>
     </div>
