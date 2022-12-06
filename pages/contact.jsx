@@ -16,14 +16,6 @@ import { useDispatch } from "react-redux";
 const Contact = () => {
   const { width, height } = useWindowDimensions();
 
-  const handleClick = () => {
-    useDispatch(
-      setSnackbar({
-        open: true,
-        content: "Please fill all the fields below",
-      })
-    );
-  };
   return (
     <div className={styles.container}>
       <Head>
@@ -86,7 +78,12 @@ const Contact = () => {
                     initial={{ y: 0 }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <h1 className={styles.reviewButtonText} onClick={handleClick}>
+                    <h1 className={styles.reviewButtonText} onClick={() => useDispatch(
+                      setSnackbar({
+                        open: true,
+                        content: "Please fill all the fields below",
+                      })
+                    )}>
                       Send
                     </h1>
                     <SendIcon color="neutral" className={styles.buttonIcon} />
@@ -104,8 +101,9 @@ const Contact = () => {
             </ThemeProvider>
           </div>
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 
