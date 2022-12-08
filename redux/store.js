@@ -5,6 +5,7 @@ import { dialogReducer } from "./dialog.slice";
 import { snackbarReducer } from "./snackbar.slice";
 import { testimonialReducer } from "./testimonial.slice";
 import { reviewReducer } from "./review.slice";
+import { exercisesReducer } from "./exercises.slice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     snackbar: snackbarReducer,
     testimonial: testimonialReducer,
     review: reviewReducer,
+    exercises: exercisesReducer,
   },
 });
 

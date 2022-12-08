@@ -1,18 +1,19 @@
 import styles from "../../css/components/ExerciseCard.module.css";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useState, useContext, useEffect } from "react";
-import { exerciseContext } from "../../lib/exerciseContext";
+import { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setExercisesState } from "../../redux/exercises.slice";
 
 const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [hover, setHover] = useState(false);
   const [favourite, setFavourite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
+  const dispatch = useDispatch();
   const userRedux = useSelector(state => state.user.user);
+  const exercisesRedux = useSelector(state => state.user.user);
 
   useEffect(() => {
     (async () => {
@@ -73,7 +74,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
           }),
         },
       });
-      setUpdateExercises(!updateExercises);
+      dispatch(setExercisesState({ exercises: !exercisesRedux.exercises }));
       const data = await res.json();
       console.log(data);
       setFavourite(false);
