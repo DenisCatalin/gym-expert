@@ -120,7 +120,8 @@ const ProfileButton = () => {
             if (email) {
               const didToken = await magic.user.getIdToken();
 
-              const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
+              const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
+              const data = await res.json();
 
               if (isMounted.current) {
                 setProfilePic(data?.userDetails?.data?.users[0].profilePic);
