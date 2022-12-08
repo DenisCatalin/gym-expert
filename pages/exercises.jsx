@@ -7,7 +7,6 @@ import IconButton from "@mui/material/IconButton";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
 import { magic } from "../lib/magic-client";
-import { fetchData, exerciseOptions } from "../utils/fetchData";
 import ExerciseCard from "../components/ExerciseCard/exercise-card.component";
 import useWindowDimensions from "../utils/useWindowDimensions";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -16,7 +15,6 @@ import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import { theme, theme2 } from "../utils/muiTheme";
-import { exerciseContext } from "../lib/exerciseContext";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 
@@ -61,9 +59,9 @@ const Exercises = () => {
   const [exercises, setExercises] = useState([]);
   const [favourites, setFavourites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { updateExercises, setUpdateExercises } = useContext(exerciseContext);
 
   const userRedux = useSelector(state => state.user.user);
+  const exercisesRedux = useSelector(state => state.exercises.exercises);
 
   const router = useRouter();
 
@@ -96,7 +94,7 @@ const Exercises = () => {
       const data2 = await res2.json();
       setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
     })();
-  }, [updateExercises]);
+  }, [exercisesRedux]);
 
   useEffect(() => {
     if (width > breakPointWidth) {
