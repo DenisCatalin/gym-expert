@@ -94,7 +94,6 @@ const Exercises = () => {
       });
       const data2 = await res2.json();
       setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
-      console.log(data2?.getToFavouritesForUser?.data?.favourites);
     })();
   }, [updateExercises]);
 
@@ -117,7 +116,6 @@ const Exercises = () => {
         });
         const data2 = await res2.json();
         setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
-        console.log("DATA" + data2 + "ISSUER" + userRedux.issuer);
         if (userRedux.paidPlan === null && userRedux.planExpireDate === 0) router.push("/pricing");
         else setIsLoading(false);
       } else {
