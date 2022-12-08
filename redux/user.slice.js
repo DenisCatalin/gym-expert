@@ -19,6 +19,7 @@ const initialState = {
     profileAvatar: "",
     cropped: false,
     favourites: [],
+    needsUpdate: true,
   },
 };
 
