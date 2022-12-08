@@ -111,15 +111,13 @@ const Exercises = () => {
           method: "POST",
           headers: {
             body: JSON.stringify({
-              issuer: JSON.parse(localStorage.getItem("logged") === true)
-                ? localStorage.getItem("issuer")
-                : userRedux.issuer,
+              issuer: userRedux.issuer,
             }),
           },
         });
         const data2 = await res2.json();
         setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
-        console.log(data2?.getToFavouritesForUser?.data?.favourites);
+        console.log("DATA" + data2 + "ISSUER" + userRedux.issuer);
         if (userRedux.paidPlan === null && userRedux.planExpireDate === 0) router.push("/pricing");
         else setIsLoading(false);
       } else {
@@ -135,7 +133,7 @@ const Exercises = () => {
         }
       }
     })();
-  }, []);
+  }, [userRedux]);
 
   useEffect(() => {
     (async function () {

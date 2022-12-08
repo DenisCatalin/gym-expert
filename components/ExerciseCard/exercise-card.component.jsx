@@ -40,9 +40,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         method: "POST",
         headers: {
           body: JSON.stringify({
-            issuer: JSON.parse(localStorage.getItem("logged") === true)
-              ? localStorage.getItem("issuer")
-              : userRedux.issuer,
+            issuer: userRedux.issuer,
             gif: item.gifUrl,
           }),
         },
