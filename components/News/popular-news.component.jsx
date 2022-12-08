@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "../../css/components/NewsPopular.module.css";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
+import { ROUTES } from "../../Routes";
 
 const PopularNews = ({ id, title, content, image, date }) => {
   const router = useRouter();
@@ -9,7 +10,7 @@ const PopularNews = ({ id, title, content, image, date }) => {
   return (
     <motion.div
       className={styles.postsContainer}
-      onClick={() => router.push(`/news/${id}`)}
+      onClick={() => router.push(`/${ROUTES.news}/${id}`)}
       animate={{ opacity: [0, 1], x: [500, 0] }}
       transition={{ delay: reveal, duration: 1 }}
     >

@@ -14,6 +14,7 @@ import { PURCHASE_DIALOG } from "../../utils/captions";
 import { setSubscriptionState } from "../../redux/subscription.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { setDialog } from "../../redux/dialog.slice";
+import { ROUTES } from "../../Routes";
 
 const PricingCard = ({ price, period, image }) => {
   const { width } = useWindowDimensions();
@@ -36,7 +37,7 @@ const PricingCard = ({ price, period, image }) => {
     setIsLoading(true);
     setPlanSelected(true);
     const isLoggedIn = await magic.user.isLoggedIn();
-    if (!isLoggedIn) router.push("/login");
+    if (!isLoggedIn) router.push(ROUTES.login);
     else {
       dispatch(setDialog(true));
       dispatch(

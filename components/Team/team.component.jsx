@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { theme2 } from "../../utils/muiTheme";
+import { ROUTES } from "../../Routes";
 
 const Team = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const Team = () => {
           animate={{ y: [200, 0] }}
           initial={{ y: 0 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => router.push("#testimonials")}
+          onClick={() => router.push(ROUTES.aboutTestimonials)}
         >
           <h1 className={styles.teamButtonText}>Testimonials</h1>
           <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />

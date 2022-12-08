@@ -18,6 +18,7 @@ import Stack from "@mui/material/Stack";
 import { theme, theme2 } from "../utils/muiTheme";
 import { exerciseContext } from "../lib/exerciseContext";
 import { useSelector } from "react-redux";
+import { ROUTES } from "../Routes";
 
 const breakPointWidth = 719;
 
@@ -116,17 +117,18 @@ const Exercises = () => {
         });
         const data2 = await res2.json();
         setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
-        if (userRedux.paidPlan === null && userRedux.planExpireDate === 0) router.push("/pricing");
+        if (userRedux.paidPlan === null && userRedux.planExpireDate === 0)
+          router.push(ROUTES.pricing);
         else setIsLoading(false);
       } else {
         const isLoggedIn = await magic.user.isLoggedIn();
-        if (!isLoggedIn) router.push("/login");
+        if (!isLoggedIn) router.push(ROUTES.login);
         else {
           const res = await fetch("/api/userDetails");
           const data = await res.json();
 
           const { paidPlan, planExpireDate } = data?.userDetails?.data?.users[0];
-          if (paidPlan === null && planExpireDate === 0) router.push("/pricing");
+          if (paidPlan === null && planExpireDate === 0) router.push(ROUTES.pricing);
           else setIsLoading(false);
         }
       }

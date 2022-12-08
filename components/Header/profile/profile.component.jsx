@@ -21,7 +21,7 @@ import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
-import useFetch from "../../../utils/useFetch";
+import { ROUTES } from "../../../Routes";
 
 const ProfileButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -186,7 +186,7 @@ const ProfileButton = () => {
       console.log(data);
     } catch (error) {
       console.error("Error logging out", error);
-      router.push("/login");
+      router.push(ROUTES.login);
     }
   };
 
@@ -244,7 +244,7 @@ const ProfileButton = () => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <ThemeProvider theme={theme2}>
-          <MenuItem onClick={() => router.push("/profile")}>
+          <MenuItem onClick={() => router.push(ROUTES.profile)}>
             <ListItemIcon>
               <ManageAccountsIcon fontSize="small" color="pink" />
             </ListItemIcon>{" "}
@@ -252,7 +252,7 @@ const ProfileButton = () => {
           </MenuItem>
           <Divider />
           {userRedux.admin === 1 && (
-            <MenuItem onClick={() => router.push("/adminPage")}>
+            <MenuItem onClick={() => router.push(ROUTES.adminPage)}>
               <ListItemIcon>
                 <Settings fontSize="small" color="pink" />
               </ListItemIcon>

@@ -9,6 +9,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import { didTokenContext } from "../lib/didTokenContext";
 import { theme2 } from "../utils/muiTheme";
 import Head from "next/head";
+import { ROUTES } from "../Routes";
 
 const Login = () => {
   const [userMsg, setUserMsg] = useState("");
@@ -20,7 +21,7 @@ const Login = () => {
   useEffect(() => {
     (async () => {
       const isLoggedIn = await magic.user.isLoggedIn();
-      if (isLoggedIn) router.push("/");
+      if (isLoggedIn) router.push(ROUTES.homepage);
     })();
   }, []);
 
@@ -57,7 +58,7 @@ const Login = () => {
             });
             const loggedInResponse = await res.json();
             if (loggedInResponse.done) {
-              router.push("/");
+              router.push(ROUTES.homepage);
             } else {
               console.error("Something went wrong");
             }

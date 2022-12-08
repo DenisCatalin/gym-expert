@@ -7,6 +7,7 @@ import ProfileButton from "./profile/profile.component";
 import { motion } from "framer-motion";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import Burger from "../Burger/burger.component";
+import { ROUTES } from "../../Routes";
 
 const links = ["home", "exercises", "pricing", "news", "about", "contact"];
 
@@ -58,7 +59,7 @@ const Header = ({ sticky = false }) => {
         backdropFilter: sticky ? "blur(10px)" : "none",
       }}
     >
-      <div className={styles.logoContainer} onClick={() => router.push("/")}>
+      <div className={styles.logoContainer} onClick={() => router.push(ROUTES.homepage)}>
         <div className={styles.logo}>
           <Image src={"/static/logo-gym.png"} alt="" layout="fill" />
         </div>
