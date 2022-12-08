@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ABOUT_TYPOGRAPHY } from "../../utils/captions";
+import { ROUTES } from "../../Routes";
 
 const theme2 = createTheme({
   status: {
@@ -50,7 +51,7 @@ const AboutContainer = () => {
           animate={{ y: [200, 0] }}
           initial={{ y: 0 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => router.push("#team")}
+          onClick={() => router.push(ROUTES.aboutTeam)}
         >
           <h1 className={styles.teamButtonText}>Our Team</h1>
           <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />

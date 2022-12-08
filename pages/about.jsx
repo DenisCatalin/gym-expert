@@ -12,6 +12,7 @@ import Testimonials from "../components/Testimonials/testimonials.component";
 import Head from "next/head";
 import { theme2 } from "../utils/muiTheme";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
+import { ROUTES } from "../Routes";
 
 const About = () => {
   const { width } = useWindowDimensions();
@@ -30,7 +31,7 @@ const About = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    router.push("/about");
+    router.push(ROUTES.about);
   };
 
   return (
@@ -38,7 +39,7 @@ const About = () => {
       <Head>
         <title>
           Gym Expert -{" "}
-          {router.asPath === "/about"
+          {router.asPath === ROUTES.about
             ? "About"
             : router.asPath === "/about#team"
             ? "Team"

@@ -6,6 +6,7 @@ import Image from "next/image";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { ROUTES } from "../Routes";
 
 const Home = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const Home = () => {
           animate={{ y: [-500, 0] }}
           initial={{ y: 0 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => router.push("/pricing")}
+          onClick={() => router.push(ROUTES.pricing)}
         >
           Get started <ChevronRightIcon style={{ fontSize: "1.2em" }} />
         </motion.button>

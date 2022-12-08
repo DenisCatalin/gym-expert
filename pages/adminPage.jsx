@@ -14,6 +14,7 @@ import { TextareaAutosize, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { userContext } from "../lib/userContext";
 import { useSelector } from "react-redux";
+import { ROUTES } from "../Routes";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);
@@ -48,7 +49,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     (async () => {
-      if (userRedux.admin !== 1) router.push("/");
+      if (userRedux.admin !== 1) router.push(ROUTES.homepage);
     })();
   }, []);
 

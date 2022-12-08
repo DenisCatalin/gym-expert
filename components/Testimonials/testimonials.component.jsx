@@ -17,6 +17,7 @@ import { theme2 } from "../../utils/muiTheme";
 import PostTestimonial from "./post-testimonial/post-testimonial.component";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
+import { ROUTES } from "../../Routes";
 
 const Testimonials = () => {
   const { width } = useWindowDimensions();
@@ -41,7 +42,7 @@ const Testimonials = () => {
   const handleClickOpen = async () => {
     setIsLoading(true);
     const isLoggedIn = await magic.user.isLoggedIn();
-    if (!isLoggedIn) router.push("/login");
+    if (!isLoggedIn) router.push(ROUTES.login);
     else {
       if (userRedux.testimonial === false) {
         setOpen(true);
