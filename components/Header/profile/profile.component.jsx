@@ -123,6 +123,8 @@ const ProfileButton = () => {
               const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
               const data = await res.json();
 
+              console.log("fetch: ", data);
+
               if (isMounted.current) {
                 setProfilePic(data?.userDetails?.data?.users[0].profilePic);
                 setDisplayName(data?.userDetails?.data?.users[0].displayName);
