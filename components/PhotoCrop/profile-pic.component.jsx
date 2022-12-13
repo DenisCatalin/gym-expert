@@ -13,6 +13,7 @@ import { cropImages } from "../../lib/cropImages";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
+import { Button } from "../../interface/Button";
 
 const ProfilePic = () => {
   const { user, setUser } = useContext(userContext);
@@ -192,17 +193,14 @@ const ProfilePic = () => {
                   flexDirection: "column",
                 }}
               >
-                <button className={styles.buttonUpload} onClick={saveCropArea}>
-                  Crop
-                </button>
-                <button
+                <Button className={styles.buttonUpload} onClick={saveCropArea} label={"Crop"} />
+                <Button
                   className={styles.buttonUpload}
                   onClick={() => {
                     setHasToClick(!hasToClick);
                   }}
-                >
-                  Reset
-                </button>
+                  label={"Reset"}
+                />
               </div>
             </>
           )}
@@ -221,7 +219,7 @@ const ProfilePic = () => {
                       <PhotoCrop image={imgSrc} />
                     )}
                   </div>
-                  <button className={styles.buttonUpload}>Save</button>
+                  <Button className={styles.buttonUpload} label="Save" />
                 </>
               ) : null}
 

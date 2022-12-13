@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,6 +8,7 @@ import StripeCheckoutButton from "../stripe-button/stripe-button.component";
 import { useSelector, useDispatch } from "react-redux";
 import { setSubscriptionState } from "../../redux/subscription.slice";
 import { setDialog } from "../../redux/dialog.slice";
+import { Button } from "../../interface/Button.tsx";
 
 const AlertDialog = ({ title, content }) => {
   const subscription = useSelector(state => state.subscription.subscription);
@@ -42,9 +42,7 @@ const AlertDialog = ({ title, content }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions className={styles.background}>
-          <Button color="secondary" onClick={handleClose} autoFocus>
-            Cancel
-          </Button>
+          <Button color={"secondary"} onClick={handleClose} autoFocus={true} label={"Cancel"} />
           <StripeCheckoutButton price={subscription.price} period={subscription.plan} />
         </DialogActions>
       </Dialog>

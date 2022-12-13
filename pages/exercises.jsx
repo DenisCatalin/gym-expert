@@ -17,6 +17,7 @@ import Stack from "@mui/material/Stack";
 import { theme, theme2 } from "../utils/muiTheme";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
+import { Button } from "../interface/Button.tsx";
 
 const breakPointWidth = 719;
 
@@ -152,6 +153,10 @@ const Exercises = () => {
     setBodyPartsPage(bodyPartsPage - 1);
   };
 
+  const selectExercise = event => {
+    setBodyPart(event.target.textContent);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -173,13 +178,12 @@ const Exercises = () => {
               <motion.div className={styles.header} animate={{ opacity: [0, 1], y: [100, 0] }}>
                 {width > 900 ? (
                   bodyParts.map((item, i) => (
-                    <button
+                    <Button
                       className={styles.bodyPart}
                       key={i}
-                      onClick={e => setBodyPart(e.target.textContent)}
-                    >
-                      {item}
-                    </button>
+                      onClick={selectExercise}
+                      label={item}
+                    />
                   ))
                 ) : (
                   <>
