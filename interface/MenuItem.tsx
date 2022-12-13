@@ -14,7 +14,7 @@ export const MenuItem = ({ key, label, icon, onClick, show }: MenuOptions) => {
   return (
     <>
       {show ? (
-        <MuiMenuItem onClick={onClick}>
+        <MuiMenuItem onClick={onClick} key={key}>
           <ListItemIcon>{icon}</ListItemIcon>
           {label}
         </MuiMenuItem>

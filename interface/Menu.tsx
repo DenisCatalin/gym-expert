@@ -2,7 +2,6 @@ import React from "react";
 import MuiMenu from "@mui/material/Menu";
 import { ThemeProvider } from "@mui/material";
 import { theme2 } from "../utils/muiTheme";
-import { useState } from "react";
 import { MenuItem } from "./MenuItem.tsx";
 
 export type MenuOptions = {
@@ -21,11 +20,10 @@ type IMenuProps = {
 };
 
 export const Menu = ({ id, anchor, handleClose, options }: IMenuProps) => {
-  const [anchorEl, setAnchorEl] = useState(anchor);
-  const open = Boolean(anchorEl);
+  const open = Boolean(anchor);
   return (
     <MuiMenu
-      anchorEl={anchorEl}
+      anchorEl={anchor}
       id={id}
       open={open}
       onClose={handleClose}
