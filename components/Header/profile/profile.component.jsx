@@ -27,7 +27,6 @@ const ProfileButton = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [displayName, setDisplayName] = useState();
   const [profilePic, setProfilePic] = useState();
-  const [openMenu, setOpenMenu] = useState(false);
   const { user, setUser } = useContext(userContext);
 
   const dispatch = useDispatch();
@@ -171,13 +170,11 @@ const ProfileButton = () => {
   }, [userRedux]);
 
   const handleClick = event => {
-    setOpenMenu(true);
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-    setOpenMenu(false);
   };
 
   const logout = async e => {
