@@ -13,7 +13,7 @@ import { cropImages } from "../../lib/cropImages";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
-import { Button } from "../../interface/Button";
+import { Button } from "../../interface/Button.tsx";
 
 const ProfilePic = () => {
   const { user, setUser } = useContext(userContext);
