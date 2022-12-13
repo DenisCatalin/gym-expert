@@ -1,42 +1,61 @@
 import Avatar from "@mui/material/Avatar";
 import styles from "../../../css/components/ProfileButton.module.css";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
 import { useState, useContext, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { didTokenContext } from "../../../lib/didTokenContext";
 import { magic } from "../../../lib/magic-client";
 import CircularProgress from "@mui/material/CircularProgress";
 import { userContext } from "../../../lib/userContext";
-import Link from "next/link";
-import { theme2 } from "../../../utils/muiTheme";
-import { ThemeProvider } from "@mui/material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
+import Link from "next/link";
 import { cropImages } from "../../../lib/cropImages";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { ROUTES } from "../../../Routes";
+import { Menu } from "../../../interface/Menu.tsx";
 
 const ProfileButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const router = useRouter();
-  const open = Boolean(anchorEl);
   const { didToken, setDidToken } = useContext(didTokenContext);
   const isMounted = useRef(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [displayName, setDisplayName] = useState();
   const [profilePic, setProfilePic] = useState();
+  const [openMenu, setOpenMenu] = useState(false);
   const { user, setUser } = useContext(userContext);
 
   const dispatch = useDispatch();
   const userRedux = useSelector(state => state.user.user);
+
+  const menuOptions = [
+    {
+      key: "1",
+      label: "Profile Dashboard",
+      icon: <ManageAccountsIcon fontSize="small" color="inherit" />,
+      onClick: () => router.push(ROUTES.profile),
+      show: true,
+    },
+    {
+      key: "2",
+      label: "Admin",
+      icon: <Settings fontSize="small" color="inherit" />,
+      onClick: () => router.push(ROUTES.adminPage),
+      show: userRedux.admin === 1 ? true : false,
+    },
+    {
+      key: "3",
+      label: "Logout",
+      icon: <Logout fontSize="small" color="inherit" />,
+      onClick: () => logout(),
+      show: true,
+    },
+  ];
 
   function dispatchFromFetch(data) {
     dispatch(
@@ -123,8 +142,6 @@ const ProfileButton = () => {
               const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
               const data = await res.json();
 
-              console.log("fetch: ", data);
-
               if (isMounted.current) {
                 setProfilePic(data?.userDetails?.data?.users[0].profilePic);
                 setDisplayName(data?.userDetails?.data?.users[0].displayName);
@@ -154,10 +171,13 @@ const ProfileButton = () => {
   }, [userRedux]);
 
   const handleClick = event => {
+    setOpenMenu(true);
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+    setOpenMenu(false);
   };
 
   const logout = async e => {
@@ -173,6 +193,7 @@ const ProfileButton = () => {
         email: "",
         logged: false,
         magicToken: "",
+        issuer: "",
       })
     );
 
@@ -219,56 +240,16 @@ const ProfileButton = () => {
           )}
         </>
       )}
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            color: "white",
-            cursor: "pointer",
-            background: "linear-gradient(334.52deg, #E87BFF 0%, #622CCE 100%)",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <ThemeProvider theme={theme2}>
-          <MenuItem onClick={() => router.push(ROUTES.profile)}>
-            <ListItemIcon>
-              <ManageAccountsIcon fontSize="small" color="pink" />
-            </ListItemIcon>{" "}
-            Profile Dashboard
-          </MenuItem>
-          <Divider />
-          {userRedux.admin === 1 && (
-            <MenuItem onClick={() => router.push(ROUTES.adminPage)}>
-              <ListItemIcon>
-                <Settings fontSize="small" color="pink" />
-              </ListItemIcon>
-              Admin Page
-            </MenuItem>
-          )}
-          <MenuItem onClick={logout}>
-            <ListItemIcon>
-              <Logout fontSize="small" color="pink" />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
-        </ThemeProvider>
-      </Menu>
+      {anchorEl ? (
+        <>
+          <Menu
+            id="account-menu"
+            anchor={anchorEl}
+            handleClose={handleClose}
+            options={menuOptions}
+          />
+        </>
+      ) : null}
     </>
   );
 };
