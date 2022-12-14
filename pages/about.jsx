@@ -19,32 +19,27 @@ const About = () => {
   const [scrollValue, setScrollValue] = useState(0);
   const router = useRouter();
 
-  useEffect(() => {
-    const onScroll = e => {
-      setScrollValue(e.target.documentElement.scrollTop);
-    };
+  // useEffect(() => {
+  //   const onScroll = e => {
+  //     setScrollValue(e.target.documentElement.scrollTop);
+  //   };
 
-    window.addEventListener("scroll", onScroll);
+  //   window.addEventListener("scroll", onScroll);
 
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  //   return () => window.removeEventListener("scroll", onScroll);
+  // }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     router.push(ROUTES.about);
   };
 
+  console.log("well shit");
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>
-          Gym Expert -{" "}
-          {router.asPath === ROUTES.about
-            ? "About"
-            : router.asPath === "/about#team"
-            ? "Team"
-            : "Testimonials"}
-        </title>
+        <title>Gym Expert - About</title>
       </Head>
       <CustomSnackbar />
       <Header sticky={true} />

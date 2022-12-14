@@ -12,6 +12,7 @@ import { useContext, useState, useEffect } from "react";
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import PostTestimonial from "../post-testimonial/post-testimonial.component";
+import { setReviewState } from "../../../redux/review.slice";
 
 const CardFocus = ({ name, pic, text, date, rating }) => {
   const { user, setUser } = useContext(userContext);
@@ -33,7 +34,7 @@ const CardFocus = ({ name, pic, text, date, rating }) => {
 
   useEffect(() => {
     dispatch(setReviewState(review));
-  }, [review]);
+  }, []);
 
   return (
     <motion.div

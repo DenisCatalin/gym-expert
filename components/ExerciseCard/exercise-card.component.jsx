@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setExercisesState } from "../../redux/exercises.slice";
+import { Button } from "../../interface/Button.tsx";
 
 const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [hover, setHover] = useState(false);
@@ -102,15 +103,21 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         transition={{ duration: 0.5 }}
       >
         <h1 className={styles.exerciseName}>{item.name}</h1>
-        <button className={styles.addToFav} onClick={handleClick}>
-          {isLoading ? (
-            <CircularProgress color="secondary" />
-          ) : favourite ? (
-            "Remove from favourites"
-          ) : (
-            "Add to favourites"
-          )}
-        </button>
+        <Button
+          className={styles.addToFav}
+          onClick={handleClick}
+          label={
+            <>
+              {isLoading ? (
+                <CircularProgress color="secondary" />
+              ) : favourite ? (
+                "Remove from favourites"
+              ) : (
+                "Add to favourites"
+              )}
+            </>
+          }
+        />
       </motion.div>
     </motion.div>
   );

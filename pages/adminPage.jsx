@@ -189,10 +189,7 @@ const AdminPage = () => {
                 <input type="file" name="file" className={styles.uploadInput} />
                 Upload Photo <CloudUploadIcon />
               </label>
-              <label className={styles.upload}>
-                <button type="submit" name="submit" className={styles.uploadInput} />
-                Post
-              </label>
+              <label className={styles.upload}>Post</label>
             </form>
           </div>
         </DialogContent>

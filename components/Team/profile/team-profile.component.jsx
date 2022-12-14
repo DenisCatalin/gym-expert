@@ -1,5 +1,6 @@
 import styles from "../../../css/components/TeamProfile.module.css";
 import Image from "next/image";
+import { Button } from "../../../interface/Button.tsx";
 
 const TeamProfile = ({ image }) => {
   return (
@@ -11,15 +12,21 @@ const TeamProfile = ({ image }) => {
         <div className={styles.name}>Denis Catalin</div>
         <div className={styles.title}>Web Developer</div>
         <div className={styles.social}>
-          <button className={styles.socialIcon}>
-            <Image src={"/static/facebook-dark.svg"} alt="" width="150" height="150" />
-          </button>
-          <button className={styles.socialIcon}>
-            <Image src={"/static/instagram-dark.svg"} alt="" width="150" height="150" />
-          </button>
-          <button className={styles.socialIcon}>
-            <Image src={"/static/twitter-dark.svg"} alt="" width="150" height="150" />
-          </button>
+          <Button
+            color={"secondary"}
+            className={styles.socialIcon}
+            label={<Image src={"/static/facebook-dark.svg"} alt="" width="80" height="60" />}
+          />
+          <Button
+            color={"secondary"}
+            className={styles.socialIcon}
+            label={<Image src={"/static/instagram-dark.svg"} alt="" width="80" height="60" />}
+          />
+          <Button
+            color={"secondary"}
+            className={styles.socialIcon}
+            label={<Image src={"/static/twitter-dark.svg"} alt="" width="80" height="60" />}
+          />
         </div>
       </div>
     </div>
