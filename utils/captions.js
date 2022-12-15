@@ -24,3 +24,9 @@ export const PURCHASE_DIALOG = {
     </>
   ),
 };
+
+export const CANCEL_SUBSCRIPTION_DIALOG = {
+  title: "We need you to be aware of the fact that...",
+  content:
+    "You are about to cancel your subscription. Which means that you will no longer be able to see the exercises page. Are you sure about that?",
+};
