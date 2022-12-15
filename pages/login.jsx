@@ -10,6 +10,8 @@ import { didTokenContext } from "../lib/didTokenContext";
 import { theme2 } from "../utils/muiTheme";
 import Head from "next/head";
 import { ROUTES } from "../Routes";
+import { setUserState } from "../redux/user.slice";
+import { useSelector, useDispatch } from "react-redux";
 
 const Login = () => {
   const [userMsg, setUserMsg] = useState("");
@@ -17,11 +19,16 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { didToken, setDidToken } = useContext(didTokenContext);
   const router = useRouter();
+  const dispatch = useDispatch();
+  const userRedux = useSelector(state => state.user.user);
 
   useEffect(() => {
     (async () => {
       const isLoggedIn = await magic.user.isLoggedIn();
-      if (isLoggedIn) router.push(ROUTES.homepage);
+      if (isLoggedIn) {
+        router.push(ROUTES.homepage);
+        dispatch(setUserState({ ...userRedux, needsUpdate: true }));
+      }
     })();
   }, []);
 

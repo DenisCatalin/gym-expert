@@ -23,10 +23,7 @@ const ProfileButton = () => {
   const router = useRouter();
   const { didToken, setDidToken } = useContext(didTokenContext);
   const isMounted = useRef(true);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [displayName, setDisplayName] = useState();
-  const [profilePic, setProfilePic] = useState();
   const { user, setUser } = useContext(userContext);
 
   const dispatch = useDispatch();
@@ -149,19 +146,12 @@ const ProfileButton = () => {
                 await checkPlan();
                 dispatchFromFetch(data);
                 cropPhoto();
-                setLoggedIn(true);
-                setProfilePic(data?.userDetails?.data?.users[0].profilePic);
-                setDisplayName(data?.userDetails?.data?.users[0].displayName);
                 setDidToken(didToken);
               }
             }
           } catch (error) {
             console.error("Can't retrieve email in NavBar", error);
           }
-        } else {
-          setProfilePic(userRedux.profilePic);
-          setDisplayName(userRedux.displayName);
-          setLoggedIn(userRedux.logged);
         }
       }
 
@@ -196,6 +186,8 @@ const ProfileButton = () => {
       })
     );
 
+    router.push(ROUTES.login);
+
     try {
       const res = await fetch("/api/logout", {
         method: "POST",
@@ -208,7 +200,6 @@ const ProfileButton = () => {
       console.log(data);
     } catch (error) {
       console.error("Error logging out", error);
-      router.push(ROUTES.login);
     }
   };
 
@@ -220,14 +211,14 @@ const ProfileButton = () => {
         </>
       ) : (
         <>
-          {loggedIn ? (
+          {userRedux.logged ? (
             <>
               <Avatar className={styles.avatar} onClick={handleClick}>
                 {userRedux.profilePic === null ? (
-                  displayName === null ? (
+                  userRedux.displayName === null ? (
                     userRedux.email[0]
                   ) : (
-                    displayName[0]
+                    userRedux.displayName[0]
                   )
                 ) : (
                   <Image src={userRedux.profilePic} alt="" layout="fill" objectFit="cover" />
