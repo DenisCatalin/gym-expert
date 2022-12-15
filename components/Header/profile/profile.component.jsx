@@ -57,27 +57,30 @@ const ProfileButton = () => {
   ];
 
   function dispatchFromFetch(data) {
-    dispatch(
-      setUserState({
-        ...userRedux,
-        displayName: data?.userDetails?.data?.users[0].displayName,
-        profilePic: data?.userDetails?.data?.users[0].profilePic,
-        cropArea: data?.userDetails?.data?.users[0].cropArea,
-        admin: data?.userDetails?.data?.users[0].admin,
-        testimonial: data?.userDetails?.data?.users[0].testimonial,
-        email: data?.userDetails?.data?.users[0].email,
-        paidPlan: data?.userDetails?.data?.users[0].paidPlan,
-        planExpireDate: data?.userDetails?.data?.users[0].planExpireDate,
-        issuer: data?.userDetails?.data?.users[0].issuer,
-        memberSince: data?.userDetails?.data?.users[0].memberSince,
-        subscribedSince: data?.userDetails?.data?.users[0].subscribedSince,
-        profileAvatar: data?.userDetails?.data?.users[0].profileAvatar,
-        favourites: data?.userDetails?.data?.users[0].favourites,
-        secretKeyword: data?.userDetails?.data?.users[0].secretKeyword,
-        needsUpdate: false,
-        logged: true,
-      })
-    );
+    if (data?.userDetails?.errors) {
+      console.log("Something went wrong", data?.userDetails?.errors[0]?.message);
+    } else {
+      dispatch(
+        setUserState({
+          ...userRedux,
+          displayName: data?.userDetails?.data?.users[0].displayName,
+          profilePic: data?.userDetails?.data?.users[0].profilePic,
+          cropArea: data?.userDetails?.data?.users[0].cropArea,
+          admin: data?.userDetails?.data?.users[0].admin,
+          testimonial: data?.userDetails?.data?.users[0].testimonial,
+          email: data?.userDetails?.data?.users[0].email,
+          paidPlan: data?.userDetails?.data?.users[0].paidPlan,
+          planExpireDate: data?.userDetails?.data?.users[0].planExpireDate,
+          issuer: data?.userDetails?.data?.users[0].issuer,
+          memberSince: data?.userDetails?.data?.users[0].memberSince,
+          subscribedSince: data?.userDetails?.data?.users[0].subscribedSince,
+          profileAvatar: data?.userDetails?.data?.users[0].profileAvatar,
+          secretKeyword: data?.userDetails?.data?.users[0].secretKeyword,
+          needsUpdate: false,
+          logged: true,
+        })
+      );
+    }
   }
 
   async function checkPlan() {
@@ -140,15 +143,16 @@ const ProfileButton = () => {
 
               const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
               const data = await res.json();
+              console.log(data?.userDetails?.data?.users[0]);
 
               if (isMounted.current) {
-                setProfilePic(data?.userDetails?.data?.users[0].profilePic);
-                setDisplayName(data?.userDetails?.data?.users[0].displayName);
                 await checkPlan();
                 dispatchFromFetch(data);
-                setLoggedIn(true);
-                setDidToken(didToken);
                 cropPhoto();
+                setLoggedIn(true);
+                setProfilePic(data?.userDetails?.data?.users[0].profilePic);
+                setDisplayName(data?.userDetails?.data?.users[0].displayName);
+                setDidToken(didToken);
               }
             }
           } catch (error) {
@@ -177,8 +181,8 @@ const ProfileButton = () => {
     setAnchorEl(null);
   };
 
-  const logout = async e => {
-    e.preventDefault();
+  const logout = async () => {
+    console.log(e);
 
     dispatch(
       setUserState({
@@ -222,7 +226,11 @@ const ProfileButton = () => {
             <>
               <Avatar className={styles.avatar} onClick={handleClick}>
                 {userRedux.profilePic === null ? (
-                  displayName[0]
+                  displayName === null ? (
+                    userRedux.email[0]
+                  ) : (
+                    displayName[0]
+                  )
                 ) : (
                   <Image src={userRedux.profilePic} alt="" layout="fill" objectFit="cover" />
                 )}

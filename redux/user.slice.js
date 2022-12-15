@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: {
-    displayName: "",
-    profilePic: "",
+    displayName: null,
+    profilePic: null,
     cropArea: null,
     admin: 0,
     testimonial: 0,
