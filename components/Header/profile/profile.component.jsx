@@ -182,13 +182,11 @@ const ProfileButton = () => {
   };
 
   const logout = async () => {
-    console.log(e);
-
     dispatch(
       setUserState({
         ...userRedux,
-        displayName: "",
-        profilePic: "",
+        displayName: null,
+        profilePic: null,
         admin: 0,
         testimonial: "",
         email: "",
