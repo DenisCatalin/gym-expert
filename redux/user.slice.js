@@ -18,7 +18,6 @@ const initialState = {
     logged: false,
     profileAvatar: "",
     cropped: false,
-    favourites: [],
     needsUpdate: true,
   },
 };
