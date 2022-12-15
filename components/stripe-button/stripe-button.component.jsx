@@ -13,13 +13,13 @@ const StripeCheckoutButton = ({ price, period }) => {
   const [issuer, setIssuer] = useState();
   const [email, setEmail] = useState();
 
-  const user = useSelector(state => state.user.user);
+  const userRedux = useSelector(state => state.user.user);
   const subscription = useSelector(state => state.subscription.subscription);
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      if (!user.logged) {
+      if (!userRedux.logged) {
         const res = await fetch("/api/userDetails");
         const data = await res.json();
 
@@ -27,8 +27,8 @@ const StripeCheckoutButton = ({ price, period }) => {
         setEmail(data?.userDetails?.data?.users[0].email);
         console.log(data);
       } else {
-        setIssuer(user.issuer);
-        setEmail(user.email);
+        setIssuer(userRedux.issuer);
+        setEmail(userRedux.email);
       }
     })();
   }, []);
@@ -56,9 +56,9 @@ const StripeCheckoutButton = ({ price, period }) => {
     ];
 
     const initialDate = Math.floor(Date.now() / 1000 + correctPeriod * 24 * 60 * 60);
-    const difference = user.planExpireDate - Date.now() / 1000;
+    const difference = userRedux.planExpireDate - Date.now() / 1000;
     const expireDate =
-      user.planExpireDate === 0 ? Math.floor(initialDate) : initialDate + difference;
+      userRedux.planExpireDate === 0 ? Math.floor(initialDate) : initialDate + difference;
 
     dispatch(
       setSnackbar({
@@ -109,10 +109,10 @@ const StripeCheckoutButton = ({ price, period }) => {
 
     dispatch(
       setUserState({
+        ...userRedux,
         paidPlan: period,
         planExpireDate: Math.round(expireDate),
         subscribedSince: Math.floor(Date.now() / 1000),
-        ...userRedux,
       })
     );
   };

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import DialogContent from "@mui/material/DialogContent";
 import Rating from "@mui/material/Rating";

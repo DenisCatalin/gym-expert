@@ -9,15 +9,12 @@ import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
+import { Dialog } from "../../../interface/Dialog.tsx";
+import { Button } from "../../../interface/Button.tsx";
+import { CANCEL_SUBSCRIPTION_DIALOG } from "../../../utils/captions";
 
 const Subscription = () => {
   const [expanded, setExpanded] = useState(false);
@@ -124,27 +121,17 @@ const Subscription = () => {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title" className={styles.background}>
-          {"We need you to be aware of the fact that..."}
-        </DialogTitle>
-        <DialogContent className={styles.background}>
-          <DialogContentText id="alert-dialog-description" className={styles.text}>
-            You are about to cancel your subscription. Which means that you will no longer be able
-            to see the exercises page. Are you sure?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions className={styles.background}>
-          <Button color="secondary" onClick={handleClose}>
-            No
-          </Button>
-          <Button color="secondary" onClick={cancelSubscription} autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
+        title={CANCEL_SUBSCRIPTION_DIALOG.title}
+        contentStyles={styles.background}
+        textStyles={styles.text}
+        contentText={CANCEL_SUBSCRIPTION_DIALOG.content}
+        actions={
+          <>
+            <Button color="secondary" onClick={handleClose} label="No" />
+            <Button color="secondary" onClick={cancelSubscription} autoFocus={true} label="Yes" />
+          </>
+        }
+      />
     </Accordion>
   );
 };
