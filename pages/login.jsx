@@ -23,16 +23,6 @@ const Login = () => {
   const userRedux = useSelector(state => state.user.user);
 
   useEffect(() => {
-    (async () => {
-      const isLoggedIn = await magic.user.isLoggedIn();
-      if (isLoggedIn) {
-        router.push(ROUTES.homepage);
-        dispatch(setUserState({ ...userRedux, needsUpdate: true }));
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
     const handleComplete = () => {
       setIsLoading(false);
     };
@@ -66,6 +56,7 @@ const Login = () => {
             const loggedInResponse = await res.json();
             if (loggedInResponse.done) {
               router.push(ROUTES.homepage);
+              dispatch(setUserState({ ...userRedux, needsUpdate: true }));
             } else {
               console.error("Something went wrong");
             }
