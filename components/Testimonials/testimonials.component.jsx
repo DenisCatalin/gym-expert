@@ -32,7 +32,7 @@ const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const testimonialss = useSelector(state => state.testimonial);
+  const testimonialss = useSelector(state => state.testimonial.testimonial);
   const userRedux = useSelector(state => state.user.user);
 
   const dispatch = useDispatch();
@@ -78,26 +78,29 @@ const Testimonials = () => {
         method: "POST",
       });
       const data = await res.json();
+      console.log(data?.getTestimonialsForUser?.data?.testimonials);
       setFetched(true);
       setTestimonials(data?.getTestimonialsForUser?.data?.testimonials);
       // setReviews(data?.getTestimonialsForUser?.data?.testimonials);
     })();
-  }, [testimonialss.testimonial]);
+  }, [testimonialss]);
 
   useEffect(() => {
-    setTestimonial(testimonials[count]);
-    setFetched(true);
-    if (reviews !== null) {
-      if (count === 0) {
-        setReviewLeft(reviews[testimonials.length - 1]);
-        setReviewRight(reviews[count + 1]);
-      } else if (count === 5) {
-        setReviewLeft(reviews[count - 1]);
-        setReviewRight(reviews[0]);
-        console.log(count - 1, review[0]);
-      } else {
-        setReviewRight(reviews[count + 1]);
-        setReviewLeft(reviews[count - 1]);
+    if (count > 0) {
+      setTestimonial(testimonials[count]);
+      setFetched(true);
+      if (reviews !== null) {
+        if (count === 0) {
+          setReviewLeft(reviews[testimonials.length - 1]);
+          setReviewRight(reviews[count + 1]);
+        } else if (count === 5) {
+          setReviewLeft(reviews[count - 1]);
+          setReviewRight(reviews[0]);
+          console.log(count - 1, review[0]);
+        } else {
+          setReviewRight(reviews[count + 1]);
+          setReviewLeft(reviews[count - 1]);
+        }
       }
     }
   }, [reviews, count, testimonials]);
@@ -126,7 +129,7 @@ const Testimonials = () => {
         <h1 className={styles.title}>What our clients say</h1>
         <div className={styles.testimonials}>
           <div className={styles.blur}>
-            {testimonials.length < 2 ? null : (
+            {testimonials?.length < 2 ? null : (
               <div className={styles.arrows}>
                 <ThemeProvider theme={theme2}>
                   <motion.button
@@ -153,7 +156,7 @@ const Testimonials = () => {
             <>
               {width > 1520 ? (
                 <>
-                  {testimonials.length > 2 ? (
+                  {testimonials?.length > 2 ? (
                     <>
                       {testimonial !== undefined ? (
                         <>
@@ -205,7 +208,7 @@ const Testimonials = () => {
                           />
                         </>
                       ) : (
-                        <h1>null</h1>
+                        <h1 className={styles.title}>No testimonials</h1>
                       )}
                     </>
                   )}
@@ -223,7 +226,7 @@ const Testimonials = () => {
                       />
                     </>
                   ) : (
-                    <h1>null</h1>
+                    <h1 className={styles.title}>No testimonials</h1>
                   )}
                 </>
               )}

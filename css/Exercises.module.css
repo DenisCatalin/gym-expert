@@ -41,7 +41,7 @@
     width: 7%;
     height: 50%;
     border-radius: 10px;
-    font-size: 1em;
+    font-size: .8em;
     font-family: var(--font);
     font-weight: bold;
     color: var(--white);
