@@ -14,7 +14,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
 
   const dispatch = useDispatch();
   const userRedux = useSelector(state => state.user.user);
-  const exercisesRedux = useSelector(state => state.user.user);
+  const exercisesRedux = useSelector(state => state.exercises.exercises);
 
   useEffect(() => {
     (async () => {
@@ -28,12 +28,15 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         },
       });
       const data = await res.json();
-      console.log(data);
-      if (data.checkFavouriteQueryForUser === 0) setFavourite(false);
-      else setFavourite(true);
+      console.log("BAAA", data);
+      if (data.checkFavouriteQueryForUser === 0) {
+        setFavourite(false);
+      } else {
+        setFavourite(true);
+      }
       setIsLoading(false);
     })();
-  }, []);
+  }, [exercisesRedux]);
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -63,7 +66,10 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         });
         const data2 = await res2.json();
         console.log(data2);
-      } else setFavourite(true);
+        dispatch(setExercisesState({ exercises: !exercisesRedux.exercises }));
+      } else {
+        setFavourite(true);
+      }
       setIsLoading(false);
     } else {
       const res = await fetch("/api/deleteFavourites", {
