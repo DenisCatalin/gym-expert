@@ -6,7 +6,7 @@ const initialState = {
     profilePic: null,
     cropArea: null,
     admin: 0,
-    testimonial: 0,
+    testimonial: false,
     email: "",
     magicToken: "",
     paidPlan: null,

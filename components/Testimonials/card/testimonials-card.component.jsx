@@ -7,8 +7,6 @@ import { ratingLabels } from "../../../lib/ratingLabels";
 import Image from "next/image";
 
 const Card = ({ profilePic, name, date, text, rating, right = false }) => {
-  const value = 5;
-
   return (
     <motion.div
       className={styles.card}

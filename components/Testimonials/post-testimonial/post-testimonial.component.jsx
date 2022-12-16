@@ -25,7 +25,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
   const [hover, setHover] = useState(-1);
   const [testimonial, setTestimonial] = useState("");
 
-  const testimonialss = useSelector(state => state.testimonial);
+  const testimonialss = useSelector(state => state.testimonial.testimonial);
   const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 

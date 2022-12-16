@@ -224,7 +224,7 @@ const ProfilePic = () => {
                       <PhotoCrop image={imgSrc} />
                     )}
                   </div>
-                  <button>Save</button>
+                  <button className={styles.upload}>Save</button>
                 </>
               ) : null}
 
