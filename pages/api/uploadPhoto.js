@@ -8,6 +8,7 @@ export default async function uploadPhoto(req, res) {
       const profilePic = req ? JSON.parse(req.headers.body).profilePic : null;
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
       const changes = await changeNewProfilePicQuery(token, displayName, profilePic, issuer);
+      console.log("from here: ", profilePic);
 
       res.send({ done: true, changes });
     } catch (error) {

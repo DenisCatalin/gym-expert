@@ -11,6 +11,7 @@ import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
+import { setSnackbar } from "../../../redux/snackbar.slice";
 
 const SetSecretKey = () => {
   const [expanded, setExpanded] = useState(false);

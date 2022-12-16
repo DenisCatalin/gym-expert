@@ -112,13 +112,15 @@ const ProfileButton = () => {
 
   const cropPhoto = async () => {
     if (
-      userRedux.profilePic !== "" &&
+      userRedux.profilePic !== null &&
       userRedux.logged &&
       userRedux.cropped === false &&
       userRedux.cropArea !== null
     ) {
       user.cropped = true;
+      console.log("YE", userRedux.profilePic);
       const img = await cropImages(userRedux.profilePic, userRedux.cropArea);
+      console.log(" IMG ESTE", img);
       dispatch(
         setUserState({
           ...userRedux,

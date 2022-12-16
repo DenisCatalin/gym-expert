@@ -28,12 +28,15 @@ const ProfilePic = () => {
   const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
+  console.log("YE", userRedux.profilePic);
+
   useEffect(() => {
     if (userRedux.logged) {
       setImgSrc(userRedux.profileAvatar);
       setHasImg(true);
       setCroppedAreaPixels(null);
-      cropPhoto();
+      console.log("YE2", userRedux.profilePic);
+      // cropPhoto();
       // dispatch(setCropAreaRedux({ width: 1440, height: 1080, x: 240, y: 0 }));
     }
   }, [user, open, hasToClick]);
@@ -113,6 +116,8 @@ const ProfilePic = () => {
         body: formData,
       }).then(r => r.json());
 
+      console.log("front end ", data.secure_url);
+
       const res = await fetch("/api/uploadPhoto", {
         method: "POST",
         headers: {
@@ -139,7 +144,7 @@ const ProfilePic = () => {
     setUploadData(false);
     user.cropped = true;
     handleClose();
-    cropPhoto();
+    // cropPhoto();
   };
 
   const saveCropArea = () => {
@@ -147,7 +152,7 @@ const ProfilePic = () => {
     dispatch(setUserState({ ...userRedux, cropArea: cropImage }));
     dispatch(setUserState({ ...userRedux, profilePic: userRedux.profileAvatar }));
     user.cropped = false;
-    cropPhoto();
+    // cropPhoto();
   };
 
   return (
@@ -219,7 +224,7 @@ const ProfilePic = () => {
                       <PhotoCrop image={imgSrc} />
                     )}
                   </div>
-                  <Button className={styles.buttonUpload} label="Save" />
+                  <button>Save</button>
                 </>
               ) : null}
 
