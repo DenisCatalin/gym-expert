@@ -66,7 +66,7 @@ const Exercises = () => {
 
   const router = useRouter();
 
-  const handleChange = value => {
+  const handleChange = (_event, value) => {
     setPage(value);
   };
 
@@ -268,7 +268,7 @@ const Exercises = () => {
                         overflow: "auto",
                       }}
                     >
-                      {favourites.map((item, i) =>
+                      {favourites?.map((item, i) =>
                         favourites.length === 1 ? (
                           <>
                             <ExerciseCard item={item} key={i} last={true} fav={true} />
