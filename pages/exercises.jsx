@@ -32,6 +32,7 @@ const bodyParts = [
   "upper arms",
   "upper legs",
   "waist",
+  "favourites",
 ];
 
 const exercise = [
@@ -55,7 +56,7 @@ const options = {
 
 const Exercises = () => {
   const [page, setPage] = useState(1);
-  const [bodyPart, setBodyPart] = useState("");
+  const [bodyPart, setBodyPart] = useState("favourites");
   const [bodyPartsPage, setBodyPartsPage] = useState(1);
   const [exercises, setExercises] = useState([]);
   const [favourites, setFavourites] = useState([]);
@@ -135,14 +136,17 @@ const Exercises = () => {
   }, [userRedux]);
 
   useEffect(() => {
-    (async function () {
-      const data = await fetch(
-        `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
-        options
-      );
-      const res = await data.json();
-      setExercises(res);
-    })();
+    if (bodyPart === "favourites") {
+    } else {
+      (async function () {
+        const data = await fetch(
+          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
+          options
+        );
+        const res = await data.json();
+        setExercises(res);
+      })();
+    }
   }, [bodyPart]);
 
   const increaseCategories = () => {
@@ -156,6 +160,8 @@ const Exercises = () => {
   const selectExercise = event => {
     setBodyPart(event.target.textContent);
   };
+
+  console.log("hey?");
 
   return (
     <div className={styles.container}>
@@ -179,8 +185,8 @@ const Exercises = () => {
                 {width > 900 ? (
                   bodyParts.map((item, i) => (
                     <Button
-                      className={styles.bodyPart}
                       key={i}
+                      className={styles.bodyPart}
                       onClick={selectExercise}
                       label={item}
                     />
@@ -221,7 +227,7 @@ const Exercises = () => {
                               ? bodyPartsPage > 1
                                 ? "none"
                                 : "all"
-                              : bodyPartsPage > 4
+                              : bodyPartsPage > 5
                               ? "none"
                               : "all",
                           opacity:
@@ -229,7 +235,7 @@ const Exercises = () => {
                               ? bodyPartsPage > 1
                                 ? "0.2"
                                 : "1"
-                              : bodyPartsPage > 4
+                              : bodyPartsPage > 5
                               ? "0.2"
                               : "1",
                         }}
@@ -246,7 +252,7 @@ const Exercises = () => {
                 )}
               </motion.div>
               <div className={styles.exercisess}>
-                {bodyPart === "" ? (
+                {bodyPart === "favourites" ? (
                   <div
                     style={{
                       display: "flex",
@@ -294,7 +300,7 @@ const Exercises = () => {
             </div>
           </div>
           <div className={styles.pagination}>
-            {bodyPart === "" ? null : (
+            {bodyPart === "favourites" ? null : (
               <ThemeProvider theme={theme}>
                 <Pagination
                   count={Math.ceil(exercises.length / exercisesPerPage)}
