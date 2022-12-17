@@ -62,7 +62,7 @@ const ProfileButton = () => {
           ...userRedux,
           displayName: data?.userDetails?.data?.users[0].displayName,
           profilePic: data?.userDetails?.data?.users[0].profilePic,
-          cropArea: data?.userDetails?.data?.users[0].cropArea,
+          cropArea: JSON.parse(data?.userDetails?.data?.users[0].cropArea),
           admin: data?.userDetails?.data?.users[0].admin,
           testimonial: data?.userDetails?.data?.users[0].testimonial,
           email: data?.userDetails?.data?.users[0].email,
@@ -115,16 +115,15 @@ const ProfileButton = () => {
       userRedux.profilePic !== null &&
       userRedux.logged &&
       userRedux.cropped === false &&
-      userRedux.cropArea !== null
+      Object.keys(userRedux.cropArea).length !== 0
     ) {
       user.cropped = true;
-      console.log("YE", userRedux.profilePic);
       const img = await cropImages(userRedux.profilePic, userRedux.cropArea);
-      console.log(" IMG ESTE", img);
       dispatch(
         setUserState({
           ...userRedux,
-          profilePic: img,
+          profileAvatar: img,
+          needsUpdate: true,
         })
       );
     }
@@ -142,18 +141,18 @@ const ProfileButton = () => {
 
               const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
               const data = await res.json();
-              console.log(data?.userDetails?.data?.users[0]);
 
               if (isMounted.current) {
-                await checkPlan();
                 dispatchFromFetch(data);
-                cropPhoto();
                 setDidToken(didToken);
               }
             }
           } catch (error) {
             console.error("Can't retrieve email in NavBar", error);
           }
+        } else {
+          checkPlan();
+          cropPhoto();
         }
       }
 
@@ -223,7 +222,12 @@ const ProfileButton = () => {
                     userRedux.displayName[0]
                   )
                 ) : (
-                  <Image src={userRedux.profilePic} alt="" layout="fill" objectFit="cover" />
+                  <Image
+                    src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
+                    alt=""
+                    layout="fill"
+                    objectFit="cover"
+                  />
                 )}
               </Avatar>
             </>

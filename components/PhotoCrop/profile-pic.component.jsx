@@ -24,35 +24,37 @@ const ProfilePic = () => {
   const [croppedPhotoUrl, setCroppedPhotoUrl] = useState("");
   const [open, setOpen] = useState(false);
   const { cropImage, setCropImage } = useContext(cropContext);
-  const [hasToClick, setHasToClick] = useState(false);
+  const [cropReset, setCropReset] = useState(false);
   const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
-  console.log("YE", userRedux.profilePic);
-
   useEffect(() => {
     if (userRedux.logged) {
-      setImgSrc(userRedux.profileAvatar);
+      setImgSrc(userRedux.profilePic);
       setHasImg(true);
       setCroppedAreaPixels(null);
-      console.log("YE2", userRedux.profilePic);
-      // cropPhoto();
-      // dispatch(setCropAreaRedux({ width: 1440, height: 1080, x: 240, y: 0 }));
+      if (cropImage === null) {
+        dispatch(
+          setUserState({ ...userRedux, cropArea: { width: 1440, height: 1080, x: 240, y: 0 } })
+        );
+        cropPhoto();
+      }
     }
-  }, [user, open, hasToClick]);
+  }, [user, open, cropReset]);
 
   const cropPhoto = async () => {
     if (
       userRedux.profilePic !== "" &&
       userRedux.logged &&
       userRedux.cropped === false &&
-      userRedux.cropArea !== null
+      cropImage !== null
     ) {
       user.cropped = true;
-      const img = await cropImages(userRedux.profilePic, userRedux.cropArea);
+      const img = await cropImages(userRedux.profilePic, cropImage);
       setImgSrc(img);
       setCroppedPhotoUrl(img);
-      dispatch(setUserState({ ...userRedux, profilePic: img }));
+      console.log(img);
+      dispatch(setUserState({ ...userRedux, profileAvatar: img }));
     }
   };
 
@@ -97,7 +99,8 @@ const ProfilePic = () => {
       headers: {
         body: JSON.stringify({
           displayName: userRedux.displayName,
-          cropArea: JSON.stringify(croppedAreaPixels),
+          issuer: userRedux.issuer,
+          cropArea: JSON.stringify(cropImage),
         }),
       },
     });
@@ -129,8 +132,14 @@ const ProfilePic = () => {
         },
       });
 
-      dispatch(setUserState({ ...userRedux, profilePic: data.secure_url }));
-      dispatch(setUserState({ ...userRedux, profileAvatar: data.secure_url }));
+      dispatch(
+        setUserState({
+          ...userRedux,
+          profilePic: data.secure_url,
+          profileAvatar: data.secure_url,
+          needsUpdate: true,
+        })
+      );
 
       const response = await res.json();
       console.log(response);
@@ -144,22 +153,26 @@ const ProfilePic = () => {
     setUploadData(false);
     user.cropped = true;
     handleClose();
-    // cropPhoto();
+    dispatch(setUserState({ ...userRedux, cropArea: cropImage }));
+    cropPhoto();
   };
 
-  const saveCropArea = () => {
-    setCroppedAreaPixels(cropImage);
-    dispatch(setUserState({ ...userRedux, cropArea: cropImage }));
-    dispatch(setUserState({ ...userRedux, profilePic: userRedux.profileAvatar }));
-    user.cropped = false;
-    // cropPhoto();
+  const resetCrop = () => {
+    setCropReset(!cropReset);
+    console.log("log");
   };
 
   return (
     <div className={styles.profilePicContainer}>
       <div className={styles.profilePic} onClick={handleClickOpen}>
         {userRedux.profilePic !== null ? (
-          <Image src={userRedux.profilePic} alt="" layout="fill" objectFit="cover" priority />
+          <Image
+            src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
+            alt=""
+            layout="fill"
+            objectFit="cover"
+            priority
+          />
         ) : (
           <>
             <h1 className={styles.text}>No Photo</h1>
@@ -198,14 +211,7 @@ const ProfilePic = () => {
                   flexDirection: "column",
                 }}
               >
-                <Button className={styles.buttonUpload} onClick={saveCropArea} label={"Crop"} />
-                <Button
-                  className={styles.buttonUpload}
-                  onClick={() => {
-                    setHasToClick(!hasToClick);
-                  }}
-                  label={"Reset"}
-                />
+                <Button className={styles.buttonUpload} onClick={resetCrop} label={"Reset"} />
               </div>
             </>
           )}

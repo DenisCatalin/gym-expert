@@ -7,7 +7,6 @@ const PhotoCrop = ({ image }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    // console.log(croppedArea, croppedAreaPixels);
     setCropImage(croppedAreaPixels);
   }, []);
   return (
