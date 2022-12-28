@@ -55,7 +55,7 @@ const Login = () => {
             });
             const loggedInResponse = await res.json();
             if (loggedInResponse.done) {
-              router.push(ROUTES.homepage);
+              // router.push(ROUTES.homepage);
               dispatch(setUserState({ ...userRedux, needsUpdate: true }));
             } else {
               console.error("Something went wrong");
