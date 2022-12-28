@@ -9,6 +9,7 @@ export default async function AddTestimonial(req, res) {
       const text = req ? JSON.parse(req.headers.body).text : null;
       const rating = req ? JSON.parse(req.headers.body).rating : null;
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
+      const pic = req ? JSON.parse(req.headers.body).pic : null;
 
       const addTestimonialForUser = await addTestimonialQuery(
         token,
@@ -16,12 +17,13 @@ export default async function AddTestimonial(req, res) {
         date,
         text,
         rating,
-        issuer
+        issuer,
+        pic
       );
 
       res.send({ message: "Complete", addTestimonialForUser });
     } catch (error) {
-      console.error("Something went wrong adding the purchase", error);
+      console.error("Something went wrong adding the testimonial", error);
       res.status(500).send({ message: "Incomplete" });
     }
   } else {

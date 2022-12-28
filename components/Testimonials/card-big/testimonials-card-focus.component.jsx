@@ -12,8 +12,9 @@ import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import PostTestimonial from "../post-testimonial/post-testimonial.component";
 import { setReviewState } from "../../../redux/review.slice";
+import Image from "next/image";
 
-const CardFocus = ({ name, pic, text, date, rating }) => {
+const CardFocus = ({ name, profilePic, text, date, rating }) => {
   const [editMode, setEditMode] = useState(false);
 
   const userRedux = useSelector(state => state.user.user);
@@ -61,7 +62,9 @@ const CardFocus = ({ name, pic, text, date, rating }) => {
           className={styles.profilePic}
           animate={{ opacity: [0, 1] }}
           transition={{ duration: 3 }}
-        ></motion.div>
+        >
+          <Image src={profilePic} alt={name} layout="fill" />
+        </motion.div>
       </div>
       <div className={styles.name}>
         <motion.h1
@@ -71,6 +74,7 @@ const CardFocus = ({ name, pic, text, date, rating }) => {
         >
           {name}
         </motion.h1>
+        {/* {date} */}
       </div>
       <div className={styles.testimonialContent}>
         {editMode ? (

@@ -96,7 +96,6 @@ const Testimonials = () => {
         } else if (count === 5) {
           setReviewLeft(reviews[count - 1]);
           setReviewRight(reviews[0]);
-          console.log(count - 1, review[0]);
         } else {
           setReviewRight(reviews[count + 1]);
           setReviewLeft(reviews[count - 1]);
@@ -162,7 +161,7 @@ const Testimonials = () => {
                         <>
                           <CardFocus
                             name={testimonial.name}
-                            pic={"/static/test.jpg"}
+                            profilePic={testimonial.profilePic}
                             text={testimonial.text}
                             date={testimonial.date}
                             rating={testimonial.rating}
@@ -172,7 +171,7 @@ const Testimonials = () => {
                             <>
                               <Card
                                 name={reviewLeft.name}
-                                pic={"/static/test.jpg"}
+                                profilePic={reviewLeft.profilePic}
                                 text={reviewLeft.text}
                                 date={reviewLeft.date}
                                 rating={reviewLeft.rating}
@@ -184,7 +183,7 @@ const Testimonials = () => {
                             <>
                               <Card
                                 name={reviewRight.name}
-                                pic={"/static/test.jpg"}
+                                profilePic={reviewRight.profilePic}
                                 text={reviewRight.text}
                                 date={reviewRight.date}
                                 rating={reviewRight.rating}
@@ -201,7 +200,7 @@ const Testimonials = () => {
                         <>
                           <CardFocus
                             name={testimonial.name}
-                            pic={"/static/test.jpg"}
+                            profilePic={testimonial.profilePic}
                             text={testimonial.text}
                             date={testimonial.date}
                             rating={testimonial.rating}
@@ -219,7 +218,7 @@ const Testimonials = () => {
                     <>
                       <ResponsiveCard
                         name={testimonial.name}
-                        pic={"/static/test.jpg"}
+                        profilePic={testimonial.profilePic}
                         text={testimonial.text}
                         date={testimonial.date}
                         rating={testimonial.rating}
