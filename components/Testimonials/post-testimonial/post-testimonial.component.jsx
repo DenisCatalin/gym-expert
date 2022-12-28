@@ -78,6 +78,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
               date: dateString,
               text: testimonial,
               rating: rating,
+              pic: userRedux.profilePic,
             }),
           },
         });

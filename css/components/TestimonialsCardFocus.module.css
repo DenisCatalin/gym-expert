@@ -34,6 +34,7 @@
     background: rgb(145, 145, 145);
     box-shadow: 2px 4px 5px 0px rgba(0, 0, 0, 0.5);
     position: relative;
+    overflow: hidden;
 }
 
 .name {
