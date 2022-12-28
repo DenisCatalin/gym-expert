@@ -7,7 +7,7 @@ import { ratingLabels } from "../../../lib/ratingLabels";
 import EditIcon from "@mui/icons-material/Edit";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme2 } from "../../../utils/muiTheme";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import PostTestimonial from "../post-testimonial/post-testimonial.component";
