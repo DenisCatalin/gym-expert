@@ -39,7 +39,6 @@ const News = () => {
         }
       }
     })();
-    console.log("hei", fetched);
   }, [posts, fetched]);
 
   useEffect(() => {

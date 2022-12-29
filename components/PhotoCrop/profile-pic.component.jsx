@@ -53,14 +53,9 @@ const ProfilePic = () => {
       const img = await cropImages(userRedux.profilePic, cropImage);
       setImgSrc(img);
       setCroppedPhotoUrl(img);
-      console.log(img);
       dispatch(setUserState({ ...userRedux, profileAvatar: img }));
     }
   };
-
-  useEffect(() => {
-    console.log("TEST", cropImage);
-  }, [cropImage]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -104,8 +99,7 @@ const ProfilePic = () => {
         }),
       },
     });
-    const response = await res.json();
-    console.log(response);
+    await res.json();
     dispatch(
       setSnackbar({
         open: true,
@@ -118,8 +112,6 @@ const ProfilePic = () => {
         method: "POST",
         body: formData,
       }).then(r => r.json());
-
-      console.log("front end ", data.secure_url);
 
       const res = await fetch("/api/uploadPhoto", {
         method: "POST",
@@ -141,8 +133,7 @@ const ProfilePic = () => {
         })
       );
 
-      const response = await res.json();
-      console.log(response);
+      await res.json();
       dispatch(
         setSnackbar({
           open: true,
@@ -159,7 +150,6 @@ const ProfilePic = () => {
 
   const resetCrop = () => {
     setCropReset(!cropReset);
-    console.log("log");
   };
 
   return (

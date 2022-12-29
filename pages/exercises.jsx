@@ -161,8 +161,6 @@ const Exercises = () => {
     setBodyPart(event.target.textContent);
   };
 
-  console.log("hey?");
-
   return (
     <div className={styles.container}>
       <Head>

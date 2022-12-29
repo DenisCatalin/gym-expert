@@ -82,8 +82,6 @@ const AdminPage = () => {
 
       const formData = new FormData();
 
-      console.log(formData);
-
       for (const file of fileInput.files) {
         formData.append("file", file);
       }
@@ -108,9 +106,7 @@ const AdminPage = () => {
           },
         });
 
-        const response = await res.json();
-        console.log(response);
-        console.log("testimonial picture: " + data.secure_url);
+        await res.json();
       }
       handleClose();
     }

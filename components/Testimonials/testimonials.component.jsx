@@ -78,7 +78,6 @@ const Testimonials = () => {
         method: "POST",
       });
       const data = await res.json();
-      console.log(data?.getTestimonialsForUser?.data?.testimonials);
       setFetched(true);
       setTestimonials(data?.getTestimonialsForUser?.data?.testimonials);
       // setReviews(data?.getTestimonialsForUser?.data?.testimonials);

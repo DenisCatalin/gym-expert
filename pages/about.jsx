@@ -34,8 +34,6 @@ const About = () => {
     router.push(ROUTES.about);
   };
 
-  console.log("well shit");
-
   return (
     <div className={styles.container}>
       <Head>

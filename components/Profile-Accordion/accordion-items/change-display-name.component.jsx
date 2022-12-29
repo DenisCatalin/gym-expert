@@ -90,8 +90,7 @@ const ChangeDisplayName = () => {
             }),
           },
         });
-        const data2 = await res2.json();
-        console.log(data2);
+        await res2.json();
         setSecretKeyword("");
         setNewName("");
         dispatch(setUserState({ ...userRedux, displayName: newName }));

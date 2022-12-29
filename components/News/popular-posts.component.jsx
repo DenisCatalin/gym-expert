@@ -15,7 +15,6 @@ const PopularPosts = () => {
           method: "POST",
         });
         const data = await res.json();
-        console.log(data);
         setPosts(data?.getPopularNewsForUser?.data?.news);
         setFetched(true);
       }

@@ -7,8 +7,6 @@ export default async function IncreaseViews(req, res) {
       const id = req ? JSON.parse(req.headers.body).id : null;
       const views = req ? JSON.parse(req.headers.body).views : null;
 
-      console.log(id, views);
-
       const increaseViews = await increaseViewsForPostQuery(token, id, views);
 
       res.send({ message: "Complettte", increaseViews });

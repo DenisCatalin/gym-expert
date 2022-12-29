@@ -30,7 +30,6 @@ const ChangePassword = () => {
 
   const changeSecretKeyword = async () => {
     setIsLoading(true);
-    console.log("Click");
     if (userRedux.logged) {
       if (secretKeyword === "") {
         dispatch(
@@ -91,8 +90,7 @@ const ChangePassword = () => {
           }),
         },
       });
-      const data2 = await res2.json();
-      console.log(data2);
+      await res2.json();
     }
     setIsLoading(false);
     setSecretKeyword("");

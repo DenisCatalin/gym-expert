@@ -62,8 +62,7 @@ const Subscription = () => {
         }),
       },
     });
-    const data2 = await res2.json();
-    console.log(data2);
+    await res2.json();
     setIsLoading(false);
     handleClose();
     dispatch(

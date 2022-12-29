@@ -68,8 +68,7 @@ const SetSecretKey = () => {
           }),
         },
       });
-      const data2 = await res2.json();
-      console.log(data2);
+      await res2.json();
       dispatch(
         setSnackbar({
           open: true,

@@ -64,8 +64,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        const response = await res.json();
-        console.log(response);
+        await res.json();
         dispatch(setTestimonialState(!testimonialss.testimonial));
         dispatch(setReviewState(false));
       } else {
@@ -82,8 +81,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        const response = await res.json();
-        console.log(response);
+        await res.json();
         dispatch(setTestimonialState(!testimonialss.testimonial));
 
         const res2 = await fetch("/api/addTestimonialToUser", {
@@ -94,8 +92,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        const response2 = await res2.json();
-        console.log(response2);
+        await res2.json();
         dispatch(setUserState({ ...userRedux, testimonial: true }));
         dispatch(setReviewState(false));
       }

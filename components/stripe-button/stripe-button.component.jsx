@@ -25,7 +25,6 @@ const StripeCheckoutButton = ({ price, period }) => {
 
         setIssuer(data?.userDetails?.data?.users[0].issuer);
         setEmail(data?.userDetails?.data?.users[0].email);
-        console.log(data);
       } else {
         setIssuer(userRedux.issuer);
         setEmail(userRedux.email);
@@ -90,8 +89,7 @@ const StripeCheckoutButton = ({ price, period }) => {
         }),
       },
     });
-    const data = await res.json();
-    console.log(data);
+    await res.json();
 
     const res2 = await fetch("/api/updateSubscription", {
       method: "POST",
@@ -104,8 +102,7 @@ const StripeCheckoutButton = ({ price, period }) => {
         }),
       },
     });
-    const data2 = await res2.json();
-    console.log(data2);
+    await res2.json();
 
     dispatch(
       setUserState({

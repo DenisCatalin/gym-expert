@@ -55,7 +55,7 @@ const ProfileButton = () => {
 
   function dispatchFromFetch(data) {
     if (data?.userDetails?.errors) {
-      console.log("Something went wrong", data?.userDetails?.errors[0]?.message);
+      console.error("Something went wrong", data?.userDetails?.errors[0]?.message);
     } else {
       dispatch(
         setUserState({
@@ -104,8 +104,7 @@ const ProfileButton = () => {
             }),
           },
         });
-        const data2 = await res2.json();
-        console.log(data2);
+        await res2.json();
       }
     }
   }
@@ -197,8 +196,7 @@ const ProfileButton = () => {
           "Content-Type": "application/json",
         },
       });
-      const data = await res.json();
-      console.log(data);
+      await res.json();
     } catch (error) {
       console.error("Error logging out", error);
     }

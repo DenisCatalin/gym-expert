@@ -28,7 +28,6 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         },
       });
       const data = await res.json();
-      console.log("BAAA", data);
       if (data.checkFavouriteQueryForUser === 0) {
         setFavourite(false);
       } else {
@@ -51,7 +50,6 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         },
       });
       const data = await res.json();
-      console.log(data);
 
       if (data.checkFavouriteQueryForUser === 0) {
         const res2 = await fetch("/api/addToFavourites", {
@@ -64,8 +62,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
             }),
           },
         });
-        const data2 = await res2.json();
-        console.log(data2);
+        await res2.json();
         dispatch(setExercisesState({ exercises: !exercisesRedux.exercises }));
       } else {
         setFavourite(true);
@@ -82,8 +79,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         },
       });
       dispatch(setExercisesState({ exercises: !exercisesRedux.exercises }));
-      const data = await res.json();
-      console.log(data);
+      await res.json();
       setFavourite(false);
       setIsLoading(false);
     }
