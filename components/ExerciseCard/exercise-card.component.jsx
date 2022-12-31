@@ -63,7 +63,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
           },
         });
         await res2.json();
-        dispatch(setExercisesState({ exercises: !exercisesRedux.exercises }));
+        dispatch(setExercisesState({ exercises: !exercisesRedux?.exercises }));
       } else {
         setFavourite(true);
       }
@@ -78,8 +78,8 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
           }),
         },
       });
-      dispatch(setExercisesState({ exercises: !exercisesRedux.exercises }));
       await res.json();
+      dispatch(setExercisesState({ exercises: !exercisesRedux?.exercises }));
       setFavourite(false);
       setIsLoading(false);
     }
