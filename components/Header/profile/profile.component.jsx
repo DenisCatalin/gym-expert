@@ -69,7 +69,7 @@ const ProfileButton = () => {
           paidPlan: data?.userDetails?.data?.users[0].paidPlan,
           planExpireDate: data?.userDetails?.data?.users[0].planExpireDate,
           issuer: data?.userDetails?.data?.users[0].issuer,
-          memberSince: data?.userDetails?.data?.users[0].memberSince,
+          memberSince: data?.userDetails?.data?.users[0].registerDate,
           subscribedSince: data?.userDetails?.data?.users[0].subscribedSince,
           profileAvatar: data?.userDetails?.data?.users[0].profileAvatar,
           secretKeyword: data?.userDetails?.data?.users[0].secretKeyword,
