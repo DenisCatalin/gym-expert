@@ -75,7 +75,7 @@ const Testimonials = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("/api/getTestimonials", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_TESTIMONIALS}`, {
         method: "POST",
       });
       const data = await res.json();

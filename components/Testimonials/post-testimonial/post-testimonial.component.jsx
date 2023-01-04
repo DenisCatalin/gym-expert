@@ -54,7 +54,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
     dispatch(setReviewState(false));
     if (testimonial !== "") {
       if (placeholder !== "Your message") {
-        const res = await fetch("/api/updateTestimonial", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_TESTIMONIAL}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -69,7 +69,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
         dispatch(setTestimonialState(!testimonialss.testimonial));
         dispatch(setReviewState(false));
       } else {
-        const res = await fetch("/api/addTestimonial", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -85,7 +85,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
         await res.json();
         dispatch(setTestimonialState(!testimonialss.testimonial));
 
-        const res2 = await fetch("/api/addTestimonialToUser", {
+        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL_USER}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({

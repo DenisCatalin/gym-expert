@@ -20,7 +20,7 @@ const StripeCheckoutButton = ({ price, period }) => {
   useEffect(() => {
     (async () => {
       if (!userRedux.logged) {
-        const res = await fetch("/api/userDetails");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
         const data = await res.json();
 
         setIssuer(data?.userDetails?.data?.users[0].issuer);
@@ -76,7 +76,7 @@ const StripeCheckoutButton = ({ price, period }) => {
     const dateToExpire = new Date(Math.round(expireDate) * 1000);
     const dateString = `${months[currentMonth]}-${currentDay}-${currentYear}`;
 
-    const res = await fetch("/api/addPurchase", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_PURCHASE}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({
@@ -91,7 +91,7 @@ const StripeCheckoutButton = ({ price, period }) => {
     });
     await res.json();
 
-    const res2 = await fetch("/api/updateSubscription", {
+    const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({

@@ -82,7 +82,7 @@ const ChangePassword = () => {
         setIsLoading(false);
         return;
       }
-      const res2 = await fetch("/api/changeSecretKeyword", {
+      const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_KEYWORD}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({

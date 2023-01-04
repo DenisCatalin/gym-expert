@@ -89,12 +89,12 @@ const AdminPage = () => {
       formData.append("upload_preset", "restaurant-app-profile-pics");
 
       if (uploadData === true) {
-        const data = await fetch("https://api.cloudinary.com/v1_1/dgkdpysp5/image/upload", {
+        const data = await fetch(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
           method: "POST",
           body: formData,
         }).then(r => r.json());
 
-        const res = await fetch("/api/postNews", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_POST_NEXT}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({

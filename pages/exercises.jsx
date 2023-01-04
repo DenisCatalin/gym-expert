@@ -86,7 +86,7 @@ const Exercises = () => {
 
   useEffect(() => {
     (async () => {
-      const res2 = await fetch("/api/getFavourites", {
+      const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -108,7 +108,7 @@ const Exercises = () => {
   useEffect(() => {
     (async () => {
       if (userRedux.logged) {
-        const res2 = await fetch("/api/getFavourites", {
+        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -125,7 +125,7 @@ const Exercises = () => {
         const isLoggedIn = await magic.user.isLoggedIn();
         if (!isLoggedIn) router.push(ROUTES.login);
         else {
-          const res = await fetch("/api/userDetails");
+          const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
           const data = await res.json();
 
           const { paidPlan, planExpireDate } = data?.userDetails?.data?.users[0];

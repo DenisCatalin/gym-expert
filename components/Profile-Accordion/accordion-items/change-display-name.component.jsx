@@ -70,7 +70,7 @@ const ChangeDisplayName = () => {
         setIsLoading(false);
         return;
       }
-      const res2 = await fetch("/api/checkDisplayName", {
+      const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_NAME}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -81,7 +81,7 @@ const ChangeDisplayName = () => {
       });
       const data2 = await res2.json();
       if (data2.CheckDisplayNameQueryForUser === 0) {
-        const res2 = await fetch("/api/changeDisplayName", {
+        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_NAME}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({

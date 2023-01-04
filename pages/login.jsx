@@ -46,7 +46,7 @@ const Login = () => {
           });
           if (Token) {
             setDidToken(Token);
-            const res = await fetch("/api/login", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${Token}`,

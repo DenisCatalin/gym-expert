@@ -60,7 +60,7 @@ const SetSecretKey = () => {
         setIsLoading(false);
         return;
       }
-      const res2 = await fetch("/api/setUpKeyword", {
+      const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_SET_KEYWORD}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({

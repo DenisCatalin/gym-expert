@@ -93,7 +93,7 @@ const ProfileButton = () => {
               "Your subscription on our platform has expired. You can renew it by visiting the pricing page.",
           })
         );
-        const res2 = await fetch("/api/updateSubscription", {
+        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -189,7 +189,7 @@ const ProfileButton = () => {
     router.push(ROUTES.login);
 
     try {
-      const res = await fetch("/api/logout", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_LOGOUT}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${didToken}`,

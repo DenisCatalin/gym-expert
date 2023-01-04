@@ -18,7 +18,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("/api/checkFavourites", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -40,7 +40,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
   const handleClick = async () => {
     setIsLoading(true);
     if (favourite === false) {
-      const res = await fetch("/api/checkFavourites", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -52,7 +52,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
       const data = await res.json();
 
       if (data.checkFavouriteQueryForUser === 0) {
-        const res2 = await fetch("/api/addToFavourites", {
+        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_FAVOURITES}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -69,7 +69,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
       }
       setIsLoading(false);
     } else {
-      const res = await fetch("/api/deleteFavourites", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_DELETE_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({

@@ -18,14 +18,14 @@ const News = () => {
     (async () => {
       if (!fetched) {
         if (search === "") {
-          const res = await fetch("/api/getNews", {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_NEWS}`, {
             method: "POST",
           });
           const data = await res.json();
           setPosts(data?.getNewsForUser?.data?.news);
           setFetched(true);
         } else {
-          const res = await fetch("/api/getNewsByName", {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_NEWS_BY_NAME}`, {
             method: "POST",
             headers: {
               body: JSON.stringify({

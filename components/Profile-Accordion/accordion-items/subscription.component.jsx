@@ -51,7 +51,7 @@ const Subscription = () => {
       })
     );
 
-    const res2 = await fetch("/api/updateSubscription", {
+    const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({

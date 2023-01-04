@@ -11,7 +11,7 @@ const PopularPosts = () => {
   useEffect(() => {
     (async () => {
       if (!fetched) {
-        const res = await fetch("/api/getPopularPosts", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_POPULAR_POSTS}`, {
           method: "POST",
         });
         const data = await res.json();
