@@ -13,6 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
+import { MotionButton } from "../../../interface/MotionButton.tsx";
 
 const ChangePassword = () => {
   const [expanded, setExpanded] = useState(false);
@@ -174,28 +175,14 @@ const ChangePassword = () => {
             InputLabelProps={{ style: { color: "white" } }}
           />
         </div>
-        <motion.button
-          whileHover={{
-            opacity: 0.75,
-          }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
+        <MotionButton
+          tap
+          hover={"opacity"}
+          initialOptions={{ y: 0 }}
           className={styles.accordionButton}
           onClick={changeSecretKeyword}
-        >
-          {isLoading ? <CircularProgress color="inherit" /> : "Save"}
-        </motion.button>
-        {/* <motion.button
-          whileHover={{
-            opacity: 0.75,
-          }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
-          className={styles.accordionButton}
-          onClick={changeSecretKeyword}
-        >
-          {isLoading ? null : "Forgot Secret Keyword"}
-        </motion.button> */}
+          label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+        />
       </AccordionDetails>
     </Accordion>
   );

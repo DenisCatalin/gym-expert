@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from "react";
 import { magic } from "../lib/magic-client";
 import Header from "../components/Header/header.component";
 import styles from "../css/Login.module.css";
-import { motion } from "framer-motion";
 import { ThemeProvider } from "@mui/material/styles";
 import LoginIcon from "@mui/icons-material/Login";
 import { didTokenContext } from "../lib/didTokenContext";
@@ -12,6 +11,7 @@ import Head from "next/head";
 import { ROUTES } from "../Routes";
 import { setUserState } from "../redux/user.slice";
 import { useSelector, useDispatch } from "react-redux";
+import { MotionButton } from "../interface/MotionButton.tsx";
 
 const Login = () => {
   const [userMsg, setUserMsg] = useState("");
@@ -55,7 +55,7 @@ const Login = () => {
             });
             const loggedInResponse = await res.json();
             if (loggedInResponse.done) {
-              // router.push(ROUTES.homepage);
+              router.push(ROUTES.homepage);
               dispatch(setUserState({ ...userRedux, needsUpdate: true }));
             } else {
               console.error("Something went wrong");
@@ -101,28 +101,29 @@ const Login = () => {
           {userMsg !== "" ? <p className={styles.userMsg}>{userMsg}</p> : null}
           <div className={styles.login}>
             <ThemeProvider theme={theme2}>
-              <motion.button
+              <MotionButton
+                hover={"boxShadow"}
+                tap
+                animateOptions={{ x: [-500, 0], opacity: [0, 1] }}
+                initialOptions={{ y: 0 }}
                 className={styles.loginButton}
-                whileHover={{
-                  boxShadow: "0px 0px 10px rgba(220, 130, 242, .65)",
-                }}
-                animate={{ x: [-500, 0], opacity: [0, 1] }}
-                initial={{ y: 0 }}
-                whileTap={{ scale: 0.9 }}
                 onClick={handleLoginWithEmail}
                 styles={{ pointerEvents: isLoading ? "none" : "all" }}
-              >
-                {isLoading ? (
+                label={
                   <>
-                    <h1 className={styles.loginButtonText}>Loading...</h1>
+                    {isLoading ? (
+                      <>
+                        <h1 className={styles.loginButtonText}>Loading...</h1>
+                      </>
+                    ) : (
+                      <>
+                        <h1 className={styles.loginButtonText}>Sign In</h1>
+                        <LoginIcon color="neutral" className={styles.buttonIcon} />
+                      </>
+                    )}
                   </>
-                ) : (
-                  <>
-                    <h1 className={styles.loginButtonText}>Sign In</h1>
-                    <LoginIcon color="neutral" className={styles.buttonIcon} />
-                  </>
-                )}
-              </motion.button>
+                }
+              />
             </ThemeProvider>
           </div>
         </div>

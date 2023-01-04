@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ABOUT_TYPOGRAPHY } from "../../utils/captions";
 import { ROUTES } from "../../Routes";
+import { MotionButton } from "../../interface/MotionButton.tsx";
 
 const theme2 = createTheme({
   status: {
@@ -43,19 +44,20 @@ const AboutContainer = () => {
         </div>
       </motion.div>
       <ThemeProvider theme={theme2}>
-        <motion.button
+        <MotionButton
           className={styles.ourTeamButton}
-          whileHover={{
-            boxShadow: "0px 0px 10px rgba(220, 130, 242, .65)",
-          }}
-          animate={{ y: [200, 0] }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
+          hover={"boxShadow"}
+          tap
           onClick={() => router.push(ROUTES.aboutTeam)}
-        >
-          <h1 className={styles.teamButtonText}>Our Team</h1>
-          <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />
-        </motion.button>
+          initialOptions={{ y: 0 }}
+          animateOptions={{ y: [200, 0] }}
+          label={
+            <>
+              <h1 className={styles.teamButtonText}>Our Team</h1>
+              <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />
+            </>
+          }
+        />
       </ThemeProvider>
     </div>
   );

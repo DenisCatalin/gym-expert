@@ -21,7 +21,6 @@
     align-items: center;
     background: var(--buttonGradient);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--pink);
     border: none;
     outline: none;
     cursor: pointer;

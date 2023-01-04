@@ -18,6 +18,7 @@ import PostTestimonial from "./post-testimonial/post-testimonial.component";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { ROUTES } from "../../Routes";
+import { MotionButton } from "../../interface/MotionButton.tsx";
 
 const Testimonials = () => {
   const { width } = useWindowDimensions();
@@ -130,22 +131,28 @@ const Testimonials = () => {
             {testimonials?.length < 2 ? null : (
               <div className={styles.arrows}>
                 <ThemeProvider theme={theme2}>
-                  <motion.button
+                  <MotionButton
+                    tap
+                    hover={"scale"}
                     className={styles.arrowBackground}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 1 }}
                     onClick={decreaseReview}
-                  >
-                    <ChevronLeftRoundedIcon color="neutral" className={styles.arrowIcon} />
-                  </motion.button>
-                  <motion.button
+                    label={
+                      <>
+                        <ChevronLeftRoundedIcon color="neutral" className={styles.arrowIcon} />
+                      </>
+                    }
+                  />
+                  <MotionButton
+                    tap
+                    hover={"scale"}
                     className={styles.arrowBackground}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 1 }}
                     onClick={increaseReview}
-                  >
-                    <ChevronRightRoundedIcon color="neutral" className={styles.arrowIcon} />
-                  </motion.button>
+                    label={
+                      <>
+                        <ChevronRightRoundedIcon color="neutral" className={styles.arrowIcon} />
+                      </>
+                    }
+                  />
                 </ThemeProvider>
               </div>
             )}
@@ -233,25 +240,26 @@ const Testimonials = () => {
         </div>
         <div className={styles.review}>
           <ThemeProvider theme={theme2}>
-            <motion.button
-              className={styles.reviewButton}
-              whileHover={{
-                boxShadow: "0px 0px 10px rgba(220, 130, 242, .65)",
-              }}
-              animate={{ x: [-500, 0], opacity: [0, 1] }}
-              initial={{ y: 0 }}
-              whileTap={{ scale: 0.9 }}
+            <MotionButton
               onClick={handleClickOpen}
-            >
-              {isLoading ? (
-                <CircularProgress color="secondary" />
-              ) : (
+              className={styles.reviewButton}
+              hover={"boxShadow"}
+              tap
+              animateOptions={{ x: [-500, 0], opacity: [0, 1] }}
+              initialOptions={{ y: 0 }}
+              label={
                 <>
-                  <h1 className={styles.reviewButtonText}>Review</h1>
-                  <KeyboardDoubleArrowRightIcon color="neutral" />
+                  {isLoading ? (
+                    <CircularProgress color="secondary" />
+                  ) : (
+                    <>
+                      <h1 className={styles.reviewButtonText}>Review</h1>
+                      <KeyboardDoubleArrowRightIcon color="neutral" />
+                    </>
+                  )}
                 </>
-              )}
-            </motion.button>
+              }
+            />
           </ThemeProvider>
         </div>
         <Dialog

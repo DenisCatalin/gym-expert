@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setTestimonialState } from "../../../redux/testimonial.slice";
 import { setReviewState } from "../../../redux/review.slice";
+import { MotionButton } from "../../../interface/MotionButton.tsx";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;
@@ -148,19 +149,20 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
           </motion.div>
           <div className={styles.buttonPost}>
             <ThemeProvider theme={theme2}>
-              <motion.button
-                className={styles.postButton}
-                whileHover={{
-                  boxShadow: "0px 0px 10px rgba(220, 130, 242, .65)",
-                }}
-                animate={{ x: [-500, 0], opacity: [0, 1] }}
-                initial={{ y: 0 }}
-                whileTap={{ scale: 0.9 }}
+              <MotionButton
+                hover={"boxShadow"}
+                tap
+                animateOptions={{ x: [-500, 0], opacity: [0, 1] }}
+                initialOptions={{ y: 0 }}
                 onClick={postTestimonial}
-              >
-                <h1 className={styles.postButtonText}>Send</h1>
-                <SendIcon color="neutral" className={styles.buttonIcon} />
-              </motion.button>
+                className={styles.postButton}
+                label={
+                  <>
+                    <h1 className={styles.postButtonText}>Send</h1>
+                    <SendIcon color="neutral" className={styles.buttonIcon} />
+                  </>
+                }
+              />
             </ThemeProvider>
           </div>
         </div>

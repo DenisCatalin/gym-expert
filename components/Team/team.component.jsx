@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { theme2 } from "../../utils/muiTheme";
 import { ROUTES } from "../../Routes";
+import { MotionButton } from "../../interface/MotionButton.tsx";
 
 const Team = () => {
   const router = useRouter();
@@ -19,19 +20,20 @@ const Team = () => {
         <TeamProfile image={"/static/test3.jpg"} />
       </div>
       <ThemeProvider theme={theme2}>
-        <motion.button
+        <MotionButton
+          hover={"boxShadow"}
+          tap
+          animateOptions={{ y: [200, 0] }}
+          initialOptions={{ y: 0 }}
           className={styles.ourTeamButton}
-          whileHover={{
-            boxShadow: "0px 0px 10px rgba(220, 130, 242, .65)",
-          }}
-          animate={{ y: [200, 0] }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
           onClick={() => router.push(ROUTES.aboutTestimonials)}
-        >
-          <h1 className={styles.teamButtonText}>Testimonials</h1>
-          <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />
-        </motion.button>
+          label={
+            <>
+              <h1 className={styles.teamButtonText}>Testimonials</h1>
+              <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />
+            </>
+          }
+        />
       </ThemeProvider>
     </div>
   );

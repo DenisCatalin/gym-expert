@@ -18,6 +18,7 @@ import { theme, theme2 } from "../utils/muiTheme";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button.tsx";
+import { MotionButton } from "../interface/MotionButton.tsx";
 
 const breakPointWidth = 719;
 
@@ -208,13 +209,12 @@ const Exercises = () => {
                         />
                       </IconButton>
                       {currentEBodyPart.map((item, i) => (
-                        <motion.button
-                          className={styles.bodyPart}
+                        <MotionButton
                           key={i}
+                          className={styles.bodyPart}
                           onClick={e => setBodyPart(e.target.textContent)}
-                        >
-                          {item}
-                        </motion.button>
+                          label={<>{item}</>}
+                        />
                       ))}
                       <IconButton
                         onClick={increaseCategories}

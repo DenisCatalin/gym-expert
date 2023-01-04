@@ -4,7 +4,7 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import { ThemeProvider } from "@mui/material/styles";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import AlertDialog from "../AlertDialog/alert-dialog.component";
 import { theme2 } from "../../utils/muiTheme";
 import { magic } from "../../lib/magic-client";
@@ -15,6 +15,7 @@ import { setSubscriptionState } from "../../redux/subscription.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { setDialog } from "../../redux/dialog.slice";
 import { ROUTES } from "../../Routes";
+import { MotionButton } from "../../interface/MotionButton.tsx";
 
 const PricingCard = ({ price, period, image }) => {
   const { width } = useWindowDimensions();
@@ -89,16 +90,15 @@ const PricingCard = ({ price, period, image }) => {
               ))}
             </ThemeProvider>
           </div>
-          <motion.button
+          <MotionButton
             className={styles.planButton}
-            animate={{ y: [100, 0], opacity: [0, 1] }}
-            whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.05 }}
+            animateOptions={{ y: [100, 0], opacity: [0, 1] }}
+            tap
+            hover={"scale"}
             onClick={openDialog}
             style={{ pointerEvents: planSelected ? "none" : "all" }}
-          >
-            {isLoading ? <CircularProgress color="inherit" /> : "Select Plan"}
-          </motion.button>
+            label={<>{isLoading ? <CircularProgress color="inherit" /> : "Select Plan"}</>}
+          />
         </div>
       </motion.div>
     </>
