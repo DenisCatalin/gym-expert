@@ -17,6 +17,7 @@ import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { ROUTES } from "../../../Routes";
 import { Menu } from "../../../interface/Menu.tsx";
+import useFetch from "../../../utils/useFetch.tsx";
 
 const ProfileButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -93,7 +94,7 @@ const ProfileButton = () => {
               "Your subscription on our platform has expired. You can renew it by visiting the pricing page.",
           })
         );
-        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
+        const res2 = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -137,9 +138,7 @@ const ProfileButton = () => {
             const { email } = await magic.user.getMetadata();
             if (email) {
               const didToken = await magic.user.getIdToken();
-
-              const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
-              const data = await res.json();
+              const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
 
               if (isMounted.current) {
                 dispatchFromFetch(data);
@@ -189,14 +188,13 @@ const ProfileButton = () => {
     router.push(ROUTES.login);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_LOGOUT}`, {
+      await useFetch(`${process.env.NEXT_PUBLIC_FETCH_LOGOUT}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${didToken}`,
           "Content-Type": "application/json",
         },
       });
-      await res.json();
     } catch (error) {
       console.error("Error logging out", error);
     }

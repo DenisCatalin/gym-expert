@@ -6,6 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setExercisesState } from "../../redux/exercises.slice";
 import { Button } from "../../interface/Button.tsx";
+import useFetch from "../../utils/useFetch.tsx";
 
 const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [hover, setHover] = useState(false);
@@ -18,7 +19,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
+      const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -27,7 +28,6 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
           }),
         },
       });
-      const data = await res.json();
       if (data.checkFavouriteQueryForUser === 0) {
         setFavourite(false);
       } else {
@@ -40,7 +40,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
   const handleClick = async () => {
     setIsLoading(true);
     if (favourite === false) {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
+      const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -49,10 +49,9 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
           }),
         },
       });
-      const data = await res.json();
 
       if (data.checkFavouriteQueryForUser === 0) {
-        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_FAVOURITES}`, {
+        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_FAVOURITES}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -62,14 +61,13 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
             }),
           },
         });
-        await res2.json();
         dispatch(setExercisesState({ exercises: !exercisesRedux?.exercises }));
       } else {
         setFavourite(true);
       }
       setIsLoading(false);
     } else {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_DELETE_FAVOURITES}`, {
+      await useFetch(`${process.env.NEXT_PUBLIC_FETCH_DELETE_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -78,7 +76,6 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
           }),
         },
       });
-      await res.json();
       dispatch(setExercisesState({ exercises: !exercisesRedux?.exercises }));
       setFavourite(false);
       setIsLoading(false);

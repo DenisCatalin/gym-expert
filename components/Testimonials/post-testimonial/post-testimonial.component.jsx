@@ -16,6 +16,7 @@ import { setUserState } from "../../../redux/user.slice";
 import { setTestimonialState } from "../../../redux/testimonial.slice";
 import { setReviewState } from "../../../redux/review.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
+import useFetch from "../../../utils/useFetch.tsx";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;
@@ -54,7 +55,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
     dispatch(setReviewState(false));
     if (testimonial !== "") {
       if (placeholder !== "Your message") {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_TESTIMONIAL}`, {
+        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_TESTIMONIAL}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -65,11 +66,10 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        await res.json();
         dispatch(setTestimonialState(!testimonialss.testimonial));
         dispatch(setReviewState(false));
       } else {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL}`, {
+        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -82,10 +82,9 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        await res.json();
         dispatch(setTestimonialState(!testimonialss.testimonial));
 
-        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL_USER}`, {
+        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL_USER}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -93,7 +92,6 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        await res2.json();
         dispatch(setUserState({ ...userRedux, testimonial: true }));
         dispatch(setReviewState(false));
       }

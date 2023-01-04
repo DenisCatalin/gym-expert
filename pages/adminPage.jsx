@@ -15,6 +15,7 @@ import { userContext } from "../lib/userContext";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton.tsx";
+import useFetch from "../utils/useFetch.tsx";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);
@@ -89,12 +90,12 @@ const AdminPage = () => {
       formData.append("upload_preset", "restaurant-app-profile-pics");
 
       if (uploadData === true) {
-        const data = await fetch(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
+        await useFetch(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
           method: "POST",
           body: formData,
-        }).then(r => r.json());
+        });
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_POST_NEXT}`, {
+        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_POST_NEXT}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -105,8 +106,6 @@ const AdminPage = () => {
             }),
           },
         });
-
-        await res.json();
       }
       handleClose();
     }

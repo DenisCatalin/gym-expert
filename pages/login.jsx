@@ -12,6 +12,7 @@ import { ROUTES } from "../Routes";
 import { setUserState } from "../redux/user.slice";
 import { useSelector, useDispatch } from "react-redux";
 import { MotionButton } from "../interface/MotionButton.tsx";
+import useFetch from "../utils/useFetch.tsx";
 
 const Login = () => {
   const [userMsg, setUserMsg] = useState("");
@@ -46,14 +47,13 @@ const Login = () => {
           });
           if (Token) {
             setDidToken(Token);
-            const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
+            const loggedInResponse = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${Token}`,
                 "Content-type": "application/json",
               },
             });
-            const loggedInResponse = await res.json();
             if (loggedInResponse.done) {
               router.push(ROUTES.homepage);
               dispatch(setUserState({ ...userRedux, needsUpdate: true }));

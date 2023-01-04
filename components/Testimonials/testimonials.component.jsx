@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { ROUTES } from "../../Routes";
 import { MotionButton } from "../../interface/MotionButton.tsx";
+import useFetch from "../../utils/useFetch.tsx";
 
 const Testimonials = () => {
   const { width } = useWindowDimensions();
@@ -75,10 +76,9 @@ const Testimonials = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_TESTIMONIALS}`, {
+      const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_GET_TESTIMONIALS}`, {
         method: "POST",
       });
-      const data = await res.json();
       setFetched(true);
       setTestimonials(data?.getTestimonialsForUser?.data?.testimonials);
       // setReviews(data?.getTestimonialsForUser?.data?.testimonials);
