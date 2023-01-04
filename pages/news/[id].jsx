@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import useFetch from "../../utils/useFetch.ts";
+import fetchData from "../../utils/fetchData.ts";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);
@@ -29,7 +29,7 @@ const NewsPost = ({ news }) => {
   const id = news;
   useEffect(() => {
     (async () => {
-      const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_GET_NEXT_BY_ID}`, {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_NEXT_BY_ID}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -45,7 +45,7 @@ const NewsPost = ({ news }) => {
   useEffect(() => {
     (async () => {
       if (newsPost !== undefined) {
-        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_INCREASE_VIEWS}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_INCREASE_VIEWS}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({

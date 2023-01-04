@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
-import useFetch from "../../../utils/useFetch.tsx";
+import fetchData from "../../../utils/fetchData.tsx";
 
 const ChangeDisplayName = () => {
   const [expanded, setExpanded] = useState(false);
@@ -60,7 +60,7 @@ const ChangeDisplayName = () => {
         setIsLoading(false);
         return;
       }
-      const data2 = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_NAME}`, {
+      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_NAME}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -70,7 +70,7 @@ const ChangeDisplayName = () => {
         },
       });
       if (data2.CheckDisplayNameQueryForUser === 0) {
-        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_NAME}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_NAME}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({

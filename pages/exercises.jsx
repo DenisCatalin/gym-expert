@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button.tsx";
 import { MotionButton } from "../interface/MotionButton.tsx";
-import useFetch from "../utils/useFetch.tsx";
+import fetchData from "../utils/fetchData.tsx";
 
 const breakPointWidth = 719;
 
@@ -87,7 +87,7 @@ const Exercises = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -108,7 +108,7 @@ const Exercises = () => {
   useEffect(() => {
     (async () => {
       if (userRedux.logged) {
-        const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -124,7 +124,7 @@ const Exercises = () => {
         const isLoggedIn = await magic.user.isLoggedIn();
         if (!isLoggedIn) router.push(ROUTES.login);
         else {
-          const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
+          const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
 
           const { paidPlan, planExpireDate } = data?.userDetails?.data?.users[0];
           if (paidPlan === null && planExpireDate === 0) router.push(ROUTES.pricing);
@@ -138,7 +138,7 @@ const Exercises = () => {
     if (bodyPart === "favourites") {
     } else {
       (async function () {
-        const data = await useFetch(
+        const data = await fetchData(
           `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
           options
         );

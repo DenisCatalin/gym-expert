@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { Button } from "../../interface/Button.tsx";
-import useFetch from "../../utils/useFetch.tsx";
+import fetchData from "../../utils/fetchData.tsx";
 
 const ProfilePic = () => {
   const { user, setUser } = useContext(userContext);
@@ -86,7 +86,7 @@ const ProfilePic = () => {
 
     formData.append("upload_preset", "restaurant-app-profile-pics");
 
-    await useFetch(`${process.env.NEXT_PUBLIC_FETCH_CROP_AREA}`, {
+    await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CROP_AREA}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({
@@ -104,12 +104,12 @@ const ProfilePic = () => {
     );
 
     if (uploadData === true) {
-      const data = await useFetch(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
         method: "POST",
         body: formData,
       });
 
-      await useFetch(`${process.env.NEXT_PUBLIC_FETCH_UPLOAD_PHOTO}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPLOAD_PHOTO}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({

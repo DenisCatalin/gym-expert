@@ -16,7 +16,7 @@ import { setUserState } from "../../../redux/user.slice";
 import { setTestimonialState } from "../../../redux/testimonial.slice";
 import { setReviewState } from "../../../redux/review.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
-import useFetch from "../../../utils/useFetch.tsx";
+import fetchData from "../../../utils/fetchData.tsx";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;
@@ -55,7 +55,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
     dispatch(setReviewState(false));
     if (testimonial !== "") {
       if (placeholder !== "Your message") {
-        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_TESTIMONIAL}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_TESTIMONIAL}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -69,7 +69,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
         dispatch(setTestimonialState(!testimonialss.testimonial));
         dispatch(setReviewState(false));
       } else {
-        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -84,7 +84,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
         });
         dispatch(setTestimonialState(!testimonialss.testimonial));
 
-        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL_USER}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL_USER}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({

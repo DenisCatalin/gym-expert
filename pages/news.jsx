@@ -7,7 +7,7 @@ import styles from "../css/News.module.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { motion } from "framer-motion";
 import useWindowDimensions from "../utils/useWindowDimensions";
-import useFetch from "../utils/useFetch.tsx";
+import fetchData from "../utils/fetchData.tsx";
 
 const News = () => {
   const [posts, setPosts] = useState();
@@ -19,13 +19,13 @@ const News = () => {
     (async () => {
       if (!fetched) {
         if (search === "") {
-          const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_GET_NEWS}`, {
+          const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_NEWS}`, {
             method: "POST",
           });
           setPosts(data?.getNewsForUser?.data?.news);
           setFetched(true);
         } else {
-          const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_GET_NEWS_BY_NAME}`, {
+          const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_NEWS_BY_NAME}`, {
             method: "POST",
             headers: {
               body: JSON.stringify({

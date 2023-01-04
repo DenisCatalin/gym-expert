@@ -12,7 +12,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
-import useFetch from "../../../utils/useFetch.tsx";
+import fetchData from "../../../utils/fetchData.tsx";
 
 const SetSecretKey = () => {
   const [expanded, setExpanded] = useState(false);
@@ -54,7 +54,7 @@ const SetSecretKey = () => {
         setIsLoading(false);
         return;
       }
-      await useFetch(`${process.env.NEXT_PUBLIC_FETCH_SET_KEYWORD}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SET_KEYWORD}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({

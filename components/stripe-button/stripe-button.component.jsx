@@ -5,7 +5,7 @@ import { setUserState } from "../../redux/user.slice";
 import { setSubscriptionState } from "../../redux/subscription.slice";
 import { setDialog } from "../../redux/dialog.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
-import useFetch from "../../utils/useFetch.tsx";
+import fetchData from "../../utils/fetchData.tsx";
 
 const StripeCheckoutButton = ({ price, period }) => {
   const priceForStripe = price * 100.00002;
@@ -21,7 +21,7 @@ const StripeCheckoutButton = ({ price, period }) => {
   useEffect(() => {
     (async () => {
       if (!userRedux.logged) {
-        const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
 
         setIssuer(data?.userDetails?.data?.users[0].issuer);
         setEmail(data?.userDetails?.data?.users[0].email);
@@ -76,7 +76,7 @@ const StripeCheckoutButton = ({ price, period }) => {
     const dateToExpire = new Date(Math.round(expireDate) * 1000);
     const dateString = `${months[currentMonth]}-${currentDay}-${currentYear}`;
 
-    await useFetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_PURCHASE}`, {
+    await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_PURCHASE}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({
@@ -90,7 +90,7 @@ const StripeCheckoutButton = ({ price, period }) => {
       },
     });
 
-    await useFetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
+    await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({

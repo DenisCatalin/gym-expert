@@ -15,7 +15,7 @@ import { userContext } from "../lib/userContext";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton.tsx";
-import { useFetch } from "../utils/useFetch.tsx";
+import { fetchData } from "../utils/fetchData.tsx";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);
@@ -95,12 +95,12 @@ const AdminPage = () => {
   useEffect(() => {
     async () => {
       if (uploadData === true) {
-        await useFetch(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
           method: "POST",
           body: formData,
         });
 
-        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_POST_NEXT}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_POST_NEXT}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({

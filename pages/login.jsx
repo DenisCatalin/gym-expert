@@ -12,7 +12,7 @@ import { ROUTES } from "../Routes";
 import { setUserState } from "../redux/user.slice";
 import { useSelector, useDispatch } from "react-redux";
 import { MotionButton } from "../interface/MotionButton.tsx";
-import useFetch from "../utils/useFetch.tsx";
+import fetchData from "../utils/fetchData.tsx";
 
 const Login = () => {
   const [userMsg, setUserMsg] = useState("");
@@ -47,7 +47,7 @@ const Login = () => {
           });
           if (Token) {
             setDidToken(Token);
-            const loggedInResponse = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
+            const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${Token}`,

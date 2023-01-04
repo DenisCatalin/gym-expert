@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setExercisesState } from "../../redux/exercises.slice";
 import { Button } from "../../interface/Button.tsx";
-import useFetch from "../../utils/useFetch.tsx";
+import fetchData from "../../utils/fetchData.tsx";
 
 const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [hover, setHover] = useState(false);
@@ -19,7 +19,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
 
   useEffect(() => {
     (async () => {
-      const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -40,7 +40,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
   const handleClick = async () => {
     setIsLoading(true);
     if (favourite === false) {
-      const data = await useFetch(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -51,7 +51,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
       });
 
       if (data.checkFavouriteQueryForUser === 0) {
-        await useFetch(`${process.env.NEXT_PUBLIC_FETCH_ADD_FAVOURITES}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_FAVOURITES}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -67,7 +67,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
       }
       setIsLoading(false);
     } else {
-      await useFetch(`${process.env.NEXT_PUBLIC_FETCH_DELETE_FAVOURITES}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_DELETE_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({

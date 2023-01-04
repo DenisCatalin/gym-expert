@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
-import useFetch from "../../../utils/useFetch.tsx";
+import fetchData from "../../../utils/fetchData.tsx";
 
 const ChangePassword = () => {
   const [expanded, setExpanded] = useState(false);
@@ -66,7 +66,7 @@ const ChangePassword = () => {
         setIsLoading(false);
         return;
       }
-      await useFetch(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_KEYWORD}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_KEYWORD}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
