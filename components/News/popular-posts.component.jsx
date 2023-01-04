@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import PopularNews from "./popular-news.component";
 import CircularProgress from "@mui/material/CircularProgress";
 import { motion } from "framer-motion";
+import fetchData from "../../utils/fetchData.tsx";
 
 const PopularPosts = () => {
   const [posts, setPosts] = useState();
@@ -11,10 +12,9 @@ const PopularPosts = () => {
   useEffect(() => {
     (async () => {
       if (!fetched) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_POPULAR_POSTS}`, {
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_POPULAR_POSTS}`, {
           method: "POST",
         });
-        const data = await res.json();
         setPosts(data?.getPopularNewsForUser?.data?.news);
         setFetched(true);
       }

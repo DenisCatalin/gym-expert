@@ -15,6 +15,7 @@ import { Dialog } from "../../../interface/Dialog.tsx";
 import { Button } from "../../../interface/Button.tsx";
 import { CANCEL_SUBSCRIPTION_DIALOG } from "../../../utils/captions";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
+import fetchData from "../../../utils/fetchData.tsx";
 
 const Subscription = () => {
   const [expanded, setExpanded] = useState(false);
@@ -51,7 +52,7 @@ const Subscription = () => {
       })
     );
 
-    const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
+    await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({
@@ -62,7 +63,6 @@ const Subscription = () => {
         }),
       },
     });
-    await res2.json();
     setIsLoading(false);
     handleClose();
     dispatch(

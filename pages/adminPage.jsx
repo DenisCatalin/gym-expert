@@ -8,13 +8,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { TextareaAutosize, TextField } from "@mui/material";
 import { useRouter } from "next/router";
-import { userContext } from "../lib/userContext";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton.tsx";
+import fetchData from "../utils/fetchData.tsx";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);
@@ -22,7 +22,6 @@ const AdminPage = () => {
   const [title, setTitle] = useState("");
   const [uploadData, setUploadData] = useState(false);
   const router = useRouter();
-  const { user, setUser } = useContext(userContext);
   const [text, setText] = useState("");
 
   const userRedux = useSelector(state => state.user.user);
@@ -87,14 +86,19 @@ const AdminPage = () => {
       }
 
       formData.append("upload_preset", "restaurant-app-profile-pics");
+      handleClose();
+    }
+  };
 
+  useEffect(() => {
+    async () => {
       if (uploadData === true) {
-        const data = await fetch(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
           method: "POST",
           body: formData,
-        }).then(r => r.json());
+        });
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_POST_NEXT}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_POST_NEXT}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -105,12 +109,9 @@ const AdminPage = () => {
             }),
           },
         });
-
-        await res.json();
       }
-      handleClose();
-    }
-  };
+    };
+  }, [uploadData]);
   return (
     <div className={styles.container}>
       <Head>

@@ -8,11 +8,11 @@ import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
+import fetchData from "../../../utils/fetchData.tsx";
 
 const SetSecretKey = () => {
   const [expanded, setExpanded] = useState(false);
@@ -27,40 +27,34 @@ const SetSecretKey = () => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  function setSnackbarMessage(message) {
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: message,
+      })
+    );
+  }
+
   const setUpKeyword = async () => {
     setIsLoading(true);
     if (userRedux.logged) {
       if (secretKeyword === "") {
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: "The secret key should not be empty.",
-          })
-        );
+        setSnackbarMessage("The secret key should not be empty.");
         setIsLoading(false);
         return;
       }
       if (secretKeyword.length < 3) {
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: "The secret key must be at least 4 characters long.",
-          })
-        );
+        setSnackbarMessage("The secret key must be at least 4 characters long.");
         setIsLoading(false);
         return;
       }
       if (secretKeyword !== secretKeywordConfirm) {
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: "The secret keys are not the same.",
-          })
-        );
+        setSnackbarMessage("The secret keys are not the same.");
         setIsLoading(false);
         return;
       }
-      const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_SET_KEYWORD}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SET_KEYWORD}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -69,13 +63,7 @@ const SetSecretKey = () => {
           }),
         },
       });
-      await res2.json();
-      dispatch(
-        setSnackbar({
-          open: true,
-          content: "You have successfully set up your secret keyword.",
-        })
-      );
+      setSnackbarMessage("You have successfully set up your secret keyword.");
     }
     setSecretKeyword("");
     setSecretKeywordConfirm("");

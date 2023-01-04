@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button.tsx";
 import { MotionButton } from "../interface/MotionButton.tsx";
+import fetchData from "../utils/fetchData.tsx";
 
 const breakPointWidth = 719;
 
@@ -86,7 +87,7 @@ const Exercises = () => {
 
   useEffect(() => {
     (async () => {
-      const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -94,8 +95,7 @@ const Exercises = () => {
           }),
         },
       });
-      const data2 = await res2.json();
-      setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
+      setFavourites(data?.getToFavouritesForUser?.data?.favourites);
     })();
   }, [exercisesRedux]);
 
@@ -108,7 +108,7 @@ const Exercises = () => {
   useEffect(() => {
     (async () => {
       if (userRedux.logged) {
-        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -116,8 +116,7 @@ const Exercises = () => {
             }),
           },
         });
-        const data2 = await res2.json();
-        setFavourites(data2?.getToFavouritesForUser?.data?.favourites);
+        setFavourites(data?.getToFavouritesForUser?.data?.favourites);
         if (userRedux.paidPlan === null && userRedux.planExpireDate === 0)
           router.push(ROUTES.pricing);
         else setIsLoading(false);
@@ -125,8 +124,7 @@ const Exercises = () => {
         const isLoggedIn = await magic.user.isLoggedIn();
         if (!isLoggedIn) router.push(ROUTES.login);
         else {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
-          const data = await res.json();
+          const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
 
           const { paidPlan, planExpireDate } = data?.userDetails?.data?.users[0];
           if (paidPlan === null && planExpireDate === 0) router.push(ROUTES.pricing);
@@ -140,12 +138,11 @@ const Exercises = () => {
     if (bodyPart === "favourites") {
     } else {
       (async function () {
-        const data = await fetch(
+        const data = await fetchData(
           `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
           options
         );
-        const res = await data.json();
-        setExercises(res);
+        setExercises(data);
       })();
     }
   }, [bodyPart]);

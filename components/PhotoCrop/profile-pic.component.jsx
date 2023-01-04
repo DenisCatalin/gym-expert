@@ -14,14 +14,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { Button } from "../../interface/Button.tsx";
+import fetchData from "../../utils/fetchData.tsx";
 
 const ProfilePic = () => {
   const { user, setUser } = useContext(userContext);
   const [uploadData, setUploadData] = useState(false);
   const [hasImg, setHasImg] = useState(false);
   const [imgSrc, setImgSrc] = useState();
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [croppedPhotoUrl, setCroppedPhotoUrl] = useState("");
   const [open, setOpen] = useState(false);
   const { cropImage, setCropImage } = useContext(cropContext);
   const [cropReset, setCropReset] = useState(false);
@@ -32,7 +31,6 @@ const ProfilePic = () => {
     if (userRedux.logged) {
       setImgSrc(userRedux.profilePic);
       setHasImg(true);
-      setCroppedAreaPixels(null);
       if (cropImage === null) {
         dispatch(
           setUserState({ ...userRedux, cropArea: { width: 1440, height: 1080, x: 240, y: 0 } })
@@ -52,7 +50,6 @@ const ProfilePic = () => {
       user.cropped = true;
       const img = await cropImages(userRedux.profilePic, cropImage);
       setImgSrc(img);
-      setCroppedPhotoUrl(img);
       dispatch(setUserState({ ...userRedux, profileAvatar: img }));
     }
   };
@@ -89,7 +86,7 @@ const ProfilePic = () => {
 
     formData.append("upload_preset", "restaurant-app-profile-pics");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CROP_AREA}`, {
+    await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CROP_AREA}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({
@@ -99,7 +96,6 @@ const ProfilePic = () => {
         }),
       },
     });
-    await res.json();
     dispatch(
       setSnackbar({
         open: true,
@@ -108,12 +104,12 @@ const ProfilePic = () => {
     );
 
     if (uploadData === true) {
-      const data = await fetch(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
         method: "POST",
         body: formData,
-      }).then(r => r.json());
+      });
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_UPLOAD_PHOTO}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPLOAD_PHOTO}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -132,8 +128,6 @@ const ProfilePic = () => {
           needsUpdate: true,
         })
       );
-
-      await res.json();
       dispatch(
         setSnackbar({
           open: true,

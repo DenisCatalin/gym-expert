@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import fetchData from "../../utils/fetchData.tsx";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);
@@ -28,7 +29,7 @@ const NewsPost = ({ news }) => {
   const id = news;
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_GET_NEXT_BY_ID}`, {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_NEXT_BY_ID}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -36,7 +37,6 @@ const NewsPost = ({ news }) => {
           }),
         },
       });
-      const data = await res.json();
       setNews(data?.getNewsByIdForUser?.data?.news[0]);
       setFetched(true);
     })();
@@ -45,7 +45,7 @@ const NewsPost = ({ news }) => {
   useEffect(() => {
     (async () => {
       if (newsPost !== undefined) {
-        const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_INCREASE_VIEWS}`, {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_INCREASE_VIEWS}`, {
           method: "POST",
           headers: {
             body: JSON.stringify({
@@ -54,7 +54,6 @@ const NewsPost = ({ news }) => {
             }),
           },
         });
-        await res2.json();
       }
     })();
   }, [newsPost]);

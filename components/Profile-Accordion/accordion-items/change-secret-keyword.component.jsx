@@ -8,12 +8,12 @@ import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
+import fetchData from "../../../utils/fetchData.tsx";
 
 const ChangePassword = () => {
   const [expanded, setExpanded] = useState(false);
@@ -29,60 +29,44 @@ const ChangePassword = () => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  function setSnackbarMessage(message) {
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: message,
+      })
+    );
+  }
+
   const changeSecretKeyword = async () => {
     setIsLoading(true);
     if (userRedux.logged) {
       if (secretKeyword === "") {
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: "The current secret keyword must be provided.",
-          })
-        );
+        setSnackbarMessage("The current secret keyword must be provided.");
         setIsLoading(false);
         return;
       }
       if (newSecretKeyword === "") {
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: "You must provide your new desired secret keyword.",
-          })
-        );
+        setSnackbarMessage("You must provide your new desired secret keyword.");
         setIsLoading(false);
         return;
       }
       if (newSecretKeywordConfirm === "") {
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: "You must confirm the new secret keyword.",
-          })
-        );
+        setSnackbarMessage("You must confirm the new secret keyword.");
         setIsLoading(false);
         return;
       }
       if (newSecretKeywordConfirm !== newSecretKeyword) {
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: "Your new secret keywords are not the same.",
-          })
-        );
+        setSnackbarMessage("Your new secret keywords are not the same.");
         setIsLoading(false);
         return;
       }
       if (secretKeyword !== userRedux.secretKeyword) {
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: "Wrong secret keyword.",
-          })
-        );
+        setSnackbarMessage("Wrong secret keyword.");
         setIsLoading(false);
         return;
       }
-      const res2 = await fetch(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_KEYWORD}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_KEYWORD}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -91,7 +75,6 @@ const ChangePassword = () => {
           }),
         },
       });
-      await res2.json();
     }
     setIsLoading(false);
     setSecretKeyword("");
