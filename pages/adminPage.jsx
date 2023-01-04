@@ -8,14 +8,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { TextareaAutosize, TextField } from "@mui/material";
 import { useRouter } from "next/router";
-import { userContext } from "../lib/userContext";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton.tsx";
-import { fetchData } from "../utils/fetchData.tsx";
+import fetchData from "../utils/fetchData.tsx";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);
@@ -23,7 +22,6 @@ const AdminPage = () => {
   const [title, setTitle] = useState("");
   const [uploadData, setUploadData] = useState(false);
   const router = useRouter();
-  const { user, setUser } = useContext(userContext);
   const [text, setText] = useState("");
 
   const userRedux = useSelector(state => state.user.user);
