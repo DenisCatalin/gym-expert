@@ -15,7 +15,7 @@ import { userContext } from "../lib/userContext";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton.tsx";
-import useFetch from "../utils/useFetch.tsx";
+import { useFetch } from "../utils/useFetch.tsx";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);
