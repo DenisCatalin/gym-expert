@@ -88,7 +88,12 @@ const AdminPage = () => {
       }
 
       formData.append("upload_preset", "restaurant-app-profile-pics");
+      handleClose();
+    }
+  };
 
+  useEffect(() => {
+    async () => {
       if (uploadData === true) {
         await useFetch(`${process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PHOTO}`, {
           method: "POST",
@@ -107,9 +112,8 @@ const AdminPage = () => {
           },
         });
       }
-      handleClose();
-    }
-  };
+    };
+  }, [uploadData]);
   return (
     <div className={styles.container}>
       <Head>
