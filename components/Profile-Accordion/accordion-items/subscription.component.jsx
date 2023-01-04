@@ -7,7 +7,6 @@ import { useState } from "react";
 import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
-import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
@@ -15,6 +14,7 @@ import { setSnackbar } from "../../../redux/snackbar.slice";
 import { Dialog } from "../../../interface/Dialog.tsx";
 import { Button } from "../../../interface/Button.tsx";
 import { CANCEL_SUBSCRIPTION_DIALOG } from "../../../utils/captions";
+import { MotionButton } from "../../../interface/MotionButton.tsx";
 
 const Subscription = () => {
   const [expanded, setExpanded] = useState(false);
@@ -102,20 +102,17 @@ const Subscription = () => {
             Subscription expiring: {dateToExpire < Date.now() ? "Expired" : dateToExpire.toString()}
           </Typography>
         </div>
-        <motion.button
-          whileHover={{
-            opacity: 0.75,
-          }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
+        <MotionButton
+          hover={"opacity"}
+          tap
+          initialOptions={{ y: 0 }}
           className={styles.accordionButton}
           onClick={handleClickOpen}
           style={{
             display: userRedux.subscribedSince === 0 ? "none" : "initial",
           }}
-        >
-          {isLoading ? <CircularProgress color="inherit" /> : "Cancel"}
-        </motion.button>
+          label={<>{isLoading ? <CircularProgress color="inherit" /> : "Cancel"}</>}
+        />
       </AccordionDetails>
       <Dialog
         open={open}

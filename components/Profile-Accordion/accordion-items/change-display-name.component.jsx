@@ -8,11 +8,11 @@ import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
+import { MotionButton } from "../../../interface/MotionButton.tsx";
 
 const ChangeDisplayName = () => {
   const [expanded, setExpanded] = useState(false);
@@ -164,17 +164,14 @@ const ChangeDisplayName = () => {
             InputLabelProps={{ style: { color: "white" } }}
           />
         </div>
-        <motion.button
-          whileHover={{
-            opacity: 0.75,
-          }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
+        <MotionButton
+          tap
+          hover={"opacity"}
+          initialOptions={{ y: 0 }}
           className={styles.accordionButton}
           onClick={changeDisplayName}
-        >
-          {isLoading ? <CircularProgress color="inherit" /> : "Save"}
-        </motion.button>
+          label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+        />
       </AccordionDetails>
     </Accordion>
   );

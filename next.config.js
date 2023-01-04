@@ -12,6 +12,7 @@ module.exports = {
       "gamecritics.com",
       "prod-ne-cdn-media.puregym.com",
       "iso.500px.com",
+      "deniscatalin.vercel.app",
     ],
   },
 };

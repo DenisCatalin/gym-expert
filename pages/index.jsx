@@ -7,6 +7,7 @@ import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ROUTES } from "../Routes";
+import { MotionButton } from "../interface/MotionButton.tsx";
 
 const Home = () => {
   const router = useRouter();
@@ -26,16 +27,19 @@ const Home = () => {
         <motion.h1 className={styles.title} animate={{ x: [-500, 0] }} initial={{ x: -500 }}>
           Best exercises platform for gym enthusiasts at affordable prices
         </motion.h1>
-        <motion.button
+        <MotionButton
+          hover={"boxShadow"}
+          tap
+          animateOptions={{ y: [-500, 0] }}
+          initialOptions={{ y: 0 }}
           className={styles.mainButton}
-          whileHover={{ boxShadow: "0px 0px 10px rgba(220, 130, 242, .65)" }}
-          animate={{ y: [-500, 0] }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
           onClick={() => router.push(ROUTES.pricing)}
-        >
-          Get started <ChevronRightIcon style={{ fontSize: "1.2em" }} />
-        </motion.button>
+          label={
+            <>
+              Get started <ChevronRightIcon style={{ fontSize: "1.2em" }} />
+            </>
+          }
+        />
       </motion.div>
       <motion.div
         className={styles.heroImage}

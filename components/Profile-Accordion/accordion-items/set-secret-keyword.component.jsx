@@ -3,7 +3,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "../../../css/components/Accordion.module.css";
 import { theme2 } from "../../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setSnackbar } from "../../../redux/snackbar.slice";
+import { MotionButton } from "../../../interface/MotionButton.tsx";
 
 const SetSecretKey = () => {
   const [expanded, setExpanded] = useState(false);
@@ -136,17 +137,14 @@ const SetSecretKey = () => {
             InputLabelProps={{ style: { color: "white" } }}
           />
         </div>
-        <motion.button
-          whileHover={{
-            opacity: 0.75,
-          }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
+        <MotionButton
+          hover={"opacity"}
+          tap
+          initialOptions={{ y: 0 }}
           className={styles.accordionButton}
           onClick={setUpKeyword}
-        >
-          {isLoading ? <CircularProgress color="inherit" /> : "Set Keyword"}
-        </motion.button>
+          label={<>{isLoading ? <CircularProgress color="inherit" /> : "Set Keyword"}</>}
+        />
       </AccordionDetails>
     </Accordion>
   );

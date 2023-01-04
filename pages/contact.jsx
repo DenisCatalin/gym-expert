@@ -12,17 +12,21 @@ import Head from "next/head";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { theme2 } from "../utils/muiTheme";
 import { useDispatch } from "react-redux";
+import { MotionButton } from "../interface/MotionButton.tsx";
+import { setSnackbar } from "../redux/snackbar.slice";
 
 const Contact = () => {
   const { width, height } = useWindowDimensions();
 
+  const dispatch = useDispatch();
+
   const handleClick = () => {
-    // useDispatch(
-    //   setSnackbar({
-    //     open: true,
-    //     content: "Please fill all the fields below",
-    //   })
-    // ); commented due to some build errors
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "Please fill all the fields below.",
+      })
+    );
   };
   return (
     <div className={styles.container}>
@@ -77,20 +81,21 @@ const Contact = () => {
               </div>
               <div className={styles.bottomPart}>
                 <ThemeProvider theme={theme2}>
-                  <motion.button
+                  <MotionButton
+                    hover={"boxShadow"}
+                    tap
+                    animateOptions={{ x: [-500, 0], opacity: [0, 1] }}
+                    initialOptions={{ y: 0 }}
                     className={styles.reviewButton}
-                    whileHover={{
-                      boxShadow: "0px 0px 10px rgba(220, 130, 242, .65)",
-                    }}
-                    animate={{ x: [-500, 0], opacity: [0, 1] }}
-                    initial={{ y: 0 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <h1 className={styles.reviewButtonText} onClick={handleClick}>
-                      Send
-                    </h1>
-                    <SendIcon color="neutral" className={styles.buttonIcon} />
-                  </motion.button>
+                    label={
+                      <>
+                        <h1 className={styles.reviewButtonText} onClick={handleClick}>
+                          Send
+                        </h1>
+                        <SendIcon color="neutral" className={styles.buttonIcon} />
+                      </>
+                    }
+                  />
                 </ThemeProvider>
               </div>
             </div>

@@ -4,7 +4,6 @@ import Header from "../components/Header/header.component";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Image from "next/image";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
-import { motion } from "framer-motion";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -15,6 +14,7 @@ import { useRouter } from "next/router";
 import { userContext } from "../lib/userContext";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
+import { MotionButton } from "../interface/MotionButton.tsx";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);
@@ -119,16 +119,15 @@ const AdminPage = () => {
       <Header />
       <CustomSnackbar />
       <div className={styles.spacing}>
-        <motion.button
+        <MotionButton
+          hover={"boxShadow"}
+          tap
+          animateOptions={{ y: [-500, 0] }}
+          initialOptions={{ y: 0 }}
           className={styles.mainButton2}
-          whileHover={{ boxShadow: "0px 0px 10px rgba(220, 130, 242, .65)" }}
-          animate={{ y: [-500, 0] }}
-          initial={{ y: 0 }}
-          whileTap={{ scale: 0.9 }}
           onClick={handleClickOpen}
-        >
-          Post News
-        </motion.button>
+          label={"Post News"}
+        />
       </div>
       <Dialog
         open={open}

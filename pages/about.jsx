@@ -1,9 +1,8 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header/header.component";
 import styles from "../css/About.module.css";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { ThemeProvider } from "@mui/material/styles";
-import { motion } from "framer-motion";
 import useWindowDimensions from "../utils/useWindowDimensions";
 import AboutContainer from "../components/About/About.component";
 import { useRouter } from "next/router";
@@ -13,6 +12,7 @@ import Head from "next/head";
 import { theme2 } from "../utils/muiTheme";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { ROUTES } from "../Routes";
+import { MotionButton } from "../interface/MotionButton.tsx";
 
 const About = () => {
   const { width } = useWindowDimensions();
@@ -43,15 +43,19 @@ const About = () => {
       <Header sticky={true} />
       {scrollValue > width / 3 ? (
         <ThemeProvider theme={theme2}>
-          <motion.button
+          <MotionButton
+            hover={"boxShadow"}
+            tap
+            animateOptions={{ opacity: [0, 1] }}
+            initialOptions={{ opacity: 0 }}
             className={styles.scrollToTop}
             onClick={scrollToTop}
-            animate={{ opacity: [0, 1] }}
-            initial={{ opacity: 0 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <KeyboardArrowUpIcon color="neutral" className={styles.scrollToTopIcon} />
-          </motion.button>
+            label={
+              <>
+                <KeyboardArrowUpIcon color="neutral" className={styles.scrollToTopIcon} />
+              </>
+            }
+          />
         </ThemeProvider>
       ) : null}
       <section className={styles.aboutContainer} id="about">
