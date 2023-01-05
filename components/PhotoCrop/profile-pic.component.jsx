@@ -156,6 +156,7 @@ const ProfilePic = () => {
             layout="fill"
             objectFit="cover"
             priority
+            blurDataURL={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
           />
         ) : (
           <>
@@ -209,7 +210,14 @@ const ProfilePic = () => {
                 <>
                   <div className={styles.imageHolder}>
                     {uploadData ? (
-                      <Image src={imgSrc} alt="" layout="fill" objectFit="cover" />
+                      <Image
+                        src={imgSrc}
+                        alt=""
+                        layout="fill"
+                        objectFit="cover"
+                        priority
+                        blurDataURL={imgSrc}
+                      />
                     ) : (
                       <PhotoCrop image={imgSrc} />
                     )}

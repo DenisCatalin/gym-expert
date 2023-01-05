@@ -178,7 +178,7 @@ const AdminPage = () => {
             >
               {uploadData === true ? (
                 <div className={styles.photoContainer}>
-                  <Image src={imgSrc} alt="" layout="fill" objectFit="cover" />
+                  <Image src={imgSrc} alt="" priority layout="fill" objectFit="cover" />
                 </div>
               ) : null}
               <label className={styles.upload}>

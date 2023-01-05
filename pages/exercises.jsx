@@ -20,6 +20,7 @@ import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button.tsx";
 import { MotionButton } from "../interface/MotionButton.tsx";
 import fetchData from "../utils/fetchData.tsx";
+import { MotionTypo } from "../interface/MotionTypo.tsx";
 
 const breakPointWidth = 719;
 
@@ -254,13 +255,13 @@ const Exercises = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <motion.h1
+                    <MotionTypo
                       className={styles.text}
-                      animate={{ opacity: [0, 1] }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      Favourites
-                    </motion.h1>
+                      animateOptions="opacity"
+                      transitionDuration={2}
+                      content="Favourites"
+                    />
+
                     <div
                       style={{
                         display: "grid",
