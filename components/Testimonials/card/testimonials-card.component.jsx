@@ -5,6 +5,7 @@ import StarIcon from "@mui/icons-material/Star";
 import Box from "@mui/material/Box";
 import { ratingLabels } from "../../../lib/ratingLabels";
 import Image from "next/image";
+import { MotionTypo } from "../../../interface/MotionTypo.tsx";
 
 const Card = ({ profilePic, name, date, text, rating, right = false }) => {
   return (
@@ -23,14 +24,18 @@ const Card = ({ profilePic, name, date, text, rating, right = false }) => {
         </div>
       </div>
       <div className={styles.name}>
-        <motion.h1 className={styles.profileName} animate={{ opacity: [0, 1] }}>
-          {name}
-        </motion.h1>
+        <MotionTypo
+          className={styles.profileName}
+          animateOptions={"opacity"}
+          content={<>{name}</>}
+        />
       </div>
       <div className={styles.testimonialContent}>
-        <motion.h1 className={styles.testimonial} animate={{ y: [-200, 0] }}>
-          {text}
-        </motion.h1>
+        <MotionTypo
+          className={styles.testimonial}
+          animateOptions={"fromTopN"}
+          content={<>{text}</>}
+        />
       </div>
       <motion.div className={styles.rating} animate={{ opacity: [0, 1] }}>
         <Rating

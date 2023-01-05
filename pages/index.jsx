@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton.tsx";
+import { MotionTypo } from "../interface/MotionTypo.tsx";
 
 const Home = () => {
   const router = useRouter();
@@ -24,9 +25,12 @@ const Home = () => {
         animate={{ opacity: [0, 1] }}
         initial={{ opacity: 0 }}
       >
-        <motion.h1 className={styles.title} animate={{ x: [-500, 0] }} initial={{ x: -500 }}>
-          Best exercises platform for gym enthusiasts at affordable prices
-        </motion.h1>
+        <MotionTypo
+          className={styles.title}
+          animateOptions="fromRightL"
+          initialOptions={{ x: -500 }}
+          content="Best exercises platform for gym enthusiasts at affordable prices"
+        />
         <MotionButton
           hover={"boxShadow"}
           tap

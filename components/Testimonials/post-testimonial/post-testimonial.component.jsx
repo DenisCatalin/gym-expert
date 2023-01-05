@@ -17,6 +17,7 @@ import { setTestimonialState } from "../../../redux/testimonial.slice";
 import { setReviewState } from "../../../redux/review.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
 import fetchData from "../../../utils/fetchData.tsx";
+import { MotionTypo } from "../../../interface/MotionTypo.tsx";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;
@@ -110,9 +111,11 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
                 objectFit="cover"
               />
             </motion.div>
-            <motion.h1 className={styles.title} animate={{ opacity: [0, 1] }}>
-              Post a review
-            </motion.h1>
+            <MotionTypo
+              className={styles.title}
+              animateOptions={{ opacity: [0, 1] }}
+              content={"Post a review"}
+            />
           </div>
           <TextareaAutosize
             aria-label="empty textarea"

@@ -4,6 +4,7 @@ import PopularNews from "./popular-news.component";
 import CircularProgress from "@mui/material/CircularProgress";
 import { motion } from "framer-motion";
 import fetchData from "../../utils/fetchData.tsx";
+import { MotionTypo } from "../../interface/MotionTypo.tsx";
 
 const PopularPosts = () => {
   const [posts, setPosts] = useState();
@@ -24,13 +25,12 @@ const PopularPosts = () => {
   return (
     <div className={styles.popularPosts}>
       {fetched ? (
-        <motion.h1
+        <MotionTypo
           className={styles.title}
-          animate={{ opacity: [0, 1] }}
-          transition={{ duration: 2 }}
-        >
-          Popular posts
-        </motion.h1>
+          animateOptions={"opacity"}
+          transitionDuration={2}
+          content={"Popular posts"}
+        />
       ) : null}
       {fetched ? (
         posts.map(item => (

@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PostTestimonial from "../post-testimonial/post-testimonial.component";
 import { setReviewState } from "../../../redux/review.slice";
 import Image from "next/image";
+import { MotionTypo } from "../../../interface/MotionTypo.tsx";
 
 const CardFocus = ({ name, profilePic, text, date, rating }) => {
   const [editMode, setEditMode] = useState(false);
@@ -63,17 +64,16 @@ const CardFocus = ({ name, profilePic, text, date, rating }) => {
           animate={{ opacity: [0, 1] }}
           transition={{ duration: 3 }}
         >
-          <Image src={profilePic} alt={name} layout="fill" />
+          <Image src={profilePic} alt={name} priority layout="fill" />
         </motion.div>
       </div>
       <div className={styles.name}>
-        <motion.h1
+        <MotionTypo
           className={styles.profileName}
-          animate={{ opacity: [0, 1] }}
-          transition={{ duration: 3 }}
-        >
-          {name}
-        </motion.h1>
+          animateOptions={"opacity"}
+          transitionDuration={3}
+          content={<>{name}</>}
+        />
         {/* {date} */}
       </div>
       <div className={styles.testimonialContent}>
@@ -88,13 +88,12 @@ const CardFocus = ({ name, profilePic, text, date, rating }) => {
             <PostTestimonial placeholder={text} />
           </Dialog>
         ) : (
-          <motion.h1
+          <MotionTypo
             className={styles.testimonial}
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 3 }}
-          >
-            {text}
-          </motion.h1>
+            animateOptions={"opacity"}
+            transitionDuration={3}
+            content={<>{text}</>}
+          />
         )}
       </div>
       <motion.div

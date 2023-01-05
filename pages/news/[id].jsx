@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import fetchData from "../../utils/fetchData.tsx";
+import { MotionTypo } from "../../interface/MotionTypo.tsx";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);
@@ -70,12 +71,11 @@ const NewsPost = ({ news }) => {
             {newsPost !== undefined ? (
               <>
                 <div className={styles.titleSpace}>
-                  <motion.h1
+                  <MotionTypo
                     className={styles.title}
-                    animate={{ opacity: [0, 1], scale: [0.5, 1] }}
-                  >
-                    {newsPost.Title}
-                  </motion.h1>
+                    animateOptions="opacityScale"
+                    content={<>{newsPost.Title}</>}
+                  />
                 </div>
                 <div className={styles.mainContent}>
                   <motion.div className={styles.postImage} animate={{ opacity: [0, 1] }}>
@@ -88,9 +88,11 @@ const NewsPost = ({ news }) => {
                     />
                   </motion.div>
                   <div className={styles.textContent}>
-                    <motion.h2 className={styles.contentText} animate={{ opacity: [0, 1] }}>
-                      {newsPost.Content}
-                    </motion.h2>
+                    <MotionTypo
+                      className={styles.contentText}
+                      animateOptions="opacity"
+                      content={<>{newsPost.Content}</>}
+                    />
                   </div>
                 </div>
               </>

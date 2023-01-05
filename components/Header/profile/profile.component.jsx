@@ -223,6 +223,10 @@ const ProfileButton = () => {
                     alt=""
                     layout="fill"
                     objectFit="cover"
+                    priority
+                    blurDataURL={
+                      userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
+                    }
                   />
                 )}
               </Avatar>
