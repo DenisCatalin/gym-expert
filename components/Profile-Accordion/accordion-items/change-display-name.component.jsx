@@ -14,6 +14,7 @@ import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
 import fetchData from "../../../utils/fetchData.tsx";
+import { MotionTypo } from "../../../interface/MotionTypo.tsx";
 
 const ChangeDisplayName = () => {
   const [expanded, setExpanded] = useState(false);
@@ -99,12 +100,18 @@ const ChangeDisplayName = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }} className={styles.text}>
-            Display Name
-          </Typography>
-          <Typography sx={{ color: "text.secondary" }} className={styles.text}>
-            {userRedux.displayName}
-          </Typography>
+          <div className={styles.spacer2}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Display Name"
+            />
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content={<>{userRedux.displayName}</>}
+            />
+          </div>
         </AccordionSummary>
       </ThemeProvider>
       <AccordionDetails className={styles.accordionDetails}>

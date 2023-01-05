@@ -2,11 +2,11 @@ import ChangeDisplayName from "./accordion-items/change-display-name.component";
 import ChangeSecretKeyword from "./accordion-items/change-secret-keyword.component";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
 import styles from "../../css/components/Accordion.module.css";
 import Subscription from "./accordion-items/subscription.component";
 import SetSecretKey from "./accordion-items/set-secret-keyword.component";
 import { useSelector } from "react-redux";
+import { MotionTypo } from "../../interface/MotionTypo.tsx";
 
 const AccordionProfile = () => {
   const userRedux = useSelector(state => state.user.user);
@@ -20,12 +20,22 @@ const AccordionProfile = () => {
         <AccordionSummary
           aria-controls="panel3a-content"
           id="panel3a-header"
-          style={{ opacity: 1 }}
+          style={{
+            opacity: 1,
+          }}
         >
-          <Typography sx={{ width: "85%", flexShrink: 0 }} className={styles.text}>
-            Member Since
-          </Typography>
-          <Typography className={styles.text}>{userRedux.memberSince}</Typography>
+          <div className={styles.spacer}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Member Since"
+            />
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content={<>{userRedux.memberSince}</>}
+            />
+          </div>
         </AccordionSummary>
       </Accordion>
     </div>

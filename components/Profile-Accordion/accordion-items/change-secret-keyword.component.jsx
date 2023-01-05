@@ -14,6 +14,7 @@ import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
 import fetchData from "../../../utils/fetchData.tsx";
+import { MotionTypo } from "../../../interface/MotionTypo.tsx";
 
 const ChangePassword = () => {
   const [expanded, setExpanded] = useState(false);
@@ -102,9 +103,11 @@ const ChangePassword = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }} className={styles.text}>
-            Secret Keyword
-          </Typography>
+          <MotionTypo
+            className={styles.text}
+            animateOptions="opacityScale"
+            content="Secret Keyword"
+          />
         </AccordionSummary>
       </ThemeProvider>
       <AccordionDetails className={styles.accordionDetails}>

@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
 import fetchData from "../../../utils/fetchData.tsx";
+import { MotionTypo } from "../../../interface/MotionTypo.tsx";
 
 const SetSecretKey = () => {
   const [expanded, setExpanded] = useState(false);
@@ -82,12 +83,12 @@ const SetSecretKey = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }} className={styles.text}>
-            Secret Key
-          </Typography>
-          <Typography sx={{ color: "text.secondary" }} className={styles.text}>
-            Set up a Secret Key
-          </Typography>
+          <MotionTypo className={styles.text} animateOptions="opacityScale" content="Secret Key" />
+          <MotionTypo
+            className={styles.text}
+            animateOptions="opacityScale"
+            content="Set up a Secret Key"
+          />
         </AccordionSummary>
       </ThemeProvider>
       <AccordionDetails className={styles.accordionDetails}>

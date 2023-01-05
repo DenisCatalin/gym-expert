@@ -31,7 +31,6 @@ export const MotionTypo = ({
   const [animate, setAnimate] = useState<any>({});
 
   useEffect(() => {
-    console.log(animateOptions);
     switch (animateOptions) {
       case "opacity": {
         setAnimate({ opacity: [0, 1] });

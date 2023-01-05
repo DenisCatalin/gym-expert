@@ -16,6 +16,7 @@ import { Button } from "../../../interface/Button.tsx";
 import { CANCEL_SUBSCRIPTION_DIALOG } from "../../../utils/captions";
 import { MotionButton } from "../../../interface/MotionButton.tsx";
 import fetchData from "../../../utils/fetchData.tsx";
+import { MotionTypo } from "../../../interface/MotionTypo.tsx";
 
 const Subscription = () => {
   const [expanded, setExpanded] = useState(false);
@@ -84,23 +85,44 @@ const Subscription = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }} className={styles.text}>
-            Manage Subscription
-          </Typography>
-          <Typography sx={{ color: "text.secondary" }} className={styles.text}>
-            {userRedux.paidPlan ? "Subscribed" : "Not subscribed"}
-          </Typography>
+          <div className={styles.spacer2}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Manage Subscription"
+            />
+
+            <MotionTypo
+              animateOptions="opacityScale"
+              className={styles.text}
+              content={<>{userRedux.paidPlan ? "Subscribed" : "Not subscribed"}</>}
+            />
+          </div>
         </AccordionSummary>
       </ThemeProvider>
       <AccordionDetails className={styles.accordionDetails}>
         <div>
-          <Typography className={styles.text}>
-            Subscribed Since:{" "}
-            {userRedux.subscribedSince === 0 ? "Not subscribed" : subscribedSince.toString()}
-          </Typography>
-          <Typography className={styles.text}>
-            Subscription expiring: {dateToExpire < Date.now() ? "Expired" : dateToExpire.toString()}
-          </Typography>
+          <MotionTypo
+            className={styles.text}
+            animateOptions="opacityScale"
+            content={
+              <>
+                Subscribed Since:{" "}
+                {userRedux.subscribedSince === 0 ? "Not subscribed" : subscribedSince.toString()}
+              </>
+            }
+          />
+
+          <MotionTypo
+            className={styles.text}
+            animateOptions="opacityScale"
+            content={
+              <>
+                Subscription expiring:{" "}
+                {dateToExpire < Date.now() ? "Expired" : dateToExpire.toString()}
+              </>
+            }
+          />
         </div>
         <MotionButton
           hover={"opacity"}
