@@ -25,7 +25,6 @@ const ProfileButton = () => {
   const { didToken, setDidToken } = useContext(didTokenContext);
   const isMounted = useRef(true);
   const [isLoading, setIsLoading] = useState(true);
-  const { user, setUser } = useContext(userContext);
 
   const dispatch = useDispatch();
   const userRedux = useSelector(state => state.user.user);
@@ -74,10 +73,10 @@ const ProfileButton = () => {
           subscribedSince: data?.userDetails?.data?.users[0].subscribedSince,
           profileAvatar: data?.userDetails?.data?.users[0].profileAvatar,
           secretKeyword: data?.userDetails?.data?.users[0].secretKeyword,
-          needsUpdate: false,
           logged: true,
         })
       );
+      console.log("HEYYYYY", userRedux.needsUpdate);
     }
   }
 
@@ -117,13 +116,12 @@ const ProfileButton = () => {
       userRedux.cropped === false &&
       Object.keys(userRedux.cropArea).length !== 0
     ) {
-      user.cropped = true;
       const img = await cropImages(userRedux.profilePic, userRedux.cropArea);
       dispatch(
         setUserState({
           ...userRedux,
           profileAvatar: img,
-          needsUpdate: true,
+          needsUpdate: false,
         })
       );
     }
@@ -144,13 +142,13 @@ const ProfileButton = () => {
                 dispatchFromFetch(data);
                 setDidToken(didToken);
               }
+
+              checkPlan();
+              cropPhoto();
             }
           } catch (error) {
             console.error("Can't retrieve email in NavBar", error);
           }
-        } else {
-          checkPlan();
-          cropPhoto();
         }
       }
 
@@ -160,7 +158,7 @@ const ProfileButton = () => {
     return () => {
       isMounted.current = false;
     };
-  }, [userRedux]);
+  }, [userRedux.needsUpdate]);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

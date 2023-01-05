@@ -47,7 +47,6 @@ const ProfilePic = () => {
       userRedux.cropped === false &&
       cropImage !== null
     ) {
-      user.cropped = true;
       const img = await cropImages(userRedux.profilePic, cropImage);
       setImgSrc(img);
       dispatch(setUserState({ ...userRedux, profileAvatar: img }));
@@ -136,7 +135,6 @@ const ProfilePic = () => {
       );
     }
     setUploadData(false);
-    user.cropped = true;
     handleClose();
     dispatch(setUserState({ ...userRedux, cropArea: cropImage }));
     cropPhoto();
