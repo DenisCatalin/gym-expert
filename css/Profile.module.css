@@ -81,6 +81,10 @@
     font-size: .9em;
 }
 
+.background {
+    background: var(--background);
+}
+
 .uploadContainer {
     width: 100%;
     height: 65vh;
@@ -97,4 +101,11 @@
     margin-top: 2em;
     border: none;
     outline: none;
+}
+
+.dialogTitle {
+    color: var(--white);
+    font-family: var(--font);
+    text-align: center;
+    background: var(--background);
 }

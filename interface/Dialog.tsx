@@ -11,7 +11,7 @@ type IDialogProps = {
   title: string;
   contentStyles: string;
   contentText: string;
-  textStyles: string;
+  textStyles?: string;
   contentOther?: React.ReactNode;
   actions: React.ReactNode;
 };

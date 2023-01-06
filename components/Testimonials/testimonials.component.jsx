@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import styles from "../../css/components/Testimonials.module.css";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
@@ -262,13 +261,7 @@ const Testimonials = () => {
             />
           </ThemeProvider>
         </div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          style={{ backdropFilter: "blur(5px)" }}
-        >
+        <Dialog open={open} onClose={handleClose} style={{ backdropFilter: "blur(5px)" }}>
           <PostTestimonial />
         </Dialog>
       </div>

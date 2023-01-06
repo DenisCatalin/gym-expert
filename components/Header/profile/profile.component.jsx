@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { didTokenContext } from "../../../lib/didTokenContext";
 import { magic } from "../../../lib/magic-client";
 import CircularProgress from "@mui/material/CircularProgress";
-import { userContext } from "../../../lib/userContext";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
