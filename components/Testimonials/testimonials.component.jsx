@@ -261,7 +261,13 @@ const Testimonials = () => {
             />
           </ThemeProvider>
         </div>
-        <Dialog open={open} onClose={handleClose} style={{ backdropFilter: "blur(5px)" }}>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          style={{ backdropFilter: "blur(5px)" }}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
           <PostTestimonial />
         </Dialog>
       </div>
