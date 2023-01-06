@@ -3,17 +3,13 @@ import { userContext } from "../../lib/userContext";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import styles from "../../css/Profile.module.css";
 import Image from "next/image";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import { Dialog } from "../../interface/Dialog.tsx";
 import PhotoCrop from "./cropper/cropper.component";
 import { cropContext } from "../../lib/cropContext";
 import { cropImages } from "../../lib/cropImages";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
-import { Button } from "../../interface/Button.tsx";
 import fetchData from "../../utils/fetchData.tsx";
 
 const ProfilePic = () => {
@@ -23,7 +19,6 @@ const ProfilePic = () => {
   const [imgSrc, setImgSrc] = useState();
   const [open, setOpen] = useState(false);
   const { cropImage, setCropImage } = useContext(cropContext);
-  const [cropReset, setCropReset] = useState(false);
   const userRedux = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
@@ -38,7 +33,7 @@ const ProfilePic = () => {
         cropPhoto();
       }
     }
-  }, [user, open, cropReset]);
+  }, [user, open]);
 
   const cropPhoto = async () => {
     if (
@@ -140,10 +135,6 @@ const ProfilePic = () => {
     cropPhoto();
   };
 
-  const resetCrop = () => {
-    setCropReset(!cropReset);
-  };
-
   return (
     <div className={styles.profilePicContainer}>
       <div className={styles.profilePic} onClick={handleClickOpen}>
@@ -166,72 +157,47 @@ const ProfilePic = () => {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle
-          id="alert-dialog-title"
-          style={{
-            color: "var(--white)",
-            fontFamily: "var(--font)",
-            textAlign: "center",
-            background: "var(--background)",
-          }}
-        >
-          {"Upload a profile picture"}
-        </DialogTitle>
-        <DialogContent style={{ background: "var(--background)" }}>
-          <DialogContentText id="alert-dialog-description" className={styles.text}>
-            Choose a photo for your profile picture. You can crop it later.
-          </DialogContentText>
-          {uploadData ? null : (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
+        title="Upload a profile picture"
+        contentStyles={styles.dialogTitle}
+        textStyles={styles.text}
+        contentText="Choose a photo for your profile picture. You can crop it later."
+        contentOther={
+          <>
+            <div className={styles.uploadContainer}>
+              <form
+                onChange={uploadPhoto}
+                className={styles.imageContainerModal}
+                onSubmit={uploadFile}
               >
-                <Button className={styles.buttonUpload} onClick={resetCrop} label={"Reset"} />
-              </div>
-            </>
-          )}
-          <div className={styles.uploadContainer}>
-            <form
-              onChange={uploadPhoto}
-              className={styles.imageContainerModal}
-              onSubmit={uploadFile}
-            >
-              {hasImg ? (
-                <>
-                  <div className={styles.imageHolder}>
-                    {uploadData ? (
-                      <Image
-                        src={imgSrc}
-                        alt=""
-                        layout="fill"
-                        objectFit="cover"
-                        priority
-                        blurDataURL={imgSrc}
-                      />
-                    ) : (
-                      <PhotoCrop image={imgSrc} />
-                    )}
-                  </div>
-                  <button className={styles.upload}>Save</button>
-                </>
-              ) : null}
+                {hasImg ? (
+                  <>
+                    <div className={styles.imageHolder}>
+                      {uploadData ? (
+                        <Image
+                          src={imgSrc}
+                          alt=""
+                          layout="fill"
+                          objectFit="cover"
+                          priority
+                          blurDataURL={imgSrc}
+                        />
+                      ) : (
+                        <PhotoCrop image={imgSrc} />
+                      )}
+                    </div>
+                    <button className={styles.upload}>Save</button>
+                  </>
+                ) : null}
 
-              <label className={styles.upload}>
-                <input type="file" name="file" className={styles.uploadInput} />
-                Upload Photo <CloudUploadIcon />
-              </label>
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog>
+                <label className={styles.upload}>
+                  <input type="file" name="file" className={styles.uploadInput} />
+                  Upload Photo <CloudUploadIcon />
+                </label>
+              </form>
+            </div>
+          </>
+        }
+      />
     </div>
   );
 };
