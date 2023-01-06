@@ -4,15 +4,12 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import styles from "../../css/Profile.module.css";
 import Image from "next/image";
 import { Dialog } from "../../interface/Dialog.tsx";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import PhotoCrop from "./cropper/cropper.component";
 import { cropContext } from "../../lib/cropContext";
 import { cropImages } from "../../lib/cropImages";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
-import { Button } from "../../interface/Button.tsx";
 import fetchData from "../../utils/fetchData.tsx";
 
 const ProfilePic = () => {
