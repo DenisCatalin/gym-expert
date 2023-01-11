@@ -21,7 +21,7 @@ const Login = () => {
   const { didToken, setDidToken } = useContext(didTokenContext);
   const router = useRouter();
   const dispatch = useDispatch();
-  const userRedux = useSelector(state => state.user.user);
+  const userRedux = useSelector((state: any) => state.user.user);
 
   useEffect(() => {
     const handleComplete = () => {
@@ -34,7 +34,7 @@ const Login = () => {
     };
   }, [router]);
 
-  const handleLoginWithEmail = async e => {
+  const handleLoginWithEmail = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (email) {
       if (email.includes("@") && email.includes(".com")) {
@@ -42,6 +42,7 @@ const Login = () => {
 
         try {
           setIsLoading(true);
+          //@ts-ignore
           const Token = await magic.auth.loginWithMagicLink({
             email,
           });
@@ -75,7 +76,7 @@ const Login = () => {
     }
   };
 
-  const handleOnChangeEmail = e => {
+  const handleOnChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setUserMsg("");
   };
@@ -108,7 +109,7 @@ const Login = () => {
                 initialOptions={{ y: 0 }}
                 className={styles.loginButton}
                 onClick={handleLoginWithEmail}
-                styles={{ pointerEvents: isLoading ? "none" : "all" }}
+                style={{ pointerEvents: isLoading ? "none" : "all" }}
                 label={
                   <>
                     {isLoading ? (
@@ -118,7 +119,7 @@ const Login = () => {
                     ) : (
                       <>
                         <h1 className={styles.loginButtonText}>Sign In</h1>
-                        <LoginIcon color="neutral" className={styles.buttonIcon} />
+                        <LoginIcon color="disabled" className={styles.buttonIcon} />
                       </>
                     )}
                   </>

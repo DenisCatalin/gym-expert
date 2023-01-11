@@ -8,7 +8,7 @@ import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const userRedux = useSelector(state => state.user.user);
+  const userRedux = useSelector((state: any) => state.user.user);
   return (
     <div className={styles.container}>
       <Head>

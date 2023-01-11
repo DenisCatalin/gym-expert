@@ -10,7 +10,7 @@ import useWindowDimensions from "../utils/useWindowDimensions";
 import fetchData from "../utils/fetchData";
 
 const News = () => {
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState<any[]>([]);
   const [fetched, setFetched] = useState(false);
   const [search, setSearch] = useState("");
   const { width, height } = useWindowDimensions();
