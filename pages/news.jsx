@@ -7,7 +7,7 @@ import styles from "../css/News.module.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { motion } from "framer-motion";
 import useWindowDimensions from "../utils/useWindowDimensions";
-import fetchData from "../utils/fetchData.tsx";
+import fetchData from "../utils/fetchData";
 
 const News = () => {
   const [posts, setPosts] = useState();

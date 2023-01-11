@@ -12,7 +12,7 @@ import Head from "next/head";
 import { theme2 } from "../utils/muiTheme";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { ROUTES } from "../Routes";
-import { MotionButton } from "../interface/MotionButton.tsx";
+import { MotionButton } from "../interface/MotionButton";
 
 const About = () => {
   const { width } = useWindowDimensions();

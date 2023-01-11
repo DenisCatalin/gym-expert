@@ -17,8 +17,8 @@ import PostTestimonial from "./post-testimonial/post-testimonial.component";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { ROUTES } from "../../Routes";
-import { MotionButton } from "../../interface/MotionButton.tsx";
-import fetchData from "../../utils/fetchData.tsx";
+import { MotionButton } from "../../interface/MotionButton";
+import fetchData from "../../utils/fetchData";
 
 const Testimonials = () => {
   const { width } = useWindowDimensions();

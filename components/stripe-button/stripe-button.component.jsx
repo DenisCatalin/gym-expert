@@ -5,7 +5,7 @@ import { setUserState } from "../../redux/user.slice";
 import { setSubscriptionState } from "../../redux/subscription.slice";
 import { setDialog } from "../../redux/dialog.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
-import fetchData from "../../utils/fetchData.tsx";
+import fetchData from "../../utils/fetchData";
 
 const StripeCheckoutButton = ({ price, period }) => {
   const priceForStripe = price * 100.00002;

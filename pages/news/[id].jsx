@@ -5,8 +5,8 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import fetchData from "../../utils/fetchData.tsx";
-import { MotionTypo } from "../../interface/MotionTypo.tsx";
+import fetchData from "../../utils/fetchData";
+import { MotionTypo } from "../../interface/MotionTypo";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);

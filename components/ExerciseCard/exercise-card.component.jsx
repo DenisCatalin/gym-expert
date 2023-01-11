@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setExercisesState } from "../../redux/exercises.slice";
-import { Button } from "../../interface/Button.tsx";
-import fetchData from "../../utils/fetchData.tsx";
+import { Button } from "../../interface/Button";
+import fetchData from "../../utils/fetchData";
 
 const ExerciseCard = ({ item, last = false, fav = false }) => {
   const [hover, setHover] = useState(false);

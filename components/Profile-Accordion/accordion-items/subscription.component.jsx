@@ -11,12 +11,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
-import { Dialog } from "../../../interface/Dialog.tsx";
-import { Button } from "../../../interface/Button.tsx";
+import { Dialog } from "../../../interface/Dialog";
+import { Button } from "../../../interface/Button";
 import { CANCEL_SUBSCRIPTION_DIALOG } from "../../../utils/captions";
-import { MotionButton } from "../../../interface/MotionButton.tsx";
-import fetchData from "../../../utils/fetchData.tsx";
-import { MotionTypo } from "../../../interface/MotionTypo.tsx";
+import { MotionButton } from "../../../interface/MotionButton";
+import fetchData from "../../../utils/fetchData";
+import { MotionTypo } from "../../../interface/MotionTypo";
 
 const Subscription = () => {
   const [expanded, setExpanded] = useState(false);

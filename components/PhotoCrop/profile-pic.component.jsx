@@ -3,14 +3,14 @@ import { userContext } from "../../lib/userContext";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import styles from "../../css/Profile.module.css";
 import Image from "next/image";
-import { Dialog } from "../../interface/Dialog.tsx";
+import { Dialog } from "../../interface/Dialog";
 import PhotoCrop from "./cropper/cropper.component";
 import { cropContext } from "../../lib/cropContext";
 import { cropImages } from "../../lib/cropImages";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
-import fetchData from "../../utils/fetchData.tsx";
+import fetchData from "../../utils/fetchData";
 import { CircularProgress } from "@mui/material";
 import { setOtherState } from "../../redux/others.slice";
 

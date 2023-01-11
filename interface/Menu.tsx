@@ -2,7 +2,7 @@ import React from "react";
 import MuiMenu from "@mui/material/Menu";
 import { ThemeProvider } from "@mui/material";
 import { theme2 } from "../utils/muiTheme";
-import { MenuItem } from "./MenuItem.tsx";
+import { MenuItem } from "./MenuItem";
 
 export type MenuOptions = {
   key: string;

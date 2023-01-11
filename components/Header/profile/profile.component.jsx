@@ -15,8 +15,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { ROUTES } from "../../../Routes";
-import { Menu } from "../../../interface/Menu.tsx";
-import fetchData from "../../../utils/fetchData.tsx";
+import { Menu } from "../../../interface/Menu";
+import fetchData from "../../../utils/fetchData";
 import { setOtherState } from "../../../redux/others.slice";
 
 const ProfileButton = () => {

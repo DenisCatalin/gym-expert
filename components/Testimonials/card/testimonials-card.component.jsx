@@ -5,7 +5,7 @@ import StarIcon from "@mui/icons-material/Star";
 import Box from "@mui/material/Box";
 import { ratingLabels } from "../../../lib/ratingLabels";
 import Image from "next/image";
-import { MotionTypo } from "../../../interface/MotionTypo.tsx";
+import { MotionTypo } from "../../../interface/MotionTypo";
 
 const Card = ({ profilePic, name, date, text, rating, right = false }) => {
   return (

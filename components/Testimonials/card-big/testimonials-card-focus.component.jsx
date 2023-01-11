@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PostTestimonial from "../post-testimonial/post-testimonial.component";
 import { setReviewState } from "../../../redux/review.slice";
 import Image from "next/image";
-import { MotionTypo } from "../../../interface/MotionTypo.tsx";
+import { MotionTypo } from "../../../interface/MotionTypo";
 
 const CardFocus = ({ name, profilePic, text, date, rating }) => {
   const [editMode, setEditMode] = useState(false);

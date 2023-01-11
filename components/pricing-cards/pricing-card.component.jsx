@@ -15,7 +15,7 @@ import { setSubscriptionState } from "../../redux/subscription.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { setDialog } from "../../redux/dialog.slice";
 import { ROUTES } from "../../Routes";
-import { MotionButton } from "../../interface/MotionButton.tsx";
+import { MotionButton } from "../../interface/MotionButton";
 
 const PricingCard = ({ price, period, image }) => {
   const { width } = useWindowDimensions();

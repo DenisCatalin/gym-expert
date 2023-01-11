@@ -3,8 +3,8 @@ import StripeCheckoutButton from "../stripe-button/stripe-button.component";
 import { useSelector, useDispatch } from "react-redux";
 import { setSubscriptionState } from "../../redux/subscription.slice";
 import { setDialog } from "../../redux/dialog.slice";
-import { Button } from "../../interface/Button.tsx";
-import { Dialog } from "../../interface/Dialog.tsx";
+import { Button } from "../../interface/Button";
+import { Dialog } from "../../interface/Dialog";
 
 const AlertDialog = ({ title, content }) => {
   const subscription = useSelector(state => state.subscription.subscription);

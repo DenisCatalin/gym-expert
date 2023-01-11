@@ -11,8 +11,8 @@ import Head from "next/head";
 import { ROUTES } from "../Routes";
 import { setUserState } from "../redux/user.slice";
 import { useSelector, useDispatch } from "react-redux";
-import { MotionButton } from "../interface/MotionButton.tsx";
-import fetchData from "../utils/fetchData.tsx";
+import { MotionButton } from "../interface/MotionButton";
+import fetchData from "../utils/fetchData";
 
 const Login = () => {
   const [userMsg, setUserMsg] = useState("");

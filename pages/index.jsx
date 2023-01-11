@@ -7,11 +7,11 @@ import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { MotionButton } from "../interface/MotionButton.tsx";
-import { MotionTypo } from "../interface/MotionTypo.tsx";
+import { MotionButton } from "../interface/MotionButton";
+import { MotionTypo } from "../interface/MotionTypo";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import Popup from "../components/Popup/Popup.tsx";
+import Popup from "../components/Popup/Popup";
 import { ROUTES } from "../Routes";
 
 const Home = () => {

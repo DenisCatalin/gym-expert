@@ -11,9 +11,9 @@ import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setSnackbar } from "../../../redux/snackbar.slice";
-import { MotionButton } from "../../../interface/MotionButton.tsx";
-import fetchData from "../../../utils/fetchData.tsx";
-import { MotionTypo } from "../../../interface/MotionTypo.tsx";
+import { MotionButton } from "../../../interface/MotionButton";
+import fetchData from "../../../utils/fetchData";
+import { MotionTypo } from "../../../interface/MotionTypo";
 
 const SetSecretKey = () => {
   const [expanded, setExpanded] = useState(false);

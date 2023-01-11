@@ -6,7 +6,7 @@ import styles from "../../css/components/Accordion.module.css";
 import Subscription from "./accordion-items/subscription.component";
 import SetSecretKey from "./accordion-items/set-secret-keyword.component";
 import { useSelector } from "react-redux";
-import { MotionTypo } from "../../interface/MotionTypo.tsx";
+import { MotionTypo } from "../../interface/MotionTypo";
 
 const AccordionProfile = () => {
   const userRedux = useSelector(state => state.user.user);

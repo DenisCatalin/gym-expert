@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Dialog } from "../../interface/Dialog.tsx";
-import { Button } from "../../interface/Button.tsx";
+import { Dialog } from "../../interface/Dialog";
+import { Button } from "../../interface/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { setOtherState } from "../../redux/others.slice";
 

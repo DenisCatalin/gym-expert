@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ABOUT_TYPOGRAPHY } from "../../utils/captions";
 import { ROUTES } from "../../Routes";
-import { MotionButton } from "../../interface/MotionButton.tsx";
+import { MotionButton } from "../../interface/MotionButton";
 
 const theme2 = createTheme({
   status: {

@@ -15,9 +15,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
 import { setTestimonialState } from "../../../redux/testimonial.slice";
 import { setReviewState } from "../../../redux/review.slice";
-import { MotionButton } from "../../../interface/MotionButton.tsx";
-import fetchData from "../../../utils/fetchData.tsx";
-import { MotionTypo } from "../../../interface/MotionTypo.tsx";
+import { MotionButton } from "../../../interface/MotionButton";
+import fetchData from "../../../utils/fetchData";
+import { MotionTypo } from "../../../interface/MotionTypo";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;

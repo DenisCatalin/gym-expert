@@ -17,10 +17,10 @@ import Stack from "@mui/material/Stack";
 import { theme, theme2 } from "../utils/muiTheme";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
-import { Button } from "../interface/Button.tsx";
-import { MotionButton } from "../interface/MotionButton.tsx";
-import fetchData from "../utils/fetchData.tsx";
-import { MotionTypo } from "../interface/MotionTypo.tsx";
+import { Button } from "../interface/Button";
+import { MotionButton } from "../interface/MotionButton";
+import fetchData from "../utils/fetchData";
+import { MotionTypo } from "../interface/MotionTypo";
 
 const breakPointWidth = 719;
 

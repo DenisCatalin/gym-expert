@@ -2,9 +2,8 @@ import styles from "../../css/components/NewsPopular.module.css";
 import { useEffect, useState } from "react";
 import PopularNews from "./popular-news.component";
 import CircularProgress from "@mui/material/CircularProgress";
-import { motion } from "framer-motion";
-import fetchData from "../../utils/fetchData.tsx";
-import { MotionTypo } from "../../interface/MotionTypo.tsx";
+import fetchData from "../../utils/fetchData";
+import { MotionTypo } from "../../interface/MotionTypo";
 
 const PopularPosts = () => {
   const [posts, setPosts] = useState();

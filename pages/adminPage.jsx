@@ -13,8 +13,8 @@ import { TextareaAutosize, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
-import { MotionButton } from "../interface/MotionButton.tsx";
-import fetchData from "../utils/fetchData.tsx";
+import { MotionButton } from "../interface/MotionButton";
+import fetchData from "../utils/fetchData";
 
 const AdminPage = () => {
   const [open, setOpen] = useState(false);

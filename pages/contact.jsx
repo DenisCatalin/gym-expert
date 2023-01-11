@@ -12,7 +12,7 @@ import Head from "next/head";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { theme2 } from "../utils/muiTheme";
 import { useDispatch } from "react-redux";
-import { MotionButton } from "../interface/MotionButton.tsx";
+import { MotionButton } from "../interface/MotionButton";
 import { setSnackbar } from "../redux/snackbar.slice";
 
 const Contact = () => {

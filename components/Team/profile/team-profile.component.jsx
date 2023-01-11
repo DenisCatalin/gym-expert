@@ -1,6 +1,6 @@
 import styles from "../../../css/components/TeamProfile.module.css";
 import Image from "next/image";
-import { Button } from "../../../interface/Button.tsx";
+import { Button } from "../../../interface/Button";
 
 const TeamProfile = ({ image }) => {
   return (

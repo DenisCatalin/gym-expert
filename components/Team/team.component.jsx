@@ -3,11 +3,10 @@ import styles from "../../css/components/Team.module.css";
 import TeamProfile from "./profile/team-profile.component";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { ThemeProvider } from "@mui/material/styles";
-import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { theme2 } from "../../utils/muiTheme";
 import { ROUTES } from "../../Routes";
-import { MotionButton } from "../../interface/MotionButton.tsx";
+import { MotionButton } from "../../interface/MotionButton";
 
 const Team = () => {
   const router = useRouter();
