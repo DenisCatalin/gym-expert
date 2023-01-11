@@ -6,6 +6,7 @@ import { snackbarReducer } from "./snackbar.slice";
 import { testimonialReducer } from "./testimonial.slice";
 import { reviewReducer } from "./review.slice";
 import { exercisesReducer } from "./exercises.slice";
+import { otherReducer } from "./others.slice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     testimonial: testimonialReducer,
     review: reviewReducer,
     exercises: exercisesReducer,
+    other: otherReducer,
   },
 });
 

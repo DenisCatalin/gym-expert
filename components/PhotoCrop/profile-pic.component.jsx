@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import fetchData from "../../utils/fetchData.tsx";
+import { CircularProgress } from "@mui/material";
+import { setOtherState } from "../../redux/others.slice";
 
 const ProfilePic = () => {
   const { user, setUser } = useContext(userContext);
@@ -18,8 +20,10 @@ const ProfilePic = () => {
   const [hasImg, setHasImg] = useState(false);
   const [imgSrc, setImgSrc] = useState();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { cropImage, setCropImage } = useContext(cropContext);
   const userRedux = useSelector(state => state.user.user);
+  const otherRedux = useSelector(state => state.other.other);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,6 +38,14 @@ const ProfilePic = () => {
       }
     }
   }, [user, open]);
+
+  useEffect(() => {
+    if (otherRedux.loadingUpload) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [otherRedux]);
 
   const cropPhoto = async () => {
     if (
@@ -69,6 +81,14 @@ const ProfilePic = () => {
 
   const uploadFile = async e => {
     e.preventDefault();
+
+    dispatch(
+      setOtherState({
+        ...otherRedux,
+        loadingUpload: true,
+      })
+    );
+
     const form = e.currentTarget;
     const fileInput = Array.from(form.elements).find(({ name }) => name === "file");
 
@@ -119,6 +139,7 @@ const ProfilePic = () => {
           ...userRedux,
           profilePic: data.secure_url,
           profileAvatar: data.secure_url,
+          cropArea: cropImage,
           needsUpdate: true,
         })
       );
@@ -128,11 +149,25 @@ const ProfilePic = () => {
           content: "You have successfully uploaded your profile picture.",
         })
       );
+      setUploadData(false);
+      dispatch(
+        setOtherState({
+          ...otherRedux,
+          loadingUpload: false,
+        })
+      );
+    } else {
+      setUploadData(false);
+      handleClose();
+      dispatch(setUserState({ ...userRedux, cropArea: cropImage }));
+      cropPhoto();
+      dispatch(
+        setOtherState({
+          ...otherRedux,
+          loadingUpload: false,
+        })
+      );
     }
-    setUploadData(false);
-    handleClose();
-    dispatch(setUserState({ ...userRedux, cropArea: cropImage }));
-    cropPhoto();
   };
 
   return (
@@ -185,13 +220,21 @@ const ProfilePic = () => {
                         <PhotoCrop image={imgSrc} />
                       )}
                     </div>
-                    <button className={styles.upload}>Save</button>
+                    <button className={styles.upload}>
+                      {loading ? <CircularProgress color="secondary" /> : "Save"}
+                    </button>
                   </>
                 ) : null}
 
                 <label className={styles.upload}>
-                  <input type="file" name="file" className={styles.uploadInput} />
-                  Upload Photo <CloudUploadIcon />
+                  {loading ? (
+                    <CircularProgress color="secondary" />
+                  ) : (
+                    <>
+                      <input type="file" name="file" className={styles.uploadInput} />
+                      Upload Photo <CloudUploadIcon />
+                    </>
+                  )}
                 </label>
               </form>
             </div>

@@ -19,7 +19,6 @@ const initialState = {
     profileAvatar: "",
     cropped: false,
     needsUpdate: true,
-    popup: false,
   },
 };
 

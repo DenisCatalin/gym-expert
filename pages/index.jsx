@@ -7,23 +7,26 @@ import CustomSnackbar from "../components/Snackbar/snackbar.component";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton.tsx";
 import { MotionTypo } from "../interface/MotionTypo.tsx";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import Popup from "../components/Popup/Popup.tsx";
+import { ROUTES } from "../Routes";
 
 const Home = () => {
   const router = useRouter();
   const userRedux = useSelector(state => state.user.user);
+  const otherRedux = useSelector(state => state.other.other);
   const [showPopup, setShowPopup] = useState(false);
+
+  const { displayName, secretKeyword, email } = userRedux;
+  const { popup, userFetched } = otherRedux;
 
   useEffect(() => {
     if (
-      userRedux.displayName === null &&
-      userRedux.secretKeyword === null &&
-      userRedux.popup === false
+      (userRedux.displayName === null && !popup && userFetched) ||
+      (userRedux.secretKeyword === null && !popup && userFetched)
     ) {
       setShowPopup(true);
     }
@@ -36,7 +39,18 @@ const Home = () => {
       </Head>
       <Header />
       <CustomSnackbar />
-      {showPopup ? <Popup /> : null}
+      {showPopup ? (
+        <Popup
+          popupFor="newUser"
+          title={`Hello, ${email.split("@").slice(0, -1)}!`}
+          contentStyles={styles.background}
+          textStyles={styles.text}
+          contentText={`You haven't set your ${displayName === null ? "display name" : ""}
+          ${displayName === null && secretKeyword === null ? " and " : ""}
+           ${secretKeyword === null ? "secret keyword " : ""}yet. Would you like to set it now?`}
+          onClickPositive={() => router.push(ROUTES.profile)}
+        />
+      ) : null}
       <motion.div
         className={styles.hero}
         transition={{ delay: 0.2 }}

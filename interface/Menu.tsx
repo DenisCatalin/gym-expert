@@ -17,9 +17,10 @@ type IMenuProps = {
   anchor: HTMLElement | null;
   handleClose: () => void;
   options: MenuOptions[];
+  title?: string;
 };
 
-export const Menu = ({ id, anchor, handleClose, options }: IMenuProps) => {
+export const Menu = ({ id, anchor, handleClose, options, title }: IMenuProps) => {
   const open = Boolean(anchor);
   return (
     <MuiMenu
@@ -49,6 +50,20 @@ export const Menu = ({ id, anchor, handleClose, options }: IMenuProps) => {
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
       <ThemeProvider theme={theme2}>
+        {title ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "8vh",
+              fontWeight: "bold",
+            }}
+          >
+            {title}
+          </div>
+        ) : null}
         {options.map(option => (
           <MenuItem
             key={option.key}
