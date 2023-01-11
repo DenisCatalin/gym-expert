@@ -9,7 +9,7 @@ type IDialogProps = {
   open: boolean;
   onClose: () => void;
   title: string;
-  contentStyles: string;
+  contentStyles?: string;
   contentText: string;
   textStyles?: string;
   contentOther?: React.ReactNode;

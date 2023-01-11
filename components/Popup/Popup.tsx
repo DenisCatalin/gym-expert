@@ -10,7 +10,7 @@ type IPopup = {
   contentStyles?: string;
   textStyles?: string;
   contentText: string;
-  contentOther?: Object | React.ReactNode;
+  contentOther?: React.ReactNode;
   onClickPositive?: () => void;
 };
 
