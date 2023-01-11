@@ -14,7 +14,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { MotionButton } from "../interface/MotionButton";
 import fetchData from "../utils/fetchData";
 
-const Login = () => {
+interface Provider {
+  magic?: any;
+}
+
+const Login = ({ magic }: Provider) => {
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
