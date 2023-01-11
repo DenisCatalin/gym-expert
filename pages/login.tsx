@@ -14,11 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { MotionButton } from "../interface/MotionButton";
 import fetchData from "../utils/fetchData";
 
-interface Provider {
-  magic?: any;
-}
-
-const Login = ({ magic }: Provider) => {
+const Login = () => {
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -46,6 +42,8 @@ const Login = ({ magic }: Provider) => {
 
         try {
           setIsLoading(true);
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
           const Token = await magic.auth.loginWithMagicLink({
             email,
           });
