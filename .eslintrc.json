@@ -1,7 +1,8 @@
 {
   "extends": "next/core-web-vitals",
   "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "eslint-plugin-ts-expect"
     ],
   "rules": {
     "@typescript-eslint/ban-ts-comment": "warn",
