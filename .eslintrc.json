@@ -1,11 +1,3 @@
 {
-  "extends": "next/core-web-vitals",
-  "plugins": [
-        "@typescript-eslint",
-        "eslint-plugin-ts-expect"
-    ],
-  "rules": {
-    "@typescript-eslint/ban-ts-comment": "warn",
-    "@ts-expect-error":"warn"
-  }
+  "extends": "next/core-web-vitals"
 }
