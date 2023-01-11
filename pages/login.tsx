@@ -42,8 +42,7 @@ const Login = () => {
 
         try {
           setIsLoading(true);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
+          //@ts-ignore
           const Token = await magic.auth.loginWithMagicLink({
             email,
           });
