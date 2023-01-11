@@ -101,8 +101,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-  ],
+    "**/*.tsx",
+    "environment.d.ts"
+, "lib/magic-client.ts"  ],
   "exclude": [
     "node_modules"
   ]
