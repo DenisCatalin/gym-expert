@@ -4,14 +4,31 @@ import Header from "../components/Header/header.component";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Image from "next/image";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton.tsx";
 import { MotionTypo } from "../interface/MotionTypo.tsx";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import Popup from "../components/Popup/Popup.tsx";
 
 const Home = () => {
   const router = useRouter();
+  const userRedux = useSelector(state => state.user.user);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (
+      userRedux.displayName === null &&
+      userRedux.secretKeyword === null &&
+      userRedux.popup === false
+    ) {
+      setShowPopup(true);
+    }
+  }, [userRedux]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -19,6 +36,7 @@ const Home = () => {
       </Head>
       <Header />
       <CustomSnackbar />
+      {showPopup ? <Popup /> : null}
       <motion.div
         className={styles.hero}
         transition={{ delay: 0.2 }}
