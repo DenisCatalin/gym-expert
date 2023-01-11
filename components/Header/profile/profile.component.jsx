@@ -17,6 +17,7 @@ import { setSnackbar } from "../../../redux/snackbar.slice";
 import { ROUTES } from "../../../Routes";
 import { Menu } from "../../../interface/Menu.tsx";
 import fetchData from "../../../utils/fetchData.tsx";
+import { setOtherState } from "../../../redux/others.slice";
 
 const ProfileButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -27,6 +28,7 @@ const ProfileButton = () => {
 
   const dispatch = useDispatch();
   const userRedux = useSelector(state => state.user.user);
+  const otherRedux = useSelector(state => state.other.other);
 
   const menuOptions = [
     {
@@ -145,6 +147,13 @@ const ProfileButton = () => {
               const didToken = await magic.user.getIdToken();
               const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
 
+              dispatch(
+                setOtherState({
+                  ...otherRedux,
+                  userFetched: true,
+                })
+              );
+
               if (isMounted.current) {
                 dispatchFromFetch(data);
                 setDidToken(didToken);
@@ -252,6 +261,7 @@ const ProfileButton = () => {
             anchor={anchorEl}
             handleClose={handleClose}
             options={menuOptions}
+            title={userRedux.displayName}
           />
         </>
       ) : null}

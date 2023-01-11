@@ -1,26 +1,48 @@
 import React, { useState } from "react";
-import styles from "../../css/Pricing.module.css";
 import { Dialog } from "../../interface/Dialog.tsx";
 import { Button } from "../../interface/Button.tsx";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import { ROUTES } from "../../Routes";
-import { setUserState } from "../../redux/user.slice";
+import { setOtherState } from "../../redux/others.slice";
 
-const Popup = () => {
+type IPopup = {
+  popupFor?: string;
+  title: string;
+  contentStyles?: string;
+  textStyles?: string;
+  contentText: string;
+  contentOther?: Object | React.ReactNode;
+  onClickPositive?: () => void;
+};
+
+const Popup = ({
+  popupFor,
+  title,
+  contentStyles,
+  textStyles,
+  contentText,
+  contentOther,
+  onClickPositive,
+}: IPopup) => {
   const [open, setOpen] = useState(true);
-  const userRedux = useSelector((state: any) => state.user.user);
-  const router = useRouter();
+  const otherRedux = useSelector((state: any) => state.other.other);
   const dispatch = useDispatch();
 
   const handleClose = () => {
     setOpen(false);
-    dispatch(
-      setUserState({
-        ...userRedux,
-        popup: true,
-      })
-    );
+    switch (popupFor) {
+      case "newUser": {
+        dispatch(
+          setOtherState({
+            ...otherRedux,
+            popup: true,
+          })
+        );
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   };
 
   return (
@@ -28,19 +50,15 @@ const Popup = () => {
       <Dialog
         open={open}
         onClose={handleClose}
-        title={`Hello, ${userRedux.email[0]}!`}
-        contentStyles={styles.background}
-        textStyles={styles.text}
-        contentText="You haven't set your display name and secret keyword yet. Would you like to set it now?"
+        title={title}
+        contentStyles={contentStyles}
+        textStyles={textStyles}
+        contentText={contentText}
+        contentOther={contentOther}
         actions={
           <>
             <Button color="secondary" onClick={handleClose} label="No" />
-            <Button
-              color="secondary"
-              onClick={() => router.push(ROUTES.profile)}
-              autoFocus={true}
-              label="Yes"
-            />
+            <Button color="secondary" onClick={onClickPositive} autoFocus={true} label="Yes" />
           </>
         }
       />
