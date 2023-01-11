@@ -16,6 +16,7 @@ import Image from "next/image";
 import { MotionTypo } from "../../../interface/MotionTypo";
 
 const CardFocus = ({ name, profilePic, text, date, rating }) => {
+  console.log("FFFASFASFS");
   const [editMode, setEditMode] = useState(false);
 
   const userRedux = useSelector(state => state.user.user);

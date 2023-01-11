@@ -5,7 +5,16 @@ import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { ROUTES } from "../../Routes";
 
-const Post = ({ id, image, title, content, date, views }) => {
+type IPost = {
+  id: number;
+  image: string;
+  title: string;
+  content: string;
+  date: string;
+  views: number;
+};
+
+const Post = ({ id, image, title, content, date, views }: IPost) => {
   const reveal = +`0.${id}`;
   const router = useRouter();
 

@@ -1,7 +1,7 @@
 import styles from "../../css/components/Header.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ProfileButton from "./profile/profile.component";
 import { motion } from "framer-motion";
@@ -15,7 +15,7 @@ const Header = ({ sticky = false }) => {
   const { width } = useWindowDimensions();
   const router = useRouter();
 
-  const [mounted, setMounted] = useState(null);
+  const [mounted, setMounted] = useState<React.ReactNode | null>(null);
 
   useEffect(() => {
     setMounted(

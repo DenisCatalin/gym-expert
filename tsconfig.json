@@ -103,7 +103,7 @@
     "**/*.ts",
     "**/*.tsx",
     "environment.d.ts"
-, "lib/magic-client.ts"  ],
+, "lib/magic-client.ts", "components/AlertDialog/alert-dialog.component.jsx"  ],
   "exclude": [
     "node_modules"
   ]

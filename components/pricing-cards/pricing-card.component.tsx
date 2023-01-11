@@ -17,13 +17,19 @@ import { setDialog } from "../../redux/dialog.slice";
 import { ROUTES } from "../../Routes";
 import { MotionButton } from "../../interface/MotionButton";
 
-const PricingCard = ({ price, period, image }) => {
+type IPricingCard = {
+  price?: number;
+  period?: any;
+  image?: any;
+};
+
+const PricingCard = ({ price, period, image }: IPricingCard) => {
   const { width } = useWindowDimensions();
   const [planSelected, setPlanSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const dialog = useSelector(state => state.dialog);
+  const dialog = useSelector((state: any) => state.dialog);
   const dispatch = useDispatch();
 
   const setScaleCard = () => {
@@ -37,6 +43,7 @@ const PricingCard = ({ price, period, image }) => {
   const openDialog = async () => {
     setIsLoading(true);
     setPlanSelected(true);
+    //@ts-ignore
     const isLoggedIn = await magic.user.isLoggedIn();
     if (!isLoggedIn) router.push(ROUTES.login);
     else {
@@ -85,7 +92,7 @@ const PricingCard = ({ price, period, image }) => {
               {features.map((item, i) => (
                 <div className={styles.feature} key={i}>
                   <h2 className={styles.featureText}>{item}</h2>
-                  <VerifiedIcon color="neutral" />
+                  <VerifiedIcon htmlColor="#fff" />
                 </div>
               ))}
             </ThemeProvider>

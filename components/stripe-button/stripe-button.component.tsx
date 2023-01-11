@@ -7,15 +7,20 @@ import { setDialog } from "../../redux/dialog.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import fetchData from "../../utils/fetchData";
 
-const StripeCheckoutButton = ({ price, period }) => {
+type IStripeButton = {
+  price?: any;
+  period?: string;
+};
+
+const StripeCheckoutButton = ({ price, period }: IStripeButton) => {
   const priceForStripe = price * 100.00002;
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_API_PUBLISHABLE_KEY;
   const correctPeriod = period === "year" ? 365 : period === "month" ? 30 : 7;
   const [issuer, setIssuer] = useState();
   const [email, setEmail] = useState();
 
-  const userRedux = useSelector(state => state.user.user);
-  const subscription = useSelector(state => state.subscription.subscription);
+  const userRedux = useSelector((state: any) => state.user.user);
+  const subscription = useSelector((state: any) => state.subscription.subscription);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,7 +39,7 @@ const StripeCheckoutButton = ({ price, period }) => {
 
   const finalPrice = (priceForStripe / 100).toFixed(2);
 
-  const onToken = async token => {
+  const onToken = async (token: any) => {
     let d = new Date();
     const currentMonth = d.getMonth();
     const currentDay = d.getDate();
@@ -74,6 +79,7 @@ const StripeCheckoutButton = ({ price, period }) => {
     );
 
     const dateToExpire = new Date(Math.round(expireDate) * 1000);
+    console.log(typeof dateToExpire);
     const dateString = `${months[currentMonth]}-${currentDay}-${currentYear}`;
 
     await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_PURCHASE}`, {
@@ -95,7 +101,7 @@ const StripeCheckoutButton = ({ price, period }) => {
       headers: {
         body: JSON.stringify({
           issuer: issuer,
-          planExpireDate: dateToExpire / 1000,
+          planExpireDate: (expireDate * 1000) / 1000,
           paidPlan: period,
           subscribedIn: initialDate,
         }),
@@ -119,7 +125,7 @@ const StripeCheckoutButton = ({ price, period }) => {
       billingAddress
       shippingAddress
       image="https://p.kindpng.com/picc/s/45-451836_transparent-king-crown-clipart-king-crown-clipart-hd.png"
-      descriptiong={`Your total is $${price}`}
+      description={`Your total is $${price}`}
       amount={priceForStripe}
       panelLabel="Pay Now"
       token={onToken}

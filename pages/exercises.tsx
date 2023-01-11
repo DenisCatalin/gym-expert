@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "../components/Header/header.component";
 import styles from "../css/Exercises.module.css";
 import { motion } from "framer-motion";
@@ -65,12 +65,12 @@ const Exercises = () => {
   const [favourites, setFavourites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const userRedux = useSelector(state => state.user.user);
-  const exercisesRedux = useSelector(state => state.exercises.exercises);
+  const userRedux = useSelector((state: any) => state.user.user);
+  const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
 
   const router = useRouter();
 
-  const handleChange = (_event, value) => {
+  const handleChange = (_event: any, value: React.SetStateAction<number>) => {
     setPage(value);
   };
 
@@ -122,6 +122,7 @@ const Exercises = () => {
           router.push(ROUTES.pricing);
         else setIsLoading(false);
       } else {
+        //@ts-ignore
         const isLoggedIn = await magic.user.isLoggedIn();
         if (!isLoggedIn) router.push(ROUTES.login);
         else {
@@ -156,7 +157,7 @@ const Exercises = () => {
     setBodyPartsPage(bodyPartsPage - 1);
   };
 
-  const selectExercise = event => {
+  const selectExercise = (event: any) => {
     setBodyPart(event.target.textContent);
   };
 
@@ -167,7 +168,7 @@ const Exercises = () => {
       </Head>
       <Header />
       {isLoading ? (
-        <div className={styles.content} stlye={{ height: isLoading ? "100vh" : "initial" }}>
+        <div className={styles.content} style={{ height: isLoading ? "100vh" : "initial" }}>
           <div className={styles.exercises}>
             <Stack sx={{ width: "50%", color: "grey.500" }} spacing={2}>
               <LinearProgress color="secondary" />
@@ -200,7 +201,7 @@ const Exercises = () => {
                         }}
                       >
                         <KeyboardArrowLeftIcon
-                          color="neutral"
+                          htmlColor="#fff"
                           style={{
                             fontSize: width > breakPointWidth ? "2.5em" : "1.5em",
                           }}
@@ -210,7 +211,7 @@ const Exercises = () => {
                         <MotionButton
                           key={i}
                           className={styles.bodyPart}
-                          onClick={e => setBodyPart(e.target.textContent)}
+                          onClick={(e: any) => setBodyPart(e.target.textContent)}
                           label={<>{item}</>}
                         />
                       ))}
@@ -237,7 +238,7 @@ const Exercises = () => {
                         }}
                       >
                         <KeyboardArrowRightIcon
-                          color="neutral"
+                          htmlColor="#fff"
                           style={{
                             fontSize: width > breakPointWidth ? "2.5em" : "1.5em",
                           }}

@@ -4,7 +4,16 @@ import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { ROUTES } from "../../Routes";
 
-const PopularNews = ({ id, title, content, image, date }) => {
+type IPopularNews = {
+  id: number;
+  title: string;
+  content: string;
+  image: string;
+  date: string;
+  views: number;
+};
+
+const PopularNews = ({ id, title, content, image, date, views }: IPopularNews) => {
   const router = useRouter();
   const reveal = +`0.${id}`;
   return (

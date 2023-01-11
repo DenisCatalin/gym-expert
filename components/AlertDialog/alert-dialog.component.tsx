@@ -6,9 +6,15 @@ import { setDialog } from "../../redux/dialog.slice";
 import { Button } from "../../interface/Button";
 import { Dialog } from "../../interface/Dialog";
 
-const AlertDialog = ({ title, content }) => {
-  const subscription = useSelector(state => state.subscription.subscription);
-  const dialog = useSelector(state => state.dialog.dialog);
+type IAlertDialog = {
+  dialogOpen?: boolean;
+  title?: any;
+  content?: any;
+};
+
+const AlertDialog = ({ title, content }: IAlertDialog) => {
+  const subscription = useSelector((state: any) => state.subscription.subscription);
+  const dialog = useSelector((state: any) => state.dialog.dialog);
   const dispatch = useDispatch();
 
   const handleClose = () => {

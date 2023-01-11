@@ -17,20 +17,20 @@ import fetchData from "../../../utils/fetchData";
 import { MotionTypo } from "../../../interface/MotionTypo";
 
 const ChangePassword = () => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState<string | boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [newSecretKeyword, setNewSecretKeyword] = useState("");
   const [newSecretKeywordConfirm, setNewSecretKeywordConfirm] = useState("");
   const [secretKeyword, setSecretKeyword] = useState("");
 
-  const userRedux = useSelector(state => state.user.user);
+  const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
 
-  const handleChange = panel => (event, isExpanded) => {
+  const handleChange = (panel: any) => (event: any, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  function setSnackbarMessage(message) {
+  function setSnackbarMessage(message: string) {
     dispatch(
       setSnackbar({
         open: true,
@@ -99,7 +99,7 @@ const ChangePassword = () => {
     >
       <ThemeProvider theme={theme2}>
         <AccordionSummary
-          expandIcon={<EditIcon color="neutral" />}
+          expandIcon={<EditIcon htmlColor="#fff" />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >

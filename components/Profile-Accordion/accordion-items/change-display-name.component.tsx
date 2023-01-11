@@ -1,7 +1,6 @@
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import styles from "../../../css/components/Accordion.module.css";
@@ -10,25 +9,22 @@ import { ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
+import { setUserState } from "../../../redux/user.slice";
 import { setSnackbar } from "../../../redux/snackbar.slice";
 import { MotionButton } from "../../../interface/MotionButton";
 import fetchData from "../../../utils/fetchData";
 import { MotionTypo } from "../../../interface/MotionTypo";
 
-const SetSecretKey = () => {
-  const [expanded, setExpanded] = useState(false);
+const ChangeDisplayName = () => {
+  const [expanded, setExpanded] = useState<string | boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [newName, setNewName] = useState("");
   const [secretKeyword, setSecretKeyword] = useState("");
-  const [secretKeywordConfirm, setSecretKeywordConfirm] = useState("");
 
-  const userRedux = useSelector(state => state.user.user);
+  const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
 
-  const handleChange = panel => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
-  function setSnackbarMessage(message) {
+  function setSnackbarMessage(message: string) {
     dispatch(
       setSnackbar({
         open: true,
@@ -37,40 +33,60 @@ const SetSecretKey = () => {
     );
   }
 
-  const setUpKeyword = async () => {
+  const handleChange = (panel: any) => (event: any, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
+  const changeDisplayName = async () => {
     setIsLoading(true);
     if (userRedux.logged) {
+      if (newName === "") {
+        setSnackbarMessage("The new display name must be provided.");
+        setIsLoading(false);
+        return;
+      }
+      if (newName.length < 3) {
+        setSnackbarMessage("The new display name must be at least 3 characters long.");
+        setIsLoading(false);
+        return;
+      }
       if (secretKeyword === "") {
-        setSnackbarMessage("The secret key should not be empty.");
+        setSnackbarMessage("The secret keyword must be provided.");
         setIsLoading(false);
         return;
       }
-      if (secretKeyword.length < 3) {
-        setSnackbarMessage("The secret key must be at least 4 characters long.");
+      if (secretKeyword !== userRedux.secretKeyword) {
+        setSnackbarMessage("Wrong secret keyword.");
         setIsLoading(false);
         return;
       }
-      if (secretKeyword !== secretKeywordConfirm) {
-        setSnackbarMessage("The secret keys are not the same.");
-        setIsLoading(false);
-        return;
-      }
-      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SET_KEYWORD}`, {
+      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_NAME}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
             issuer: userRedux.issuer,
-            keyword: secretKeyword,
+            newName: newName,
           }),
         },
       });
-      setSnackbarMessage("You have successfully set up your secret keyword.");
+      if (data2.CheckDisplayNameQueryForUser === 0) {
+        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_NAME}`, {
+          method: "POST",
+          headers: {
+            body: JSON.stringify({
+              issuer: userRedux.issuer,
+              newName: newName,
+            }),
+          },
+        });
+        setSecretKeyword("");
+        setNewName("");
+        dispatch(setUserState({ ...userRedux, displayName: newName }));
+        setSnackbarMessage("You have successfully changed your display name.");
+      } else setSnackbarMessage("Display name already exists!");
     }
-    setSecretKeyword("");
-    setSecretKeywordConfirm("");
     setIsLoading(false);
   };
-
   return (
     <Accordion
       expanded={expanded === "panel1"}
@@ -79,27 +95,33 @@ const SetSecretKey = () => {
     >
       <ThemeProvider theme={theme2}>
         <AccordionSummary
-          expandIcon={<EditIcon color="neutral" />}
+          expandIcon={<EditIcon htmlColor="#fff" />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <MotionTypo
-            className={styles.text}
-            animateOptions="opacityScale"
-            content="Set up a Secret Key"
-          />
+          <div className={styles.spacer2}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Display Name"
+            />
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content={<>{userRedux.displayName}</>}
+            />
+          </div>
         </AccordionSummary>
       </ThemeProvider>
       <AccordionDetails className={styles.accordionDetails}>
         <div>
           <TextField
-            label="Desired Secret Keyword"
-            id="secretKey"
+            label="Desired Display Name"
+            id="newName"
             color="warning"
-            type="password"
             className={styles.textField}
-            value={secretKeyword}
-            onChange={e => setSecretKeyword(e.target.value)}
+            onChange={e => setNewName(e.target.value)}
+            value={newName}
             inputProps={{
               style: {
                 color: "white",
@@ -109,13 +131,13 @@ const SetSecretKey = () => {
             InputLabelProps={{ style: { color: "white" } }}
           />
           <TextField
-            label="Confirm Secret Keyword"
-            id="secretKeyConfirm"
+            label="Current Secret Keyword"
+            id="secret"
             color="warning"
             type="password"
-            onChange={e => setSecretKeywordConfirm(e.target.value)}
             className={styles.textField}
-            value={secretKeywordConfirm}
+            onChange={e => setSecretKeyword(e.target.value)}
+            value={secretKeyword}
             inputProps={{
               style: {
                 color: "white",
@@ -126,16 +148,16 @@ const SetSecretKey = () => {
           />
         </div>
         <MotionButton
-          hover={"opacity"}
           tap
+          hover={"opacity"}
           initialOptions={{ y: 0 }}
           className={styles.accordionButton}
-          onClick={setUpKeyword}
-          label={<>{isLoading ? <CircularProgress color="inherit" /> : "Set Keyword"}</>}
+          onClick={changeDisplayName}
+          label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
         />
       </AccordionDetails>
     </Accordion>
   );
 };
 
-export default SetSecretKey;
+export default ChangeDisplayName;

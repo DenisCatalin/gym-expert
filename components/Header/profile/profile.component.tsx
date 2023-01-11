@@ -1,6 +1,6 @@
 import Avatar from "@mui/material/Avatar";
 import styles from "../../../css/components/ProfileButton.module.css";
-import { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { didTokenContext } from "../../../lib/didTokenContext";
 import { magic } from "../../../lib/magic-client";
@@ -27,8 +27,8 @@ const ProfileButton = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
-  const userRedux = useSelector(state => state.user.user);
-  const otherRedux = useSelector(state => state.other.other);
+  const userRedux = useSelector((state: any) => state.user.user);
+  const otherRedux = useSelector((state: any) => state.other.other);
 
   const menuOptions = [
     {
@@ -54,7 +54,7 @@ const ProfileButton = () => {
     },
   ];
 
-  function dispatchFromFetch(data) {
+  function dispatchFromFetch(data: Object | any) {
     if (data?.userDetails?.errors) {
       console.error("Something went wrong", data?.userDetails?.errors[0]?.message);
     } else {
@@ -138,12 +138,15 @@ const ProfileButton = () => {
 
   useEffect(() => {
     (async () => {
+      //@ts-ignore
       const isLoggedIn = await magic.user.isLoggedIn();
       if (isLoggedIn) {
         if (userRedux.needsUpdate) {
           try {
+            //@ts-ignore
             const { email } = await magic.user.getMetadata();
             if (email) {
+              //@ts-ignore
               const didToken = await magic.user.getIdToken();
               const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
 
@@ -176,7 +179,7 @@ const ProfileButton = () => {
     };
   }, [userRedux.needsUpdate]);
 
-  const handleClick = event => {
+  const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 

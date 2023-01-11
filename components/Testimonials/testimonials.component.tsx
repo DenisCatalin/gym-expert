@@ -20,21 +20,28 @@ import { ROUTES } from "../../Routes";
 import { MotionButton } from "../../interface/MotionButton";
 import fetchData from "../../utils/fetchData";
 
+type ITestimonial = {
+  name?: string;
+  profilePic?: string;
+  text?: string;
+  date?: string;
+  rating?: number;
+};
+
 const Testimonials = () => {
   const { width } = useWindowDimensions();
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState<any>(null);
   const [count, setCount] = useState(0);
-  const [testimonial, setTestimonial] = useState();
+  const [testimonial, setTestimonial] = useState<ITestimonial>();
   const [isLoading, setIsLoading] = useState(false);
-  const [reviewLeft, setReviewLeft] = useState();
-  const [reviewRight, setReviewRight] = useState();
+  const [reviewLeft, setReviewLeft] = useState<ITestimonial>();
+  const [reviewRight, setReviewRight] = useState<ITestimonial>();
   const [fetched, setFetched] = useState(false);
-  const [variant, setVariant] = useState(false);
-  const [testimonials, setTestimonials] = useState([]);
+  const [testimonials, setTestimonials] = useState<any>([]);
   const [open, setOpen] = useState(false);
 
-  const testimonialss = useSelector(state => state.testimonial.testimonial);
-  const userRedux = useSelector(state => state.user.user);
+  const testimonialss = useSelector((state: any) => state.testimonial.testimonial);
+  const userRedux = useSelector((state: any) => state.user.user);
 
   const dispatch = useDispatch();
 
@@ -42,6 +49,7 @@ const Testimonials = () => {
 
   const handleClickOpen = async () => {
     setIsLoading(true);
+    //@ts-ignore
     const isLoggedIn = await magic.user.isLoggedIn();
     if (!isLoggedIn) router.push(ROUTES.login);
     else {
@@ -113,7 +121,6 @@ const Testimonials = () => {
 
   const increaseReview = () => {
     setFetched(false);
-    setVariant(!variant);
     const testimonials = reviews.length;
     if (count === testimonials - 1) {
       setCount(0);
@@ -137,7 +144,7 @@ const Testimonials = () => {
                     onClick={decreaseReview}
                     label={
                       <>
-                        <ChevronLeftRoundedIcon color="neutral" className={styles.arrowIcon} />
+                        <ChevronLeftRoundedIcon htmlColor="#fff" className={styles.arrowIcon} />
                       </>
                     }
                   />
@@ -148,7 +155,7 @@ const Testimonials = () => {
                     onClick={increaseReview}
                     label={
                       <>
-                        <ChevronRightRoundedIcon color="neutral" className={styles.arrowIcon} />
+                        <ChevronRightRoundedIcon htmlColor="#ff" className={styles.arrowIcon} />
                       </>
                     }
                   />
@@ -170,7 +177,6 @@ const Testimonials = () => {
                             text={testimonial.text}
                             date={testimonial.date}
                             rating={testimonial.rating}
-                            variant={variant}
                           />
                           {reviewLeft !== undefined ? (
                             <>
@@ -253,7 +259,7 @@ const Testimonials = () => {
                   ) : (
                     <>
                       <h1 className={styles.reviewButtonText}>Review</h1>
-                      <KeyboardDoubleArrowRightIcon color="neutral" />
+                      <KeyboardDoubleArrowRightIcon htmlColor="#fff" />
                     </>
                   )}
                 </>

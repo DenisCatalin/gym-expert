@@ -1,32 +1,11 @@
 import React from "react";
 import styles from "../../css/components/About.module.css";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ABOUT_TYPOGRAPHY } from "../../utils/captions";
 import { ROUTES } from "../../Routes";
 import { MotionButton } from "../../interface/MotionButton";
-
-const theme2 = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#434343",
-      darker: "#434343",
-    },
-    neutral: {
-      main: "#EEE",
-      contrastText: "#EEE",
-    },
-    dark: {
-      main: "#434343",
-      contrastText: "#434343",
-    },
-  },
-});
 
 const AboutContainer = () => {
   const router = useRouter();
@@ -43,22 +22,20 @@ const AboutContainer = () => {
           </div>
         </div>
       </motion.div>
-      <ThemeProvider theme={theme2}>
-        <MotionButton
-          className={styles.ourTeamButton}
-          hover={"boxShadow"}
-          tap
-          onClick={() => router.push(ROUTES.aboutTeam)}
-          initialOptions={{ y: 0 }}
-          animateOptions={{ y: [200, 0] }}
-          label={
-            <>
-              <h1 className={styles.teamButtonText}>Our Team</h1>
-              <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />
-            </>
-          }
-        />
-      </ThemeProvider>
+      <MotionButton
+        className={styles.ourTeamButton}
+        hover={"boxShadow"}
+        tap
+        onClick={() => router.push(ROUTES.aboutTeam)}
+        initialOptions={{ y: 0 }}
+        animateOptions={{ y: [200, 0] }}
+        label={
+          <>
+            <h1 className={styles.teamButtonText}>Our Team</h1>
+            <KeyboardDoubleArrowDownIcon htmlColor="#fff" className={styles.teamButtonIcon} />
+          </>
+        }
+      />
     </div>
   );
 };

@@ -8,14 +8,20 @@ import { setExercisesState } from "../../redux/exercises.slice";
 import { Button } from "../../interface/Button";
 import fetchData from "../../utils/fetchData";
 
-const ExerciseCard = ({ item, last = false, fav = false }) => {
+type IExerciseCard = {
+  item?: Object | any;
+  last?: boolean;
+  fav?: boolean;
+};
+
+const ExerciseCard = ({ item, last = false, fav = false }: IExerciseCard) => {
   const [hover, setHover] = useState(false);
   const [favourite, setFavourite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
-  const userRedux = useSelector(state => state.user.user);
-  const exercisesRedux = useSelector(state => state.exercises.exercises);
+  const userRedux = useSelector((state: any) => state.user.user);
+  const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
 
   useEffect(() => {
     (async () => {
@@ -24,7 +30,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         headers: {
           body: JSON.stringify({
             issuer: userRedux.issuer,
-            gif: item.gifUrl,
+            gif: item?.gifUrl,
           }),
         },
       });
@@ -45,7 +51,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         headers: {
           body: JSON.stringify({
             issuer: userRedux.issuer,
-            gif: item.gifUrl,
+            gif: item?.gifUrl,
           }),
         },
       });
@@ -56,8 +62,8 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
           headers: {
             body: JSON.stringify({
               issuer: userRedux.issuer,
-              gif: item.gifUrl,
-              name: item.name,
+              gif: item?.gifUrl,
+              name: item?.name,
             }),
           },
         });
@@ -72,7 +78,7 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
         headers: {
           body: JSON.stringify({
             issuer: userRedux.issuer,
-            gif: fav ? item.gif : item.gifUrl,
+            gif: fav ? item?.gif : item?.gifUrl,
           }),
         },
       });
@@ -92,16 +98,16 @@ const ExerciseCard = ({ item, last = false, fav = false }) => {
       onMouseLeave={() => setHover(false)}
     >
       {fav ? (
-        <Image src={item.gif} alt="" layout="fill" />
+        <Image src={item?.gif} alt="" layout="fill" />
       ) : (
-        <Image src={item.gifUrl} alt="" layout="fill" />
+        <Image src={item?.gifUrl} alt="" layout="fill" />
       )}
       <motion.div
         className={styles.hoverContainer}
         animate={{ y: hover ? 0 : 280 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className={styles.exerciseName}>{item.name}</h1>
+        <h1 className={styles.exerciseName}>{item?.name}</h1>
         <Button
           className={styles.addToFav}
           onClick={handleClick}

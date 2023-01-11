@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { userContext } from "../../lib/userContext";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import styles from "../../css/Profile.module.css";
@@ -22,8 +22,8 @@ const ProfilePic = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { cropImage, setCropImage } = useContext(cropContext);
-  const userRedux = useSelector(state => state.user.user);
-  const otherRedux = useSelector(state => state.other.other);
+  const userRedux = useSelector((state: any) => state.user.user);
+  const otherRedux = useSelector((state: any) => state.other.other);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -68,10 +68,10 @@ const ProfilePic = () => {
     setOpen(false);
   };
 
-  const uploadPhoto = e => {
+  const uploadPhoto = (e: React.ChangeEvent<HTMLFormElement>) => {
     const reader = new FileReader();
 
-    reader.onload = function (onLoadEvent) {
+    reader.onload = function (onLoadEvent: any) {
       setImgSrc(onLoadEvent.target.result);
       setUploadData(true);
     };
@@ -79,7 +79,7 @@ const ProfilePic = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const uploadFile = async e => {
+  const uploadFile = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     dispatch(
@@ -90,10 +90,11 @@ const ProfilePic = () => {
     );
 
     const form = e.currentTarget;
+    //@ts-ignore
     const fileInput = Array.from(form.elements).find(({ name }) => name === "file");
 
     const formData = new FormData();
-
+    //@ts-ignore
     for (const file of fileInput.files) {
       formData.append("file", file);
     }
@@ -209,7 +210,7 @@ const ProfilePic = () => {
                     <div className={styles.imageHolder}>
                       {uploadData ? (
                         <Image
-                          src={imgSrc}
+                          src={imgSrc !== undefined ? imgSrc : ""}
                           alt=""
                           layout="fill"
                           objectFit="cover"

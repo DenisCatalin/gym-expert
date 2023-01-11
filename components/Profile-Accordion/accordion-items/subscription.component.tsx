@@ -19,11 +19,11 @@ import fetchData from "../../../utils/fetchData";
 import { MotionTypo } from "../../../interface/MotionTypo";
 
 const Subscription = () => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState<string | boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const userRedux = useSelector(state => state.user.user);
+  const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
 
   const dateToExpire = new Date(Math.round(userRedux.planExpireDate) * 1000);
@@ -37,7 +37,7 @@ const Subscription = () => {
     setOpen(false);
   };
 
-  const handleChange = panel => (event, isExpanded) => {
+  const handleChange = (panel: any) => (event: any, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -73,6 +73,10 @@ const Subscription = () => {
       })
     );
   };
+
+  const startingDate = subscribedSince.toString().split("GMT");
+  const expireString = dateToExpire.toString().split("GMT");
+
   return (
     <Accordion
       expanded={expanded === "panel1"}
@@ -81,7 +85,7 @@ const Subscription = () => {
     >
       <ThemeProvider theme={theme2}>
         <AccordionSummary
-          expandIcon={<EditIcon color="neutral" />}
+          expandIcon={<EditIcon htmlColor="#fff" />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
@@ -108,7 +112,7 @@ const Subscription = () => {
             content={
               <>
                 Subscribed Since:{" "}
-                {userRedux.subscribedSince === 0 ? "Not subscribed" : subscribedSince.toString()}
+                {userRedux.subscribedSince === 0 ? "Not subscribed" : startingDate[0]}
               </>
             }
           />
@@ -119,7 +123,7 @@ const Subscription = () => {
             content={
               <>
                 Subscription expiring:{" "}
-                {dateToExpire < Date.now() ? "Expired" : dateToExpire.toString()}
+                {userRedux.planExpireDate > Date.now() ? "Expired" : expireString[0]}
               </>
             }
           />

@@ -5,8 +5,17 @@ import CircularProgress from "@mui/material/CircularProgress";
 import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";
 
+interface IPostProps {
+  Date: string;
+  Content: string;
+  Title: string;
+  Image: string;
+  ID: number;
+  Views: number;
+}
+
 const PopularPosts = () => {
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState<IPostProps[]>();
   const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
@@ -32,7 +41,7 @@ const PopularPosts = () => {
         />
       ) : null}
       {fetched ? (
-        posts.map(item => (
+        posts?.map(item => (
           <PopularNews
             key={item.ID}
             id={item.ID}

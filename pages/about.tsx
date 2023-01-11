@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header/header.component";
 import styles from "../css/About.module.css";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -20,7 +20,7 @@ const About = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const onScroll = e => {
+    const onScroll = (e: any) => {
       setScrollValue(e.target.documentElement.scrollTop);
     };
 
@@ -52,7 +52,7 @@ const About = () => {
             onClick={scrollToTop}
             label={
               <>
-                <KeyboardArrowUpIcon color="neutral" className={styles.scrollToTopIcon} />
+                <KeyboardArrowUpIcon htmlColor="#fff" className={styles.scrollToTopIcon} />
               </>
             }
           />

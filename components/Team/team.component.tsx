@@ -29,7 +29,7 @@ const Team = () => {
           label={
             <>
               <h1 className={styles.teamButtonText}>Testimonials</h1>
-              <KeyboardDoubleArrowDownIcon color="neutral" className={styles.teamButtonIcon} />
+              <KeyboardDoubleArrowDownIcon htmlColor="#fff" className={styles.teamButtonIcon} />
             </>
           }
         />

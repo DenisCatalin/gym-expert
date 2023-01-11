@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { MotionTypo } from "../../interface/MotionTypo";
 
 const AccordionProfile = () => {
-  const userRedux = useSelector(state => state.user.user);
+  const userRedux = useSelector((state: any) => state.user.user);
   return (
     <div style={{ width: "100%", height: "100vh" }}>
       {userRedux.secretKeyword === null ? <SetSecretKey /> : null}

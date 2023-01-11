@@ -74,7 +74,6 @@ const Contact = () => {
                 <TextareaAutosize
                   aria-label="empty textarea"
                   placeholder="Your message"
-                  variant="filled"
                   style={{ height: "60%" }}
                   className={styles.textarea}
                 />
@@ -92,7 +91,7 @@ const Contact = () => {
                         <h1 className={styles.reviewButtonText} onClick={handleClick}>
                           Send
                         </h1>
-                        <SendIcon color="neutral" className={styles.buttonIcon} />
+                        <SendIcon htmlColor="#fff" className={styles.buttonIcon} />
                       </>
                     }
                   />
@@ -105,7 +104,7 @@ const Contact = () => {
         <>
           <div className={styles.mobile}>
             <ThemeProvider theme={theme2}>
-              <StayPrimaryPortraitIcon color="neutral" style={{ fontSize: "5em" }} />
+              <StayPrimaryPortraitIcon htmlColor="#fff" style={{ fontSize: "5em" }} />
             </ThemeProvider>
           </div>
         </>

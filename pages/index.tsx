@@ -16,8 +16,8 @@ import { ROUTES } from "../Routes";
 
 const Home = () => {
   const router = useRouter();
-  const userRedux = useSelector(state => state.user.user);
-  const otherRedux = useSelector(state => state.other.other);
+  const userRedux = useSelector((state: any) => state.user.user);
+  const otherRedux = useSelector((state: any) => state.other.other);
   const [showPopup, setShowPopup] = useState(false);
 
   const { displayName, secretKeyword, email } = userRedux;

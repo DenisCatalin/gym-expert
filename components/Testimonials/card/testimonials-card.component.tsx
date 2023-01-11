@@ -7,7 +7,16 @@ import { ratingLabels } from "../../../lib/ratingLabels";
 import Image from "next/image";
 import { MotionTypo } from "../../../interface/MotionTypo";
 
-const Card = ({ profilePic, name, date, text, rating, right = false }) => {
+type ICard = {
+  profilePic?: any;
+  name?: string;
+  date?: string;
+  text?: string;
+  rating?: number;
+  right?: boolean;
+};
+
+const Card = ({ profilePic, name, date, text, rating, right }: ICard) => {
   return (
     <motion.div
       className={styles.card}
@@ -46,6 +55,7 @@ const Card = ({ profilePic, name, date, text, rating, right = false }) => {
           size="large"
           emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
         />
+        {/* @ts-ignore */}
         <Box sx={{ ml: 2 }}>{ratingLabels[rating]}</Box>
       </motion.div>
     </motion.div>

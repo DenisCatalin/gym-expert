@@ -2,7 +2,11 @@ import styles from "../../../css/components/TeamProfile.module.css";
 import Image from "next/image";
 import { Button } from "../../../interface/Button";
 
-const TeamProfile = ({ image }) => {
+type ITeamProfile = {
+  image?: any;
+};
+
+const TeamProfile = ({ image }: ITeamProfile) => {
   return (
     <div className={styles.team}>
       <div className={styles.img}>
