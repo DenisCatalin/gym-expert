@@ -75,7 +75,6 @@ const ProfileButton = () => {
           logged: true,
         })
       );
-      console.log("HEYYYYY", userRedux.needsUpdate);
     }
   }
 
@@ -123,6 +122,15 @@ const ProfileButton = () => {
           needsUpdate: false,
         })
       );
+    } else {
+      if (userRedux.logged && userRedux.profilePic === null) {
+        dispatch(
+          setUserState({
+            ...userRedux,
+            needsUpdate: false,
+          })
+        );
+      }
     }
   };
 

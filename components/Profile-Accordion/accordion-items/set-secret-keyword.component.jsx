@@ -83,7 +83,6 @@ const SetSecretKey = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <MotionTypo className={styles.text} animateOptions="opacityScale" content="Secret Key" />
           <MotionTypo
             className={styles.text}
             animateOptions="opacityScale"
