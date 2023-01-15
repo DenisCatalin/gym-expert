@@ -15,12 +15,20 @@ import { setReviewState } from "../../../redux/review.slice";
 import Image from "next/image";
 import { MotionTypo } from "../../../interface/MotionTypo";
 
-const CardFocus = ({ name, profilePic, text, date, rating }) => {
+type ICard = {
+  name: string;
+  profilePic: string;
+  text: string;
+  date: string;
+  rating: number;
+};
+
+const CardFocus = ({ name, profilePic, text, date, rating }: ICard) => {
   console.log("FFFASFASFS");
   const [editMode, setEditMode] = useState(false);
 
-  const userRedux = useSelector(state => state.user.user);
-  const review = useSelector(state => state.review);
+  const userRedux = useSelector((state: any) => state.user.user);
+  const review = useSelector((state: any) => state.review);
   const dispatch = useDispatch();
 
   const handleOpen = () => {
@@ -56,7 +64,7 @@ const CardFocus = ({ name, profilePic, text, date, rating }) => {
             whileTap={{ scale: 1 }}
           >
             <ThemeProvider theme={theme2}>
-              <EditIcon color="neutral" />
+              <EditIcon htmlColor="#fff" />
             </ThemeProvider>
           </motion.div>
         ) : null}
@@ -112,6 +120,7 @@ const CardFocus = ({ name, profilePic, text, date, rating }) => {
               size="large"
               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
             />
+            {/* @ts-ignore */}
             <Box sx={{ ml: 2 }}>{ratingLabels[rating]}</Box>
           </>
         )}

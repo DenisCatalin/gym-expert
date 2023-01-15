@@ -8,11 +8,11 @@ import Image from "next/image";
 import { MotionTypo } from "../../../interface/MotionTypo";
 
 type ICard = {
-  profilePic?: any;
-  name?: string;
+  profilePic: string;
+  name: string;
   date?: string;
-  text?: string;
-  rating?: number;
+  text: string;
+  rating: number;
   right?: boolean;
 };
 

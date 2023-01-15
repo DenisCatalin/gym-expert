@@ -15,9 +15,17 @@ import { setReviewState } from "../../../redux/review.slice";
 import { Dialog } from "@mui/material";
 import PostTestimonial from "../post-testimonial/post-testimonial.component";
 
-const ResponsiveCard = ({ profilePic, name, date, text, rating }) => {
+type ICard = {
+  profilePic: string;
+  name: string;
+  date: string;
+  text: string;
+  rating: number;
+};
+
+const ResponsiveCard = ({ profilePic, name, date, text, rating }: ICard) => {
   const { width } = useWindowDimensions();
-  const userRedux = useSelector(state => state.user.user);
+  const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
 
@@ -50,7 +58,7 @@ const ResponsiveCard = ({ profilePic, name, date, text, rating }) => {
             whileTap={{ scale: 1 }}
           >
             <ThemeProvider theme={theme2}>
-              <EditIcon color="neutral" />
+              <EditIcon htmlColor="#fff" />
             </ThemeProvider>
           </motion.div>
         ) : null}
@@ -80,6 +88,7 @@ const ResponsiveCard = ({ profilePic, name, date, text, rating }) => {
           size={width > 920 ? "large" : "medium"}
           emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
         />
+        {/* @ts-ignore */}
         <Box sx={{ ml: 2 }}>{ratingLabels[rating]}</Box>
       </div>
     </div>

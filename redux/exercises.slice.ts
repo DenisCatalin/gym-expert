@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   update: false,
+  exercises: false,
 };
 
 export const exercisesSlice = createSlice({
