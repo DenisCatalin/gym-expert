@@ -13,7 +13,7 @@ type IDialogProps = {
   contentText: string;
   textStyles?: string;
   contentOther?: React.ReactNode;
-  actions: React.ReactNode;
+  actions?: React.ReactNode;
 };
 
 export const Dialog = ({

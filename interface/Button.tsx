@@ -2,8 +2,16 @@ import React from "react";
 import MuiButton from "@mui/material/Button";
 
 type IButtonProps = {
-  color: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | undefined;
-  onClick?: () => void;
+  color?:
+    | "inherit"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "error"
+    | "info"
+    | "warning"
+    | undefined;
+  onClick?: (event: any) => void;
   autoFocus?: boolean;
   className?: string;
   label: string | React.ReactNode;

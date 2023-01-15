@@ -1,7 +1,7 @@
 import styles from "../css/Profile.module.css";
 import Header from "../components/Header/header.component";
 import LinearProgress from "@mui/material/LinearProgress";
-import AccordionProfile from "../components/Profile-Accordion/accordion.component";
+import Accordions from "../components/Profile-Accordion/accordions.component";
 import Head from "next/head";
 import ProfilePic from "../components/PhotoCrop/profile-pic.component";
 import CustomSnackbar from "../components/Snackbar/snackbar.component";
@@ -20,7 +20,7 @@ const Profile = () => {
         {userRedux.logged ? (
           <>
             <ProfilePic />
-            <AccordionProfile />
+            <Accordions />
           </>
         ) : (
           <div
