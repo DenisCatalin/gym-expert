@@ -16,11 +16,11 @@ import Image from "next/image";
 import { MotionTypo } from "../../../interface/MotionTypo";
 
 type ICard = {
-  name: string;
-  profilePic: string;
-  text: string;
-  date: string;
-  rating: number;
+  name?: string;
+  profilePic?: any;
+  text?: string;
+  date?: string;
+  rating?: number;
 };
 
 const CardFocus = ({ name, profilePic, text, date, rating }: ICard) => {

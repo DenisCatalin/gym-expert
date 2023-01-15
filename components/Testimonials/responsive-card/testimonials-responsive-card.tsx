@@ -16,11 +16,11 @@ import { Dialog } from "@mui/material";
 import PostTestimonial from "../post-testimonial/post-testimonial.component";
 
 type ICard = {
-  profilePic: string;
-  name: string;
-  date: string;
-  text: string;
-  rating: number;
+  profilePic?: any;
+  name?: string;
+  date?: string;
+  text?: string;
+  rating?: number;
 };
 
 const ResponsiveCard = ({ profilePic, name, date, text, rating }: ICard) => {
