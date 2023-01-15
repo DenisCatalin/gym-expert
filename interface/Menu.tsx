@@ -3,6 +3,8 @@ import MuiMenu from "@mui/material/Menu";
 import { ThemeProvider } from "@mui/material";
 import { theme2 } from "../utils/muiTheme";
 import { MenuItem } from "./MenuItem";
+import Image from "next/image";
+import { useSelector } from "react-redux";
 
 export type MenuOptions = {
   key: string;
@@ -18,10 +20,12 @@ type IMenuProps = {
   handleClose: () => void;
   options: MenuOptions[];
   title?: string;
+  content?: string;
 };
 
-export const Menu = ({ id, anchor, handleClose, options, title }: IMenuProps) => {
+export const Menu = ({ id, anchor, handleClose, options, title, content }: IMenuProps) => {
   const open = Boolean(anchor);
+  const userRedux = useSelector((state: any) => state.user.user);
   return (
     <MuiMenu
       anchorEl={anchor}
@@ -56,12 +60,36 @@ export const Menu = ({ id, anchor, handleClose, options, title }: IMenuProps) =>
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              flexDirection: "column",
               width: "100%",
-              height: "8vh",
+              height: "15vh",
               fontWeight: "bold",
+              padding: "0 1rem",
+              marginBottom: "1rem",
             }}
           >
-            {title}
+            <div
+              style={{
+                width: "70px",
+                height: "70px",
+                position: "relative",
+                marginBottom: "1rem",
+              }}
+            >
+              <Image
+                src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
+                alt=""
+                layout="fill"
+                objectFit="cover"
+                priority
+                style={{ borderRadius: "50%" }}
+                blurDataURL={
+                  userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
+                }
+              />
+            </div>
+            <div>{title}</div>
+            <div style={{ fontWeight: "100", opacity: "0.8" }}>{content}</div>
           </div>
         ) : null}
         {options.map(option => (

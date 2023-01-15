@@ -265,6 +265,7 @@ const ProfileButton = () => {
             handleClose={handleClose}
             options={menuOptions}
             title={userRedux.displayName}
+            content={userRedux.email}
           />
         </>
       ) : null}
