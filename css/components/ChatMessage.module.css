@@ -1,0 +1,106 @@
+.receiver {
+    width: 45%;
+    height: auto;
+    color: white;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-self: flex-start;
+    background-color: var(--buttonGradient);
+    cursor: pointer;
+}
+
+.sender {
+    width: 45%;
+    height: auto;
+    color: white;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.chatProfileImg {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.senderMessage {
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    padding: .5rem 1rem;
+    background: var(--heroButton);
+    position: relative;
+}
+
+.receiverMessage {
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    padding: .5rem 1rem;
+    background: var(--accordionBg);
+    position: relative;
+}
+
+.profileName {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.chatMessage {
+    font-weight: 100;
+    font-size: 1em;
+}
+
+.tooltip {
+    visibility: hidden;
+    width: 150px;
+    background-color: rgba(0, 0, 0, 0.329);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 25%;
+    left: 100%;
+    margin-left: .6rem;
+}
+
+.tooltipS {
+    visibility: hidden;
+    width: 150px;
+    background-color: rgba(0, 0, 0, 0.329);
+    color: #fff;
+    text-align: center;
+    padding: .3rem .5rem;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 25%;
+    right: 100%;
+    margin-right: .6rem;
+}
+
+.sender:hover .tooltipS {
+    visibility: visible;
+}
+
+.receiver:hover .tooltip {
+    visibility: visible;
+}
+
+.deleteMessage {
+    background: transparent;
+    color: white;
+    border: 2px solid var(--pink);
+    border-radius: 50%;
+    cursor: pointer;
+}

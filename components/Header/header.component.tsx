@@ -9,7 +9,7 @@ import useWindowDimensions from "../../utils/useWindowDimensions";
 import Burger from "../Burger/burger.component";
 import { ROUTES } from "../../Routes";
 
-const links = ["home", "exercises", "pricing", "news", "about", "contact"];
+const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact"];
 
 const Header = ({ sticky = false }) => {
   const { width } = useWindowDimensions();

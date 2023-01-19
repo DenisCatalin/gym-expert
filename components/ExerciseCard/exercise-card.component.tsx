@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setExercisesState } from "../../redux/exercises.slice";
 import { Button } from "../../interface/Button";
 import fetchData from "../../utils/fetchData";
+import { buttonTheme } from "../../utils/muiTheme";
+import { ThemeProvider } from "@mui/material";
 
 type IExerciseCard = {
   item?: Object | any;
@@ -108,21 +110,23 @@ const ExerciseCard = ({ item, last = false, fav = false }: IExerciseCard) => {
         transition={{ duration: 0.5 }}
       >
         <h1 className={styles.exerciseName}>{item?.name}</h1>
-        <Button
-          className={styles.addToFav}
-          onClick={handleClick}
-          label={
-            <>
-              {isLoading ? (
-                <CircularProgress color="secondary" />
-              ) : favourite ? (
-                "Remove from favourites"
-              ) : (
-                "Add to favourites"
-              )}
-            </>
-          }
-        />
+        <ThemeProvider theme={buttonTheme}>
+          <Button
+            className={styles.addToFav}
+            onClick={handleClick}
+            label={
+              <>
+                {isLoading ? (
+                  <CircularProgress color="secondary" />
+                ) : favourite ? (
+                  "Remove from favourites"
+                ) : (
+                  "Add to favourites"
+                )}
+              </>
+            }
+          />
+        </ThemeProvider>
       </motion.div>
     </motion.div>
   );

@@ -18,6 +18,7 @@ type IButtonProps = {
 };
 
 export const Button = ({ color, onClick, autoFocus, className, label }: IButtonProps) => {
+  console.log(className);
   return (
     <MuiButton
       color={color}

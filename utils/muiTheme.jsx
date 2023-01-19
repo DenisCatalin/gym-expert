@@ -18,8 +18,47 @@ export const theme2 = createTheme({
       contrastText: "#FBBEBE",
     },
     dark: {
-      main: "#434343",
-      contrastText: "#434343",
+      main: "#fff",
+      contrastText: "#fff",
+    },
+  },
+});
+
+export const buttonTheme = createTheme({
+  status: {
+    danger: "#e53e3e",
+  },
+  palette: {
+    primary: {
+      main: "#FFF",
+      width: "7%",
+      height: "50%",
+      borderRadius: "50%",
+      background: "var(--avatarGradient)",
+      fontFamily: "var(--font)",
+      // border-radius: 10px;
+      // font-size: .8em;
+      // font-family: var(--font);
+      // font-weight: bold;
+      // color: var(--white);
+      // cursor: pointer;
+      // border: none;
+      // outline: none;
+      // transition: all 0.2s ease-in-out;
+    },
+  },
+  components: {
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          main: "#FFF",
+          width: "7%",
+          height: "50%",
+          background: "var(--avatarGradient)",
+          borderRadius: "50%",
+          fontFamily: "var(--font)",
+        },
+      },
     },
   },
 });
@@ -36,8 +75,13 @@ export const theme = createTheme({
     },
     MuiButtonBase: {
       styleOverrides: {
+        palette: {
+          primary: {
+            color: "#fff",
+          },
+        },
         root: {
-          background: "rgba(220, 130, 242, .3)",
+          color: "#FFF",
           fontSize: "1em",
         },
       },

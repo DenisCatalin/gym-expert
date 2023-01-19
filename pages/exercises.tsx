@@ -14,7 +14,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
-import { theme, theme2 } from "../utils/muiTheme";
+import { buttonTheme, theme, theme2 } from "../utils/muiTheme";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button";
@@ -182,12 +182,14 @@ const Exercises = () => {
               <motion.div className={styles.header} animate={{ opacity: [0, 1], y: [100, 0] }}>
                 {width > 900 ? (
                   bodyParts.map((item, i) => (
-                    <Button
-                      key={i}
-                      className={styles.bodyPart}
-                      onClick={selectExercise}
-                      label={item}
-                    />
+                    <ThemeProvider theme={buttonTheme} key={i}>
+                      <Button
+                        key={i}
+                        className={styles.bodyPart}
+                        onClick={selectExercise}
+                        label={item}
+                      />
+                    </ThemeProvider>
                   ))
                 ) : (
                   <>
