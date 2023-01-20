@@ -1,11 +1,9 @@
 import { verifyToken } from "../lib/utils";
 
-type IContext = {
-  context?: any;
-}
-
-const UseRedirectUser = async ({context} : IContext) => {
+const UseRedirectUser = async context => {
   const token = context.req ? context.req.cookies?.token : null;
+
+  console.log(context);
 
   const userId = await verifyToken(token);
 
