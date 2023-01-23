@@ -54,3 +54,14 @@
     font-family: var(--font);
     color: rgba(255, 255, 255, 0.5);
 }
+
+.forgotLabel {
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+}
+
+.forgotLabel:hover {
+    opacity: .75;
+    transition: all .3s ease-in-out;
+    text-decoration: underline;
+}

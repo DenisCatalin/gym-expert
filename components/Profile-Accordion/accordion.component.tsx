@@ -17,6 +17,8 @@ import { CANCEL_SUBSCRIPTION_DIALOG } from "../../utils/captions";
 import { MotionButton } from "../../interface/MotionButton";
 import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";
+import { ROUTES } from "../../Routes";
+import { useRouter } from "next/router";
 
 type IAccordion = {
   type: "displayName" | "setKeyword" | "changeKeyword" | "subscription";
@@ -31,6 +33,8 @@ const Accordion = ({ type }: IAccordion) => {
   const [newSecretKeywordConfirm, setNewSecretKeywordConfirm] = useState("");
   const [newName, setNewName] = useState("");
   const [open, setOpen] = useState(false);
+
+  const router = useRouter();
 
   const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
@@ -427,6 +431,18 @@ const Accordion = ({ type }: IAccordion) => {
                   },
                 }}
                 InputLabelProps={{ style: { color: "white" } }}
+              />
+              <MotionTypo
+                className={styles.text}
+                animateOptions="opacityScale"
+                content={
+                  <span
+                    onClick={() => router.push(ROUTES.forgotKeyword)}
+                    className={styles.forgotLabel}
+                  >
+                    Forgot secret keyword
+                  </span>
+                }
               />
             </>
           )}

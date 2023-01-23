@@ -10,6 +10,7 @@ type IButtonProps = {
   initialOptions?: Object;
   animateOptions?: Object;
   style?: Object;
+  disabled?: boolean;
 };
 
 export const MotionButton = ({
@@ -21,6 +22,7 @@ export const MotionButton = ({
   initialOptions,
   animateOptions,
   style,
+  disabled,
 }: IButtonProps) => {
   const [hoverOption, setHoverOption] = useState<any>({});
 
@@ -55,6 +57,7 @@ export const MotionButton = ({
       initial={initialOptions}
       animate={animateOptions}
       style={style}
+      disabled={disabled}
     >
       {label}
     </motion.button>

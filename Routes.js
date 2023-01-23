@@ -8,4 +8,5 @@ export const ROUTES = {
   pricing: "/pricing",
   aboutTeam: "#team",
   aboutTestimonials: "#testimonials",
+  forgotKeyword: "/forgotKeyword",
 };
