@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  update: false,
-  exercises: false,
+  exercises: {
+    update: false,
+    exercises: false,
+    filter: "all"
+  }
 };
 
 export const exercisesSlice = createSlice({
@@ -11,7 +14,9 @@ export const exercisesSlice = createSlice({
   reducers: {
     setExercisesState(state, action) {
       console.log("[REDUX-UPDATE] Exercises State: ", action.payload);
-      state.exercises = action.payload;
+      state.exercises = {
+        ...action.payload
+      };
     },
   },
 });
