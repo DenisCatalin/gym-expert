@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import MuiSelect, { SelectChangeEvent } from "@mui/material/Select";
 import { ThemeProvider } from "@emotion/react";
 import { selectTheme } from "../utils/muiTheme";
-import MenuItem from "@mui/material/MenuItem/MenuItem";
+import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { setExercisesState } from "../redux/exercises.slice";
 
