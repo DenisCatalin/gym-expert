@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header/header.component";
 import styles from "../css/Exercises.module.css";
 import { motion } from "framer-motion";
@@ -15,12 +15,14 @@ import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import { buttonTheme, theme, theme2 } from "../utils/muiTheme";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button";
 import { MotionButton } from "../interface/MotionButton";
 import fetchData from "../utils/fetchData";
 import { MotionTypo } from "../interface/MotionTypo";
+import Select from "../interface/Select";
+import { setExercisesState } from "../redux/exercises.slice";
 
 const breakPointWidth = 719;
 
@@ -37,6 +39,28 @@ const bodyParts = [
   "waist",
   "favourites",
 ];
+
+const selectOptions = [
+  "All",
+  "Back",
+  "Cardio",
+  "Chest",
+  "Lower arms",
+  "Lower legs",
+  "Neck",
+  "Shoulders",
+  "Upper arms",
+  "Upper legs",
+  "Waist",
+];
+
+let sOptions: { key: number; label: string }[] = [];
+selectOptions.map((options, idx) => {
+  sOptions.push({
+    key: idx,
+    label: options,
+  });
+});
 
 const exercise = [
   {
@@ -65,6 +89,7 @@ const Exercises = () => {
   const [favourites, setFavourites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const dispatch = useDispatch();
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
 
@@ -88,15 +113,28 @@ const Exercises = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
-        method: "POST",
-        headers: {
-          body: JSON.stringify({
-            issuer: userRedux.issuer,
-          }),
-        },
-      });
-      setFavourites(data?.getToFavouritesForUser?.data?.favourites);
+      if (exercisesRedux.filter === "All" || exercisesRedux.filter === "all") {
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
+          method: "POST",
+          headers: {
+            body: JSON.stringify({
+              issuer: userRedux.issuer,
+            }),
+          },
+        });
+        setFavourites(data?.getToFavouritesForUser?.data?.favourites);
+      } else {
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FILTER_EXERCISES}`, {
+          method: "POST",
+          headers: {
+            body: JSON.stringify({
+              issuer: userRedux.issuer,
+              filter: exercisesRedux.filter,
+            }),
+          },
+        });
+        setFavourites(data?.getFilteredExercises?.data?.favourites);
+      }
     })();
   }, [exercisesRedux]);
 
@@ -157,10 +195,6 @@ const Exercises = () => {
     setBodyPartsPage(bodyPartsPage - 1);
   };
 
-  const selectExercise = (event: any) => {
-    setBodyPart(event.target.textContent);
-  };
-
   return (
     <div className={styles.container}>
       <Head>
@@ -186,7 +220,7 @@ const Exercises = () => {
                       <Button
                         key={i}
                         className={styles.bodyPart}
-                        onClick={selectExercise}
+                        onClick={(e: any) => setBodyPart(e.target.textContent)}
                         label={item}
                       />
                     </ThemeProvider>
@@ -258,13 +292,15 @@ const Exercises = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <MotionTypo
-                      className={styles.text}
-                      animateOptions="opacity"
-                      transitionDuration={2}
-                      content="Favourites"
-                    />
-
+                    <div className={styles.spacer}>
+                      <MotionTypo
+                        className={styles.text}
+                        animateOptions="opacity"
+                        transitionDuration={2}
+                        content="Favourites"
+                      />
+                      <Select selectFor="Exercises" label="Filter" val="All" options={sOptions} />
+                    </div>
                     <div
                       style={{
                         display: "grid",
@@ -273,25 +309,32 @@ const Exercises = () => {
                         overflow: "auto",
                       }}
                     >
-                      {favourites?.map((item, i) =>
-                        favourites.length === 1 ? (
-                          <>
-                            <ExerciseCard item={item} key={i} last={true} fav={true} />
-                          </>
-                        ) : (
-                          <ExerciseCard item={item} key={i} fav={true} />
-                        )
-                      )}
+                      {favourites &&
+                        favourites?.map((item, i) =>
+                          favourites.length === 1 ? (
+                            <>
+                              <ExerciseCard
+                                item={item}
+                                key={i}
+                                last={true}
+                                fav={true}
+                                toSave={bodyPart}
+                              />
+                            </>
+                          ) : (
+                            <ExerciseCard item={item} key={i} fav={true} toSave={bodyPart} />
+                          )
+                        )}
                     </div>
                   </div>
                 ) : (
                   currentExercises.map((item, i) =>
                     currentExercises.length === 1 ? (
                       <>
-                        <ExerciseCard item={item} key={i} last={true} />
+                        <ExerciseCard item={item} key={i} last={true} toSave={bodyPart} />
                       </>
                     ) : (
-                      <ExerciseCard item={item} key={i} />
+                      <ExerciseCard item={item} key={i} toSave={bodyPart} />
                     )
                   )
                 )}

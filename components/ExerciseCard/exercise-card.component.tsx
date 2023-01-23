@@ -14,9 +14,10 @@ type IExerciseCard = {
   item?: Object | any;
   last?: boolean;
   fav?: boolean;
+  toSave: string;
 };
 
-const ExerciseCard = ({ item, last = false, fav = false }: IExerciseCard) => {
+const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard) => {
   const [hover, setHover] = useState(false);
   const [favourite, setFavourite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,7 +48,7 @@ const ExerciseCard = ({ item, last = false, fav = false }: IExerciseCard) => {
 
   const handleClick = async () => {
     setIsLoading(true);
-    if (favourite === false) {
+    if (!favourite) {
       const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
         method: "POST",
         headers: {
@@ -66,10 +67,11 @@ const ExerciseCard = ({ item, last = false, fav = false }: IExerciseCard) => {
               issuer: userRedux.issuer,
               gif: item?.gifUrl,
               name: item?.name,
+              category: toSave,
             }),
           },
         });
-        dispatch(setExercisesState({ exercises: !exercisesRedux?.exercises }));
+        dispatch(setExercisesState({ ...exercisesRedux, exercises: !exercisesRedux?.exercises }));
       } else {
         setFavourite(true);
       }
@@ -84,7 +86,7 @@ const ExerciseCard = ({ item, last = false, fav = false }: IExerciseCard) => {
           }),
         },
       });
-      dispatch(setExercisesState({ exercises: !exercisesRedux?.exercises }));
+      dispatch(setExercisesState({ ...exercisesRedux, exercises: !exercisesRedux?.exercises }));
       setFavourite(false);
       setIsLoading(false);
     }

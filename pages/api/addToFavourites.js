@@ -7,8 +7,11 @@ export default async function addToFavourites(req, res) {
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
       const gif = req ? JSON.parse(req.headers.body).gif : null;
       const name = req ? JSON.parse(req.headers.body).name : null;
+      const category = req ? JSON.parse(req.headers.body).category : null;
 
-      const addToFavouritesForUser = await addToFavouritesQuery(token, issuer, gif, name);
+      console.log("categ", category);
+
+      const addToFavouritesForUser = await addToFavouritesQuery(token, issuer, gif, name, category);
 
       res.send({ message: "Complete", addToFavouritesForUser });
     } catch (error) {

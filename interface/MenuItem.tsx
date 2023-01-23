@@ -5,9 +5,9 @@ import MuiMenuItem from "@mui/material/MenuItem";
 type MenuOptions = {
   key: string;
   label: string;
-  icon: React.ReactNode;
-  onClick: () => void;
-  show: boolean;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+  show?: boolean;
 };
 
 export const MenuItem = ({ key, label, icon, onClick, show }: MenuOptions) => {

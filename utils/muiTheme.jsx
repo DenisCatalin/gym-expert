@@ -88,3 +88,27 @@ export const theme = createTheme({
     },
   },
 });
+
+export const selectTheme = createTheme({
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          main: "#FFF",
+          color: "white",
+          background: "var(--avatarGradient)",
+          fontFamily: "var(--font)",
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          main: "#fff",
+          color: "white",
+          fontFamily: "var(--font)",
+        },
+      },
+    },
+  },
+});
