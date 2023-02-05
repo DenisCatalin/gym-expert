@@ -3,10 +3,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import ProfileButton from "./profile/profile.component";
+import ProfileButton from "./profile/Profile.c";
 import { motion } from "framer-motion";
 import useWindowDimensions from "../../utils/useWindowDimensions";
-import Burger from "../Burger/burger.component";
+import Burger from "../Burger/Burger.c";
 import { ROUTES } from "../../Routes";
 
 const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact"];

@@ -5,7 +5,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import Image from "next/image";
 import { useState } from "react";
-import AlertDialog from "../AlertDialog/alert-dialog.component";
+import AlertDialog from "../AlertDialog/AlertDialog.c";
 import { theme2 } from "../../utils/muiTheme";
 import { magic } from "../../lib/magic-client";
 import { useRouter } from "next/router";

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../css/components/Team.module.css";
-import TeamProfile from "./profile/team-profile.component";
+import TeamProfile from "./profile/TeamProfile.c";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/router";

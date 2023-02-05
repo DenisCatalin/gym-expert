@@ -1,10 +1,10 @@
 import styles from "../css/Profile.module.css";
-import Header from "../components/Header/header.component";
+import Header from "../components/Header/Header.c";
 import LinearProgress from "@mui/material/LinearProgress";
-import Accordions from "../components/Profile-Accordion/accordions.component";
+import Accordions from "../components/Profile-Accordion/Accordions.c";
 import Head from "next/head";
-import ProfilePic from "../components/PhotoCrop/profile-pic.component";
-import CustomSnackbar from "../components/Snackbar/snackbar.component";
+import ProfilePic from "../components/PhotoCrop/ProfilePic.c";
+import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { useSelector } from "react-redux";
 
 const Profile = () => {

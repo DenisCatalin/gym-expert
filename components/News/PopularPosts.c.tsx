@@ -1,6 +1,6 @@
 import styles from "../../css/components/NewsPopular.module.css";
 import { useEffect, useState } from "react";
-import PopularNews from "./popular-news.component";
+import PopularNews from "./PopularNews.c";
 import CircularProgress from "@mui/material/CircularProgress";
 import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";

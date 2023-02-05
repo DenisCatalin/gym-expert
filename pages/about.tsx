@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header/header.component";
+import Header from "../components/Header/Header.c";
 import styles from "../css/About.module.css";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { ThemeProvider } from "@mui/material/styles";
 import useWindowDimensions from "../utils/useWindowDimensions";
-import AboutContainer from "../components/About/About.component";
+import AboutContainer from "../components/About/About.c";
 import { useRouter } from "next/router";
-import Team from "../components/Team/team.component";
-import Testimonials from "../components/Testimonials/testimonials.component";
+import Team from "../components/Team/Team.c";
+import Testimonials from "../components/Testimonials/Testimonials.c";
 import Head from "next/head";
 import { theme2 } from "../utils/muiTheme";
-import CustomSnackbar from "../components/Snackbar/snackbar.component";
+import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton";
 

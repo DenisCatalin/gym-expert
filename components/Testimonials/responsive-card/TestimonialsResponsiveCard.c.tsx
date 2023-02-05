@@ -13,7 +13,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme2 } from "../../../utils/muiTheme";
 import { setReviewState } from "../../../redux/review.slice";
 import { Dialog } from "@mui/material";
-import PostTestimonial from "../post-testimonial/post-testimonial.component";
+import PostTestimonial from "../post-testimonial/PostTestimonial.c";
 
 type ICard = {
   profilePic?: any;

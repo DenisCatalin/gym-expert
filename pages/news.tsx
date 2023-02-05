@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import Header from "../components/Header/header.component";
-import Post from "../components/News/news-post.component";
-import PopularPosts from "../components/News/popular-posts.component";
+import Header from "../components/Header/Header.c";
+import Post from "../components/News/NewsPost.c";
+import PopularPosts from "../components/News/PopularPosts.c";
 import styles from "../css/News.module.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { motion } from "framer-motion";

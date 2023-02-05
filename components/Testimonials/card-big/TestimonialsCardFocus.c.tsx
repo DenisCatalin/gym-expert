@@ -10,7 +10,7 @@ import { theme2 } from "../../../utils/muiTheme";
 import { useState, useEffect } from "react";
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import PostTestimonial from "../post-testimonial/post-testimonial.component";
+import PostTestimonial from "../post-testimonial/PostTestimonial.c";
 import { setReviewState } from "../../../redux/review.slice";
 import Image from "next/image";
 import { MotionTypo } from "../../../interface/MotionTypo";

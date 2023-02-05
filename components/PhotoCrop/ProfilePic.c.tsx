@@ -4,7 +4,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import styles from "../../css/Profile.module.css";
 import Image from "next/image";
 import { Dialog } from "../../interface/Dialog";
-import PhotoCrop from "./cropper/cropper.component";
+import PhotoCrop from "./cropper/Cropper.c";
 import { cropContext } from "../../lib/cropContext";
 import { cropImages } from "../../lib/cropImages";
 import { useSelector, useDispatch } from "react-redux";

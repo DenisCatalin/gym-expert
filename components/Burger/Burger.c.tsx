@@ -1,7 +1,7 @@
 import styles from "../../css/components/Burger.module.css";
 import Link from "next/link";
 import { useState } from "react";
-import ProfileButton from "../Header/profile/profile.component";
+import ProfileButton from "../Header/profile/Profile.c";
 
 const links = ["home", "exercises", "pricing", "news", "about", "contact"];
 

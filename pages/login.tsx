@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { magic } from "../lib/magic-client";
-import Header from "../components/Header/header.component";
+import Header from "../components/Header/Header.c";
 import styles from "../css/Login.module.css";
 import { ThemeProvider } from "@mui/material/styles";
 import LoginIcon from "@mui/icons-material/Login";

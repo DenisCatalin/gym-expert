@@ -3,7 +3,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import styles from "../../css/components/Accordion.module.css";
 import { useSelector } from "react-redux";
 import { MotionTypo } from "../../interface/MotionTypo";
-import Accordion from "./accordion.component";
+import Accordion from "./Accordion.c";
 
 const Accordions = () => {
   const userRedux = useSelector((state: any) => state.user.user);

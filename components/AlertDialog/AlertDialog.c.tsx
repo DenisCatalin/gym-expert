@@ -1,5 +1,5 @@
 import styles from "../../css/components/AlertDialog.module.css";
-import StripeCheckoutButton from "../stripe-button/stripe-button.component";
+import StripeCheckoutButton from "../stripe-button/StripeButton.c";
 import { useSelector, useDispatch } from "react-redux";
 import { setSubscriptionState } from "../../redux/subscription.slice";
 import { setDialog } from "../../redux/dialog.slice";
