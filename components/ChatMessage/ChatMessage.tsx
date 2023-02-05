@@ -36,7 +36,12 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
   return (
     <>
       {userRedux.issuer === sender ? (
-        <motion.div className={styles.sender} animate={{ opacity: [0, 1], scale: [0.9, 1] }}>
+        <motion.div
+          className={styles.sender}
+          animate={{ opacity: [0, 1], scale: [0.9, 1] }}
+          tabIndex={0}
+          aria-label={`${displayName} says: ${text} at ${startingDate[0]}`}
+        >
           <div className={styles.senderMessage}>
             <h1 className={styles.profileName}>{displayName}</h1>
             <h1 className={styles.chatMessage}>{text}</h1>
@@ -58,7 +63,12 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
           </div>
         </motion.div>
       ) : (
-        <motion.div className={styles.receiver} animate={{ opacity: [0, 1], scale: [0.9, 1] }}>
+        <motion.div
+          className={styles.receiver}
+          animate={{ opacity: [0, 1], scale: [0.9, 1] }}
+          tabIndex={0}
+          aria-label={`${displayName} says: ${text} at ${startingDate[0]}`}
+        >
           <div className={styles.chatProfilePic}>
             <div className={styles.chatProfileImg} style={{ marginRight: ".3rem" }}>
               <Image src={profilePic} alt="" priority blurDataURL={profilePic} layout="fill" />

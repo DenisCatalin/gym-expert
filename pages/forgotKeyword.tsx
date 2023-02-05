@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import styles from "../css/Login.module.css";
-import Header from "../components/Header/header.component";
+import Header from "../components/Header/Header.c";
 import { ThemeProvider } from "@mui/material";
 import { theme2 } from "../utils/muiTheme";
 import { MotionButton } from "../interface/MotionButton";
@@ -16,6 +16,7 @@ const ForgotKeyword = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const inputRef = useRef<any>(null);
+  const userMsgRef = useRef<any>(null);
 
   const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
@@ -57,6 +58,12 @@ const ForgotKeyword = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    if (userMsg.length > 0) {
+      userMsgRef?.current?.focus();
+    }
+  }, [userMsg]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -66,8 +73,10 @@ const ForgotKeyword = () => {
       <div className={styles.content}>
         <div className={styles.loginContainer}>
           <div className={styles.text}>
-            <h1 className={styles.title}>Reset Secret Keyword</h1>
-            <h2 className={styles.opacityText}>
+            <h1 className={styles.title} tabIndex={0}>
+              Reset Secret Keyword
+            </h1>
+            <h2 className={styles.opacityText} tabIndex={0}>
               In order to be able to reset your secret keyword, you need to provide the email
               address for your account.
             </h2>
@@ -75,7 +84,11 @@ const ForgotKeyword = () => {
           <div className={styles.inputField}>
             <input type="email" ref={inputRef} className={styles.input} />
           </div>
-          {userMsg !== "" ? <p className={styles.userMsg}>{userMsg}</p> : null}
+          {userMsg !== "" ? (
+            <p className={styles.userMsg} ref={userMsgRef}>
+              {userMsg}
+            </p>
+          ) : null}
           <div className={styles.login}>
             <ThemeProvider theme={theme2}>
               <MotionButton

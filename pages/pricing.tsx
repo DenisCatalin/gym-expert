@@ -1,8 +1,8 @@
 import styles from "../css/Pricing.module.css";
-import Header from "../components/Header/header.component";
-import PricingCard from "../components/pricing-cards/pricing-card.component";
+import Header from "../components/Header/Header.c";
+import PricingCard from "../components/pricing-cards/PricingCard.c";
 import Head from "next/head";
-import CustomSnackbar from "../components/Snackbar/snackbar.component";
+import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 
 const Pricing = () => {
   return (

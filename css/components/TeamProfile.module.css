@@ -55,6 +55,14 @@
     top: 2%;
 }
 
+.team::focus .img {
+    width: 60%;
+    height: 60%;
+    outline: 3px solid var(--pink65);
+    left: 20%;
+    top: 2%;
+}
+
 .team .info {
     background: var(--white);
     position: absolute;
@@ -84,6 +92,10 @@
     text-transform: capitalize;
     transform: translateY(-70%);
     font-family: var(--font);
+}
+
+.team::focus .info {
+    transform: scale(1)
 }
 
 .team:hover .info {

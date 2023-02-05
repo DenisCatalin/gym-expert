@@ -7,7 +7,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import ChatMessage from "../components/ChatMessage/ChatMessage";
 import styles from "../css/Chat.module.css";
 import Head from "next/head";
-import Header from "../components/Header/header.component";
+import Header from "../components/Header/Header.c";
 import SendIcon from "@mui/icons-material/Send";
 import { motion } from "framer-motion";
 
@@ -92,6 +92,7 @@ const Chat = () => {
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1] }}
               transition={{ delay: 1 }}
+              aria-label="Send Message"
             >
               <SendIcon htmlColor={formValue ? "#fff" : "#ffffff4e"} />
             </motion.button>

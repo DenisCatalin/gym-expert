@@ -100,6 +100,8 @@ const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard
       transition={{ delay: 0.2 }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      tabIndex={0}
+      aria-label={item?.name}
     >
       {fav ? (
         <Image src={item?.gif} alt="" layout="fill" />

@@ -10,7 +10,7 @@ import { theme2 } from "../../../utils/muiTheme";
 import { useState, useEffect } from "react";
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import PostTestimonial from "../post-testimonial/post-testimonial.component";
+import PostTestimonial from "../post-testimonial/PostTestimonial.c";
 import { setReviewState } from "../../../redux/review.slice";
 import Image from "next/image";
 import { MotionTypo } from "../../../interface/MotionTypo";
@@ -59,9 +59,12 @@ const CardFocus = ({ name, profilePic, text, date, rating }: ICard) => {
           <motion.div
             className={styles.editTestimonial}
             onClick={handleOpen}
+            onKeyDown={event => event.code === "Enter" && handleOpen()}
             animate={{ opacity: [0, 1] }}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 1 }}
+            tabIndex={0}
+            aria-label="Edit review"
           >
             <ThemeProvider theme={theme2}>
               <EditIcon htmlColor="#fff" />

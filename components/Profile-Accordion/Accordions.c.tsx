@@ -3,16 +3,18 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import styles from "../../css/components/Accordion.module.css";
 import { useSelector } from "react-redux";
 import { MotionTypo } from "../../interface/MotionTypo";
-import Accordion from "./accordion.component";
+import Accordion from "./Accordion.c";
 
 const Accordions = () => {
   const userRedux = useSelector((state: any) => state.user.user);
   return (
     <div style={{ width: "100%", height: "100vh" }}>
-      {userRedux.secretKeyword === null ? <Accordion type="setKeyword" /> : null}
-      <Accordion type="displayName" />
-      <Accordion type="changeKeyword" />
-      <Accordion type="subscription" />
+      {userRedux.secretKeyword === null ? (
+        <Accordion type="setKeyword" ariaControls="setKeyword" />
+      ) : null}
+      <Accordion type="displayName" ariaControls="displayName" />
+      <Accordion type="changeKeyword" ariaControls="changeKeyword" />
+      <Accordion type="subscription" ariaControls="subscription" />
       <MuiAccordion disabled className={styles.accordion}>
         <AccordionSummary
           aria-controls="panel3a-content"

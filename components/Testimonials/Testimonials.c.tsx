@@ -3,17 +3,17 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { ThemeProvider } from "@mui/material/styles";
-import Card from "./card/testimonials-card.component";
-import CardFocus from "./card-big/testimonials-card-focus.component";
+import Card from "./card/TestimonialsCard.c";
+import CardFocus from "./card-big/TestimonialsCardFocus.c";
 import useWindowDimensions from "../../utils/useWindowDimensions";
-import ResponsiveCard from "./responsive-card/testimonials-responsive-card";
+import ResponsiveCard from "./responsive-card/TestimonialsResponsiveCard.c";
 import { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import { magic } from "../../lib/magic-client";
 import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 import { theme2 } from "../../utils/muiTheme";
-import PostTestimonial from "./post-testimonial/post-testimonial.component";
+import PostTestimonial from "./post-testimonial/PostTestimonial.c";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { ROUTES } from "../../Routes";
@@ -131,7 +131,9 @@ const Testimonials = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>What our clients say</h1>
+        <h1 className={styles.title} tabIndex={0}>
+          What our clients say
+        </h1>
         <div className={styles.testimonials}>
           <div className={styles.blur}>
             {testimonials?.length < 2 ? null : (

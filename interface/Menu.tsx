@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/material";
 import { theme2 } from "../utils/muiTheme";
 import { MenuItem } from "./MenuItem";
 import Image from "next/image";
+import { useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export type MenuOptions = {
@@ -26,6 +27,17 @@ type IMenuProps = {
 export const Menu = ({ id, anchor, handleClose, options, title, content }: IMenuProps) => {
   const open = Boolean(anchor);
   const userRedux = useSelector((state: any) => state.user.user);
+  const focus = useRef<HTMLDivElement>(null);
+  const [focused, setFocused] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!focused) {
+      focus?.current?.focus();
+      setFocused(true);
+    } else {
+      focus?.current?.focus();
+    }
+  }, [focused]);
   return (
     <MuiMenu
       anchorEl={anchor}
@@ -92,13 +104,14 @@ export const Menu = ({ id, anchor, handleClose, options, title, content }: IMenu
             <div style={{ fontWeight: "100", opacity: "0.8" }}>{content}</div>
           </div>
         ) : null}
-        {options.map(option => (
+        {options.map((option, idx) => (
           <MenuItem
             key={option.key}
             label={option.label}
             icon={option.icon}
             onClick={option.onClick}
             show={option.show}
+            refElem={idx === 0 ? focus : null}
           />
         ))}
       </ThemeProvider>

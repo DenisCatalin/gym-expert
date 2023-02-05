@@ -13,7 +13,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme2 } from "../../../utils/muiTheme";
 import { setReviewState } from "../../../redux/review.slice";
 import { Dialog } from "@mui/material";
-import PostTestimonial from "../post-testimonial/post-testimonial.component";
+import PostTestimonial from "../post-testimonial/PostTestimonial.c";
 
 type ICard = {
   profilePic?: any;
@@ -56,6 +56,8 @@ const ResponsiveCard = ({ profilePic, name, date, text, rating }: ICard) => {
             animate={{ opacity: [0, 1] }}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 1 }}
+            tabIndex={0}
+            aria-label="Edit review"
           >
             <ThemeProvider theme={theme2}>
               <EditIcon htmlColor="#fff" />

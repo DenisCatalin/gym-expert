@@ -1,9 +1,9 @@
 import Head from "next/head";
 import styles from "../css/Home.module.css";
-import Header from "../components/Header/header.component";
+import Header from "../components/Header/Header.c";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Image from "next/image";
-import CustomSnackbar from "../components/Snackbar/snackbar.component";
+import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -26,7 +26,8 @@ const Home = () => {
   useEffect(() => {
     if (
       (userRedux.displayName === null && !popup && userFetched) ||
-      (userRedux.secretKeyword === null && !popup && userFetched)
+      (userRedux.secretKeyword === null && !popup && userFetched) ||
+      (userRedux.secretKeyword === "NULL" && !popup && userFetched)
     ) {
       setShowPopup(true);
     }

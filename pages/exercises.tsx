@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header/header.component";
+import Header from "../components/Header/Header.c";
 import styles from "../css/Exercises.module.css";
 import { motion } from "framer-motion";
 import Pagination from "@mui/material/Pagination";
@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
 import { magic } from "../lib/magic-client";
-import ExerciseCard from "../components/ExerciseCard/exercise-card.component";
+import ExerciseCard from "../components/ExerciseCard/ExerciseCard.c";
 import useWindowDimensions from "../utils/useWindowDimensions";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
