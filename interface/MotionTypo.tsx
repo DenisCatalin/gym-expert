@@ -18,6 +18,7 @@ type IMotionOptions = {
   initialOptions?: Object;
   content?: string | React.ReactNode;
   onClick?: () => void;
+  onKeyDown?: (event: any) => void;
 };
 
 export const MotionTypo = ({
@@ -27,6 +28,7 @@ export const MotionTypo = ({
   content,
   initialOptions,
   onClick,
+  onKeyDown,
 }: IMotionOptions) => {
   const [animate, setAnimate] = useState<any>({});
 
@@ -85,6 +87,8 @@ export const MotionTypo = ({
       initial={initialOptions}
       transition={{ duration: transitionDuration }}
       onClick={onClick}
+      onKeyDown={onKeyDown}
+      tabIndex={0}
     >
       {content}
     </motion.h1>

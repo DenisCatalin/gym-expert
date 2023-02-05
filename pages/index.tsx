@@ -26,7 +26,8 @@ const Home = () => {
   useEffect(() => {
     if (
       (userRedux.displayName === null && !popup && userFetched) ||
-      (userRedux.secretKeyword === null && !popup && userFetched)
+      (userRedux.secretKeyword === null && !popup && userFetched) ||
+      (userRedux.secretKeyword === "NULL" && !popup && userFetched)
     ) {
       setShowPopup(true);
     }

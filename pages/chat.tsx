@@ -92,6 +92,7 @@ const Chat = () => {
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1] }}
               transition={{ delay: 1 }}
+              aria-label="Send Message"
             >
               <SendIcon htmlColor={formValue ? "#fff" : "#ffffff4e"} />
             </motion.button>

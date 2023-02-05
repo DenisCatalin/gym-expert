@@ -22,8 +22,9 @@ const PopularNews = ({ id, title, content, image, date, views }: IPopularNews) =
       onClick={() => router.push(`/${ROUTES.news}/${id}`)}
       animate={{ opacity: [0, 1], x: [500, 0] }}
       transition={{ delay: reveal, duration: 1 }}
+      onKeyDown={event => event.code === "Enter" && router.push(`/${ROUTES.news}/${id}`)}
     >
-      <div className={styles.postMin}>
+      <div className={styles.postMin} tabIndex={0} role="link">
         <div className={styles.left}>
           <div className={styles.popularPostPic}>
             <Image src={image} alt={title} layout="fill" objectFit="cover" />

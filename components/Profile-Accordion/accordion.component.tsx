@@ -22,9 +22,10 @@ import { useRouter } from "next/router";
 
 type IAccordion = {
   type: "displayName" | "setKeyword" | "changeKeyword" | "subscription";
+  ariaControls: string;
 };
 
-const Accordion = ({ type }: IAccordion) => {
+const Accordion = ({ type, ariaControls }: IAccordion) => {
   const [expanded, setExpanded] = useState<string | boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [secretKeyword, setSecretKeyword] = useState("");
@@ -254,8 +255,8 @@ const Accordion = ({ type }: IAccordion) => {
       <ThemeProvider theme={theme2}>
         <AccordionSummary
           expandIcon={<EditIcon htmlColor="#fff" />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
+          aria-controls={`${ariaControls}-panel`}
+          id={`${ariaControls}-header`}
         >
           {type === "subscription" ? (
             <>
@@ -343,7 +344,7 @@ const Accordion = ({ type }: IAccordion) => {
             <>
               <TextField
                 label={type === "displayName" ? "Desired display name" : "Desired Secret Keyword"}
-                id="secretKey"
+                id={type === "displayName" ? "displayName" : "DsecretKey"}
                 color="warning"
                 type={type === "displayName" ? "text" : "password"}
                 className={styles.textField}
@@ -363,7 +364,7 @@ const Accordion = ({ type }: IAccordion) => {
               />
               <TextField
                 label={type === "displayName" ? "Secret keyword" : "Confirm Secret Keyword"}
-                id="secretKeyConfirm"
+                id={type === "displayName" ? "secretKey" : "CsecretKey"}
                 color="warning"
                 type="password"
                 onChange={e =>
@@ -386,7 +387,7 @@ const Accordion = ({ type }: IAccordion) => {
             <>
               <TextField
                 label="Current Secret Keyword"
-                id="secretKey"
+                id="CsecretKey"
                 color="warning"
                 type="password"
                 className={styles.textField}
@@ -402,7 +403,7 @@ const Accordion = ({ type }: IAccordion) => {
               />
               <TextField
                 label="Desired Secret Keyword"
-                id="secretKey"
+                id="DsecretKey"
                 color="warning"
                 type="password"
                 className={styles.textField}
@@ -434,15 +435,10 @@ const Accordion = ({ type }: IAccordion) => {
               />
               <MotionTypo
                 className={styles.text}
+                onClick={() => router.push(ROUTES.forgotKeyword)}
+                onKeyDown={event => event.code === "Enter" && router.push(ROUTES.forgotKeyword)}
                 animateOptions="opacityScale"
-                content={
-                  <span
-                    onClick={() => router.push(ROUTES.forgotKeyword)}
-                    className={styles.forgotLabel}
-                  >
-                    Forgot secret keyword
-                  </span>
-                }
+                content={<span className={styles.forgotLabel}>Forgot secret keyword</span>}
               />
             </>
           )}

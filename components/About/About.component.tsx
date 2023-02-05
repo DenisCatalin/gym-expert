@@ -14,10 +14,12 @@ const AboutContainer = () => {
       <motion.div className={styles.content} animate={{ scale: [0, 1] }}>
         <div className={styles.imageAbout}></div>
         <div className={styles.textSide}>
-          <h1 className={styles.aboutTitle}>About us</h1>
+          <h1 className={styles.aboutTitle} tabIndex={0}>
+            About us
+          </h1>
           <div className={styles.aboutTextContainer}>
             <div className={styles.aboutTextContent}>
-              <h1>{ABOUT_TYPOGRAPHY.mainContent}</h1>
+              <h1 tabIndex={0}>{ABOUT_TYPOGRAPHY.mainContent}</h1>
             </div>
           </div>
         </div>

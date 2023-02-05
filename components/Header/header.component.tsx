@@ -27,11 +27,11 @@ const Header = ({ sticky = false }) => {
               animate={{ x: [500, 0] }}
               initial={{ x: 500 }}
             >
-              <ul className={styles.navbar}>
+              <ul className={styles.navbar} aria-label="navigation bar">
                 {links.map((item, i) => (
                   <Link href={i === 0 ? "/" : `${item}`} key={i}>
                     <a>
-                      <li className={styles.link} key={i}>
+                      <li role="link" className={styles.link} key={i}>
                         {item}
                       </li>
                     </a>
@@ -63,7 +63,14 @@ const Header = ({ sticky = false }) => {
         <div className={styles.logo}>
           <Image src={"/static/logo-gym.png"} alt="" layout="fill" />
         </div>
-        <h1 className={styles.logoName}>GYM EXPERT</h1>
+        <h1
+          role="link"
+          tabIndex={0}
+          className={styles.logoName}
+          onKeyDown={event => event.code === "Enter" && router.push(ROUTES.homepage)}
+        >
+          GYM EXPERT
+        </h1>
       </div>
       {mounted}
     </motion.div>

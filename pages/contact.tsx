@@ -43,16 +43,17 @@ const Contact = () => {
             </div>
             <div className={styles.contentSide}>
               <div className={styles.upperPart}>
-                <h1 className={styles.title}>Contact us</h1>
-                <h1 className={styles.opacityText}>
+                <h1 className={styles.title} tabIndex={0}>
+                  Contact us
+                </h1>
+                <h1 className={styles.opacityText} tabIndex={0}>
                   Do you have any questions about our platform or you simply found a bug? Feel free
                   to email us
                 </h1>
               </div>
-
               <div className={styles.midPart}>
                 <TextField
-                  id="outlined-basic"
+                  id="email"
                   label="Your email"
                   variant="filled"
                   color="secondary"
@@ -62,7 +63,7 @@ const Contact = () => {
                 />
 
                 <TextField
-                  id="outlined-basic"
+                  id="subject"
                   label="Subject"
                   variant="filled"
                   color="secondary"
@@ -72,7 +73,7 @@ const Contact = () => {
                 />
 
                 <TextareaAutosize
-                  aria-label="empty textarea"
+                  aria-label="Your message"
                   placeholder="Your message"
                   style={{ height: "60%" }}
                   className={styles.textarea}

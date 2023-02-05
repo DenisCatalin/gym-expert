@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 type IButtonProps = {
   onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  onKeyDown?: (event: any) => void;
   className?: string;
   label: string | React.ReactNode;
   hover?: string;
@@ -11,10 +12,14 @@ type IButtonProps = {
   animateOptions?: Object;
   style?: Object;
   disabled?: boolean;
+  role?: string;
+  ariaLabel?: string;
+  tabIndex?: number;
 };
 
 export const MotionButton = ({
   onClick,
+  onKeyDown,
   className,
   label,
   hover,
@@ -23,6 +28,9 @@ export const MotionButton = ({
   animateOptions,
   style,
   disabled,
+  role,
+  ariaLabel,
+  tabIndex,
 }: IButtonProps) => {
   const [hoverOption, setHoverOption] = useState<any>({});
 
@@ -51,6 +59,7 @@ export const MotionButton = ({
   return (
     <motion.button
       onClick={onClick}
+      onKeyDown={onKeyDown}
       className={className}
       whileHover={hoverOption}
       whileTap={tap ? { scale: 0.9 } : undefined}
@@ -58,6 +67,9 @@ export const MotionButton = ({
       animate={animateOptions}
       style={style}
       disabled={disabled}
+      role={role}
+      aria-label={ariaLabel}
+      tabIndex={tabIndex}
     >
       {label}
     </motion.button>

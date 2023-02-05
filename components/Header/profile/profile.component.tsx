@@ -226,7 +226,12 @@ const ProfileButton = () => {
       ) : (
         <>
           {userRedux.logged ? (
-            <>
+            <div
+              role="button"
+              tabIndex={0}
+              aria-label="Profile button"
+              onKeyDown={event => event.code === "Enter" && handleClick(event)}
+            >
               <Avatar className={styles.avatar} onClick={handleClick}>
                 {userRedux.profilePic === null ? (
                   userRedux.displayName === null ? (
@@ -247,7 +252,7 @@ const ProfileButton = () => {
                   />
                 )}
               </Avatar>
-            </>
+            </div>
           ) : (
             <Link href={"/login"}>
               <a>

@@ -24,6 +24,8 @@ const Post = ({ id, image, title, content, date, views }: IPost) => {
       animate={{ opacity: [0, 1], scale: [0.3, 1] }}
       transition={{ delay: reveal, duration: 1 }}
       onClick={() => router.push(`${ROUTES.news}/${id}`)}
+      onKeyDown={event => event.code === "Enter" && router.push(`${ROUTES.news}/${id}`)}
+      tabIndex={0}
     >
       <div className={styles.profile}>
         <div className={styles.profilePic}>

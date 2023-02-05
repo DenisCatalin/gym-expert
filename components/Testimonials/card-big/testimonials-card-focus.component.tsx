@@ -59,9 +59,12 @@ const CardFocus = ({ name, profilePic, text, date, rating }: ICard) => {
           <motion.div
             className={styles.editTestimonial}
             onClick={handleOpen}
+            onKeyDown={event => event.code === "Enter" && handleOpen()}
             animate={{ opacity: [0, 1] }}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 1 }}
+            tabIndex={0}
+            aria-label="Edit review"
           >
             <ThemeProvider theme={theme2}>
               <EditIcon htmlColor="#fff" />

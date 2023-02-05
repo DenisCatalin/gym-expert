@@ -81,17 +81,27 @@ const PricingCard = ({ price, period, image }: IPricingCard) => {
           <Image src={image} alt="" layout="fill" priority placeholder="blur" blurDataURL={image} />
         </div>
         <div className={styles.cardContent}>
-          <h1 className={styles.planPrice}>
-            ${price}/{period}
-          </h1>
-          <h1 className={styles.planName}>
+          <h1
+            className={styles.planName}
+            aria-label={`${period[0].toUpperCase() + period.substring(1)}ly Subscription  `}
+            tabIndex={0}
+          >
             {period[0].toUpperCase() + period.substring(1)}ly Subscription
           </h1>
-          <div className={styles.planFeatures}>
+          <h1
+            className={styles.planPrice}
+            aria-label={`${price} dollars per ${period}`}
+            tabIndex={0}
+          >
+            ${price}/{period}
+          </h1>
+          <div className={styles.planFeatures} aria-label="features" tabIndex={0}>
             <ThemeProvider theme={theme2}>
               {features.map((item, i) => (
                 <div className={styles.feature} key={i}>
-                  <h2 className={styles.featureText}>{item}</h2>
+                  <h2 className={styles.featureText} tabIndex={0}>
+                    {item}
+                  </h2>
                   <VerifiedIcon htmlColor="#fff" />
                 </div>
               ))}

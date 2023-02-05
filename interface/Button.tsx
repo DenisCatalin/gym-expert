@@ -15,15 +15,27 @@ type IButtonProps = {
   autoFocus?: boolean;
   className?: string;
   label: string | React.ReactNode;
+  role?: string;
+  ariaLabel?: string;
 };
 
-export const Button = ({ color, onClick, autoFocus, className, label }: IButtonProps) => {
+export const Button = ({
+  color,
+  onClick,
+  autoFocus,
+  className,
+  label,
+  role,
+  ariaLabel,
+}: IButtonProps) => {
   return (
     <MuiButton
       color={color}
       onClick={onClick}
       autoFocus={autoFocus ? true : false}
       className={className}
+      role={role}
+      aria-label={ariaLabel}
     >
       {label}
     </MuiButton>

@@ -131,7 +131,9 @@ const Testimonials = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>What our clients say</h1>
+        <h1 className={styles.title} tabIndex={0}>
+          What our clients say
+        </h1>
         <div className={styles.testimonials}>
           <div className={styles.blur}>
             {testimonials?.length < 2 ? null : (

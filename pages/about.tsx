@@ -29,7 +29,8 @@ const About = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrollToTop = () => {
+  const scrollToTop = (e: any) => {
+    e.preventDefault();
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     router.push(ROUTES.about);
   };
@@ -50,6 +51,10 @@ const About = () => {
             initialOptions={{ opacity: 0 }}
             className={styles.scrollToTop}
             onClick={scrollToTop}
+            role="button"
+            ariaLabel="Scroll to top"
+            tabIndex={0}
+            onKeyDown={event => event.code === "Enter" && scrollToTop(event)}
             label={
               <>
                 <KeyboardArrowUpIcon htmlColor="#fff" className={styles.scrollToTopIcon} />

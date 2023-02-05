@@ -56,6 +56,8 @@ const ResponsiveCard = ({ profilePic, name, date, text, rating }: ICard) => {
             animate={{ opacity: [0, 1] }}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 1 }}
+            tabIndex={0}
+            aria-label="Edit review"
           >
             <ThemeProvider theme={theme2}>
               <EditIcon htmlColor="#fff" />
