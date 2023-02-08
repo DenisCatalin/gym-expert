@@ -138,7 +138,16 @@
     .team {
         width: 25%;
         height: 85%;
+        transition: none;
     }
+
+    .team::before {
+        transition: none;
+    }
+
+.team .info {
+    transition: none;
+}
 
     .team .name {
         font-size: 1.2em;
@@ -158,6 +167,10 @@
     .team .social .socialIcon {
         width: 40px;
         height: 40px;
+    }
+
+    .team .social .socialIcon {
+        transition: none;
     }
 }
 

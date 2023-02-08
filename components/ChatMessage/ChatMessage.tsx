@@ -48,7 +48,10 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
             <span className={styles.tooltipS}>{startingDate[0]}</span>
           </div>
           <div className={styles.chatProfilePic}>
-            <div className={styles.chatProfileImg} style={{ marginLeft: ".3rem" }}>
+            <div
+              className={styles.chatProfileImg}
+              style={{ marginLeft: ".3rem", position: "relative" }}
+            >
               <Image
                 src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
                 alt=""
@@ -70,8 +73,15 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
           aria-label={`${displayName} says: ${text} at ${startingDate[0]}`}
         >
           <div className={styles.chatProfilePic}>
-            <div className={styles.chatProfileImg} style={{ marginRight: ".3rem" }}>
-              <Image src={profilePic} alt="" priority blurDataURL={profilePic} layout="fill" />
+            <div
+              className={styles.chatProfileImg}
+              style={{ marginRight: ".3rem", position: "relative" }}
+            >
+              {profilePic !== null ? (
+                <>
+                  <Image src={profilePic} alt="" priority blurDataURL={profilePic} layout="fill" />
+                </>
+              ) : null}
             </div>
           </div>
           <div className={styles.receiverMessage}>

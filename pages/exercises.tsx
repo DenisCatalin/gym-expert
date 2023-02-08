@@ -14,15 +14,14 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
-import { buttonTheme, theme, theme2 } from "../utils/muiTheme";
-import { useSelector, useDispatch } from "react-redux";
+import { buttonTheme, themePagination, theme2 } from "../utils/muiTheme";
+import { useSelector } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button";
 import { MotionButton } from "../interface/MotionButton";
 import fetchData from "../utils/fetchData";
 import { MotionTypo } from "../interface/MotionTypo";
 import Select from "../interface/Select";
-import { setExercisesState } from "../redux/exercises.slice";
 
 const breakPointWidth = 719;
 
@@ -89,7 +88,6 @@ const Exercises = () => {
   const [favourites, setFavourites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const dispatch = useDispatch();
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
 
@@ -301,14 +299,7 @@ const Exercises = () => {
                       />
                       <Select selectFor="Exercises" label="Filter" val="All" options={sOptions} />
                     </div>
-                    <div
-                      style={{
-                        display: "grid",
-                        gap: "2ch",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr)",
-                        overflow: "auto",
-                      }}
-                    >
+                    <div className={styles.showExercises}>
                       {favourites &&
                         favourites?.map((item, i) =>
                           favourites.length === 1 ? (
@@ -343,7 +334,7 @@ const Exercises = () => {
           </div>
           <div className={styles.pagination}>
             {bodyPart === "favourites" ? null : (
-              <ThemeProvider theme={theme}>
+              <ThemeProvider theme={themePagination}>
                 <Pagination
                   count={Math.ceil(exercises.length / exercisesPerPage)}
                   page={page}

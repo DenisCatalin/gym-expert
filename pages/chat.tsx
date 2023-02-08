@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
-import { doc, getDocs, deleteDoc, query, collection } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import ChatMessage from "../components/ChatMessage/ChatMessage";
 import styles from "../css/Chat.module.css";
@@ -49,6 +48,10 @@ const Chat = () => {
     dummy.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    dummy.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -59,7 +62,7 @@ const Chat = () => {
         <div className={styles.chatContainer}>
           <div className={styles.chat}>
             {messages &&
-              messages.map((msg, idx) => (
+              messages?.map((msg, idx) => (
                 <ChatMessage key={msg.id} date={msg?.createdAt?.seconds || null} message={msg} />
               ))}
 

@@ -89,6 +89,37 @@ export const theme = createTheme({
   },
 });
 
+export const themePagination = createTheme({
+  components: {
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          main: "#FFF",
+          color: "white",
+          background: "rgba(0, 0, 0, 0.5)",
+          fontFamily: "var(--font)",
+          zIndex: 5,
+          padding: ".1rem",
+          borderRadius: "20px",
+        },
+      },
+    },
+    MuiPaginationItem: {
+      styleOverrides: {
+        root: {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          main: "#fff",
+          color: "white",
+          fontFamily: "var(--font)",
+          border: "1px solid rgba(255, 255, 255, .5)",
+        },
+      },
+    },
+  },
+});
+
 export const selectTheme = createTheme({
   components: {
     MuiOutlinedInput: {

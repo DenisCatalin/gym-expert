@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useState } from "react";
 import ProfileButton from "../Header/profile/Profile.c";
 
-const links = ["home", "exercises", "pricing", "news", "about", "contact"];
+const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact"];
 
 const Burger = () => {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState<boolean>(false);
   return (
     <>
       <div

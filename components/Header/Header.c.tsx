@@ -20,7 +20,7 @@ const Header = ({ sticky = false }) => {
   useEffect(() => {
     setMounted(
       <>
-        {width > 850 ? (
+        {width > 910 ? (
           <>
             <motion.div
               className={styles.navbarContainer}
