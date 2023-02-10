@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header/Header.c";
 import styles from "../css/About.module.css";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { ThemeProvider } from "@mui/material/styles";
@@ -41,7 +40,6 @@ const About = () => {
         <title>Gym Expert - About</title>
       </Head>
       <CustomSnackbar />
-      <Header sticky={true} />
       {scrollValue > width / 3 ? (
         <ThemeProvider theme={theme2}>
           <MotionButton

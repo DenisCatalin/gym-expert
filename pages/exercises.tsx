@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header/Header.c";
 import styles from "../css/Exercises.module.css";
 import { motion } from "framer-motion";
 import Pagination from "@mui/material/Pagination";
@@ -198,7 +197,6 @@ const Exercises = () => {
       <Head>
         <title>Gym Expert - Exercises</title>
       </Head>
-      <Header />
       {isLoading ? (
         <div className={styles.content} style={{ height: isLoading ? "100vh" : "initial" }}>
           <div className={styles.exercises}>

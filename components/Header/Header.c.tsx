@@ -24,8 +24,8 @@ const Header = ({ sticky = false }) => {
           <>
             <motion.div
               className={styles.navbarContainer}
-              animate={{ x: [500, 0] }}
-              initial={{ x: 500 }}
+              animate={{ x: [-1000, 0], opacity: [0, 1] }}
+              initial={{ x: -1000, opacity: 0 }}
             >
               <ul className={styles.navbar} aria-label="navigation bar">
                 {links.map((item, i) => (

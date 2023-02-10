@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import Header from "../components/Header/Header.c";
 import Post from "../components/News/NewsPost.c";
 import PopularPosts from "../components/News/PopularPosts.c";
 import styles from "../css/News.module.css";
@@ -51,7 +50,6 @@ const News = () => {
       <Head>
         <title>Gym Expert - News</title>
       </Head>
-      <Header />
       {width > 820 && width > height ? (
         <div className={styles.content}>
           <div className={styles.rightSide}>

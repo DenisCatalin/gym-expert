@@ -1,6 +1,5 @@
 import Head from "next/head";
 import styles from "../css/Home.module.css";
-import Header from "../components/Header/Header.c";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Image from "next/image";
 import CustomSnackbar from "../components/Snackbar/Snackbar.c";
@@ -38,7 +37,6 @@ const Home = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
-      <Header />
       <CustomSnackbar />
       {showPopup ? (
         <Popup

@@ -6,7 +6,6 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import ChatMessage from "../components/ChatMessage/ChatMessage";
 import styles from "../css/Chat.module.css";
 import Head from "next/head";
-import Header from "../components/Header/Header.c";
 import SendIcon from "@mui/icons-material/Send";
 import { motion } from "framer-motion";
 
@@ -57,13 +56,12 @@ const Chat = () => {
       <Head>
         <title>Gym Expert - Chat</title>
       </Head>
-      <Header />
       <main className={styles.chatSpace}>
         <div className={styles.chatContainer}>
           <div className={styles.chat}>
             {messages &&
               messages?.map((msg, idx) => (
-                <ChatMessage key={msg.id} date={msg?.createdAt?.seconds || null} message={msg} />
+                <ChatMessage key={idx} date={msg?.createdAt?.seconds || null} message={msg} />
               ))}
 
             <span ref={dummy}></span>

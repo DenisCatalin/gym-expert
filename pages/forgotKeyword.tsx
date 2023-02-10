@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import styles from "../css/Login.module.css";
-import Header from "../components/Header/Header.c";
 import { ThemeProvider } from "@mui/material";
 import { theme2 } from "../utils/muiTheme";
 import { MotionButton } from "../interface/MotionButton";
@@ -69,7 +68,6 @@ const ForgotKeyword = () => {
       <Head>
         <title>Gym Expert - Forgot Keyword</title>
       </Head>
-      <Header />
       <div className={styles.content}>
         <div className={styles.loginContainer}>
           <div className={styles.text}>
