@@ -38,7 +38,6 @@ const Home = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
-      <Header />
       <CustomSnackbar />
       {showPopup ? (
         <Popup

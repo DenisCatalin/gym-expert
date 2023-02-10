@@ -69,7 +69,6 @@ const ForgotKeyword = () => {
       <Head>
         <title>Gym Expert - Forgot Keyword</title>
       </Head>
-      <Header />
       <div className={styles.content}>
         <div className={styles.loginContainer}>
           <div className={styles.text}>

@@ -117,7 +117,6 @@ const AdminPage = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
-      <Header />
       <CustomSnackbar />
       <div className={styles.spacing}>
         <MotionButton

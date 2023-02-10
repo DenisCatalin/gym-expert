@@ -33,7 +33,6 @@ const Contact = () => {
       <Head>
         <title>Gym Expert - Contact</title>
       </Head>
-      <Header />
       <CustomSnackbar />
       {height > 550 ? (
         <>

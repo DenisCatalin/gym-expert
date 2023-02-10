@@ -86,7 +86,6 @@ const Login = () => {
       <Head>
         <title>Gym Expert - Login</title>
       </Head>
-      <Header />
       <div className={styles.content}>
         <div className={styles.loginContainer}>
           <div className={styles.text}>

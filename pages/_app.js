@@ -5,6 +5,8 @@ import { useState } from "react";
 import { cropContext } from "../lib/cropContext";
 import { Provider } from "react-redux";
 import store from "../redux/store";
+import Header from "../components/Header/Header.c";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   const [didToken, setDidToken] = useState("");
@@ -15,11 +17,14 @@ function MyApp({ Component, pageProps }) {
     cropped: false,
   });
 
+  const router = useRouter();
+
   return (
     <userContext.Provider value={{ user, setUser }}>
       <didTokenContext.Provider value={{ didToken, setDidToken }}>
         <cropContext.Provider value={{ cropImage, setCropImage }}>
           <Provider store={store}>
+            <Header sticky={router.pathname === "/about" ? true : false} />
             <Component {...pageProps} />
           </Provider>
         </cropContext.Provider>

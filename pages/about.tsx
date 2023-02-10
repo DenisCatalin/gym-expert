@@ -41,7 +41,6 @@ const About = () => {
         <title>Gym Expert - About</title>
       </Head>
       <CustomSnackbar />
-      <Header sticky={true} />
       {scrollValue > width / 3 ? (
         <ThemeProvider theme={theme2}>
           <MotionButton

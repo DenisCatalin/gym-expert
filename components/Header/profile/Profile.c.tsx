@@ -177,7 +177,7 @@ const ProfileButton = () => {
     return () => {
       isMounted.current = false;
     };
-  }, [userRedux.needsUpdate]);
+  }, [userRedux]);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);

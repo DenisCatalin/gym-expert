@@ -198,7 +198,6 @@ const Exercises = () => {
       <Head>
         <title>Gym Expert - Exercises</title>
       </Head>
-      <Header />
       {isLoading ? (
         <div className={styles.content} style={{ height: isLoading ? "100vh" : "initial" }}>
           <div className={styles.exercises}>

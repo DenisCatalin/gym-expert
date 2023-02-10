@@ -10,7 +10,6 @@ const Pricing = () => {
       <Head>
         <title>Gym Expert - Pricing</title>
       </Head>
-      <Header />
       <CustomSnackbar />
       <div className={styles.content}>
         <PricingCard price={10} period={"week"} image={"/static/undraw_mindfulness_scgo.svg"} />

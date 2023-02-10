@@ -57,13 +57,12 @@ const Chat = () => {
       <Head>
         <title>Gym Expert - Chat</title>
       </Head>
-      <Header />
       <main className={styles.chatSpace}>
         <div className={styles.chatContainer}>
           <div className={styles.chat}>
             {messages &&
               messages?.map((msg, idx) => (
-                <ChatMessage key={msg.id} date={msg?.createdAt?.seconds || null} message={msg} />
+                <ChatMessage key={idx} date={msg?.createdAt?.seconds || null} message={msg} />
               ))}
 
             <span ref={dummy}></span>

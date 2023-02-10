@@ -51,7 +51,6 @@ const News = () => {
       <Head>
         <title>Gym Expert - News</title>
       </Head>
-      <Header />
       {width > 820 && width > height ? (
         <div className={styles.content}>
           <div className={styles.rightSide}>

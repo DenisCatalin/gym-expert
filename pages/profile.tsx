@@ -14,7 +14,6 @@ const Profile = () => {
       <Head>
         <title>Gym Expert - Profile</title>
       </Head>
-      <Header />
       <CustomSnackbar />
       <div className={styles.content}>
         {userRedux.logged ? (

@@ -64,7 +64,6 @@ const NewsPost = ({ news }) => {
       <Head>
         <title>Gym Expert - News</title>
       </Head>
-      <Header />
       <div className={styles.content}>
         {fetched ? (
           <>
