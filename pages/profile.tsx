@@ -1,5 +1,4 @@
 import styles from "../css/Profile.module.css";
-import Header from "../components/Header/Header.c";
 import LinearProgress from "@mui/material/LinearProgress";
 import Accordions from "../components/Profile-Accordion/Accordions.c";
 import Head from "next/head";

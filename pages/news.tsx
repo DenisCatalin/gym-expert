@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import Header from "../components/Header/Header.c";
 import Post from "../components/News/NewsPost.c";
 import PopularPosts from "../components/News/PopularPosts.c";
 import styles from "../css/News.module.css";

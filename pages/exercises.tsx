@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header/Header.c";
 import styles from "../css/Exercises.module.css";
 import { motion } from "framer-motion";
 import Pagination from "@mui/material/Pagination";

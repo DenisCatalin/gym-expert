@@ -1,6 +1,5 @@
 import Head from "next/head";
 import styles from "../css/AdminPage.module.css";
-import Header from "../components/Header/Header.c";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Image from "next/image";
 import CustomSnackbar from "../components/Snackbar/Snackbar.c";

@@ -1,5 +1,4 @@
 import styles from "../../css/NewsID.module.css";
-import Header from "../../components/Header/Header.c";
 import UseRedirectUser from "../../utils/redirectUser";
 import Head from "next/head";
 import { useEffect, useState } from "react";

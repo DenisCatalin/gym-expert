@@ -6,7 +6,6 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import ChatMessage from "../components/ChatMessage/ChatMessage";
 import styles from "../css/Chat.module.css";
 import Head from "next/head";
-import Header from "../components/Header/Header.c";
 import SendIcon from "@mui/icons-material/Send";
 import { motion } from "framer-motion";
 

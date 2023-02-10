@@ -1,5 +1,4 @@
 import TextField from "@mui/material/TextField";
-import Header from "../components/Header/Header.c";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import SendIcon from "@mui/icons-material/Send";
 import styles from "../css/Contact.module.css";
