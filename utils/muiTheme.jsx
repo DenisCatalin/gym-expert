@@ -1,5 +1,17 @@
 import { createTheme } from "@mui/material/styles";
 
+export const inputTheme = createTheme({
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          border: "1px solid white",
+        },
+      },
+    },
+  },
+});
+
 export const theme2 = createTheme({
   status: {
     danger: "#e53e3e",

@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import firebase from "firebase/compat/app";
 import { Button } from "../../interface/Button";
 import { ThemeProvider } from "@mui/material";
-import { tooltipTheme } from "../../utils/muiTheme";
+import { inputTheme, tooltipTheme } from "../../utils/muiTheme";
 import { MotionTypo } from "../../interface/MotionTypo";
 import { useDispatch } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
@@ -154,38 +154,40 @@ const ProgressButton = () => {
               <h5 style={{ color: "var(--pink)" }}>Too little personal data</h5>
             )}
             <div className={styles.progressForm}>
-              <TextField
-                label={"Your Weight"}
-                id={"weight"}
-                color={weightCheck ? "secondary" : "error"}
-                type="text"
-                className={styles.textField}
-                value={weight}
-                inputProps={{
-                  style: {
-                    color: "white",
-                    borderRadius: "5px",
-                  },
-                }}
-                onChange={checkWeight}
-                InputLabelProps={{ style: { color: "white" } }}
-              />
-              <TextField
-                label={"Muscle Gain"}
-                id={"muscle"}
-                color={muscleCheck ? "secondary" : "error"}
-                type="text"
-                className={styles.textField}
-                value={muscle}
-                onChange={checkMuscle}
-                inputProps={{
-                  style: {
-                    color: "white",
-                    borderRadius: "5px",
-                  },
-                }}
-                InputLabelProps={{ style: { color: "white" } }}
-              />
+              <ThemeProvider theme={inputTheme}>
+                <TextField
+                  label={"Your Weight"}
+                  id={"weight"}
+                  color={weightCheck ? "secondary" : "error"}
+                  type="text"
+                  className={styles.textField}
+                  value={weight}
+                  inputProps={{
+                    style: {
+                      color: "white",
+                      borderRadius: "5px",
+                    },
+                  }}
+                  onChange={checkWeight}
+                  InputLabelProps={{ style: { color: "white" } }}
+                />
+                <TextField
+                  label={"Muscle Gain"}
+                  id={"muscle"}
+                  color={muscleCheck ? "secondary" : "error"}
+                  type="text"
+                  className={styles.textField}
+                  value={muscle}
+                  onChange={checkMuscle}
+                  inputProps={{
+                    style: {
+                      color: "white",
+                      borderRadius: "5px",
+                    },
+                  }}
+                  InputLabelProps={{ style: { color: "white" } }}
+                />
+              </ThemeProvider>
               <Button
                 color="inherit"
                 className={styles.buttonAdd}
