@@ -2,7 +2,6 @@ import Head from "next/head";
 import styles from "../css/Home.module.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Image from "next/image";
-import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -37,7 +36,6 @@ const Home = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
-      <CustomSnackbar />
       {showPopup ? (
         <Popup
           popupFor="newUser"

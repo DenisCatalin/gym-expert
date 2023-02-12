@@ -2,7 +2,6 @@ import Head from "next/head";
 import styles from "../css/AdminPage.module.css";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Image from "next/image";
-import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -116,7 +115,6 @@ const AdminPage = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
-      <CustomSnackbar />
       <div className={styles.spacing}>
         <MotionButton
           hover={"boxShadow"}

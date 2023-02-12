@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import StayPrimaryPortraitIcon from "@mui/icons-material/StayPrimaryPortrait";
 import Head from "next/head";
-import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { theme2 } from "../utils/muiTheme";
 import { useDispatch } from "react-redux";
 import { MotionButton } from "../interface/MotionButton";
@@ -32,7 +31,6 @@ const Contact = () => {
       <Head>
         <title>Gym Expert - Contact</title>
       </Head>
-      <CustomSnackbar />
       {height > 550 ? (
         <>
           <motion.div className={styles.content} animate={{ opacity: [0, 1] }}>

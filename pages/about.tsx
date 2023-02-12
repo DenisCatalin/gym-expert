@@ -9,7 +9,6 @@ import Team from "../components/Team/Team.c";
 import Testimonials from "../components/Testimonials/Testimonials.c";
 import Head from "next/head";
 import { theme2 } from "../utils/muiTheme";
-import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { ROUTES } from "../Routes";
 import { MotionButton } from "../interface/MotionButton";
 
@@ -39,7 +38,6 @@ const About = () => {
       <Head>
         <title>Gym Expert - About</title>
       </Head>
-      <CustomSnackbar />
       {scrollValue > width / 3 ? (
         <ThemeProvider theme={theme2}>
           <MotionButton
