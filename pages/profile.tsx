@@ -5,6 +5,7 @@ import Head from "next/head";
 import ProfilePic from "../components/PhotoCrop/ProfilePic.c";
 import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { useSelector } from "react-redux";
+import ProgressButton from "../components/ProfileButtons/ProgressButton.c";
 
 const Profile = () => {
   const userRedux = useSelector((state: any) => state.user.user);
@@ -17,6 +18,7 @@ const Profile = () => {
       <div className={styles.content}>
         {userRedux.logged ? (
           <>
+            <ProgressButton />
             <ProfilePic />
             <Accordions />
           </>

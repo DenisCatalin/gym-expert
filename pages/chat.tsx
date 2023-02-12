@@ -26,7 +26,6 @@ const Chat = () => {
   const query = messagesRef.orderBy("createdAt").limit(25);
   const userRedux = useSelector((state: any) => state.user.user);
   const { issuer, profilePic, displayName } = userRedux;
-  const [data, setData] = useState<any>();
   //@ts-ignore
   const [messages] = useCollectionData(query, { id: "id" });
 

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
-import { doc, getDocs, deleteDoc, query, collection } from "firebase/firestore";
+import { getDocs, query, collection } from "firebase/firestore";
 
 type IChatMessage = {
   message?: any;

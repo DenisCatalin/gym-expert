@@ -6,17 +6,21 @@ import MuiDialogContentText from "@mui/material/DialogContentText";
 import MuiDialogTitle from "@mui/material/DialogTitle";
 
 type IDialogProps = {
+  fullWidth?: boolean;
+  maxWidth?: false | undefined;
   open: boolean;
   onClose: () => void;
   title: string;
   contentStyles?: string;
-  contentText: string;
+  contentText?: string;
   textStyles?: string;
   contentOther?: React.ReactNode;
   actions?: React.ReactNode;
 };
 
 export const Dialog = ({
+  fullWidth,
+  maxWidth,
   open,
   onClose,
   title,
@@ -28,6 +32,8 @@ export const Dialog = ({
 }: IDialogProps) => {
   return (
     <MuiDialog
+      fullWidth={fullWidth}
+      maxWidth={maxWidth}
       open={open}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"

@@ -7,6 +7,7 @@ const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact
 
 const Burger = () => {
   const [state, setState] = useState<boolean>(false);
+
   return (
     <>
       <div
@@ -40,7 +41,7 @@ const Burger = () => {
           {links.map((item, i) => (
             <Link href={i === 0 ? "/" : `/${item}`} key={i}>
               <a>
-                <h1 className={styles.drawerLink} key={i}>
+                <h1 className={styles.drawerLink} key={i} onClick={() => setState(false)}>
                   {item}
                 </h1>
               </a>

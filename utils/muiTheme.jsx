@@ -24,6 +24,67 @@ export const theme2 = createTheme({
   },
 });
 
+export const tooltipTheme = createTheme({
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          fontFamily: "var(--font)",
+          fontSize: ".8em",
+          background: "var(--heroButton)",
+        },
+      },
+    },
+  },
+});
+
+export const tableTheme = createTheme({
+  components: {
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          background: "var(--progress)",
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          color: "var(--white)",
+          fontWeight: "bold",
+        },
+      },
+    },
+    MuiTablePagination: {
+      styleOverrides: {
+        root: {
+          fontWeight: "bold",
+        },
+        selectLabel: {
+          color: "var(--white)",
+          fontWeight: "bold",
+        },
+        select: {
+          color: "rgba(0, 0, 0, 0.5)",
+          fontWeight: "bold",
+        },
+
+        displayedRows: {
+          color: "var(--white)",
+          fontWeight: "bold",
+        },
+      },
+    },
+    MuiNativeSelect: {
+      styleOverrides: {
+        root: {
+          color: "white",
+        },
+      },
+    },
+  },
+});
+
 export const buttonTheme = createTheme({
   status: {
     danger: "#e53e3e",
