@@ -3,7 +3,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Accordions from "../components/Profile-Accordion/Accordions.c";
 import Head from "next/head";
 import ProfilePic from "../components/PhotoCrop/ProfilePic.c";
-import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { useSelector } from "react-redux";
 import ProgressButton from "../components/ProfileButtons/ProgressButton.c";
 
@@ -14,7 +13,6 @@ const Profile = () => {
       <Head>
         <title>Gym Expert - Profile</title>
       </Head>
-      <CustomSnackbar />
       <div className={styles.content}>
         {userRedux.logged ? (
           <>

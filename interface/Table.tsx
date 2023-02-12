@@ -18,6 +18,11 @@ import { ThemeProvider } from "@mui/material";
 import { tableTheme } from "../utils/muiTheme";
 import "firebase/compat/firestore";
 import firebase from "firebase/compat/app";
+import { Dialog } from "./Dialog";
+import { Button } from "./Button";
+import { useDispatch } from "react-redux";
+import styles from "../css/components/Table.module.css";
+import { setSnackbar } from "../redux/snackbar.slice";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
@@ -112,6 +117,10 @@ type ITable = {
 const Table = ({ className, rows }: ITable) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false);
+  const [rowID, setRowID] = React.useState<number>();
+
+  const dispatch = useDispatch();
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -150,71 +159,112 @@ const Table = ({ className, rows }: ITable) => {
     }
   }
 
-  const deleteRow = async (idx: number) => {
-    const id = rows[idx].id;
-    console.log(rows[idx].id);
-    const mortiiTai: any = await getDocumentIdByFieldValue("id", id);
+  const deleteRow = async () => {
+    const id = rowID;
+    const actualID: any = await getDocumentIdByFieldValue("id", id);
     try {
-      await db.collection("userProgress").doc(mortiiTai).delete();
-      console.log(`Document with ID ${mortiiTai} was successfully deleted.`);
+      await db.collection("userProgress").doc(actualID).delete();
+      console.log(`Document with ID ${actualID} was successfully deleted.`);
     } catch (error) {
-      console.error(`Error deleting document with ID ${mortiiTai}:`, error);
+      console.error(`Error deleting document with ID ${actualID}:`, error);
     }
+    handleClose();
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "You have successfully deleted your progress",
+      })
+    );
   };
 
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const setupDialog = (idx: number) => {
+    setOpenDialog(true);
+    setRowID(rows[idx].id);
+  };
+
+  React.useEffect(() => {
+    console.log(rowID);
+  }, [rowID]);
+
   return (
-    <TableContainer component={Paper}>
-      <ThemeProvider theme={tableTheme}>
-        <MuiTable sx={{ minWidth: 500 }} className={className} aria-label="custom pagination table">
-          <TableBody>
-            <TableCell>Date</TableCell>
-            <TableCell align="right">Weight</TableCell>
-            <TableCell align="right">Muscle gain (g)</TableCell>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row: any, idx: number) => (
-              <TableRow key={idx} onClick={() => deleteRow(idx)}>
-                <TableCell component="th" scope="row">
-                  {`${getDate(row?.createdAt?.seconds)}`}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
-                  {row.weightLoss}kg
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
-                  {row.muscleGain}g
-                </TableCell>
+    <>
+      <TableContainer component={Paper}>
+        <ThemeProvider theme={tableTheme}>
+          <MuiTable
+            sx={{ minWidth: 500 }}
+            className={className}
+            aria-label="custom pagination table"
+          >
+            <TableBody>
+              <TableCell>Date</TableCell>
+              <TableCell align="right">Weight</TableCell>
+              <TableCell align="right">Muscle gain (g)</TableCell>
+              {(rowsPerPage > 0
+                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : rows
+              ).map((row: any, idx: number) => (
+                <TableRow key={idx} onClick={() => setupDialog(idx)}>
+                  <TableCell component="th" scope="row">
+                    {`${getDate(row?.createdAt?.seconds)}`}
+                  </TableCell>
+                  <TableCell style={{ width: 160 }} align="right">
+                    {row.weightLoss}kg
+                  </TableCell>
+                  <TableCell style={{ width: 160 }} align="right">
+                    {row.muscleGain}g
+                  </TableCell>
+                </TableRow>
+              ))}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                  colSpan={3}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
               </TableRow>
-            ))}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                colSpan={3}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-        </MuiTable>
-      </ThemeProvider>
-    </TableContainer>
+            </TableFooter>
+          </MuiTable>
+        </ThemeProvider>
+      </TableContainer>
+      <Dialog
+        open={openDialog}
+        onClose={handleClose}
+        title="Are you sure you want to delete this row?"
+        textStyles={styles.text}
+        contentStyles={styles.background}
+        contentText={
+          "You are about to delete this row which is part of your personal progress. You really want to do that?"
+        }
+        actions={
+          <>
+            <Button color="secondary" onClick={handleClose} label="No" />
+            <Button color="secondary" onClick={deleteRow} autoFocus={true} label="Yes" />
+          </>
+        }
+      />
+    </>
   );
 };
 

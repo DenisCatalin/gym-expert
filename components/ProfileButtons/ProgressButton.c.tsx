@@ -14,7 +14,8 @@ import { Button } from "../../interface/Button";
 import { ThemeProvider } from "@mui/material";
 import { tooltipTheme } from "../../utils/muiTheme";
 import { MotionTypo } from "../../interface/MotionTypo";
-import { getDocs, query, collection } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { setSnackbar } from "../../redux/snackbar.slice";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
@@ -36,6 +37,8 @@ const ProgressButton = () => {
   const userRedux = useSelector((state: any) => state.user.user);
   const { issuer } = userRedux;
 
+  const dispatch = useDispatch();
+
   const firestore = firebase.firestore();
   const progressRef = firestore.collection("userProgress");
   const queryQ = progressRef.orderBy("createdAt");
@@ -50,15 +53,19 @@ const ProgressButton = () => {
     }
   });
 
-  console.log("NEW ARRAY", array);
-
   const addProgress = async () => {
     if (!weight.match(/^[0-9]+$/) || !muscle.match(/^[0-9]+$/)) return;
-    console.log(weight, muscle);
     setWeight("");
     setMuscle("");
     setMuscleCheck(false);
     setWeightCheck(false);
+
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "Progress successfully added",
+      })
+    );
 
     {
       messages &&
@@ -144,7 +151,7 @@ const ProgressButton = () => {
                 />
               </>
             ) : (
-              "Too little personal data"
+              <h5 style={{ color: "var(--pink)" }}>Too little personal data</h5>
             )}
             <div className={styles.progressForm}>
               <TextField
