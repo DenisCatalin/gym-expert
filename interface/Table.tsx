@@ -112,9 +112,10 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 type ITable = {
   className?: string;
   rows: any;
+  collection: string;
 };
 
-const Table = ({ className, rows }: ITable) => {
+const Table = ({ className, rows, collection }: ITable) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
@@ -144,7 +145,7 @@ const Table = ({ className, rows }: ITable) => {
 
   async function getDocumentIdByFieldValue(field: string, value: any) {
     try {
-      const querySnapshot = await db.collection("userProgress").where(field, "==", value).get();
+      const querySnapshot = await db.collection(collection).where(field, "==", value).get();
       if (querySnapshot.empty) {
         console.log(`No documents found with ${field} equal to ${value}.`);
         return null;
@@ -163,7 +164,7 @@ const Table = ({ className, rows }: ITable) => {
     const id = rowID;
     const actualID: any = await getDocumentIdByFieldValue("id", id);
     try {
-      await db.collection("userProgress").doc(actualID).delete();
+      await db.collection(collection).doc(actualID).delete();
       console.log(`Document with ID ${actualID} was successfully deleted.`);
     } catch (error) {
       console.error(`Error deleting document with ID ${actualID}:`, error);

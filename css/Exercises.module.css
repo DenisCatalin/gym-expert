@@ -56,6 +56,23 @@
     box-shadow: 0px 0px 10px rgba(220, 130, 242, .56);
 }
 
+.doneSchedule {
+    width: 12%;
+    height: 5%;
+    border-radius: 10px;
+    font-size: .8em;
+    font-family: var(--font);
+    font-weight: bold;
+    color: var(--white);
+    background: var(--avatarGradient);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    z-index: 5;
+}
+
 .exercisess {
     padding: 1rem;
     display: grid;
@@ -95,6 +112,30 @@
     gap: 2ch;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     overflow: hidden;
+}
+
+.background {
+    background: var(--background);
+    color: var(--white);
+}
+
+.text {
+    color: var(--white);
+}
+
+.dialogInput {
+    padding: 1em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sft {
+    background: var(--buttonGradient);
+    /* margin-bottom: 1.2em; */
+    width: 30%;
+    height: 5vh;
 }
 
 @media screen and (max-width: 1300px) {

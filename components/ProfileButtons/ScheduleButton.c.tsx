@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import styles from "../../css/components/ProgressButton.module.css";
-import QueryStatsRoundedIcon from "@mui/icons-material/QueryStatsRounded";
+import styles from "../../css/components/ScheduleButton.module.css";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import { IconButton } from "../../interface/IconButton";
 import { Dialog } from "../../interface/Dialog";
 import TextField from "@mui/material/TextField";
@@ -27,7 +27,7 @@ firebase.initializeApp({
   measurementId: "G-ZK5ZS8BCZV",
 });
 
-const ProgressButton = () => {
+const ScheduleButton = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [weight, setWeight] = useState<string>("");
   const [muscle, setMuscle] = useState<string>("");
@@ -111,14 +111,14 @@ const ProgressButton = () => {
           color="secondary"
           label={
             <>
-              <QueryStatsRoundedIcon htmlColor="#fff" />
+              <PendingActionsIcon htmlColor="#fff" />
             </>
           }
           role="button"
-          ariaLabel="Track your progress"
+          ariaLabel="Schedule"
           className={styles.trackingButton}
           onClick={handleClick}
-          tooltip="Track your progress"
+          tooltip="Schedule"
           tooltipPlacement="right"
         />
       </ThemeProvider>
@@ -127,7 +127,7 @@ const ProgressButton = () => {
         // maxWidth={"lg"}
         open={open}
         onClose={handleClose}
-        title="Track your progress"
+        title="Schedule"
         textStyles={styles.text}
         contentStyles={styles.background}
         contentOther={
@@ -221,4 +221,4 @@ const ProgressButton = () => {
   );
 };
 
-export default ProgressButton;
+export default ScheduleButton;

@@ -9,6 +9,7 @@ import { Button } from "../../interface/Button";
 import fetchData from "../../utils/fetchData";
 import { buttonTheme } from "../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
+import { setScheduleState } from "../../redux/schedule.slice";
 
 type IExerciseCard = {
   item?: Object | any;
@@ -25,6 +26,7 @@ const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard
   const dispatch = useDispatch();
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
+  const scheduleRedux = useSelector((state: any) => state.schedule.schedule);
 
   useEffect(() => {
     (async () => {
@@ -92,6 +94,16 @@ const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard
     }
   };
 
+  const addSchedule = () => {
+    const gif = fav ? item?.gif : item?.gifUrl;
+    dispatch(
+      setScheduleState({
+        ...scheduleRedux,
+        exercises: [...scheduleRedux.exercises, gif],
+      })
+    );
+  };
+
   return (
     <motion.div
       className={last === true ? styles.lastExerciseCard : styles.exerciseCard}
@@ -130,6 +142,20 @@ const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard
               </>
             }
           />
+          {scheduleRedux.scheduleMode ? (
+            <>
+              {scheduleRedux.exercises.includes(item.gif) ||
+              scheduleRedux.exercises.includes(item.gifUrl) ? null : (
+                <>
+                  <Button
+                    className={styles.scheduleButton}
+                    onClick={addSchedule}
+                    label={"Schedule"}
+                  />
+                </>
+              )}
+            </>
+          ) : null}
         </ThemeProvider>
       </motion.div>
     </motion.div>

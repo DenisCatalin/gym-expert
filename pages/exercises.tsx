@@ -13,14 +13,48 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
-import { buttonTheme, themePagination, theme2 } from "../utils/muiTheme";
-import { useSelector } from "react-redux";
+import { buttonTheme, themePagination, theme2, dialogInputTheme } from "../utils/muiTheme";
+import { useSelector, useDispatch } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button";
 import { MotionButton } from "../interface/MotionButton";
 import fetchData from "../utils/fetchData";
 import { MotionTypo } from "../interface/MotionTypo";
 import Select from "../interface/Select";
+import { Dialog } from "../interface/Dialog";
+import { setScheduleState } from "../redux/schedule.slice";
+import TextField from "@mui/material/TextField";
+import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
+import Table from "../interface/Table";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import Image from "next/image";
+
+firebase.initializeApp({
+  apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
+  authDomain: "gym-expert-chat.firebaseapp.com",
+  projectId: "gym-expert-chat",
+  storageBucket: "gym-expert-chat.appspot.com",
+  messagingSenderId: "791772438333",
+  appId: "1:791772438333:web:9aedb139733266f3f0ef54",
+  measurementId: "G-ZK5ZS8BCZV",
+});
+
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 const breakPointWidth = 719;
 
@@ -86,11 +120,17 @@ const Exercises = () => {
   const [exercises, setExercises] = useState([]);
   const [favourites, setFavourites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [openScheduleDialog, setOpenScheduleDialog] = useState<boolean>(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [day, setDay] = useState<number | undefined>();
+  const [dayCheck, setDayCheck] = useState<boolean>(false);
 
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
+  const scheduleRedux = useSelector((state: any) => state.schedule.schedule);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleChange = (_event: any, value: React.SetStateAction<number>) => {
     setPage(value);
@@ -107,6 +147,23 @@ const Exercises = () => {
   const indexOfLastBodyPart = bodyPartsPage * bodyPartsPerPage;
   const indexOfFirstBodyPart = indexOfLastBodyPart - bodyPartsPerPage;
   const currentEBodyPart = bodyParts.slice(indexOfFirstBodyPart, indexOfLastBodyPart);
+
+  const date = new Date();
+  const month = months[date.getMonth()];
+
+  const firestore = firebase.firestore();
+  const progressRef = firestore.collection("schedule");
+  const queryQ = progressRef.orderBy("day");
+  //@ts-ignore
+  const [messages] = useCollectionData(queryQ, { id: "id" });
+
+  let array: any = [];
+
+  messages?.map(message => {
+    if (message.sender === userRedux.issuer) {
+      array.push(message);
+    }
+  });
 
   useEffect(() => {
     (async () => {
@@ -190,6 +247,79 @@ const Exercises = () => {
 
   const decreaseCategories = () => {
     setBodyPartsPage(bodyPartsPage - 1);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    dispatch(
+      setScheduleState({
+        ...scheduleRedux,
+        scheduleMode: false,
+        exercises: [],
+        day: 0,
+        month: "",
+      })
+    );
+  };
+
+  const setupDialog = () => {
+    setOpenScheduleDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenScheduleDialog(false);
+  };
+
+  function daysInMonth(month: number, year: number) {
+    return new Date(year, month, 0).getDate();
+  }
+
+  useEffect(() => {
+    if (day && day >= date.getDate() && day <= daysInMonth(date.getMonth(), date.getFullYear())) {
+      setDayCheck(true);
+    } else {
+      setDayCheck(false);
+    }
+  }, [day]);
+
+  const setCurrentDay = () => {
+    // trigger schedule mode Check jira d-22
+    if (dayCheck) {
+      const fullDate = `${day} ${month} ${date.getFullYear()}`;
+      console.log(`send for ${fullDate}`);
+      setOpenScheduleDialog(false);
+      setDay(0);
+      dispatch(
+        setScheduleState({
+          ...scheduleRedux,
+          scheduleMode: true,
+          day: day,
+          month: month,
+        })
+      );
+    } else console.log("fail");
+  };
+
+  const scheduleMore = () => {
+    setOpenDialog(false);
+  };
+
+  const scheduleExercises = async () => {
+    {
+      messages &&
+        (await progressRef.add({
+          id: messages.length + 1,
+          day: scheduleRedux.day,
+          month: scheduleRedux.month,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          exercises: scheduleRedux.exercises,
+          sender: userRedux.issuer,
+        }));
+    }
   };
 
   return (
@@ -280,6 +410,11 @@ const Exercises = () => {
                   </>
                 )}
               </motion.div>
+              <Button
+                label={scheduleRedux.scheduleMode ? "Done schedule" : "Schedule"}
+                className={styles.doneSchedule}
+                onClick={scheduleRedux.scheduleMode ? handleOpenDialog : setupDialog}
+              />
               <div className={styles.exercisess}>
                 {bodyPart === "favourites" ? (
                   <div
@@ -347,6 +482,115 @@ const Exercises = () => {
           </div>
         </div>
       )}
+      <Dialog
+        title={`Schedule for ${scheduleRedux.day} ${scheduleRedux.month}`}
+        open={openDialog}
+        onClose={handleCloseDialog}
+        contentStyles={styles.background}
+        textStyles={styles.text}
+        contentText={"Here is a preview of your selected exercises:"}
+        contentOther={
+          <>
+            {scheduleRedux.exercises.map((exercise: string, idx: number) => (
+              <Image src={exercise} alt="Preview" key={idx} width={50} height={50} />
+            ))}
+          </>
+        }
+        actions={
+          <>
+            <Button
+              label="Close"
+              role="button"
+              color="secondary"
+              aria-label="close dialog"
+              onClick={handleCloseDialog}
+            />
+            <Button
+              label="Schedule more"
+              role="button"
+              color="secondary"
+              aria-label="close dialog"
+              onClick={scheduleMore}
+            />
+            <Button
+              label="Schedule"
+              role="button"
+              color="secondary"
+              aria-label="close dialog"
+              onClick={scheduleExercises}
+            />
+          </>
+        }
+      />
+      <Dialog
+        title={`Schedule for ${month}`}
+        open={openScheduleDialog}
+        onClose={handleClose}
+        contentStyles={styles.background}
+        textStyles={styles.text}
+        contentOther={
+          <>
+            <div className={styles.dialogInput}>
+              <ThemeProvider theme={dialogInputTheme}>
+                <TextField
+                  label={"Day"}
+                  id={"day"}
+                  color={dayCheck ? "secondary" : "error"}
+                  type="text"
+                  className={styles.textField}
+                  value={day}
+                  inputProps={{
+                    style: {
+                      color: "white",
+                      borderRadius: "5px",
+                    },
+                  }}
+                  onChange={(e: any) => setDay(e.target.value)}
+                  InputLabelProps={{ style: { color: "white" } }}
+                />
+                <TextField
+                  label={"Month"}
+                  id={"month"}
+                  color={"secondary"}
+                  type="text"
+                  className={styles.textField}
+                  value={`${month}`}
+                  inputProps={{
+                    style: {
+                      color: "white",
+                      borderRadius: "5px",
+                    },
+                  }}
+                  InputLabelProps={{ style: { color: "white" } }}
+                />
+                <Button
+                  className={styles.sft}
+                  color={"inherit"}
+                  label={
+                    <>
+                      <ScheduleSendIcon htmlColor="#fff" />
+                      Schedule
+                    </>
+                  }
+                  onClick={setCurrentDay}
+                />
+              </ThemeProvider>
+            </div>
+            <Table rows={array} collection="schedule" />
+          </>
+        }
+        actions={
+          <>
+            <Button
+              ariaLabel="Close"
+              color="secondary"
+              role="button"
+              label="Close"
+              onClick={handleClose}
+            />
+          </>
+        }
+      />
     </div>
   );
 };
