@@ -56,6 +56,44 @@
     box-shadow: 0px 0px 10px rgba(220, 130, 242, .56);
 }
 
+.doneSchedule {
+    width: 8%;
+    height: 5%;
+    border-radius: 10px;
+    font-size: .8em;
+    font-family: var(--font);
+    font-weight: bold;
+    color: var(--white);
+    background: var(--avatarGradient);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    z-index: 5;
+}
+
+.doneSchedule2 {
+    width: 10%;
+    height: 5%;
+    border-radius: 10px;
+    font-size: .8em;
+    font-family: var(--font);
+    font-weight: bold;
+    color: var(--white);
+    background: green;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    z-index: 5;
+}
+
+.doneSchedule2:hover {
+    background: rgb(28, 167, 28);
+}
+
 .exercisess {
     padding: 1rem;
     display: grid;
@@ -95,6 +133,51 @@
     gap: 2ch;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     overflow: hidden;
+}
+
+.background {
+    background: var(--background);
+    color: var(--white);
+    overflow-x: hidden;
+}
+
+.text {
+    color: var(--white);
+}
+
+.dialogInput {
+    padding: 1em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sft {
+    background: var(--buttonGradient);
+    /* margin-bottom: 1.2em; */
+    width: 30%;
+    height: 5vh;
+}
+
+.previewExercises {
+    display: grid;
+    height: 98%;
+    gap: 1ch;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin-top: 1em;
+}
+
+.fmm {
+    background-color: white;
+    color: white;
+    width: 100%;
+    height: 20vh;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 3px solid var(--purple);
+    box-shadow: 0px 0px 5px rgba(220, 130, 242, 1);
 }
 
 @media screen and (max-width: 1300px) {

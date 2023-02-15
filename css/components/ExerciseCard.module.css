@@ -66,6 +66,30 @@
     transition: all 0.2s ease-in-out;
 }
 
+.scheduleButton {
+    background: var(--buttonGradient);
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, 60%);
+    width: 50%;
+    height: 20%;
+    border-radius: 50px;
+    font-family: var(--font);
+    font-weight: bold;
+    color: var(--white);
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    outline: none;
+}
+
+.scheduleButton:hover {
+    transform: translate(-50%, 60%) scale(1.1);
+    transition: all 0.2s ease-in-out;
+}
+
 @media screen and (max-width: 1300px) {
     .exerciseName {
         font-size: 1.1em;

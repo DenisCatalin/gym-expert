@@ -12,6 +12,28 @@ export const inputTheme = createTheme({
   },
 });
 
+export const dialogInputTheme = createTheme({
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          width: "80%",
+          border: "2px solid #9c27b0",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            borderColor: "white",
+          },
+        },
+      },
+    },
+  },
+});
+
 export const theme2 = createTheme({
   status: {
     danger: "#e53e3e",

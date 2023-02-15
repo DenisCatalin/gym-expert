@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../../css/components/ProfileButtons.module.css";
+import styles from "../../css/components/ProgressButton.module.css";
 import QueryStatsRoundedIcon from "@mui/icons-material/QueryStatsRounded";
 import { IconButton } from "../../interface/IconButton";
 import { Dialog } from "../../interface/Dialog";
@@ -119,6 +119,7 @@ const ProgressButton = () => {
           className={styles.trackingButton}
           onClick={handleClick}
           tooltip="Track your progress"
+          tooltipPlacement="right"
         />
       </ThemeProvider>
       <Dialog
@@ -192,7 +193,6 @@ const ProgressButton = () => {
                 color="inherit"
                 className={styles.buttonAdd}
                 onClick={addProgress}
-                tooltip="Track your progress"
                 label={
                   <>
                     <AddIcon htmlColor="#fff" />
@@ -201,7 +201,7 @@ const ProgressButton = () => {
                 }
               />
             </div>
-            {array ? <Table rows={array} /> : null}
+            {array ? <Table rows={array} collection="userProgress" typeOnClick="delete" /> : null}
           </>
         }
         actions={

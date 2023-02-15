@@ -23,6 +23,7 @@ import { Button } from "./Button";
 import { useDispatch } from "react-redux";
 import styles from "../css/components/Table.module.css";
 import { setSnackbar } from "../redux/snackbar.slice";
+import Image from "next/image";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
@@ -112,13 +113,15 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 type ITable = {
   className?: string;
   rows: any;
+  collection: string;
+  typeOnClick: string;
 };
 
-const Table = ({ className, rows }: ITable) => {
+const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
-  const [rowID, setRowID] = React.useState<number>();
+  const [rowID, setRowID] = React.useState<number>(-1);
 
   const dispatch = useDispatch();
 
@@ -144,7 +147,7 @@ const Table = ({ className, rows }: ITable) => {
 
   async function getDocumentIdByFieldValue(field: string, value: any) {
     try {
-      const querySnapshot = await db.collection("userProgress").where(field, "==", value).get();
+      const querySnapshot = await db.collection(collection).where(field, "==", value).get();
       if (querySnapshot.empty) {
         console.log(`No documents found with ${field} equal to ${value}.`);
         return null;
@@ -160,10 +163,10 @@ const Table = ({ className, rows }: ITable) => {
   }
 
   const deleteRow = async () => {
-    const id = rowID;
-    const actualID: any = await getDocumentIdByFieldValue("id", id);
+    const getID = typeOnClick === "delete" ? rowID : rows[rowID].id;
+    const actualID: any = await getDocumentIdByFieldValue("id", getID);
     try {
-      await db.collection("userProgress").doc(actualID).delete();
+      await db.collection(collection).doc(actualID).delete();
       console.log(`Document with ID ${actualID} was successfully deleted.`);
     } catch (error) {
       console.error(`Error deleting document with ID ${actualID}:`, error);
@@ -172,7 +175,10 @@ const Table = ({ className, rows }: ITable) => {
     dispatch(
       setSnackbar({
         open: true,
-        content: "You have successfully deleted your progress",
+        content:
+          typeOnClick === "delete"
+            ? "You have successfully deleted your progress"
+            : `You have successfully deleted your schedule for ${rows[rowID]?.day} ${rows[rowID]?.month}`,
       })
     );
   };
@@ -183,11 +189,11 @@ const Table = ({ className, rows }: ITable) => {
 
   const setupDialog = (idx: number) => {
     setOpenDialog(true);
-    setRowID(rows[idx].id);
+    setRowID(typeOnClick === "delete" ? rows[idx].id : idx);
   };
 
   React.useEffect(() => {
-    console.log(rowID);
+    console.log("hey", rowID);
   }, [rowID]);
 
   return (
@@ -200,9 +206,13 @@ const Table = ({ className, rows }: ITable) => {
             aria-label="custom pagination table"
           >
             <TableBody>
-              <TableCell>Date</TableCell>
-              <TableCell align="right">Weight</TableCell>
-              <TableCell align="right">Muscle gain (g)</TableCell>
+              <TableCell>Created at</TableCell>
+              <TableCell align="right">
+                {typeOnClick === "delete" ? "Weight (kg)" : "For date"}
+              </TableCell>
+              <TableCell align="right">
+                {typeOnClick === "delete" ? "Muscle gain (g)" : "Exercises"}
+              </TableCell>
               {(rowsPerPage > 0
                 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : rows
@@ -212,10 +222,10 @@ const Table = ({ className, rows }: ITable) => {
                     {`${getDate(row?.createdAt?.seconds)}`}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="right">
-                    {row.weightLoss}kg
+                    {typeOnClick === "delete" ? `${row.weightLoss}kg` : `${row.day} ${row.month}`}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="right">
-                    {row.muscleGain}g
+                    {typeOnClick === "delete" ? `${row.muscleGain}g` : `${row.exercises.length}`}
                   </TableCell>
                 </TableRow>
               ))}
@@ -249,18 +259,47 @@ const Table = ({ className, rows }: ITable) => {
         </ThemeProvider>
       </TableContainer>
       <Dialog
+        fullWidth={true}
+        maxWidth={rows[rowID]?.exercises > 3 ? "lg" : "xs"}
         open={openDialog}
         onClose={handleClose}
-        title="Are you sure you want to delete this row?"
+        title={
+          typeOnClick === "delete"
+            ? "Are you sure you want to delete this row?"
+            : `Your scheduled exercises for ${rows[rowID]?.day} ${rows[rowID]?.month}`
+        }
         textStyles={styles.text}
         contentStyles={styles.background}
         contentText={
-          "You are about to delete this row which is part of your personal progress. You really want to do that?"
+          typeOnClick === "delete"
+            ? "You are about to delete this row which is part of your personal progress. You really want to do that?"
+            : "Here is a preview for your exercises"
+        }
+        contentOther={
+          <>
+            <div className={styles.previewExercises}>
+              {rows[rowID]?.exercises.map((exercise: string, idx: number) => (
+                <div className={styles.fmm} key={idx}>
+                  <Image
+                    src={exercise}
+                    alt="Preview"
+                    key={idx}
+                    layout="fill"
+                    style={{ pointerEvents: "none" }}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
         }
         actions={
           <>
-            <Button color="secondary" onClick={handleClose} label="No" />
-            <Button color="secondary" onClick={deleteRow} autoFocus={true} label="Yes" />
+            <Button
+              color="secondary"
+              onClick={handleClose}
+              label={typeOnClick === "delete" ? "No" : "Close"}
+            />
+            <Button color="secondary" onClick={deleteRow} autoFocus={true} label="Delete" />
           </>
         }
       />

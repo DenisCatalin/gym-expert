@@ -1,0 +1,40 @@
+.background {
+    background: var(--background);
+    color: white;
+}
+
+.trackingButton {
+    background: var(--buttonGradient);
+    position: absolute;
+    top: 30%;
+    left: 10%;
+}
+
+.buttonAdd {
+    background: var(--buttonGradient);
+    width: 30%;
+    height: 5vh;
+}
+
+.progressForm {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.textField {
+    color: var(--white);
+    width: 30%;
+    height: 100%;
+    margin: 1em 0 1em 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.text {
+    color: var(--white);
+    font-size: 1em;
+}
