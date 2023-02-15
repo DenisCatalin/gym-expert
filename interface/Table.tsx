@@ -206,6 +206,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
             aria-label="custom pagination table"
           >
             <TableBody>
+              {typeOnClick !== "delete" ? <TableCell>Name</TableCell> : null}
               <TableCell>Created at</TableCell>
               <TableCell align="right">
                 {typeOnClick === "delete" ? "Weight (kg)" : "For date"}
@@ -218,6 +219,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
                 : rows
               ).map((row: any, idx: number) => (
                 <TableRow key={idx} onClick={() => setupDialog(idx)}>
+                  {typeOnClick !== "delete" ? <TableCell>{row.name}</TableCell> : null}
                   <TableCell component="th" scope="row">
                     {`${getDate(row?.createdAt?.seconds)}`}
                   </TableCell>
