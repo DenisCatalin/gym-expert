@@ -5,7 +5,8 @@ const initialState = {
     scheduleMode: false,
     exercises: [],
     day: 0,
-    month: ""
+    month: "",
+    name: "",
   },
 };
 

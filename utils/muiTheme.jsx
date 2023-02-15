@@ -116,6 +116,13 @@ export const tableTheme = createTheme({
         },
       },
     },
+    MuiTableFooter: {
+      styleOverrides: {
+        root: {
+          width: "100%",
+        },
+      },
+    },
   },
 });
 

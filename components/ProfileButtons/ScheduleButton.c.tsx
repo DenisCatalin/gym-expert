@@ -31,7 +31,7 @@ const ScheduleButton = () => {
 
   const firestore = firebase.firestore();
   const progressRef = firestore.collection("schedule");
-  const queryQ = progressRef.orderBy("day", "asc").limit(25);
+  const queryQ = progressRef.orderBy("day", "desc").limit(25);
   //@ts-ignore
   const [messages] = useCollectionData(queryQ, { id: "id" });
 
@@ -70,7 +70,7 @@ const ScheduleButton = () => {
       </ThemeProvider>
       <Dialog
         fullWidth={true}
-        // maxWidth={"lg"}
+        maxWidth={"md"}
         open={open}
         onClose={handleClose}
         title="Your schedule"

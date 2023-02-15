@@ -125,9 +125,10 @@ const Exercises = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [day, setDay] = useState<number | undefined>();
   const [dayCheck, setDayCheck] = useState<boolean>(false);
+  const [nameCheck, setNameCheck] = useState<boolean>(false);
   const [exerciseToDelete, setExerciseToDelete] = useState<number | undefined>();
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
-
+  const [name, setName] = useState<string>("");
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
   const scheduleRedux = useSelector((state: any) => state.schedule.schedule);
@@ -282,6 +283,14 @@ const Exercises = () => {
   }, [day]);
 
   useEffect(() => {
+    if (name.length > 2) {
+      setNameCheck(true);
+    } else {
+      setNameCheck(false);
+    }
+  }, [name]);
+
+  useEffect(() => {
     console.log(exerciseToDelete);
   }, [exerciseToDelete]);
 
@@ -297,6 +306,7 @@ const Exercises = () => {
           scheduleMode: true,
           day: day,
           month: month,
+          name: name,
         })
       );
     } else console.log("fail");
@@ -325,6 +335,7 @@ const Exercises = () => {
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           exercises: scheduleRedux.exercises,
           sender: userRedux.issuer,
+          name: scheduleRedux.name,
         }));
     }
     setOpenDialog(false);
@@ -341,6 +352,7 @@ const Exercises = () => {
         exercises: [],
         day: 0,
         month: "",
+        name: "",
       })
     );
   };
@@ -617,6 +629,22 @@ const Exercises = () => {
                       borderRadius: "5px",
                     },
                   }}
+                  InputLabelProps={{ style: { color: "white" } }}
+                />
+                <TextField
+                  label={"Name"}
+                  id={"name"}
+                  color={nameCheck ? "secondary" : "error"}
+                  type="text"
+                  className={styles.textField}
+                  value={name}
+                  inputProps={{
+                    style: {
+                      color: "white",
+                      borderRadius: "5px",
+                    },
+                  }}
+                  onChange={(e: any) => setName(e.target.value)}
                   InputLabelProps={{ style: { color: "white" } }}
                 />
                 <Button
