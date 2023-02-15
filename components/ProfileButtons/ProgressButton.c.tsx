@@ -193,7 +193,6 @@ const ProgressButton = () => {
                 color="inherit"
                 className={styles.buttonAdd}
                 onClick={addProgress}
-                tooltip="Track your progress"
                 label={
                   <>
                     <AddIcon htmlColor="#fff" />
@@ -202,7 +201,7 @@ const ProgressButton = () => {
                 }
               />
             </div>
-            {array ? <Table rows={array} collection="userProgress" /> : null}
+            {array ? <Table rows={array} collection="userProgress" typeOnClick="delete" /> : null}
           </>
         }
         actions={

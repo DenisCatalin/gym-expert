@@ -10,6 +10,7 @@ import fetchData from "../../utils/fetchData";
 import { buttonTheme } from "../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import { setScheduleState } from "../../redux/schedule.slice";
+import { setSnackbar } from "../../redux/snackbar.slice";
 
 type IExerciseCard = {
   item?: Object | any;
@@ -96,6 +97,12 @@ const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard
 
   const addSchedule = () => {
     const gif = fav ? item?.gif : item?.gifUrl;
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "Exercise added to current schedule",
+      })
+    );
     dispatch(
       setScheduleState({
         ...scheduleRedux,

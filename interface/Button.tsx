@@ -12,28 +12,29 @@ type IButtonProps = {
     | "warning"
     | undefined;
   onClick?: (event: any) => void;
+  onDoubleClick?: (event: any) => void;
   autoFocus?: boolean;
   className?: string;
   label: string | React.ReactNode;
   role?: string;
   ariaLabel?: string;
-  tooltip?: string;
 };
 
 export const Button = ({
   color,
   onClick,
+  onDoubleClick,
   autoFocus,
   className,
   label,
   role,
   ariaLabel,
-  tooltip,
 }: IButtonProps) => {
   return (
     <MuiButton
       color={color}
       onClick={onClick}
+      onDoubleClick={onDoubleClick}
       autoFocus={autoFocus ? true : false}
       className={className}
       role={role}

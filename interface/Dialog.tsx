@@ -1,5 +1,5 @@
 import React from "react";
-import MuiDialog from "@mui/material/Dialog";
+import MuiDialog, { DialogProps } from "@mui/material/Dialog";
 import MuiDialogActions from "@mui/material/DialogActions";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogContentText from "@mui/material/DialogContentText";
@@ -7,7 +7,7 @@ import MuiDialogTitle from "@mui/material/DialogTitle";
 
 type IDialogProps = {
   fullWidth?: boolean;
-  maxWidth?: false | undefined;
+  maxWidth?: DialogProps["maxWidth"];
   open: boolean;
   onClose: () => void;
   title: string;

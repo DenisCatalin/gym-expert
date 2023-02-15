@@ -22,14 +22,15 @@ import fetchData from "../utils/fetchData";
 import { MotionTypo } from "../interface/MotionTypo";
 import Select from "../interface/Select";
 import { Dialog } from "../interface/Dialog";
-import { setScheduleState } from "../redux/schedule.slice";
+import { removeItem, setScheduleState } from "../redux/schedule.slice";
 import TextField from "@mui/material/TextField";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
-import Table from "../interface/Table";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import Image from "next/image";
+import CustomSnackbar from "../components/Snackbar/Snackbar.c";
+import { setSnackbar } from "../redux/snackbar.slice";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
@@ -124,6 +125,8 @@ const Exercises = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [day, setDay] = useState<number | undefined>();
   const [dayCheck, setDayCheck] = useState<boolean>(false);
+  const [exerciseToDelete, setExerciseToDelete] = useState<number | undefined>();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
 
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
@@ -156,14 +159,6 @@ const Exercises = () => {
   const queryQ = progressRef.orderBy("day");
   //@ts-ignore
   const [messages] = useCollectionData(queryQ, { id: "id" });
-
-  let array: any = [];
-
-  messages?.map(message => {
-    if (message.sender === userRedux.issuer) {
-      array.push(message);
-    }
-  });
 
   useEffect(() => {
     (async () => {
@@ -286,8 +281,11 @@ const Exercises = () => {
     }
   }, [day]);
 
+  useEffect(() => {
+    console.log(exerciseToDelete);
+  }, [exerciseToDelete]);
+
   const setCurrentDay = () => {
-    // trigger schedule mode Check jira d-22
     if (dayCheck) {
       const fullDate = `${day} ${month} ${date.getFullYear()}`;
       console.log(`send for ${fullDate}`);
@@ -309,6 +307,15 @@ const Exercises = () => {
   };
 
   const scheduleExercises = async () => {
+    if (scheduleRedux.exercises.length === 0) {
+      dispatch(
+        setSnackbar({
+          open: true,
+          content: "You cannot schedule anything without at least one exercise",
+        })
+      );
+      return;
+    }
     {
       messages &&
         (await progressRef.add({
@@ -320,6 +327,36 @@ const Exercises = () => {
           sender: userRedux.issuer,
         }));
     }
+    setOpenDialog(false);
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "You successfully added the schedule in your profile dashboard",
+      })
+    );
+    dispatch(
+      setScheduleState({
+        ...scheduleRedux,
+        scheduleMode: false,
+        exercises: [],
+        day: 0,
+        month: "",
+      })
+    );
+  };
+
+  const deleteFromArray = () => {
+    dispatch(removeItem(exerciseToDelete));
+    setOpenDeleteDialog(false);
+  };
+
+  const closeDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+  };
+
+  const deleteDialog = (idx: number) => {
+    setOpenDeleteDialog(true);
+    setExerciseToDelete(idx);
   };
 
   return (
@@ -327,6 +364,7 @@ const Exercises = () => {
       <Head>
         <title>Gym Expert - Exercises</title>
       </Head>
+      <CustomSnackbar />
       {isLoading ? (
         <div className={styles.content} style={{ height: isLoading ? "100vh" : "initial" }}>
           <div className={styles.exercises}>
@@ -412,7 +450,7 @@ const Exercises = () => {
               </motion.div>
               <Button
                 label={scheduleRedux.scheduleMode ? "Done schedule" : "Schedule"}
-                className={styles.doneSchedule}
+                className={scheduleRedux.scheduleMode ? styles.doneSchedule2 : styles.doneSchedule}
                 onClick={scheduleRedux.scheduleMode ? handleOpenDialog : setupDialog}
               />
               <div className={styles.exercisess}>
@@ -483,6 +521,14 @@ const Exercises = () => {
         </div>
       )}
       <Dialog
+        fullWidth={true}
+        maxWidth={
+          scheduleRedux.exercises.length > 3
+            ? "lg"
+            : scheduleRedux.exercises.length < 3
+            ? "xs"
+            : "sm"
+        }
         title={`Schedule for ${scheduleRedux.day} ${scheduleRedux.month}`}
         open={openDialog}
         onClose={handleCloseDialog}
@@ -491,9 +537,19 @@ const Exercises = () => {
         contentText={"Here is a preview of your selected exercises:"}
         contentOther={
           <>
-            {scheduleRedux.exercises.map((exercise: string, idx: number) => (
-              <Image src={exercise} alt="Preview" key={idx} width={50} height={50} />
-            ))}
+            <div className={styles.previewExercises}>
+              {scheduleRedux.exercises.map((exercise: string, idx: number) => (
+                <div className={styles.fmm} onClick={() => deleteDialog(idx)} key={idx}>
+                  <Image
+                    src={exercise}
+                    alt="Preview"
+                    key={idx}
+                    layout="fill"
+                    style={{ pointerEvents: "none" }}
+                  />
+                </div>
+              ))}
+            </div>
           </>
         }
         actions={
@@ -576,7 +632,6 @@ const Exercises = () => {
                 />
               </ThemeProvider>
             </div>
-            <Table rows={array} collection="schedule" />
           </>
         }
         actions={
@@ -588,6 +643,20 @@ const Exercises = () => {
               label="Close"
               onClick={handleClose}
             />
+          </>
+        }
+      />
+      <Dialog
+        open={openDeleteDialog}
+        onClose={closeDeleteDialog}
+        title="Remove exercise"
+        contentText="Are you sure you want to delete this exercise?"
+        contentStyles={styles.background}
+        textStyles={styles.text}
+        actions={
+          <>
+            <Button color="secondary" role="button" label="No" onClick={closeDeleteDialog} />
+            <Button color="secondary" role="button" label="Yes" onClick={deleteFromArray} />
           </>
         }
       />
