@@ -31,6 +31,15 @@ export const dialogInputTheme = createTheme({
         },
       },
     },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          fontFamily: "var(--font)",
+          fontSize: ".8em",
+          background: "var(--heroButton)",
+        },
+      },
+    },
   },
 });
 

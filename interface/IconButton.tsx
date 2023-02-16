@@ -20,6 +20,7 @@ type IButtonProps = {
   ariaLabel?: string;
   tooltip: string;
   tooltipPlacement: "top" | "bottom" | "left" | "right";
+  styles?: Object;
 };
 
 export const IconButton = ({
@@ -32,6 +33,7 @@ export const IconButton = ({
   ariaLabel,
   tooltip,
   tooltipPlacement,
+  styles,
 }: IButtonProps) => {
   return (
     <MuiTooltip title={tooltip} placement={tooltipPlacement}>
@@ -42,6 +44,7 @@ export const IconButton = ({
         className={className}
         role={role}
         aria-label={ariaLabel}
+        style={styles}
       >
         {label}
       </MuiButton>

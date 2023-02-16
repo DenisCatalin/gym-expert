@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../css/Exercises.module.css";
 import { motion } from "framer-motion";
 import Pagination from "@mui/material/Pagination";
-import IconButton from "@mui/material/IconButton";
+import { IconButton } from "../interface/IconButton";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
 import { magic } from "../lib/magic-client";
@@ -407,18 +407,23 @@ const Exercises = () => {
                       <IconButton
                         onClick={decreaseCategories}
                         className={styles.iconButton}
-                        style={{
+                        styles={{
                           pointerEvents: bodyPartsPage < 2 ? "none" : "all",
                           opacity: bodyPartsPage < 2 ? "0.2" : "1",
                         }}
-                      >
-                        <KeyboardArrowLeftIcon
-                          htmlColor="#fff"
-                          style={{
-                            fontSize: width > breakPointWidth ? "2.5em" : "1.5em",
-                          }}
-                        />
-                      </IconButton>
+                        tooltip={"Previous"}
+                        tooltipPlacement="bottom"
+                        label={
+                          <>
+                            <KeyboardArrowLeftIcon
+                              htmlColor="#fff"
+                              style={{
+                                fontSize: width > breakPointWidth ? "2.5em" : "1.5em",
+                              }}
+                            />
+                          </>
+                        }
+                      />
                       {currentEBodyPart.map((item, i) => (
                         <MotionButton
                           key={i}
@@ -430,7 +435,7 @@ const Exercises = () => {
                       <IconButton
                         onClick={increaseCategories}
                         className={styles.iconButton}
-                        style={{
+                        styles={{
                           pointerEvents:
                             width > breakPointWidth
                               ? bodyPartsPage > 1
@@ -448,14 +453,19 @@ const Exercises = () => {
                               ? "0.2"
                               : "1",
                         }}
-                      >
-                        <KeyboardArrowRightIcon
-                          htmlColor="#fff"
-                          style={{
-                            fontSize: width > breakPointWidth ? "2.5em" : "1.5em",
-                          }}
-                        />
-                      </IconButton>
+                        label={
+                          <>
+                            <KeyboardArrowRightIcon
+                              htmlColor="#fff"
+                              style={{
+                                fontSize: width > breakPointWidth ? "2.5em" : "1.5em",
+                              }}
+                            />
+                          </>
+                        }
+                        tooltip="Next"
+                        tooltipPlacement="bottom"
+                      />
                     </ThemeProvider>
                   </>
                 )}
@@ -647,16 +657,17 @@ const Exercises = () => {
                   onChange={(e: any) => setName(e.target.value)}
                   InputLabelProps={{ style: { color: "white" } }}
                 />
-                <Button
+                <IconButton
                   className={styles.sft}
                   color={"inherit"}
                   label={
                     <>
                       <ScheduleSendIcon htmlColor="#fff" />
-                      Schedule
                     </>
                   }
                   onClick={setCurrentDay}
+                  tooltip="Schedule for this day"
+                  tooltipPlacement="top"
                 />
               </ThemeProvider>
             </div>
