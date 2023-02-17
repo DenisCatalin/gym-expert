@@ -153,13 +153,6 @@
     align-items: center;
 }
 
-.sft {
-    background: var(--buttonGradient);
-    /* margin-bottom: 1.2em; */
-    width: 30%;
-    height: 5vh;
-}
-
 .previewExercises {
     display: grid;
     height: 98%;
