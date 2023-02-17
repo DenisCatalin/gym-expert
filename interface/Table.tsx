@@ -24,6 +24,7 @@ import { useDispatch } from "react-redux";
 import styles from "../css/components/Table.module.css";
 import { setSnackbar } from "../redux/snackbar.slice";
 import Image from "next/image";
+import DialogSchedule from "../components/Dialogs/DialogSchedule.c";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
@@ -121,6 +122,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
+  const [openScheduleDialog, setOpenScheduleDialog] = React.useState<boolean>(false);
   const [rowID, setRowID] = React.useState<number>(-1);
 
   const dispatch = useDispatch();
@@ -192,6 +194,14 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
     setRowID(typeOnClick === "delete" ? rows[idx].id : idx);
   };
 
+  const scheduleDialog = () => {
+    setOpenScheduleDialog(true);
+  };
+
+  const closeScheduleDialog = () => {
+    setOpenScheduleDialog(false);
+  };
+
   React.useEffect(() => {
     console.log("hey", rowID);
   }, [rowID]);
@@ -260,6 +270,12 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
           </MuiTable>
         </ThemeProvider>
       </TableContainer>
+      <DialogSchedule
+        open={openScheduleDialog}
+        onClose={closeScheduleDialog}
+        duplicate={true}
+        exercises={rows[rowID]?.exercises}
+      />
       <Dialog
         fullWidth={true}
         maxWidth={rows[rowID]?.exercises > 3 ? "lg" : "xs"}
@@ -301,6 +317,14 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
               onClick={handleClose}
               label={typeOnClick === "delete" ? "No" : "Close"}
             />
+            {typeOnClick === "view" ? (
+              <Button
+                color="secondary"
+                onClick={scheduleDialog}
+                autoFocus={true}
+                label="Duplicate"
+              />
+            ) : null}
             <Button color="secondary" onClick={deleteRow} autoFocus={true} label="Delete" />
           </>
         }

@@ -23,14 +23,13 @@ import { MotionTypo } from "../interface/MotionTypo";
 import Select from "../interface/Select";
 import { Dialog } from "../interface/Dialog";
 import { removeItem, setScheduleState } from "../redux/schedule.slice";
-import TextField from "@mui/material/TextField";
-import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import Image from "next/image";
 import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { setSnackbar } from "../redux/snackbar.slice";
+import DialogSchedule from "../components/Dialogs/DialogSchedule.c";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
@@ -41,21 +40,6 @@ firebase.initializeApp({
   appId: "1:791772438333:web:9aedb139733266f3f0ef54",
   measurementId: "G-ZK5ZS8BCZV",
 });
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 const breakPointWidth = 719;
 
@@ -123,12 +107,8 @@ const Exercises = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [openScheduleDialog, setOpenScheduleDialog] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [day, setDay] = useState<number | undefined>();
-  const [dayCheck, setDayCheck] = useState<boolean>(false);
-  const [nameCheck, setNameCheck] = useState<boolean>(false);
   const [exerciseToDelete, setExerciseToDelete] = useState<number | undefined>();
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
   const scheduleRedux = useSelector((state: any) => state.schedule.schedule);
@@ -151,9 +131,6 @@ const Exercises = () => {
   const indexOfLastBodyPart = bodyPartsPage * bodyPartsPerPage;
   const indexOfFirstBodyPart = indexOfLastBodyPart - bodyPartsPerPage;
   const currentEBodyPart = bodyParts.slice(indexOfFirstBodyPart, indexOfLastBodyPart);
-
-  const date = new Date();
-  const month = months[date.getMonth()];
 
   const firestore = firebase.firestore();
   const progressRef = firestore.collection("schedule");
@@ -258,6 +235,7 @@ const Exercises = () => {
         exercises: [],
         day: 0,
         month: "",
+        name: "",
       })
     );
   };
@@ -270,47 +248,9 @@ const Exercises = () => {
     setOpenScheduleDialog(false);
   };
 
-  function daysInMonth(month: number, year: number) {
-    return new Date(year, month, 0).getDate();
-  }
-
-  useEffect(() => {
-    if (day && day >= date.getDate() && day <= daysInMonth(date.getMonth(), date.getFullYear())) {
-      setDayCheck(true);
-    } else {
-      setDayCheck(false);
-    }
-  }, [day]);
-
-  useEffect(() => {
-    if (name.length > 2) {
-      setNameCheck(true);
-    } else {
-      setNameCheck(false);
-    }
-  }, [name]);
-
   useEffect(() => {
     console.log(exerciseToDelete);
   }, [exerciseToDelete]);
-
-  const setCurrentDay = () => {
-    if (dayCheck) {
-      const fullDate = `${day} ${month} ${date.getFullYear()}`;
-      console.log(`send for ${fullDate}`);
-      setOpenScheduleDialog(false);
-      setDay(0);
-      dispatch(
-        setScheduleState({
-          ...scheduleRedux,
-          scheduleMode: true,
-          day: day,
-          month: month,
-          name: name,
-        })
-      );
-    } else console.log("fail");
-  };
 
   const scheduleMore = () => {
     setOpenDialog(false);
@@ -600,91 +540,7 @@ const Exercises = () => {
           </>
         }
       />
-      <Dialog
-        title={`Schedule for ${month}`}
-        open={openScheduleDialog}
-        onClose={handleClose}
-        contentStyles={styles.background}
-        textStyles={styles.text}
-        contentOther={
-          <>
-            <div className={styles.dialogInput}>
-              <ThemeProvider theme={dialogInputTheme}>
-                <TextField
-                  label={"Day"}
-                  id={"day"}
-                  color={dayCheck ? "secondary" : "error"}
-                  type="text"
-                  className={styles.textField}
-                  value={day}
-                  inputProps={{
-                    style: {
-                      color: "white",
-                      borderRadius: "5px",
-                    },
-                  }}
-                  onChange={(e: any) => setDay(e.target.value)}
-                  InputLabelProps={{ style: { color: "white" } }}
-                />
-                <TextField
-                  label={"Month"}
-                  id={"month"}
-                  color={"secondary"}
-                  type="text"
-                  className={styles.textField}
-                  value={`${month}`}
-                  inputProps={{
-                    style: {
-                      color: "white",
-                      borderRadius: "5px",
-                    },
-                  }}
-                  InputLabelProps={{ style: { color: "white" } }}
-                />
-                <TextField
-                  label={"Name"}
-                  id={"name"}
-                  color={nameCheck ? "secondary" : "error"}
-                  type="text"
-                  className={styles.textField}
-                  value={name}
-                  inputProps={{
-                    style: {
-                      color: "white",
-                      borderRadius: "5px",
-                    },
-                  }}
-                  onChange={(e: any) => setName(e.target.value)}
-                  InputLabelProps={{ style: { color: "white" } }}
-                />
-                <IconButton
-                  className={styles.sft}
-                  color={"inherit"}
-                  label={
-                    <>
-                      <ScheduleSendIcon htmlColor="#fff" />
-                    </>
-                  }
-                  onClick={setCurrentDay}
-                  tooltip="Schedule for this day"
-                  tooltipPlacement="top"
-                />
-              </ThemeProvider>
-            </div>
-          </>
-        }
-        actions={
-          <>
-            <Button
-              ariaLabel="Close"
-              color="secondary"
-              role="button"
-              label="Close"
-              onClick={handleClose}
-            />
-          </>
-        }
-      />
+      <DialogSchedule open={openScheduleDialog} onClose={handleClose} duplicate={false} />
       <Dialog
         open={openDeleteDialog}
         onClose={closeDeleteDialog}

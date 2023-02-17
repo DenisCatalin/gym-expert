@@ -1,0 +1,24 @@
+.background {
+    background: var(--background);
+    color: var(--white);
+    overflow-x: hidden;
+}
+
+.text {
+    color: var(--white);
+}
+
+.dialogInput {
+    padding: 1em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sft {
+    background: var(--buttonGradient);
+    /* margin-bottom: 1.2em; */
+    width: 30%;
+    height: 5vh;
+}
