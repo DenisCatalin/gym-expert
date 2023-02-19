@@ -244,98 +244,101 @@ const NutritionButton = () => {
             {currentDay === dayNow ? (
               <>
                 <ThemeProvider theme={inputTheme}>
-                  <TextField
-                    label={"Meal (Optional)"}
-                    id={"meal"}
-                    color={"secondary"}
-                    type="text"
-                    className={styles.textField}
-                    value={meal}
-                    inputProps={{
-                      style: {
-                        color: "white",
-                        borderRadius: "5px",
-                      },
-                    }}
-                    onChange={(e: any) => setMeal(e.target.value)}
-                    InputLabelProps={{ style: { color: "white" } }}
-                  />
-                  <TextField
-                    label={"Calories (Optional)"}
-                    id={"calories"}
-                    color={"secondary"}
-                    type="text"
-                    className={styles.textField}
-                    value={calories}
-                    inputProps={{
-                      style: {
-                        color: "white",
-                        borderRadius: "5px",
-                      },
-                    }}
-                    onChange={(e: any) => setCalories(e.target.value)}
-                    InputLabelProps={{ style: { color: "white" } }}
-                  />
-                  <TextField
-                    label={"Nutrients (Optional)"}
-                    id={"nutrients"}
-                    color={"secondary"}
-                    type="text"
-                    className={styles.textField}
-                    value={nutrients}
-                    inputProps={{
-                      style: {
-                        color: "white",
-                        borderRadius: "5px",
-                      },
-                    }}
-                    onChange={(e: any) => setNutrients(e.target.value)}
-                    InputLabelProps={{ style: { color: "white" } }}
-                  />
-                  <TextField
-                    label={"Macronutrients (Optional)"}
-                    id={"macronutrients"}
-                    color={"secondary"}
-                    type="text"
-                    className={styles.textField}
-                    value={macronutrients}
-                    inputProps={{
-                      style: {
-                        color: "white",
-                        borderRadius: "5px",
-                      },
-                    }}
-                    onChange={(e: any) => setMacronutrients(e.target.value)}
-                    InputLabelProps={{ style: { color: "white" } }}
-                  />
-                  <div className={styles.glassContainer}>
-                    <span className={styles.increaseDecrease} onClick={decreaseQuantity}>
-                      <RemoveIcon htmlColor="var(--background)" />
-                    </span>
-                    <div className={styles.glass}>
-                      <FreeBreakfastRoundedIcon
-                        htmlColor="var(--water)"
-                        className={styles.glassIcon}
-                      />
-                      <p className={styles.waterQuantity}>{quantity}g</p>
-                    </div>
-                    <span className={styles.increaseDecrease} onClick={increaseQuantity}>
-                      <AddIcon htmlColor="var(--background)" />
-                    </span>
-                  </div>
-                  <ThemeProvider theme={tooltipTheme}>
-                    <IconButton
-                      color="secondary"
-                      label={
-                        <>
-                          <SendRoundedIcon htmlColor="#fff" />
-                        </>
-                      }
-                      tooltip="Add details"
-                      tooltipPlacement="bottom"
-                      onClick={addDetails}
+                  <div className={styles.inputs}>
+                    <TextField
+                      label={"Meal (Optional)"}
+                      id={"meal"}
+                      color={"secondary"}
+                      type="text"
+                      className={styles.textField}
+                      value={meal}
+                      inputProps={{
+                        style: {
+                          color: "white",
+                          borderRadius: "5px",
+                        },
+                      }}
+                      onChange={(e: any) => setMeal(e.target.value)}
+                      InputLabelProps={{ style: { color: "white" } }}
                     />
-                  </ThemeProvider>
+                    <TextField
+                      label={"Calories (Optional)"}
+                      id={"calories"}
+                      color={"secondary"}
+                      type="text"
+                      className={styles.textField}
+                      value={calories}
+                      inputProps={{
+                        style: {
+                          color: "white",
+                          borderRadius: "5px",
+                        },
+                      }}
+                      onChange={(e: any) => setCalories(e.target.value)}
+                      InputLabelProps={{ style: { color: "white" } }}
+                    />
+                    <TextField
+                      label={"Nutrients (Optional)"}
+                      id={"nutrients"}
+                      color={"secondary"}
+                      type="text"
+                      className={styles.textField}
+                      value={nutrients}
+                      inputProps={{
+                        style: {
+                          color: "white",
+                          borderRadius: "5px",
+                        },
+                      }}
+                      onChange={(e: any) => setNutrients(e.target.value)}
+                      InputLabelProps={{ style: { color: "white" } }}
+                    />
+                    <TextField
+                      label={"Macronutrients (Optional)"}
+                      id={"macronutrients"}
+                      color={"secondary"}
+                      type="text"
+                      className={styles.textField}
+                      value={macronutrients}
+                      inputProps={{
+                        style: {
+                          color: "white",
+                          borderRadius: "5px",
+                        },
+                      }}
+                      onChange={(e: any) => setMacronutrients(e.target.value)}
+                      InputLabelProps={{ style: { color: "white" } }}
+                    />
+                    <div className={styles.glassContainer}>
+                      <span className={styles.increaseDecrease} onClick={decreaseQuantity}>
+                        <RemoveIcon htmlColor="var(--background)" />
+                      </span>
+                      <div className={styles.glass}>
+                        <FreeBreakfastRoundedIcon
+                          htmlColor="var(--water)"
+                          className={styles.glassIcon}
+                        />
+                        <p className={styles.waterQuantity}>{quantity}g</p>
+                      </div>
+                      <span className={styles.increaseDecrease} onClick={increaseQuantity}>
+                        <AddIcon htmlColor="var(--background)" />
+                      </span>
+                    </div>
+                    <ThemeProvider theme={tooltipTheme}>
+                      <IconButton
+                        color="secondary"
+                        label={
+                          <>
+                            <SendRoundedIcon htmlColor="#fff" />
+                          </>
+                        }
+                        tooltip="Add details"
+                        tooltipPlacement="right"
+                        onClick={addDetails}
+                        className={styles.addDetails}
+                      />
+                    </ThemeProvider>
+                  </div>
                 </ThemeProvider>
               </>
             ) : null}

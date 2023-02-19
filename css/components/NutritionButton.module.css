@@ -134,3 +134,16 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+.inputs {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.addDetails {
+    background: var(--buttonGradient);
+    padding: .8rem;
+    width: 10%;
+}
