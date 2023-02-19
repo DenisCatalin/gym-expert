@@ -216,6 +216,7 @@ const NutritionButton = () => {
                     </>
                   }
                   onClick={() => setupDialog(i + 1)}
+                  key={i}
                 />
               ))}
             </div>
