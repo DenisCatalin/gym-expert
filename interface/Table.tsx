@@ -24,7 +24,6 @@ import { useDispatch } from "react-redux";
 import styles from "../css/components/Table.module.css";
 import { setSnackbar } from "../redux/snackbar.slice";
 import Image from "next/image";
-import DialogSchedule from "../components/Dialogs/DialogSchedule.c";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
@@ -122,7 +121,6 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
-  const [openScheduleDialog, setOpenScheduleDialog] = React.useState<boolean>(false);
   const [rowID, setRowID] = React.useState<number>(-1);
   const [title, setTitle] = React.useState<string>("");
 
@@ -166,7 +164,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
   }
 
   const deleteRow = async () => {
-    const getID = typeOnClick === "delete" ? rowID : rows[rowID].id;
+    const getID = rowID;
     const actualID: any = await getDocumentIdByFieldValue("id", getID);
     try {
       await db.collection(collection).doc(actualID).delete();
@@ -178,10 +176,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
     dispatch(
       setSnackbar({
         open: true,
-        content:
-          typeOnClick === "delete"
-            ? "You have successfully deleted your progress"
-            : `You have successfully deleted your schedule for ${rows[rowID]?.day} ${rows[rowID]?.month}`,
+        content: "You have successfully deleted your progress",
       })
     );
   };
@@ -192,29 +187,13 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
 
   const setupDialog = (idx: number) => {
     setOpenDialog(true);
-    setRowID(typeOnClick === "delete" ? rows[idx].id : idx);
+    setRowID(rows[idx].id);
   };
-
-  const scheduleDialog = () => {
-    setOpenScheduleDialog(true);
-  };
-
-  const closeScheduleDialog = () => {
-    setOpenScheduleDialog(false);
-  };
-
-  React.useEffect(() => {
-    console.log("hey", rowID);
-  }, [rowID]);
 
   React.useEffect(() => {
     switch (typeOnClick) {
       case "delete": {
         setTitle("Are you sure you want to delete this row?");
-        break;
-      }
-      case "view": {
-        setTitle(`Your scheduled exercises for ${rows[rowID]?.day} ${rows[rowID]?.month}`);
         break;
       }
       default: {
@@ -246,12 +225,8 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
                 </>
               ) : (
                 <>
-                  <TableCell align="right">
-                    {typeOnClick === "delete" ? "Weight (kg)" : "For date"}
-                  </TableCell>
-                  <TableCell align="right">
-                    {typeOnClick === "delete" ? "Muscle gain (g)" : "Exercises"}
-                  </TableCell>
+                  <TableCell align="right">Weight (kg)</TableCell>
+                  <TableCell align="right">Muscle gain (g)</TableCell>
                 </>
               )}
               {(rowsPerPage > 0
@@ -287,14 +262,10 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
                         {`${getDate(row?.createdAt?.seconds)}`}
                       </TableCell>
                       <TableCell style={{ width: 160 }} align="right">
-                        {typeOnClick === "delete"
-                          ? `${row.weightLoss}kg`
-                          : `${row.day} ${row.month}`}
+                        {row.weightLoss}kg
                       </TableCell>
                       <TableCell style={{ width: 160 }} align="right">
-                        {typeOnClick === "delete"
-                          ? `${row.muscleGain}g`
-                          : `${row.exercises.length}`}
+                        {row.muscleGain}g
                       </TableCell>
                     </>
                   )}
@@ -329,12 +300,6 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
           </MuiTable>
         </ThemeProvider>
       </TableContainer>
-      <DialogSchedule
-        open={openScheduleDialog}
-        onClose={closeScheduleDialog}
-        duplicate={true}
-        exercises={rows[rowID]?.exercises}
-      />
       <Dialog
         fullWidth={true}
         maxWidth={rows[rowID]?.exercises > 3 ? "lg" : "sm"}
@@ -344,9 +309,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
         textStyles={styles.text}
         contentStyles={styles.background}
         contentText={
-          typeOnClick === "delete"
-            ? "You are about to delete this row which is part of your personal progress. You really want to do that?"
-            : "Here is a preview for your exercises"
+          "You are about to delete this row which is part of your personal progress. You really want to do that?"
         }
         contentOther={
           <>
@@ -367,19 +330,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
         }
         actions={
           <>
-            <Button
-              color="secondary"
-              onClick={handleClose}
-              label={typeOnClick === "delete" ? "No" : "Close"}
-            />
-            {typeOnClick === "view" ? (
-              <Button
-                color="secondary"
-                onClick={scheduleDialog}
-                autoFocus={true}
-                label="Duplicate"
-              />
-            ) : null}
+            <Button color="secondary" onClick={handleClose} label={"No"} />
             <Button color="secondary" onClick={deleteRow} autoFocus={true} label="Delete" />
           </>
         }
