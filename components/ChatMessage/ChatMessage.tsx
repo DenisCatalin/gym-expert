@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { getDocs, query, collection } from "firebase/firestore";
+import { cropImages } from "../../lib/cropImages";
 
 type IChatMessage = {
   message?: any;
@@ -14,11 +15,12 @@ type IChatMessage = {
 };
 
 const ChatMessage = ({ message, date }: IChatMessage) => {
-  const { text, sender, profilePic, displayName } = message;
+  const { text, sender, profilePic, displayName, cropArea } = message;
   const output = new Date(Math.floor(date * 1000));
   const startingDate = output.toString().split("GMT");
   const userRedux = useSelector((state: any) => state.user.user);
   const [data, setData] = useState<any>();
+  const [img, setImg] = useState<any>();
 
   const firestore = firebase.firestore();
 
@@ -29,6 +31,10 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
       const data = res.docs.map(doc => ({
         id: doc.id,
       }));
+      if (cropArea !== undefined) {
+        setImg(await cropImages(profilePic, cropArea));
+        console.log("Yess", cropArea);
+      }
       setData(data);
     })();
   }, []);
@@ -79,7 +85,13 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
             >
               {profilePic !== null ? (
                 <>
-                  <Image src={profilePic} alt="" priority blurDataURL={profilePic} layout="fill" />
+                  <Image
+                    src={img || profilePic}
+                    alt=""
+                    priority
+                    blurDataURL={profilePic}
+                    layout="fill"
+                  />
                 </>
               ) : null}
             </div>

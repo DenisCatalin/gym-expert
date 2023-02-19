@@ -25,7 +25,7 @@ const Chat = () => {
   const messagesRef = firestore.collection("messages");
   const query = messagesRef.orderBy("createdAt").limit(25);
   const userRedux = useSelector((state: any) => state.user.user);
-  const { issuer, profilePic, displayName } = userRedux;
+  const { issuer, profilePic, displayName, cropArea } = userRedux;
   //@ts-ignore
   const [messages] = useCollectionData(query, { id: "id" });
 
@@ -40,6 +40,7 @@ const Chat = () => {
       sender: issuer,
       profilePic: profilePic,
       displayName: displayName,
+      cropArea: cropArea,
     });
 
     setFormValue("");
