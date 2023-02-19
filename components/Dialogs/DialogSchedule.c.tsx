@@ -5,7 +5,6 @@ import { Button } from "../../interface/Button";
 import { Dialog } from "../../interface/Dialog";
 import { IconButton } from "../../interface/IconButton";
 import { dialogInputTheme } from "../../utils/muiTheme";
-import TextField from "@mui/material/TextField";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
 import { setScheduleState } from "../../redux/schedule.slice";
 import styles from "../../css/components/Dialogs.module.css";
@@ -13,6 +12,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { setSnackbar } from "../../redux/snackbar.slice";
+import Input from "../../interface/Input";
 
 type IDialogProps = {
   open: boolean;
@@ -91,12 +91,6 @@ const DialogSchedule = ({ open, onClose, duplicate, exercises }: IDialogProps) =
           sender: userRedux.issuer,
           name: name,
         });
-        dispatch(
-          setSnackbar({
-            open: true,
-            content: `You successfully duplicated your schedule for ${day} ${month}`,
-          })
-        );
         setName("");
         setDay(-1);
         dispatch(
@@ -112,7 +106,10 @@ const DialogSchedule = ({ open, onClose, duplicate, exercises }: IDialogProps) =
       dispatch(
         setSnackbar({
           open: true,
-          content: `Now you can select the exercises that you want to include in your schedule for ${day} ${month}`,
+          content:
+            duplicate === true
+              ? `You successfully duplicated your schedule for ${day} ${month}`
+              : `Now you can select the exercises that you want to include in your schedule for ${day} ${month}`,
         })
       );
       setName("");
@@ -141,52 +138,28 @@ const DialogSchedule = ({ open, onClose, duplicate, exercises }: IDialogProps) =
           <>
             <div className={styles.dialogInput}>
               <ThemeProvider theme={dialogInputTheme}>
-                <TextField
+                <Input
                   label={"Day"}
-                  id={"day"}
                   color={dayCheck ? "secondary" : "error"}
                   type="text"
                   className={styles.textField}
                   value={day}
-                  inputProps={{
-                    style: {
-                      color: "white",
-                      borderRadius: "5px",
-                    },
-                  }}
                   onChange={(e: any) => setDay(e.target.value)}
-                  InputLabelProps={{ style: { color: "white" } }}
                 />
-                <TextField
+                <Input
                   label={"Month"}
-                  id={"month"}
                   color={"secondary"}
                   type="text"
                   className={styles.textField}
                   value={`${month}`}
-                  inputProps={{
-                    style: {
-                      color: "white",
-                      borderRadius: "5px",
-                    },
-                  }}
-                  InputLabelProps={{ style: { color: "white" } }}
                 />
-                <TextField
+                <Input
                   label={"Name"}
-                  id={"name"}
                   color={nameCheck ? "secondary" : "error"}
                   type="text"
                   className={styles.textField}
                   value={name}
-                  inputProps={{
-                    style: {
-                      color: "white",
-                      borderRadius: "5px",
-                    },
-                  }}
                   onChange={(e: any) => setName(e.target.value)}
-                  InputLabelProps={{ style: { color: "white" } }}
                 />
                 <IconButton
                   className={styles.sft}

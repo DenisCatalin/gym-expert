@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "../../css/components/NutritionButton.module.css";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import { Dialog } from "../../interface/Dialog";
 import { IconButton } from "../../interface/IconButton";
 import { inputTheme, tooltipTheme } from "../../utils/muiTheme";
-import { TextField, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import { Button } from "../../interface/Button";
 import moment from "moment";
 import FreeBreakfastRoundedIcon from "@mui/icons-material/FreeBreakfastRounded";
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Table from "../../interface/Table";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { setNutrition } from "../../redux/nutrition.slice";
+import Input from "../../interface/Input";
 
 const months = [
   "January",
@@ -246,69 +247,37 @@ const NutritionButton = () => {
               <>
                 <ThemeProvider theme={inputTheme}>
                   <div className={styles.inputs}>
-                    <TextField
+                    <Input
                       label={"Meal (Optional)"}
-                      id={"meal"}
                       color={"secondary"}
                       type="text"
                       className={styles.textField}
                       value={meal}
-                      inputProps={{
-                        style: {
-                          color: "white",
-                          borderRadius: "5px",
-                        },
-                      }}
                       onChange={(e: any) => setMeal(e.target.value)}
-                      InputLabelProps={{ style: { color: "white" } }}
                     />
-                    <TextField
+                    <Input
                       label={"Calories (Optional)"}
-                      id={"calories"}
                       color={"secondary"}
                       type="text"
                       className={styles.textField}
                       value={calories}
-                      inputProps={{
-                        style: {
-                          color: "white",
-                          borderRadius: "5px",
-                        },
-                      }}
                       onChange={(e: any) => setCalories(e.target.value)}
-                      InputLabelProps={{ style: { color: "white" } }}
                     />
-                    <TextField
+                    <Input
                       label={"Nutrients (Optional)"}
-                      id={"nutrients"}
                       color={"secondary"}
                       type="text"
                       className={styles.textField}
                       value={nutrients}
-                      inputProps={{
-                        style: {
-                          color: "white",
-                          borderRadius: "5px",
-                        },
-                      }}
                       onChange={(e: any) => setNutrients(e.target.value)}
-                      InputLabelProps={{ style: { color: "white" } }}
                     />
-                    <TextField
+                    <Input
                       label={"Macronutrients (Optional)"}
-                      id={"macronutrients"}
                       color={"secondary"}
                       type="text"
                       className={styles.textField}
                       value={macronutrients}
-                      inputProps={{
-                        style: {
-                          color: "white",
-                          borderRadius: "5px",
-                        },
-                      }}
                       onChange={(e: any) => setMacronutrients(e.target.value)}
-                      InputLabelProps={{ style: { color: "white" } }}
                     />
                     <div className={styles.glassContainer}>
                       <span className={styles.increaseDecrease} onClick={decreaseQuantity}>

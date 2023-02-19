@@ -6,7 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import styles from "../../css/components/Accordion.module.css";
 import { theme2 } from "../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
@@ -19,6 +18,7 @@ import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";
 import { ROUTES } from "../../Routes";
 import { useRouter } from "next/router";
+import Input from "../../interface/Input";
 
 type IAccordion = {
   type: "displayName" | "setKeyword" | "changeKeyword" | "subscription";
@@ -342,9 +342,8 @@ const Accordion = ({ type, ariaControls }: IAccordion) => {
             </>
           ) : type === "displayName" || type === "setKeyword" ? (
             <>
-              <TextField
+              <Input
                 label={type === "displayName" ? "Desired display name" : "Desired Secret Keyword"}
-                id={type === "displayName" ? "displayName" : "DsecretKey"}
                 color="warning"
                 type={type === "displayName" ? "text" : "password"}
                 className={styles.textField}
@@ -354,17 +353,9 @@ const Accordion = ({ type, ariaControls }: IAccordion) => {
                     ? setNewName(e.target.value)
                     : setSecretKeyword(e.target.value)
                 }
-                inputProps={{
-                  style: {
-                    color: "white",
-                    borderRadius: "5px",
-                  },
-                }}
-                InputLabelProps={{ style: { color: "white" } }}
               />
-              <TextField
+              <Input
                 label={type === "displayName" ? "Secret keyword" : "Confirm Secret Keyword"}
-                id={type === "displayName" ? "secretKey" : "CsecretKey"}
                 color="warning"
                 type="password"
                 onChange={e =>
@@ -374,64 +365,33 @@ const Accordion = ({ type, ariaControls }: IAccordion) => {
                 }
                 className={styles.textField}
                 value={type === "displayName" ? secretKeyword : secretKeywordConfirm}
-                inputProps={{
-                  style: {
-                    color: "white",
-                    borderRadius: "5px",
-                  },
-                }}
-                InputLabelProps={{ style: { color: "white" } }}
               />
             </>
           ) : (
             <>
-              <TextField
+              <Input
                 label="Current Secret Keyword"
-                id="CsecretKey"
                 color="warning"
                 type="password"
                 className={styles.textField}
                 value={secretKeyword}
                 onChange={e => setSecretKeyword(e.target.value)}
-                inputProps={{
-                  style: {
-                    color: "white",
-                    borderRadius: "5px",
-                  },
-                }}
-                InputLabelProps={{ style: { color: "white" } }}
               />
-              <TextField
+              <Input
                 label="Desired Secret Keyword"
-                id="DsecretKey"
                 color="warning"
                 type="password"
                 className={styles.textField}
                 value={newSecretKeyword}
                 onChange={e => setNewSecretKeyword(e.target.value)}
-                inputProps={{
-                  style: {
-                    color: "white",
-                    borderRadius: "5px",
-                  },
-                }}
-                InputLabelProps={{ style: { color: "white" } }}
               />
-              <TextField
+              <Input
                 label="Confirm Secret Keyword"
-                id="secretKeyConfirm"
                 color="warning"
                 type="password"
                 onChange={e => setNewSecretKeywordConfirm(e.target.value)}
                 className={styles.textField}
                 value={newSecretKeywordConfirm}
-                inputProps={{
-                  style: {
-                    color: "white",
-                    borderRadius: "5px",
-                  },
-                }}
-                InputLabelProps={{ style: { color: "white" } }}
               />
               <MotionTypo
                 className={styles.text}

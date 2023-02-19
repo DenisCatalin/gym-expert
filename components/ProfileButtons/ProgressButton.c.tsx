@@ -3,7 +3,6 @@ import styles from "../../css/components/ProgressButton.module.css";
 import QueryStatsRoundedIcon from "@mui/icons-material/QueryStatsRounded";
 import { IconButton } from "../../interface/IconButton";
 import { Dialog } from "../../interface/Dialog";
-import TextField from "@mui/material/TextField";
 import AddIcon from "@mui/icons-material/Add";
 import Table from "../../interface/Table";
 import "firebase/compat/firestore";
@@ -16,6 +15,7 @@ import { inputTheme, tooltipTheme } from "../../utils/muiTheme";
 import { MotionTypo } from "../../interface/MotionTypo";
 import { useDispatch } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
+import Input from "../../interface/Input";
 
 firebase.initializeApp({
   apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
@@ -156,37 +156,21 @@ const ProgressButton = () => {
             )}
             <div className={styles.progressForm}>
               <ThemeProvider theme={inputTheme}>
-                <TextField
+                <Input
                   label={"Your Weight"}
-                  id={"weight"}
                   color={weightCheck ? "secondary" : "error"}
                   type="text"
                   className={styles.textField}
                   value={weight}
-                  inputProps={{
-                    style: {
-                      color: "white",
-                      borderRadius: "5px",
-                    },
-                  }}
                   onChange={checkWeight}
-                  InputLabelProps={{ style: { color: "white" } }}
                 />
-                <TextField
+                <Input
                   label={"Muscle Gain"}
-                  id={"muscle"}
                   color={muscleCheck ? "secondary" : "error"}
                   type="text"
                   className={styles.textField}
                   value={muscle}
                   onChange={checkMuscle}
-                  inputProps={{
-                    style: {
-                      color: "white",
-                      borderRadius: "5px",
-                    },
-                  }}
-                  InputLabelProps={{ style: { color: "white" } }}
                 />
               </ThemeProvider>
               <Button
