@@ -1,0 +1,149 @@
+.background {
+    background: var(--background);
+    color: white;
+}
+
+.nutritionButton {
+    background: var(--buttonGradient);
+    position: absolute;
+    top: 26%;
+    left: 10%;
+}
+
+.buttonAdd {
+    background: var(--buttonGradient);
+    width: 30%;
+    height: 5vh;
+}
+
+.progressForm {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.textField {
+    color: var(--white);
+    width: 30%;
+    height: 100%;
+    margin: 1em 0 1em 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.text {
+    color: var(--white);
+    font-size: 1em;
+}
+
+.dates {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+}
+
+.dateContainer {
+    width: 100px;
+    height: 100px;
+    background: var(--pink);
+    margin: 1em;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    box-shadow: 0 0 5px var(--pink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font);
+}
+
+.dateContainer:hover {
+    background: var(--pink);
+    box-shadow: 0 0 20px var(--pink);
+}
+
+.dateContainerCurrent {
+    width: 100px;
+    height: 100px;
+    background: var(--purple);
+    margin: 1em;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    box-shadow: 0 0 10px var(--purple);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font);
+}
+
+.dateContainerCurrent:hover {
+    background: var(--purple);
+    box-shadow: 0 0 20px var(--purple);
+}
+
+.textField {
+    color: var(--white);
+    width: 30%;
+    height: 100%;
+    margin: 1em 0 1em 0;
+}
+
+.glassContainer {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.glassIcon {
+    font-size: 5em;
+}
+
+.glass {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.waterQuantity {
+    position: absolute;
+    top: 5%;
+    left: 25%;
+    font-size: 1em;
+}
+
+.increaseDecrease {
+    width: 30px;
+    height: 30px;
+    background: var(--pink);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.inputs {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.addDetails {
+    background: var(--buttonGradient);
+    padding: .8rem;
+    width: 10%;
+}

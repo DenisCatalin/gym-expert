@@ -6,6 +6,7 @@ import ProfilePic from "../components/PhotoCrop/ProfilePic.c";
 import { useSelector } from "react-redux";
 import ProgressButton from "../components/ProfileButtons/ProgressButton.c";
 import ScheduleButton from "../components/ProfileButtons/ScheduleButton.c";
+import NutritionButton from "../components/ProfileButtons/NutritionButton.c";
 
 const Profile = () => {
   const userRedux = useSelector((state: any) => state.user.user);
@@ -19,6 +20,7 @@ const Profile = () => {
           <>
             <ProgressButton />
             <ScheduleButton />
+            <NutritionButton />
             <ProfilePic />
             <Accordions />
           </>

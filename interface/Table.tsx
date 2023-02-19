@@ -124,6 +124,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
   const [openScheduleDialog, setOpenScheduleDialog] = React.useState<boolean>(false);
   const [rowID, setRowID] = React.useState<number>(-1);
+  const [title, setTitle] = React.useState<string>("");
 
   const dispatch = useDispatch();
 
@@ -206,6 +207,23 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
     console.log("hey", rowID);
   }, [rowID]);
 
+  React.useEffect(() => {
+    switch (typeOnClick) {
+      case "delete": {
+        setTitle("Are you sure you want to delete this row?");
+        break;
+      }
+      case "view": {
+        setTitle(`Your scheduled exercises for ${rows[rowID]?.day} ${rows[rowID]?.month}`);
+        break;
+      }
+      default: {
+        setTitle("Title");
+        break;
+      }
+    }
+  });
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -218,27 +236,68 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
             <TableBody>
               {typeOnClick !== "delete" ? <TableCell>Name</TableCell> : null}
               <TableCell>Created at</TableCell>
-              <TableCell align="right">
-                {typeOnClick === "delete" ? "Weight (kg)" : "For date"}
-              </TableCell>
-              <TableCell align="right">
-                {typeOnClick === "delete" ? "Muscle gain (g)" : "Exercises"}
-              </TableCell>
+              {collection === "nutrition" ? (
+                <>
+                  <TableCell align="left">Meal name</TableCell>
+                  <TableCell align="left">Calories</TableCell>
+                  <TableCell align="left">Nutrients</TableCell>
+                  <TableCell align="left">Macronutrients</TableCell>
+                  <TableCell align="left">Water</TableCell>
+                </>
+              ) : (
+                <>
+                  <TableCell align="right">
+                    {typeOnClick === "delete" ? "Weight (kg)" : "For date"}
+                  </TableCell>
+                  <TableCell align="right">
+                    {typeOnClick === "delete" ? "Muscle gain (g)" : "Exercises"}
+                  </TableCell>
+                </>
+              )}
               {(rowsPerPage > 0
                 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : rows
               ).map((row: any, idx: number) => (
                 <TableRow key={idx} onClick={() => setupDialog(idx)}>
-                  {typeOnClick !== "delete" ? <TableCell>{row.name}</TableCell> : null}
-                  <TableCell component="th" scope="row">
-                    {`${getDate(row?.createdAt?.seconds)}`}
-                  </TableCell>
-                  <TableCell style={{ width: 160 }} align="right">
-                    {typeOnClick === "delete" ? `${row.weightLoss}kg` : `${row.day} ${row.month}`}
-                  </TableCell>
-                  <TableCell style={{ width: 160 }} align="right">
-                    {typeOnClick === "delete" ? `${row.muscleGain}g` : `${row.exercises.length}`}
-                  </TableCell>
+                  {collection === "nutrition" ? (
+                    <>
+                      <TableCell align="left" style={{ width: 240 }}>{`${getDate(
+                        row?.createdAt?.seconds
+                      )}`}</TableCell>
+                      <TableCell align="left" style={{ width: 240 }}>
+                        {row.mealName}
+                      </TableCell>
+                      <TableCell align="center" style={{ width: 50 }}>
+                        {row.calories}
+                      </TableCell>
+                      <TableCell align="center" style={{ width: 50 }}>
+                        {row.nutrients}
+                      </TableCell>
+                      <TableCell align="center" style={{ width: 50 }}>
+                        {row.macronutrients}
+                      </TableCell>
+                      <TableCell align="center" style={{ width: 50 }}>
+                        {row.water}g
+                      </TableCell>
+                    </>
+                  ) : (
+                    <>
+                      {typeOnClick !== "delete" ? <TableCell>{row.name}</TableCell> : null}
+                      <TableCell component="th" scope="row">
+                        {`${getDate(row?.createdAt?.seconds)}`}
+                      </TableCell>
+                      <TableCell style={{ width: 160 }} align="right">
+                        {typeOnClick === "delete"
+                          ? `${row.weightLoss}kg`
+                          : `${row.day} ${row.month}`}
+                      </TableCell>
+                      <TableCell style={{ width: 160 }} align="right">
+                        {typeOnClick === "delete"
+                          ? `${row.muscleGain}g`
+                          : `${row.exercises.length}`}
+                      </TableCell>
+                    </>
+                  )}
                 </TableRow>
               ))}
               {emptyRows > 0 && (
@@ -278,14 +337,10 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
       />
       <Dialog
         fullWidth={true}
-        maxWidth={rows[rowID]?.exercises > 3 ? "lg" : "xs"}
+        maxWidth={rows[rowID]?.exercises > 3 ? "lg" : "sm"}
         open={openDialog}
         onClose={handleClose}
-        title={
-          typeOnClick === "delete"
-            ? "Are you sure you want to delete this row?"
-            : `Your scheduled exercises for ${rows[rowID]?.day} ${rows[rowID]?.month}`
-        }
+        title={title}
         textStyles={styles.text}
         contentStyles={styles.background}
         contentText={
@@ -296,7 +351,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
         contentOther={
           <>
             <div className={styles.previewExercises}>
-              {rows[rowID]?.exercises.map((exercise: string, idx: number) => (
+              {rows[rowID]?.exercises?.map((exercise: string, idx: number) => (
                 <div className={styles.fmm} key={idx}>
                   <Image
                     src={exercise}

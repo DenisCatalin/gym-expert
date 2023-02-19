@@ -6,7 +6,7 @@
 .trackingButton {
     background: var(--buttonGradient);
     position: absolute;
-    top: 30%;
+    top: 32%;
     left: 10%;
 }
 
