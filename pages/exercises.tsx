@@ -13,7 +13,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
-import { buttonTheme, themePagination, theme2 } from "../utils/muiTheme";
+import { buttonTheme, themePagination, theme2, inputTheme, tooltipTheme } from "../utils/muiTheme";
 import { useSelector, useDispatch } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button";
@@ -29,6 +29,7 @@ import Image from "next/image";
 import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { setSnackbar } from "../redux/snackbar.slice";
 import DialogSchedule from "../components/Dialogs/DialogSchedule.c";
+import Input from "../interface/Input";
 
 const breakPointWidth = 719;
 
@@ -101,6 +102,7 @@ const Exercises = () => {
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
   const scheduleRedux = useSelector((state: any) => state.schedule.schedule);
+  const [search, setSearch] = useState<string>("");
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -300,6 +302,21 @@ const Exercises = () => {
     setExerciseToDelete(idx);
   };
 
+  useEffect(() => {
+    if (search.length > 4) {
+      if (bodyPart === "favourites") {
+      } else {
+        (async function () {
+          const data = await fetchData(
+            `https://exercisedb.p.rapidapi.com/exercises/name/${search}`,
+            options
+          );
+          setExercises(data);
+        })();
+      }
+    }
+  }, [search]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -404,6 +421,19 @@ const Exercises = () => {
                 className={scheduleRedux.scheduleMode ? styles.doneSchedule2 : styles.doneSchedule}
                 onClick={scheduleRedux.scheduleMode ? handleOpenDialog : setupDialog}
               />
+              <div style={{ display: bodyPart === "favourites" ? "none" : "initial" }}>
+                <ThemeProvider theme={inputTheme}>
+                  <Input
+                    label={"Search..."}
+                    color="secondary"
+                    type="text"
+                    value={search}
+                    variant="outlined"
+                    onChange={(e: any) => setSearch(e.target.value)}
+                    className={styles.textField}
+                  />
+                </ThemeProvider>
+              </div>
               <div className={styles.exercisess}>
                 {bodyPart === "favourites" ? (
                   <div

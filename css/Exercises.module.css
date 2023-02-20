@@ -177,6 +177,11 @@
     font-size: 1.4em;
 }
 
+.textField {
+    position: absolute;
+    left: 95%;
+}
+
 @media screen and (max-width: 1300px) {
 
     .bodyPart {

@@ -1,8 +1,24 @@
-import { createTheme } from "@mui/material/styles";
+import { TextField } from "@mui/material";
+import { createTheme, styled } from "@mui/material/styles";
+
+export const ValidationTextField = styled(TextField)({
+  // asta merge
+  "& .MuiOutlinedInput-root": {
+    color: "white",
+    "&:hover fieldset": {
+      borderColor: "var(--purple)",
+    },
+  },
+});
 
 export const inputTheme = createTheme({
   components: {
     MuiOutlinedInput: {
+      root: {
+        "&:hover fieldset": {
+          borderColor: "green",
+        },
+      },
       styleOverrides: {
         notchedOutline: {
           border: "1px solid white",
@@ -16,6 +32,11 @@ export const dialogInputTheme = createTheme({
   components: {
     MuiOutlinedInput: {
       styleOverrides: {
+        root: {
+          "&:hover fieldset": {
+            borderColor: "green",
+          },
+        },
         notchedOutline: {
           width: "80%",
           border: "2px solid #9c27b0",
