@@ -11,9 +11,8 @@ import FreeBreakfastRoundedIcon from "@mui/icons-material/FreeBreakfastRounded";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import "firebase/compat/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import firebase from "firebase/compat/app";
+import firebase from "../../lib/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "../../interface/Table";
 import { setSnackbar } from "../../redux/snackbar.slice";
@@ -34,16 +33,6 @@ const months = [
   "November",
   "December",
 ];
-
-firebase.initializeApp({
-  apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
-  authDomain: "gym-expert-chat.firebaseapp.com",
-  projectId: "gym-expert-chat",
-  storageBucket: "gym-expert-chat.appspot.com",
-  messagingSenderId: "791772438333",
-  appId: "1:791772438333:web:9aedb139733266f3f0ef54",
-  measurementId: "G-ZK5ZS8BCZV",
-});
 
 const NutritionButton = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);

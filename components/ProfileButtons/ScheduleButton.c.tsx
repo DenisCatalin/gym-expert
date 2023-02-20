@@ -3,10 +3,9 @@ import styles from "../../css/components/ScheduleButton.module.css";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import { IconButton } from "../../interface/IconButton";
 import { Dialog } from "../../interface/Dialog";
-import "firebase/compat/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useSelector, useDispatch } from "react-redux";
-import firebase from "firebase/compat/app";
+import firebase from "../../lib/firebase";
 import { Button } from "../../interface/Button";
 import { ThemeProvider } from "@mui/material";
 import { tooltipTheme } from "../../utils/muiTheme";
@@ -15,16 +14,6 @@ import Image from "next/image";
 import DialogSchedule from "../Dialogs/DialogSchedule.c";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import moment from "moment";
-
-firebase.initializeApp({
-  apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
-  authDomain: "gym-expert-chat.firebaseapp.com",
-  projectId: "gym-expert-chat",
-  storageBucket: "gym-expert-chat.appspot.com",
-  messagingSenderId: "791772438333",
-  appId: "1:791772438333:web:9aedb139733266f3f0ef54",
-  measurementId: "G-ZK5ZS8BCZV",
-});
 
 const months = [
   "January",

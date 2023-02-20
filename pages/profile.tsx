@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import ProgressButton from "../components/ProfileButtons/ProgressButton.c";
 import ScheduleButton from "../components/ProfileButtons/ScheduleButton.c";
 import NutritionButton from "../components/ProfileButtons/NutritionButton.c";
+import WorkoutButton from "../components/ProfileButtons/WorkoutButton.c";
 
 const Profile = () => {
   const userRedux = useSelector((state: any) => state.user.user);
@@ -21,6 +22,7 @@ const Profile = () => {
             <ProgressButton />
             <ScheduleButton />
             <NutritionButton />
+            <WorkoutButton />
             <ProfilePic />
             <Accordions />
           </>
@@ -28,7 +30,7 @@ const Profile = () => {
           <div
             style={{
               width: "100%",
-              height: "100vh",
+              height: "10vh",
             }}
           >
             <LinearProgress color="secondary" />
