@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import styles from "../../css/components/ProgressButton.module.css";
-import QueryStatsRoundedIcon from "@mui/icons-material/QueryStatsRounded";
+import styles from "../../css/components/WorkoutButton.module.css";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { IconButton } from "../../interface/IconButton";
 import { Dialog } from "../../interface/Dialog";
 import AddIcon from "@mui/icons-material/Add";
 import Table from "../../interface/Table";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import firebase from "../../lib/firebase";
 import { useSelector } from "react-redux";
 import { Button } from "../../interface/Button";
 import { ThemeProvider } from "@mui/material";
@@ -15,12 +14,17 @@ import { MotionTypo } from "../../interface/MotionTypo";
 import { useDispatch } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import Input from "../../interface/Input";
+import firebase from "../../lib/firebase";
 
-const ProgressButton = () => {
+const WorkoutButton = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [weight, setWeight] = useState<string>("");
-  const [muscle, setMuscle] = useState<string>("");
-  const [muscleCheck, setMuscleCheck] = useState<boolean>(true);
+  const [reps, setReps] = useState<string>("");
+  const [sets, setSets] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [nameCheck, setNameCheck] = useState<boolean>(true);
+  const [repsCheck, setRepsCheck] = useState<boolean>(true);
+  const [setsCheck, setSetsCheck] = useState<boolean>(true);
   const [weightCheck, setWeightCheck] = useState<boolean>(true);
 
   const userRedux = useSelector((state: any) => state.user.user);
@@ -29,7 +33,7 @@ const ProgressButton = () => {
   const dispatch = useDispatch();
 
   const firestore = firebase.firestore();
-  const progressRef = firestore.collection("userProgress");
+  const progressRef = firestore.collection("workout");
   const queryQ = progressRef.orderBy("createdAt");
   //@ts-ignore
   const [messages] = useCollectionData(queryQ, { id: "id" });
@@ -43,11 +47,21 @@ const ProgressButton = () => {
   });
 
   const addProgress = async () => {
-    if (!weight.match(/^[0-9]+$/) || !muscle.match(/^[0-9]+$/)) return;
+    if (
+      !weight.match(/^[0-9]+$/) ||
+      !sets.match(/^[0-9]+$/) ||
+      !reps.match(/^[0-9]+$/) ||
+      name.length === 0
+    )
+      return;
     setWeight("");
-    setMuscle("");
-    setMuscleCheck(false);
+    setReps("");
+    setSets("");
+    setName("");
+    setNameCheck(false);
     setWeightCheck(false);
+    setRepsCheck(false);
+    setSetsCheck(false);
 
     dispatch(
       setSnackbar({
@@ -60,8 +74,10 @@ const ProgressButton = () => {
       messages &&
         (await progressRef.add({
           id: messages.length + 1,
-          weightLoss: parseInt(weight),
-          muscleGain: parseInt(muscle),
+          weight: parseInt(weight),
+          sets: parseInt(sets),
+          reps: parseInt(reps),
+          name: name,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           sender: issuer,
         }));
@@ -84,12 +100,30 @@ const ProgressButton = () => {
     }
   };
 
-  const checkMuscle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMuscle(e.target.value);
+  const checkSets = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSets(e.target.value);
     if (!e.target.value.match(/^[0-9]+$/)) {
-      setMuscleCheck(false);
+      setSetsCheck(false);
     } else {
-      setMuscleCheck(true);
+      setSetsCheck(true);
+    }
+  };
+
+  const checkReps = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setReps(e.target.value);
+    if (!e.target.value.match(/^[0-9]+$/)) {
+      setRepsCheck(false);
+    } else {
+      setRepsCheck(true);
+    }
+  };
+
+  const checkName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    if (e.target.value.length < 3) {
+      setNameCheck(false);
+    } else {
+      setNameCheck(true);
     }
   };
 
@@ -100,20 +134,20 @@ const ProgressButton = () => {
           color="secondary"
           label={
             <>
-              <QueryStatsRoundedIcon htmlColor="#fff" />
+              <FitnessCenterIcon htmlColor="#fff" />
             </>
           }
           role="button"
-          ariaLabel="Track your progress"
+          ariaLabel="Workout tracking"
           className={styles.trackingButton}
           onClick={handleClick}
-          tooltip="Track your progress"
-          tooltipPlacement="right"
+          tooltip="Track your workout"
+          tooltipPlacement="left"
         />
       </ThemeProvider>
       <Dialog
         fullWidth={true}
-        // maxWidth={"lg"}
+        maxWidth={"md"}
         open={open}
         onClose={handleClose}
         title="Track your progress"
@@ -130,11 +164,11 @@ const ProgressButton = () => {
                     <>
                       When you started to track your progress you had{" "}
                       <span style={{ fontWeight: "bold", color: "var(--pink)" }}>
-                        {array[0]?.weightLoss}kg
+                        {array[0]?.weight}kg
                       </span>{" "}
                       and today you have{" "}
                       <span style={{ fontWeight: "bold", color: "var(--pink)" }}>
-                        {array[array.length - 1]?.weightLoss}kg
+                        {array[array.length - 1]?.weight}kg
                       </span>
                     </>
                   }
@@ -145,22 +179,40 @@ const ProgressButton = () => {
             )}
             <div className={styles.progressForm}>
               <ThemeProvider theme={inputTheme}>
-                <Input
-                  label={"Your Weight"}
-                  color={weightCheck ? "secondary" : "error"}
-                  type="text"
-                  className={styles.textField}
-                  value={weight}
-                  onChange={checkWeight}
-                />
-                <Input
-                  label={"Muscle Gain"}
-                  color={muscleCheck ? "secondary" : "error"}
-                  type="text"
-                  className={styles.textField}
-                  value={muscle}
-                  onChange={checkMuscle}
-                />
+                <div className={styles.inputs}>
+                  <Input
+                    label={"Name of exercise"}
+                    color={nameCheck ? "secondary" : "error"}
+                    type="text"
+                    className={styles.textField}
+                    value={name}
+                    onChange={checkName}
+                  />
+                  <Input
+                    label={"Sets"}
+                    color={setsCheck ? "secondary" : "error"}
+                    type="text"
+                    className={styles.textField}
+                    value={sets}
+                    onChange={checkSets}
+                  />
+                  <Input
+                    label={"Reps"}
+                    color={repsCheck ? "secondary" : "error"}
+                    type="text"
+                    className={styles.textField}
+                    value={reps}
+                    onChange={checkReps}
+                  />
+                  <Input
+                    label={"Weight"}
+                    color={weightCheck ? "secondary" : "error"}
+                    type="text"
+                    className={styles.textField}
+                    value={weight}
+                    onChange={checkWeight}
+                  />
+                </div>
               </ThemeProvider>
               <Button
                 color="inherit"
@@ -174,7 +226,7 @@ const ProgressButton = () => {
                 }
               />
             </div>
-            {array ? <Table rows={array} collection="userProgress" typeOnClick="delete" /> : null}
+            {array ? <Table rows={array} collection="workout" typeOnClick="delete" /> : null}
           </>
         }
         actions={
@@ -193,4 +245,4 @@ const ProgressButton = () => {
   );
 };
 
-export default ProgressButton;
+export default WorkoutButton;

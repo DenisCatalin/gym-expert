@@ -13,7 +13,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
-import { buttonTheme, themePagination, theme2, dialogInputTheme } from "../utils/muiTheme";
+import { buttonTheme, themePagination, theme2 } from "../utils/muiTheme";
 import { useSelector, useDispatch } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button";
@@ -23,23 +23,12 @@ import { MotionTypo } from "../interface/MotionTypo";
 import Select from "../interface/Select";
 import { Dialog } from "../interface/Dialog";
 import { removeItem, setScheduleState } from "../redux/schedule.slice";
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
+import firebase from "../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import Image from "next/image";
 import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import { setSnackbar } from "../redux/snackbar.slice";
 import DialogSchedule from "../components/Dialogs/DialogSchedule.c";
-
-firebase.initializeApp({
-  apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
-  authDomain: "gym-expert-chat.firebaseapp.com",
-  projectId: "gym-expert-chat",
-  storageBucket: "gym-expert-chat.appspot.com",
-  messagingSenderId: "791772438333",
-  appId: "1:791772438333:web:9aedb139733266f3f0ef54",
-  measurementId: "G-ZK5ZS8BCZV",
-});
 
 const breakPointWidth = 719;
 

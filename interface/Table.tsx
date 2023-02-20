@@ -16,24 +16,13 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { ThemeProvider } from "@mui/material";
 import { tableTheme } from "../utils/muiTheme";
-import "firebase/compat/firestore";
-import firebase from "firebase/compat/app";
+import firebase from "../lib/firebase";
 import { Dialog } from "./Dialog";
 import { Button } from "./Button";
 import { useDispatch } from "react-redux";
 import styles from "../css/components/Table.module.css";
 import { setSnackbar } from "../redux/snackbar.slice";
 import Image from "next/image";
-
-firebase.initializeApp({
-  apiKey: "AIzaSyDhSgEog6qqbLTE_WakNisgFLVLHG7wVqg",
-  authDomain: "gym-expert-chat.firebaseapp.com",
-  projectId: "gym-expert-chat",
-  storageBucket: "gym-expert-chat.appspot.com",
-  messagingSenderId: "791772438333",
-  appId: "1:791772438333:web:9aedb139733266f3f0ef54",
-  measurementId: "G-ZK5ZS8BCZV",
-});
 
 const db = firebase.firestore();
 
@@ -123,6 +112,8 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
   const [rowID, setRowID] = React.useState<number>(-1);
   const [title, setTitle] = React.useState<string>("");
+  const [tableCells, setTableHeader] = React.useState<React.ReactNode>(<></>);
+  const [tableRows, setTableRows] = React.useState<React.ReactNode>(<></>);
 
   const dispatch = useDispatch();
 
@@ -190,7 +181,7 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
     setRowID(rows[idx].id);
   };
 
-  React.useEffect(() => {
+  function mountTitle() {
     switch (typeOnClick) {
       case "delete": {
         setTitle("Are you sure you want to delete this row?");
@@ -201,7 +192,145 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
         break;
       }
     }
-  });
+  }
+
+  function mountTableHeader() {
+    switch (collection) {
+      case "nutrition": {
+        setTableHeader(
+          <>
+            <TableCell align="left">Meal name</TableCell>
+            <TableCell align="left">Calories</TableCell>
+            <TableCell align="left">Nutrients</TableCell>
+            <TableCell align="left">Macronutrients</TableCell>
+            <TableCell align="left">Water</TableCell>
+          </>
+        );
+        break;
+      }
+      case "userProgress": {
+        setTableHeader(
+          <>
+            <TableCell align="right">Weight (kg)</TableCell>
+            <TableCell align="right">Muscle gain (g)</TableCell>
+          </>
+        );
+        break;
+      }
+      case "workout": {
+        setTableHeader(
+          <>
+            <TableCell align="right">Exercise</TableCell>
+            <TableCell align="right">Weight (kg)</TableCell>
+            <TableCell align="right">Sets</TableCell>
+            <TableCell align="right">Reps</TableCell>
+          </>
+        );
+        break;
+      }
+      default: {
+        setTableHeader(<></>);
+        break;
+      }
+    }
+  }
+
+  function mountRows() {
+    switch (collection) {
+      case "nutrition": {
+        setTableRows(
+          <>
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row: any, idx: number) => (
+              <TableRow key={idx} onClick={() => setupDialog(idx)}>
+                <TableCell align="left" style={{ width: 240 }}>{`${getDate(
+                  row?.createdAt?.seconds
+                )}`}</TableCell>
+                <TableCell align="left" style={{ width: 240 }}>
+                  {row.mealName}
+                </TableCell>
+                <TableCell align="center" style={{ width: 50 }}>
+                  {row.calories}
+                </TableCell>
+                <TableCell align="center" style={{ width: 50 }}>
+                  {row.nutrients}
+                </TableCell>
+                <TableCell align="center" style={{ width: 50 }}>
+                  {row.macronutrients}
+                </TableCell>
+                <TableCell align="center" style={{ width: 50 }}>
+                  {row.water}g
+                </TableCell>
+              </TableRow>
+            ))}
+          </>
+        );
+        break;
+      }
+      case "userProgress": {
+        setTableRows(
+          <>
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row: any, idx: number) => (
+              <TableRow key={idx} onClick={() => setupDialog(idx)}>
+                {typeOnClick !== "delete" ? <TableCell>{row.name}</TableCell> : null}
+                <TableCell component="th" scope="row">
+                  {`${getDate(row?.createdAt?.seconds)}`}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.weightLoss}kg
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.muscleGain}g
+                </TableCell>
+              </TableRow>
+            ))}
+          </>
+        );
+        break;
+      }
+      case "workout": {
+        setTableRows(
+          <>
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row: any, idx: number) => (
+              <TableRow key={idx} onClick={() => setupDialog(idx)}>
+                {typeOnClick !== "delete" ? <TableCell>{row.name}</TableCell> : null}
+                <TableCell component="th" scope="row">
+                  {`${getDate(row?.createdAt?.seconds)}`}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.name}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.weight}kg
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.sets}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.reps}
+                </TableCell>
+              </TableRow>
+            ))}
+          </>
+        );
+        break;
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    mountTitle();
+    mountTableHeader();
+    mountRows();
+  }, [rows]);
 
   return (
     <>
@@ -215,62 +344,8 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
             <TableBody>
               {typeOnClick !== "delete" ? <TableCell>Name</TableCell> : null}
               <TableCell>Created at</TableCell>
-              {collection === "nutrition" ? (
-                <>
-                  <TableCell align="left">Meal name</TableCell>
-                  <TableCell align="left">Calories</TableCell>
-                  <TableCell align="left">Nutrients</TableCell>
-                  <TableCell align="left">Macronutrients</TableCell>
-                  <TableCell align="left">Water</TableCell>
-                </>
-              ) : (
-                <>
-                  <TableCell align="right">Weight (kg)</TableCell>
-                  <TableCell align="right">Muscle gain (g)</TableCell>
-                </>
-              )}
-              {(rowsPerPage > 0
-                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : rows
-              ).map((row: any, idx: number) => (
-                <TableRow key={idx} onClick={() => setupDialog(idx)}>
-                  {collection === "nutrition" ? (
-                    <>
-                      <TableCell align="left" style={{ width: 240 }}>{`${getDate(
-                        row?.createdAt?.seconds
-                      )}`}</TableCell>
-                      <TableCell align="left" style={{ width: 240 }}>
-                        {row.mealName}
-                      </TableCell>
-                      <TableCell align="center" style={{ width: 50 }}>
-                        {row.calories}
-                      </TableCell>
-                      <TableCell align="center" style={{ width: 50 }}>
-                        {row.nutrients}
-                      </TableCell>
-                      <TableCell align="center" style={{ width: 50 }}>
-                        {row.macronutrients}
-                      </TableCell>
-                      <TableCell align="center" style={{ width: 50 }}>
-                        {row.water}g
-                      </TableCell>
-                    </>
-                  ) : (
-                    <>
-                      {typeOnClick !== "delete" ? <TableCell>{row.name}</TableCell> : null}
-                      <TableCell component="th" scope="row">
-                        {`${getDate(row?.createdAt?.seconds)}`}
-                      </TableCell>
-                      <TableCell style={{ width: 160 }} align="right">
-                        {row.weightLoss}kg
-                      </TableCell>
-                      <TableCell style={{ width: 160 }} align="right">
-                        {row.muscleGain}g
-                      </TableCell>
-                    </>
-                  )}
-                </TableRow>
-              ))}
+              {tableCells}
+              {tableRows}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
