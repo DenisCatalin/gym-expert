@@ -71,7 +71,7 @@ const ProfileButton = () => {
           planExpireDate: data?.userDetails?.data?.users[0].planExpireDate,
           issuer: data?.userDetails?.data?.users[0].issuer,
           memberSince: data?.userDetails?.data?.users[0].registerDate,
-          subscribedSince: data?.userDetails?.data?.users[0].subscribedSince,
+          subscribedSince: data?.userDetails?.data?.users[0].subscribedIn,
           profileAvatar: data?.userDetails?.data?.users[0].profileAvatar,
           secretKeyword: data?.userDetails?.data?.users[0].secretKeyword,
           logged: true,
