@@ -179,7 +179,9 @@
 
 .textField {
     position: absolute;
-    left: 95%;
+    left: 82.5%;
+    top: 91%;
+    z-index: 1000;
 }
 
 @media screen and (max-width: 1300px) {
