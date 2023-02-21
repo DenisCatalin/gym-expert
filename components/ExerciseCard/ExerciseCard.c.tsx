@@ -11,92 +11,90 @@ import { buttonTheme } from "../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import { setScheduleState } from "../../redux/schedule.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
+import firebase from "../../lib/firebase";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+
+const db = firebase.firestore();
 
 type IExerciseCard = {
   item?: Object | any;
   last?: boolean;
-  fav?: boolean;
   toSave: string;
+  fav: boolean;
 };
 
-const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard) => {
+const ExerciseCard = ({ item, last = false, toSave, fav }: IExerciseCard) => {
   const [hover, setHover] = useState(false);
-  const [favourite, setFavourite] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const userRedux = useSelector((state: any) => state.user.user);
   const exercisesRedux = useSelector((state: any) => state.exercises.exercises);
   const scheduleRedux = useSelector((state: any) => state.schedule.schedule);
+  const exercisesRef = db.collection("favourites");
+  const queryExercises = exercisesRef.orderBy("name");
+  //@ts-ignore
+  const [favouriteExercises] = useCollectionData(queryExercises, { id: "id" });
 
-  useEffect(() => {
-    (async () => {
-      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
-        method: "POST",
-        headers: {
-          body: JSON.stringify({
-            issuer: userRedux.issuer,
-            gif: item?.gifUrl,
-          }),
-        },
-      });
-      if (data.checkFavouriteQueryForUser === 0) {
-        setFavourite(false);
+  async function getDocumentIdByFieldValue(field: string, value: any) {
+    try {
+      const querySnapshot = await db.collection("favourites").where(field, "==", value).get();
+      if (querySnapshot.empty) {
+        console.log(`No documents found with ${field} equal to ${value}.`);
+        return null;
       } else {
-        setFavourite(true);
+        const document = querySnapshot.docs[0];
+        console.log(`Document data:`, document.data());
+        return document.id;
       }
-      setIsLoading(false);
-    })();
-  }, [exercisesRedux]);
+    } catch (error) {
+      console.error(`Error getting document with ${field} equal to ${value}:`, error);
+      return null;
+    }
+  }
+
+  const deleteRow = async () => {
+    const actualID: any = await getDocumentIdByFieldValue("gifUrl", item.gifUrl);
+    try {
+      await db.collection("favourites").doc(actualID).delete();
+      console.log(`Document with ID ${actualID} was successfully deleted.`);
+    } catch (error) {
+      console.error(`Error deleting document with ID ${actualID}:`, error);
+    }
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "You have successfully deleted the exercise from your favourites",
+      })
+    );
+  };
 
   const handleClick = async () => {
-    setIsLoading(true);
-    if (!favourite) {
-      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_FAVOURITES}`, {
-        method: "POST",
-        headers: {
-          body: JSON.stringify({
+    if (!fav) {
+      {
+        favouriteExercises &&
+          (await exercisesRef.add({
+            id: favouriteExercises.length + 1,
+            gifUrl: item?.gifUrl,
+            category: toSave,
             issuer: userRedux.issuer,
-            gif: item?.gifUrl,
-          }),
-        },
-      });
-
-      if (data.checkFavouriteQueryForUser === 0) {
-        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_FAVOURITES}`, {
-          method: "POST",
-          headers: {
-            body: JSON.stringify({
-              issuer: userRedux.issuer,
-              gif: item?.gifUrl,
-              name: item?.name,
-              category: toSave,
-            }),
-          },
-        });
-        dispatch(setExercisesState({ ...exercisesRedux, exercises: !exercisesRedux?.exercises }));
-      } else {
-        setFavourite(true);
+            name: item?.name,
+          }));
       }
-      setIsLoading(false);
-    } else {
-      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_DELETE_FAVOURITES}`, {
-        method: "POST",
-        headers: {
-          body: JSON.stringify({
-            issuer: userRedux.issuer,
-            gif: fav ? item?.gif : item?.gifUrl,
-          }),
-        },
-      });
+      dispatch(
+        setSnackbar({
+          open: true,
+          content: "You have successfully added the exercise to your favourites",
+        })
+      );
       dispatch(setExercisesState({ ...exercisesRedux, exercises: !exercisesRedux?.exercises }));
-      setFavourite(false);
-      setIsLoading(false);
+    } else {
+      await deleteRow();
+      dispatch(setExercisesState({ ...exercisesRedux, exercises: !exercisesRedux?.exercises }));
     }
   };
 
   const addSchedule = () => {
-    const gif = fav ? item?.gif : item?.gifUrl;
+    const gif = item?.gifUrl;
     dispatch(
       setSnackbar({
         open: true,
@@ -122,11 +120,7 @@ const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard
       tabIndex={0}
       aria-label={item?.name}
     >
-      {fav ? (
-        <Image src={item?.gif} alt="" layout="fill" />
-      ) : (
-        <Image src={item?.gifUrl} alt="" layout="fill" />
-      )}
+      <Image src={item?.gifUrl} alt="" layout="fill" />
       <motion.div
         className={styles.hoverContainer}
         animate={{ y: hover ? 0 : 280 }}
@@ -137,17 +131,7 @@ const ExerciseCard = ({ item, last = false, fav = false, toSave }: IExerciseCard
           <Button
             className={styles.addToFav}
             onClick={handleClick}
-            label={
-              <>
-                {isLoading ? (
-                  <CircularProgress color="secondary" />
-                ) : favourite ? (
-                  "Remove from favourites"
-                ) : (
-                  "Add to favourites"
-                )}
-              </>
-            }
+            label={<>{fav ? "Remove from favourites" : "Add to favourites"}</>}
           />
           {scheduleRedux.scheduleMode ? (
             <>

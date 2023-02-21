@@ -93,7 +93,7 @@ const Exercises = () => {
   const [bodyPart, setBodyPart] = useState("favourites");
   const [bodyPartsPage, setBodyPartsPage] = useState(1);
   const [exercises, setExercises] = useState([]);
-  const [favourites, setFavourites] = useState([]);
+  const [favourites, setFavourites] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openScheduleDialog, setOpenScheduleDialog] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -125,33 +125,20 @@ const Exercises = () => {
 
   const firestore = firebase.firestore();
   const progressRef = firestore.collection("schedule");
+  const exercisesRef = firestore.collection("favourites");
   const queryQ = progressRef.orderBy("day");
+  const queryExercises = exercisesRef.orderBy("name");
   //@ts-ignore
   const [messages] = useCollectionData(queryQ, { id: "id" });
+  //@ts-ignore
+  const [favouriteExercises] = useCollectionData(queryExercises, { id: "id" });
 
   useEffect(() => {
     (async () => {
       if (exercisesRedux.filter === "All" || exercisesRedux.filter === "all") {
-        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
-          method: "POST",
-          headers: {
-            body: JSON.stringify({
-              issuer: userRedux.issuer,
-            }),
-          },
-        });
-        setFavourites(data?.getToFavouritesForUser?.data?.favourites);
+        setFavExercises("issuer");
       } else {
-        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FILTER_EXERCISES}`, {
-          method: "POST",
-          headers: {
-            body: JSON.stringify({
-              issuer: userRedux.issuer,
-              filter: exercisesRedux.filter,
-            }),
-          },
-        });
-        setFavourites(data?.getFilteredExercises?.data?.favourites);
+        setFavExercises("category");
       }
     })();
   }, [exercisesRedux]);
@@ -162,21 +149,39 @@ const Exercises = () => {
     }
   }, [width]);
 
+  function setFavExercises(method: string) {
+    setFavourites([]);
+    switch (method) {
+      case "issuer": {
+        favouriteExercises?.map(exercise => {
+          if (exercise.issuer === userRedux.issuer) {
+            setFavourites((oldArray: any) => [...oldArray, exercise]);
+          }
+        });
+        break;
+      }
+      case "category": {
+        favouriteExercises?.map(exercise => {
+          if (exercise.issuer === userRedux.issuer && exercise.category === exercisesRedux.filter) {
+            setFavourites((oldArray: any) => [...oldArray, exercise]);
+          }
+        });
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
   useEffect(() => {
     (async () => {
       if (userRedux.logged) {
-        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_FAVOURITES}`, {
-          method: "POST",
-          headers: {
-            body: JSON.stringify({
-              issuer: userRedux.issuer,
-            }),
-          },
-        });
-        setFavourites(data?.getToFavouritesForUser?.data?.favourites);
-        if (userRedux.paidPlan === null && userRedux.planExpireDate === 0)
+        setFavExercises("issuer");
+        if (userRedux.paidPlan === null && userRedux.planExpireDate === 0) {
           router.push(ROUTES.pricing);
-        else setIsLoading(false);
+        } else {
+          setIsLoading(false);
+        }
       } else {
         //@ts-ignore
         const isLoggedIn = await magic.user.isLoggedIn();
@@ -193,6 +198,7 @@ const Exercises = () => {
   }, [userRedux]);
 
   useEffect(() => {
+    console.log("Test");
     if (bodyPart === "favourites") {
     } else {
       (async function () {
@@ -200,10 +206,14 @@ const Exercises = () => {
           `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
           options
         );
+        for (const exercise of data) {
+          const isFavorite = favourites.some((favorite: any) => favorite.name === exercise.name);
+          exercise.favourite = isFavorite;
+        }
         setExercises(data);
       })();
     }
-  }, [bodyPart]);
+  }, [bodyPart, exercisesRedux]);
 
   const increaseCategories = () => {
     setBodyPartsPage(bodyPartsPage + 1);
@@ -238,10 +248,6 @@ const Exercises = () => {
   const handleClose = () => {
     setOpenScheduleDialog(false);
   };
-
-  useEffect(() => {
-    console.log(exerciseToDelete);
-  }, [exerciseToDelete]);
 
   const scheduleMore = () => {
     setOpenDialog(false);
@@ -288,6 +294,10 @@ const Exercises = () => {
     );
   };
 
+  useEffect(() => {
+    setFavExercises("issuer");
+  }, [favouriteExercises]);
+
   const deleteFromArray = () => {
     dispatch(removeItem(exerciseToDelete));
     setOpenDeleteDialog(false);
@@ -311,6 +321,10 @@ const Exercises = () => {
             `https://exercisedb.p.rapidapi.com/exercises/name/${search}`,
             options
           );
+          for (const exercise of data) {
+            const isFavorite = favourites.some((favorite: any) => favorite.id === exercise.id);
+            exercise.favourite = isFavorite;
+          }
           setExercises(data);
         })();
       }
@@ -453,7 +467,7 @@ const Exercises = () => {
                     </div>
                     <div className={styles.showExercises}>
                       {favourites &&
-                        favourites?.map((item, i) =>
+                        favourites?.map((item: any, i: number) =>
                           favourites.length === 1 ? (
                             <>
                               <ExerciseCard
@@ -465,19 +479,25 @@ const Exercises = () => {
                               />
                             </>
                           ) : (
-                            <ExerciseCard item={item} key={i} fav={true} toSave={bodyPart} />
+                            <ExerciseCard item={item} key={i} toSave={bodyPart} fav={true} />
                           )
                         )}
                     </div>
                   </div>
                 ) : (
-                  currentExercises.map((item, i) =>
+                  currentExercises.map((item: any, i) =>
                     currentExercises.length === 1 ? (
                       <>
-                        <ExerciseCard item={item} key={i} last={true} toSave={bodyPart} />
+                        <ExerciseCard
+                          item={item}
+                          key={i}
+                          last={true}
+                          fav={item?.favourite}
+                          toSave={bodyPart}
+                        />
                       </>
                     ) : (
-                      <ExerciseCard item={item} key={i} toSave={bodyPart} />
+                      <ExerciseCard item={item} key={i} toSave={bodyPart} fav={item?.favourite} />
                     )
                   )
                 )}
