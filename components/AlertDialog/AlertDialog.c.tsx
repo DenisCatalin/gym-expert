@@ -5,6 +5,8 @@ import { setSubscriptionState } from "../../redux/subscription.slice";
 import { setDialog } from "../../redux/dialog.slice";
 import { Button } from "../../interface/Button";
 import { Dialog } from "../../interface/Dialog";
+import { ThemeProvider } from "@mui/material";
+import { alertDialog } from "../../utils/muiTheme";
 
 type IAlertDialog = {
   dialogOpen?: boolean;
@@ -29,20 +31,22 @@ const AlertDialog = ({ title, content }: IAlertDialog) => {
 
   return (
     <>
-      <Dialog
-        open={dialog}
-        onClose={handleClose}
-        title={title}
-        contentStyles={styles.background}
-        textStyles={styles.text}
-        contentText={content}
-        actions={
-          <>
-            <Button color={"secondary"} onClick={handleClose} autoFocus={true} label={"Cancel"} />
-            <StripeCheckoutButton price={subscription.price} period={subscription.plan} />
-          </>
-        }
-      />
+      <ThemeProvider theme={alertDialog}>
+        <Dialog
+          open={dialog}
+          onClose={handleClose}
+          title={title}
+          contentStyles={styles.background}
+          textStyles={styles.text}
+          contentText={content}
+          actions={
+            <>
+              <Button color={"secondary"} onClick={handleClose} autoFocus={true} label={"Cancel"} />
+              <StripeCheckoutButton price={subscription.price} period={subscription.plan} />
+            </>
+          }
+        />
+      </ThemeProvider>
     </>
   );
 };

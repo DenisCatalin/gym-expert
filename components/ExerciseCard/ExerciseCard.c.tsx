@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setExercisesState } from "../../redux/exercises.slice";
 import { Button } from "../../interface/Button";
 import fetchData from "../../utils/fetchData";
-import { buttonTheme } from "../../utils/muiTheme";
+import { buttonTheme, exerciseButtonTheme } from "../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import { setScheduleState } from "../../redux/schedule.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
@@ -127,7 +127,7 @@ const ExerciseCard = ({ item, last = false, toSave, fav }: IExerciseCard) => {
         transition={{ duration: 0.5 }}
       >
         <h1 className={styles.exerciseName}>{item?.name}</h1>
-        <ThemeProvider theme={buttonTheme}>
+        <ThemeProvider theme={exerciseButtonTheme}>
           <Button
             className={styles.addToFav}
             onClick={handleClick}

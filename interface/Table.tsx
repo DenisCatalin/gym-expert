@@ -15,7 +15,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { ThemeProvider } from "@mui/material";
-import { tableTheme } from "../utils/muiTheme";
+import { alertDialog, tableTheme } from "../utils/muiTheme";
 import firebase from "../lib/firebase";
 import { Dialog } from "./Dialog";
 import { Button } from "./Button";
@@ -375,41 +375,43 @@ const Table = ({ className, rows, collection, typeOnClick }: ITable) => {
           </MuiTable>
         </ThemeProvider>
       </TableContainer>
-      <Dialog
-        fullWidth={true}
-        maxWidth={rows[rowID]?.exercises > 3 ? "lg" : "sm"}
-        open={openDialog}
-        onClose={handleClose}
-        title={title}
-        textStyles={styles.text}
-        contentStyles={styles.background}
-        contentText={
-          "You are about to delete this row which is part of your personal progress. You really want to do that?"
-        }
-        contentOther={
-          <>
-            <div className={styles.previewExercises}>
-              {rows[rowID]?.exercises?.map((exercise: string, idx: number) => (
-                <div className={styles.fmm} key={idx}>
-                  <Image
-                    src={exercise}
-                    alt="Preview"
-                    key={idx}
-                    layout="fill"
-                    style={{ pointerEvents: "none" }}
-                  />
-                </div>
-              ))}
-            </div>
-          </>
-        }
-        actions={
-          <>
-            <Button color="secondary" onClick={handleClose} label={"No"} />
-            <Button color="secondary" onClick={deleteRow} autoFocus={true} label="Delete" />
-          </>
-        }
-      />
+      <ThemeProvider theme={alertDialog}>
+        <Dialog
+          fullWidth={true}
+          maxWidth={rows[rowID]?.exercises > 3 ? "lg" : "sm"}
+          open={openDialog}
+          onClose={handleClose}
+          title={title}
+          textStyles={styles.text}
+          contentStyles={styles.background}
+          contentText={
+            "You are about to delete this row which is part of your personal progress. You really want to do that?"
+          }
+          contentOther={
+            <>
+              <div className={styles.previewExercises}>
+                {rows[rowID]?.exercises?.map((exercise: string, idx: number) => (
+                  <div className={styles.fmm} key={idx}>
+                    <Image
+                      src={exercise}
+                      alt="Preview"
+                      key={idx}
+                      layout="fill"
+                      style={{ pointerEvents: "none" }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </>
+          }
+          actions={
+            <>
+              <Button color="secondary" onClick={handleClose} label={"No"} />
+              <Button color="secondary" onClick={deleteRow} autoFocus={true} label="Delete" />
+            </>
+          }
+        />
+      </ThemeProvider>
     </>
   );
 };

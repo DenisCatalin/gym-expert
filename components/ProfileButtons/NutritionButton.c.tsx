@@ -3,7 +3,12 @@ import styles from "../../css/components/NutritionButton.module.css";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import { Dialog } from "../../interface/Dialog";
 import { IconButton } from "../../interface/IconButton";
-import { inputTheme, tooltipTheme } from "../../utils/muiTheme";
+import {
+  dateContainer,
+  dateContainerCurrent,
+  inputTheme,
+  tooltipTheme,
+} from "../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import { Button } from "../../interface/Button";
 import moment from "moment";
@@ -194,20 +199,22 @@ const NutritionButton = () => {
           <>
             <div className={styles.dates}>
               {fullDays.map((day: any, i: number) => (
-                <Button
-                  className={
-                    currentDay === i + 1 ? styles.dateContainerCurrent : styles.dateContainer
-                  }
-                  color="inherit"
-                  label={
-                    <>
-                      <h4 style={{ fontSize: ".9em" }}>{i + 1}</h4>
-                      <h4 style={{ fontSize: ".65em" }}>{day}</h4>
-                    </>
-                  }
-                  onClick={() => setupDialog(i + 1)}
+                <ThemeProvider
+                  theme={currentDay === i + 1 ? dateContainerCurrent : dateContainer}
                   key={i}
-                />
+                >
+                  <Button
+                    color="inherit"
+                    label={
+                      <>
+                        <h4 style={{ fontSize: ".9em" }}>{i + 1}</h4>
+                        <h4 style={{ fontSize: ".65em" }}>{day}</h4>
+                      </>
+                    }
+                    onClick={() => setupDialog(i + 1)}
+                    key={i}
+                  />
+                </ThemeProvider>
               ))}
             </div>
           </>

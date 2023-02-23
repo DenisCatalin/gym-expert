@@ -18,6 +18,8 @@ import { ROUTES } from "../../../Routes";
 import { Menu } from "../../../interface/Menu";
 import fetchData from "../../../utils/fetchData";
 import { setOtherState } from "../../../redux/others.slice";
+import { avatarTheme } from "../../../utils/muiTheme";
+import { ThemeProvider } from "@mui/material";
 
 const ProfileButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -232,26 +234,28 @@ const ProfileButton = () => {
               aria-label="Profile button"
               onKeyDown={event => event.code === "Enter" && handleClick(event)}
             >
-              <Avatar className={styles.avatar} onClick={handleClick}>
-                {userRedux.profilePic === null ? (
-                  userRedux.displayName === null ? (
-                    userRedux.email[0]
+              <ThemeProvider theme={avatarTheme}>
+                <Avatar onClick={handleClick}>
+                  {userRedux.profilePic === null ? (
+                    userRedux.displayName === null ? (
+                      userRedux.email[0]
+                    ) : (
+                      userRedux.displayName[0]
+                    )
                   ) : (
-                    userRedux.displayName[0]
-                  )
-                ) : (
-                  <Image
-                    src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
-                    alt=""
-                    layout="fill"
-                    objectFit="cover"
-                    priority
-                    blurDataURL={
-                      userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
-                    }
-                  />
-                )}
-              </Avatar>
+                    <Image
+                      src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
+                      alt=""
+                      layout="fill"
+                      objectFit="cover"
+                      priority
+                      blurDataURL={
+                        userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
+                      }
+                    />
+                  )}
+                </Avatar>
+              </ThemeProvider>
             </div>
           ) : (
             <Link href={"/login"}>

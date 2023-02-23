@@ -13,7 +13,14 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
-import { buttonTheme, themePagination, theme2, inputTheme, tooltipTheme } from "../utils/muiTheme";
+import {
+  buttonTheme,
+  themePagination,
+  theme2,
+  inputTheme,
+  tooltipTheme,
+  scheduleButton,
+} from "../utils/muiTheme";
 import { useSelector, useDispatch } from "react-redux";
 import { ROUTES } from "../Routes";
 import { Button } from "../interface/Button";
@@ -83,10 +90,18 @@ const exercise = [
 const options = {
   method: "GET",
   headers: {
-    "X-RapidAPI-Key": "3fb777c1b0msh9d24b739a3e998ep18c66fjsn68f4a6654b4b",
+    "X-RapidAPI-Key": "4c5032082dmshadd820cc22293e0p1d2ad4jsn37463e3d4534",
     "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
   },
 };
+
+// const options = {
+//   method: "GET",
+//   headers: {
+//     "X-RapidAPI-Key": "3fb777c1b0msh9d24b739a3e998ep18c66fjsn68f4a6654b4b",
+//     "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
+//   },
+// };
 
 const Exercises = () => {
   const [page, setPage] = useState(1);
@@ -430,11 +445,16 @@ const Exercises = () => {
                   </>
                 )}
               </motion.div>
-              <Button
-                label={scheduleRedux.scheduleMode ? "Done schedule" : "Schedule"}
-                className={scheduleRedux.scheduleMode ? styles.doneSchedule2 : styles.doneSchedule}
-                onClick={scheduleRedux.scheduleMode ? handleOpenDialog : setupDialog}
-              />
+              <ThemeProvider theme={scheduleButton}>
+                <Button
+                  label={scheduleRedux.scheduleMode ? "Done schedule" : "Schedule"}
+                  className={
+                    scheduleRedux.scheduleMode ? styles.doneSchedule2 : styles.doneSchedule
+                  }
+                  onClick={scheduleRedux.scheduleMode ? handleOpenDialog : setupDialog}
+                />
+              </ThemeProvider>
+
               <div style={{ display: bodyPart === "favourites" ? "none" : "initial" }}>
                 <ThemeProvider theme={inputTheme}>
                   <Input

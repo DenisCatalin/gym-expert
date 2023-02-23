@@ -6,8 +6,8 @@
 .trackingButton {
     background: var(--buttonGradient);
     position: absolute;
-    top: 32%;
-    left: 10%;
+    top: 18%;
+    right: 47.5%;
 }
 
 .buttonAdd {
