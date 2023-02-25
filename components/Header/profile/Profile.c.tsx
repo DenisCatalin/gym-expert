@@ -266,18 +266,14 @@ const ProfileButton = () => {
           )}
         </>
       )}
-      {anchorEl ? (
-        <>
-          <Menu
-            id="account-menu"
-            anchor={anchorEl}
-            handleClose={handleClose}
-            options={menuOptions}
-            title={userRedux.displayName}
-            content={userRedux.email}
-          />
-        </>
-      ) : null}
+      <Menu
+        id="account-menu"
+        anchor={anchorEl}
+        handleClose={handleClose}
+        options={menuOptions}
+        title={userRedux.displayName}
+        content={userRedux.email}
+      />
     </>
   );
 };

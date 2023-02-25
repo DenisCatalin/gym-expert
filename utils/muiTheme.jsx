@@ -132,6 +132,36 @@ export const alertDialog = createTheme({
   },
 });
 
+export const dialogNotifications = createTheme({
+  components: {
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          fontFamily: "var(--font)",
+          color: "rgba(255, 255, 255, 0.5)",
+          background: "var(--background)",
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          fontFamily: "var(--font)",
+          color: "var(--white)",
+          background: "var(--background)",
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          background: "var(--background)",
+        },
+      },
+    },
+  },
+});
+
 export const dialogInputTheme = createTheme({
   components: {
     MuiOutlinedInput: {

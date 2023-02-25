@@ -3,10 +3,12 @@ import UseRedirectUser from "../../utils/redirectUser";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";
+import fetchData from "../../utils/fetchData";
 import { cropImages } from "../../lib/cropImages";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import firebase from "../../lib/firebase";
+import { useSelector } from "react-redux";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);
@@ -25,9 +27,18 @@ export async function getServerSideProps(context) {
 }
 
 const ViewProfile = ({ displayName }) => {
-  const [newsPost, setNews] = useState([]);
+  const [dataProfile, setData] = useState([]);
   const [fetched, setFetched] = useState(false);
   const [img, setImage] = useState();
+
+  const userRedux = useSelector(state => state.user.user);
+
+  const firestore = firebase.firestore();
+  const notificationsRef = firestore.collection("notifications");
+  const queryQ = notificationsRef.orderBy("createdAt");
+  //@ts-ignore
+  const [notifications] = useCollectionData(queryQ, { id: "id" });
+
   useEffect(() => {
     (async () => {
       const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS}`, {
@@ -39,36 +50,50 @@ const ViewProfile = ({ displayName }) => {
         },
       });
 
-      setNews(data?.profileDetails?.data?.users[0]);
+      setData(data?.profileDetails?.data?.users[0]);
       setFetched(true);
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
-      if (newsPost !== undefined && newsPost.cropArea !== undefined) {
-        const img = await cropImages(newsPost.profilePic, JSON.parse(newsPost.cropArea));
+      if (dataProfile !== undefined && dataProfile.cropArea !== undefined) {
+        const img = await cropImages(dataProfile.profilePic, JSON.parse(dataProfile.cropArea));
         setImage(img);
       }
     })();
-    console.log(newsPost);
-  }, [newsPost]);
+    console.log(dataProfile);
+  }, [dataProfile]);
+
+  const addFriend = async () => {
+    {
+      notifications &&
+        (await notificationsRef.add({
+          id: notifications.length + 1,
+          content: `${userRedux.displayName} wants to be your friend.`,
+          forUser: dataProfile.email,
+          read: false,
+          sender: userRedux.displayName,
+          title: "New friend request",
+          type: "friends",
+        }));
+    }
+  };
 
   return (
     <div className={styles.container}>
       <Head>
         <title>Gym Expert - Profile of {displayName}</title>
       </Head>
-      {newsPost === undefined ? (
+      {dataProfile === undefined ? (
         <h1 style={{ color: "var(--white)", fontSize: "2em", fontFamily: "var(--font)" }}>
           Profile not found
         </h1>
       ) : (
         <>
           <div className={styles.content}>
-            <p>{newsPost.displayName}</p>
-            <p>{newsPost.profilePic}</p>
-            <p>{newsPost.email}</p>
+            <p>{dataProfile.displayName}</p>
+            <p>{dataProfile.email}</p>
             {img && (
               <Image
                 src={img}
@@ -76,13 +101,11 @@ const ViewProfile = ({ displayName }) => {
                 width={100}
                 height={100}
                 // layout="fill"
-                style={{ borderRadius: "50%" }}
               />
             )}
-            <p>{newsPost.testimonial}</p>
-            <p>{newsPost.registerDate}</p>
-            <p>{newsPost.cropArea}</p>
-            <button>Add friend</button>
+            <p>{dataProfile.testimonial}</p>
+            <p>{dataProfile.registerDate}</p>
+            <button onClick={addFriend}>Add friend</button>
           </div>
         </>
       )}

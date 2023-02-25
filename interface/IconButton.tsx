@@ -13,6 +13,7 @@ type IButtonProps = {
     | "warning"
     | undefined;
   onClick?: (event: any) => void;
+  onKeyDown?: (event: any) => void;
   autoFocus?: boolean;
   className?: string;
   label: string | React.ReactNode;
@@ -26,6 +27,7 @@ type IButtonProps = {
 export const IconButton = ({
   color,
   onClick,
+  onKeyDown,
   autoFocus,
   className,
   label,
@@ -40,6 +42,7 @@ export const IconButton = ({
       <MuiButton
         color={color}
         onClick={onClick}
+        onKeyDown={onKeyDown}
         autoFocus={autoFocus ? true : false}
         className={className}
         role={role}
