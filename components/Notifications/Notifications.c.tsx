@@ -183,6 +183,8 @@ const Notifications = () => {
       />
       <ThemeProvider theme={dialogNotifications}>
         <Dialog
+          fullWidth={true}
+          maxWidth="sm"
           open={openDialog}
           onClose={closeDialog}
           title={titleDialog}
