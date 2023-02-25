@@ -76,6 +76,7 @@ const ViewProfile = ({ displayName }) => {
           sender: userRedux.displayName,
           title: "New friend request",
           type: "friends",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         }));
     }
   };
