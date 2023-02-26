@@ -62,7 +62,6 @@ const ViewProfile = ({ displayName }) => {
         setImage(img);
       }
     })();
-    console.log(dataProfile);
   }, [dataProfile]);
 
   const addFriend = async () => {
@@ -70,13 +69,15 @@ const ViewProfile = ({ displayName }) => {
       notifications &&
         (await notificationsRef.add({
           id: notifications.length + 1,
-          content: `${userRedux.displayName} wants to be your friend.`,
-          forUser: dataProfile.email,
+          content: `${userRedux.displayName} has sent you a friend request. Do you want to accept it?`,
+          forUser: dataProfile.issuer,
           read: false,
           sender: userRedux.displayName,
-          title: "New friend request",
+          senderIssuer: userRedux.issuer,
+          title: `New friend request from ${userRedux.displayName}`,
           type: "friends",
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          responded: false,
         }));
     }
   };

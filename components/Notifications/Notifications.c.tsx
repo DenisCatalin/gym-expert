@@ -22,9 +22,9 @@ const Notifications = () => {
   const [contentDialog, setContentDialog] = useState<React.ReactNode>(<></>);
   const [actionsDialog, setActionsDialog] = useState<React.ReactNode>(<></>);
   const docIDref = useRef<number>(0);
+  const userIssuer = useRef<string>("");
 
   const userRedux = useSelector((state: any) => state.user.user);
-  const { email } = userRedux;
 
   const firestore = firebase.firestore();
   const notificationsRef = firestore.collection("notifications");
@@ -43,7 +43,7 @@ const Notifications = () => {
     setCountNotifications(0);
     notifications?.map((notification: any) => {
       const { id, forUser, title, type, read } = notification;
-      if (forUser === email) {
+      if (forUser === userRedux.issuer) {
         setMenuOptions(oldArray => [
           ...oldArray,
           {
@@ -52,7 +52,7 @@ const Notifications = () => {
             label: (
               <div className={styles.notification}>
                 <h5>{title}</h5>
-                <h5>{convertSecondsToDate(notification.createdAt.seconds)}</h5>
+                <h5>{convertSecondsToDate(notification?.createdAt?.seconds)}</h5>
               </div>
             ),
             icon: (
@@ -70,7 +70,7 @@ const Notifications = () => {
           },
         ]);
       }
-      if (forUser === email && read !== true) {
+      if (forUser === userRedux.issuer && read !== true) {
         count++;
       }
     });
@@ -109,12 +109,42 @@ const Notifications = () => {
     }
   }
 
+  const acceptRequest = async () => {
+    closeDialog();
+    {
+      notifications &&
+        (await notificationsRef.add({
+          id: notifications.length + 1,
+          content: `${userRedux.displayName} accepted your friend request`,
+          forUser: userIssuer.current,
+          read: false,
+          sender: userRedux.displayName,
+          senderIssuer: userRedux.issuer,
+          title: `${userRedux.displayName} accepted your friend request. You may now ... to be continued`,
+          type: "friends",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          responded: true,
+        }));
+    }
+    if (docIDref.current > 0) {
+      const getID: any = await getDocumentIdByFieldValue("id", docIDref.current);
+      const docRef = firestore.collection("notifications").doc(getID);
+      {
+        docRef &&
+          (await docRef.update({
+            responded: true,
+          }));
+      }
+    }
+  };
+
   const handleOpenDialog = async (index: number) => {
     setOpenDialog(true);
     notifications?.map((notification: any) => {
-      const { id, title, type, read, content, sender } = notification;
+      const { id, title, type, content, sender, senderIssuer, responded } = notification;
       if (id === index) {
         docIDref.current = id;
+        userIssuer.current = senderIssuer;
         setTitleDialog(title);
         setContentDialog(
           <div className={styles.contentDialog}>
@@ -131,8 +161,14 @@ const Notifications = () => {
           <>
             {type === "friends" ? (
               <>
-                <Button onClick={closeDialog} label="Accept" color="secondary" />
-                <Button onClick={closeDialog} label="Decline" color="secondary" />
+                {responded === false ? (
+                  <>
+                    <Button onClick={acceptRequest} label="Accept" color="secondary" />
+                    <Button onClick={closeDialog} label="Decline" color="secondary" />
+                  </>
+                ) : (
+                  <Button onClick={closeDialog} label="Close" color="secondary" />
+                )}
               </>
             ) : (
               <Button onClick={closeDialog} label="Close" color="secondary" />
