@@ -132,6 +132,50 @@ export const alertDialog = createTheme({
   },
 });
 
+export const autocompleteTheme = createTheme({
+  components: {
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          position: "absolute",
+          width: "12%",
+          left: "25%",
+          fontFamily: "var(--font)",
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: "white",
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: "white",
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: "2px solid var(--progress)",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            border: "2px solid var(--progress)",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: "2px solid var(--progress)",
+          },
+        },
+      },
+    },
+  },
+});
+
 export const dialogNotifications = createTheme({
   components: {
     MuiDialogTitle: {

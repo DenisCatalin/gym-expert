@@ -63,6 +63,7 @@ const ViewProfile = ({ displayName }) => {
 
       friends?.map(friend => {
         const { issuer, friendName } = friend;
+        console.log("friend name: " + friendName);
         if (issuer === userRedux.issuer && displayName === friendName) {
           setIsFriend(true);
         } else {
@@ -70,7 +71,7 @@ const ViewProfile = ({ displayName }) => {
         }
       });
     })();
-  }, []);
+  }, [friends]);
 
   useEffect(() => {
     (async () => {
@@ -101,8 +102,7 @@ const ViewProfile = ({ displayName }) => {
 
   async function getDocumentIdByFieldValue(field, value, field2, value2) {
     try {
-      const querySnapshot = await firestore
-        .collection("friends")
+      const querySnapshot = await friendsRef
         .where(field, "==", value)
         .where(field2, "==", value2)
         .get();
