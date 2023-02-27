@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../../css/components/TestimonialsCardResponsive.module.css";
 import { ratingLabels } from "../../../lib/ratingLabels";
 import Rating from "@mui/material/Rating";
@@ -26,21 +26,24 @@ type ICard = {
 const ResponsiveCard = ({ profilePic, name, date, text, rating }: ICard) => {
   const { width } = useWindowDimensions();
   const userRedux = useSelector((state: any) => state.user.user);
+  const reviewRedux = useSelector((state: any) => state.review.review);
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
 
   const handleOpen = () => {
-    setEditMode(true);
     dispatch(setReviewState(true));
   };
 
   const handleClose = () => {
     dispatch(setReviewState(false));
-    setEditMode(false);
   };
 
+  useEffect(() => {
+    setEditMode(reviewRedux);
+  }, [reviewRedux]);
+
   return (
-    <div className={styles.container}>
+    <motion.div className={styles.container} animate={{ opacity: [0, 1] }}>
       <div className={styles.profile}>
         <div className={styles.profilePic}>
           <Image src={profilePic} alt="" layout="fill" objectFit="cover" priority />
@@ -77,7 +80,7 @@ const ResponsiveCard = ({ profilePic, name, date, text, rating }: ICard) => {
             aria-describedby="alert-dialog-description"
             style={{ backdropFilter: "blur(5px)" }}
           >
-            <PostTestimonial placeholder={text} />
+            <PostTestimonial placeholder={"Your message"} />
           </Dialog>
         ) : null}
       </div>
@@ -93,7 +96,7 @@ const ResponsiveCard = ({ profilePic, name, date, text, rating }: ICard) => {
         {/* @ts-ignore */}
         <Box sx={{ ml: 2 }}>{ratingLabels[rating]}</Box>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

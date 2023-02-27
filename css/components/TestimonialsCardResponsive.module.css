@@ -1,5 +1,5 @@
 .container {
-    width: 60%;
+    width: 50%;
     height: 100%;
     background: var(--testimonialBg);
     border-radius: 20px;
@@ -31,7 +31,7 @@
 }
 
 .profileInfo {
-    width: 50%;
+    width: 60%;
     height: 100%;
     display: flex;
     flex-direction: column;
