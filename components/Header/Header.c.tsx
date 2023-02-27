@@ -9,6 +9,7 @@ import useWindowDimensions from "../../utils/useWindowDimensions";
 import Burger from "../Burger/Burger.c";
 import { ROUTES } from "../../Routes";
 import Notifications from "../Notifications/Notifications.c";
+import FriendList from "../Friends/FriendList.c";
 
 const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact"];
 
@@ -38,6 +39,7 @@ const Header = ({ sticky = false }) => {
                     </a>
                   </Link>
                 ))}
+                <FriendList />
                 <Notifications />
                 <ProfileButton />
               </ul>

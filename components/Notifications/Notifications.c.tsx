@@ -12,6 +12,7 @@ import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
 import { Dialog } from "../../interface/Dialog";
 import { Button } from "../../interface/Button";
+import fetchData from "../../utils/fetchData";
 
 const Notifications = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,6 +20,7 @@ const Notifications = () => {
   const [countNotifications, setCountNotifications] = useState<number>(0);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [titleDialog, setTitleDialog] = useState<string>("");
+  const [profileData, setProfileData] = useState<any>([]);
   const [contentDialog, setContentDialog] = useState<React.ReactNode>(<></>);
   const [actionsDialog, setActionsDialog] = useState<React.ReactNode>(<></>);
   const docIDref = useRef<number>(0);
@@ -28,9 +30,13 @@ const Notifications = () => {
 
   const firestore = firebase.firestore();
   const notificationsRef = firestore.collection("notifications");
+  const friendsRef = firestore.collection("friends");
   const queryQ = notificationsRef.orderBy("createdAt");
+  const queryW = notificationsRef.orderBy("createdAt");
   //@ts-ignore
   const [notifications] = useCollectionData(queryQ, { id: "id" });
+  //@ts-ignore
+  const [friends] = useCollectionData(queryW, { id: "id" });
 
   let count: number = 0;
 
@@ -109,18 +115,83 @@ const Notifications = () => {
     }
   }
 
+  async function getFriendDisplayName(issuer: string) {
+    const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
+      method: "GET",
+      headers: {
+        body: JSON.stringify({
+          issuer: issuer,
+        }),
+      },
+    });
+    setProfileData(data?.profileDetails?.data?.users[0]);
+    return data?.profileDetails?.data?.users[0]?.displayName;
+  }
+
   const acceptRequest = async () => {
     closeDialog();
     {
       notifications &&
         (await notificationsRef.add({
           id: notifications.length + 1,
-          content: `${userRedux.displayName} accepted your friend request`,
+          content: `${userRedux.displayName} accepted your friend request. You may now ... to be continued`,
           forUser: userIssuer.current,
           read: false,
           sender: userRedux.displayName,
           senderIssuer: userRedux.issuer,
-          title: `${userRedux.displayName} accepted your friend request. You may now ... to be continued`,
+          title: `${userRedux.displayName} accepted your friend request.`,
+          type: "friends",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          responded: true,
+        }));
+    }
+    const name = await getFriendDisplayName(userIssuer.current);
+    {
+      friends &&
+        name !== undefined &&
+        profileData !== undefined &&
+        (await friendsRef.add({
+          id: friends.length + 1,
+          issuer: userRedux.issuer,
+          friendIssuer: userIssuer.current,
+          friendName: name,
+          friendPhoto: profileData.profilePic,
+        }));
+    }
+    {
+      friends &&
+        (await friendsRef.add({
+          id: friends.length + 2,
+          issuer: userIssuer.current,
+          friendIssuer: userRedux.issuer,
+          friendName: userRedux.displayName,
+          friendPhoto: userRedux.profilePic,
+        }));
+    }
+    if (docIDref.current > 0) {
+      const getID: any = await getDocumentIdByFieldValue("id", docIDref.current);
+      const docRef = firestore.collection("notifications").doc(getID);
+      {
+        docRef &&
+          (await docRef.update({
+            responded: true,
+          }));
+      }
+    }
+  };
+
+  const declineRequest = async () => {
+    closeDialog();
+    {
+      notifications &&
+        (await notificationsRef.add({
+          id: notifications.length + 1,
+          content: `${userRedux.displayName} declined your friend request`,
+          forUser: userIssuer.current,
+          read: false,
+          sender: userRedux.displayName,
+          senderIssuer: userRedux.issuer,
+          title: `${userRedux.displayName} has declined your friend request. Unfortunately, you cannot make everyone your friend :(`,
           type: "friends",
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           responded: true,
@@ -164,7 +235,7 @@ const Notifications = () => {
                 {responded === false ? (
                   <>
                     <Button onClick={acceptRequest} label="Accept" color="secondary" />
-                    <Button onClick={closeDialog} label="Decline" color="secondary" />
+                    <Button onClick={declineRequest} label="Decline" color="secondary" />
                   </>
                 ) : (
                   <Button onClick={closeDialog} label="Close" color="secondary" />

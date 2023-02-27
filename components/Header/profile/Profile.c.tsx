@@ -1,5 +1,4 @@
 import Avatar from "@mui/material/Avatar";
-import styles from "../../../css/components/ProfileButton.module.css";
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { didTokenContext } from "../../../lib/didTokenContext";
