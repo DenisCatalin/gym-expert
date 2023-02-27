@@ -1,7 +1,7 @@
 import { getTestimonialsQuery } from "../../lib/db/hasura";
 
 export default async function GETTestimonial(req, res) {
-  if (req.method === "POST") {
+  if (req.method === "GET") {
     try {
       const token = req ? req.cookies?.token : null;
 

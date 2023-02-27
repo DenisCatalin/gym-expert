@@ -3,22 +3,18 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { ThemeProvider } from "@mui/material/styles";
-import Card from "./card/TestimonialsCard.c";
-import CardFocus from "./card-big/TestimonialsCardFocus.c";
-import useWindowDimensions from "../../utils/useWindowDimensions";
-import ResponsiveCard from "./responsive-card/TestimonialsResponsiveCard.c";
-import { useState, useEffect } from "react";
-import Dialog from "@mui/material/Dialog";
+import ResponsiveCard from "./responsive-card/TestimonialCard.c";
+import { useState, useEffect, useRef } from "react";
 import { magic } from "../../lib/magic-client";
 import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 import { theme2 } from "../../utils/muiTheme";
-import PostTestimonial from "./post-testimonial/PostTestimonial.c";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { ROUTES } from "../../Routes";
 import { MotionButton } from "../../interface/MotionButton";
 import fetchData from "../../utils/fetchData";
+import { setReviewState } from "../../redux/review.slice";
 
 type ITestimonial = {
   name?: string;
@@ -29,20 +25,17 @@ type ITestimonial = {
 };
 
 const Testimonials = () => {
-  const { width } = useWindowDimensions();
-  const [reviews, setReviews] = useState<any>(null);
-  const [count, setCount] = useState(0);
-  const [testimonial, setTestimonial] = useState<ITestimonial>();
+  const [testimonial, setTestimonial] = useState<ITestimonial | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const [reviewLeft, setReviewLeft] = useState<ITestimonial>();
-  const [reviewRight, setReviewRight] = useState<ITestimonial>();
   const [fetched, setFetched] = useState(false);
   const [testimonials, setTestimonials] = useState<any>([]);
   const [open, setOpen] = useState(false);
 
-  const testimonialss = useSelector((state: any) => state.testimonial.testimonial);
-  const userRedux = useSelector((state: any) => state.user.user);
+  const count = useRef<number>(0);
 
+  const userRedux = useSelector((state: any) => state.user.user);
+  const reviewRedux = useSelector((state: any) => state.review.review);
+  const testimonialsRedux = useSelector((state: any) => state.testimonial.testimonial);
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -54,7 +47,8 @@ const Testimonials = () => {
     if (!isLoggedIn) router.push(ROUTES.login);
     else {
       if (userRedux.testimonial === false) {
-        setOpen(true);
+        dispatch(setReviewState(true));
+        setOpen(reviewRedux);
         setIsLoading(false);
       } else {
         dispatch(
@@ -70,62 +64,44 @@ const Testimonials = () => {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen(reviewRedux);
   };
 
   useEffect(() => {
-    setReviews(testimonials);
-    // setFetched(true);
-    setTestimonial(testimonials[count]);
-    setReviewLeft(testimonials[count]);
-    setReviewRight(testimonials[count]);
+    setTestimonial(testimonials[count.current]);
+    console.log(reviewRedux);
   }, [testimonials]);
 
   useEffect(() => {
+    setFetched(false);
     (async () => {
       const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_TESTIMONIALS}`, {
-        method: "POST",
+        method: "GET",
       });
       setFetched(true);
       setTestimonials(data?.getTestimonialsForUser?.data?.testimonials);
-      // setReviews(data?.getTestimonialsForUser?.data?.testimonials);
     })();
-  }, [testimonialss]);
-
-  useEffect(() => {
-    if (count > 0) {
-      setTestimonial(testimonials[count]);
-      setFetched(true);
-      if (reviews !== null) {
-        if (count === 0) {
-          setReviewLeft(reviews[testimonials.length - 1]);
-          setReviewRight(reviews[count + 1]);
-        } else if (count === 5) {
-          setReviewLeft(reviews[count - 1]);
-          setReviewRight(reviews[0]);
-        } else {
-          setReviewRight(reviews[count + 1]);
-          setReviewLeft(reviews[count - 1]);
-        }
-      }
-    }
-  }, [reviews, count, testimonials]);
+  }, [testimonialsRedux]);
 
   const decreaseReview = () => {
-    setFetched(false);
-    const testimonials = reviews.length;
-    if (count === 0) {
-      setCount(testimonials - 1);
-    } else setCount(count - 1);
+    const reviews = testimonials.length;
+    if (count.current === 0) {
+      setTestimonial(testimonials[reviews - 1]);
+      count.current = reviews - 1;
+    } else {
+      count.current = count.current - 1;
+      setTestimonial(testimonials[count.current]);
+    }
   };
 
   const increaseReview = () => {
-    setFetched(false);
-    const testimonials = reviews.length;
-    if (count === testimonials - 1) {
-      setCount(0);
-    } else setCount(count + 1);
-    ``;
+    const reviews = testimonials.length;
+    if (count.current === reviews - 1) {
+      count.current = 0;
+    } else {
+      count.current = count.current + 1;
+    }
+    setTestimonial(testimonials[count.current]);
   };
 
   return (
@@ -157,7 +133,7 @@ const Testimonials = () => {
                     onClick={increaseReview}
                     label={
                       <>
-                        <ChevronRightRoundedIcon htmlColor="#ff" className={styles.arrowIcon} />
+                        <ChevronRightRoundedIcon htmlColor="#fff" className={styles.arrowIcon} />
                       </>
                     }
                   />
@@ -165,83 +141,15 @@ const Testimonials = () => {
               </div>
             )}
           </div>
-          {fetched ? (
+          {fetched && testimonial ? (
             <>
-              {width > 1520 ? (
-                <>
-                  {testimonials?.length > 2 ? (
-                    <>
-                      {testimonial !== undefined ? (
-                        <>
-                          <CardFocus
-                            name={testimonial.name}
-                            profilePic={testimonial.profilePic}
-                            text={testimonial.text}
-                            date={testimonial.date}
-                            rating={testimonial.rating}
-                          />
-                          {reviewLeft !== undefined ? (
-                            <>
-                              <Card
-                                name={reviewLeft.name}
-                                profilePic={reviewLeft.profilePic}
-                                text={reviewLeft.text}
-                                date={reviewLeft.date}
-                                rating={reviewLeft.rating}
-                                right={true}
-                              />
-                            </>
-                          ) : null}
-                          {reviewRight !== undefined ? (
-                            <>
-                              <Card
-                                name={reviewRight.name}
-                                profilePic={reviewRight.profilePic}
-                                text={reviewRight.text}
-                                date={reviewRight.date}
-                                rating={reviewRight.rating}
-                                right={false}
-                              />
-                            </>
-                          ) : null}
-                        </>
-                      ) : null}
-                    </>
-                  ) : (
-                    <>
-                      {testimonial !== undefined ? (
-                        <>
-                          <CardFocus
-                            name={testimonial.name}
-                            profilePic={testimonial.profilePic}
-                            text={testimonial.text}
-                            date={testimonial.date}
-                            rating={testimonial.rating}
-                          />
-                        </>
-                      ) : (
-                        <h1 className={styles.title}>No testimonials</h1>
-                      )}
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  {testimonial !== undefined ? (
-                    <>
-                      <ResponsiveCard
-                        name={testimonial.name}
-                        profilePic={testimonial.profilePic}
-                        text={testimonial.text}
-                        date={testimonial.date}
-                        rating={testimonial.rating}
-                      />
-                    </>
-                  ) : (
-                    <h1 className={styles.title}>No testimonials</h1>
-                  )}
-                </>
-              )}
+              <ResponsiveCard
+                name={testimonial?.name}
+                profilePic={testimonial?.profilePic}
+                text={testimonial?.text}
+                date={testimonial?.date}
+                rating={testimonial?.rating}
+              />
             </>
           ) : null}
         </div>
@@ -269,15 +177,6 @@ const Testimonials = () => {
             />
           </ThemeProvider>
         </div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          style={{ backdropFilter: "blur(5px)" }}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <PostTestimonial />
-        </Dialog>
       </div>
     </div>
   );

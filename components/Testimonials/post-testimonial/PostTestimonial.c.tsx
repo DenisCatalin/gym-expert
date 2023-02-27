@@ -15,22 +15,25 @@ import { ThemeProvider } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../../redux/user.slice";
-import { setTestimonialState } from "../../../redux/testimonial.slice";
-import { setReviewState } from "../../../redux/review.slice";
 import { MotionButton } from "../../../interface/MotionButton";
 import fetchData from "../../../utils/fetchData";
 import { MotionTypo } from "../../../interface/MotionTypo";
+import { setReviewState } from "../../../redux/review.slice";
+import { setTestimonialState } from "../../../redux/testimonial.slice";
 
 function getLabelText(rating) {
   return `${rating} Star${rating !== 1 ? "s" : ""}, ${ratingLabels[rating]}`;
 }
 
-const PostTestimonial = ({ placeholder = "Your message" }) => {
+type IPost = {
+  placeholder: string | undefined;
+};
+
+const PostTestimonial = ({ placeholder }: IPost) => {
   const [rating, setRating] = useState<number | null>(0);
   const [hover, setHover] = useState(-1);
-  const [testimonial, setTestimonial] = useState("");
+  const [testimonial, setTestimonial] = useState<string>("");
 
-  const testimonialss = useSelector((state: any) => state.testimonial.testimonial);
   const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
 
@@ -55,9 +58,8 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
   const dateString = `${months[currentMonth]}-${currentDay}-${currentYear}`;
 
   const postTestimonial = async () => {
-    dispatch(setReviewState(false));
     if (testimonial !== "") {
-      if (placeholder !== "Your message") {
+      if (userRedux.testimonial === true) {
         await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_TESTIMONIAL}`, {
           method: "POST",
           headers: {
@@ -69,8 +71,8 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        dispatch(setTestimonialState(!testimonialss.testimonial));
         dispatch(setReviewState(false));
+        dispatch(setTestimonialState(testimonial));
       } else {
         await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL}`, {
           method: "POST",
@@ -85,7 +87,6 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        dispatch(setTestimonialState(!testimonialss.testimonial));
 
         await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_TESTIMONIAL_USER}`, {
           method: "POST",
@@ -95,8 +96,9 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
             }),
           },
         });
-        dispatch(setUserState({ ...userRedux, testimonial: true }));
         dispatch(setReviewState(false));
+        dispatch(setTestimonialState(testimonial));
+        dispatch(setUserState({ ...userRedux, testimonial: true }));
       }
     }
   };
@@ -161,7 +163,7 @@ const PostTestimonial = ({ placeholder = "Your message" }) => {
                 label={
                   <>
                     <h1 className={styles.postButtonText}>Send</h1>
-                    <SendIcon htmlColor="#ff" className={styles.buttonIcon} />
+                    <SendIcon htmlColor="#ffffff" className={styles.buttonIcon} />
                   </>
                 }
               />

@@ -1,6 +1,6 @@
 import styles from "../../../css/components/TeamProfile.module.css";
 import Image from "next/image";
-import { Button } from "../../../interface/Button";
+import { MotionButton } from "../../../interface/MotionButton";
 
 type ITeamProfile = {
   image?: any;
@@ -20,22 +20,19 @@ const TeamProfile = ({ image }: ITeamProfile) => {
           Web Developer
         </div>
         <div className={styles.social}>
-          <Button
-            color={"secondary"}
+          <MotionButton
             className={styles.socialIcon}
             label={<Image src={"/static/facebook-dark.svg"} alt="" width="80" height="60" />}
             role="link"
             ariaLabel={"Facebook page"}
           />
-          <Button
-            color={"secondary"}
+          <MotionButton
             className={styles.socialIcon}
             label={<Image src={"/static/instagram-dark.svg"} alt="" width="80" height="60" />}
             role="link"
             ariaLabel={"Instagram page"}
           />
-          <Button
-            color={"secondary"}
+          <MotionButton
             className={styles.socialIcon}
             label={<Image src={"/static/twitter-dark.svg"} alt="" width="80" height="60" />}
             role="link"
