@@ -10,6 +10,10 @@ import Burger from "../Burger/Burger.c";
 import { ROUTES } from "../../Routes";
 import Notifications from "../Notifications/Notifications.c";
 import FriendList from "../Friends/FriendList.c";
+import Autocomplete from "../../interface/Autocomplete";
+import { ThemeProvider } from "@mui/material";
+import { autocompleteTheme } from "../../utils/muiTheme";
+import fetchData from "../../utils/fetchData";
 
 const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact"];
 
@@ -18,6 +22,17 @@ const Header = ({ sticky = false }) => {
   const router = useRouter();
 
   const [mounted, setMounted] = useState<React.ReactNode | null>(null);
+  const [dataSearch, setDataSearch] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_NAMES}`, {
+        method: "GET",
+      });
+      console.log(data?.names?.data?.users);
+      setDataSearch(data?.names?.data?.users);
+    })();
+  }, []);
 
   useEffect(() => {
     setMounted(
@@ -76,7 +91,9 @@ const Header = ({ sticky = false }) => {
           GYM EXPERT
         </h1>
       </div>
-
+      <ThemeProvider theme={autocompleteTheme}>
+        <Autocomplete label={"Search for profile name"} completions={dataSearch} />
+      </ThemeProvider>
       {mounted}
     </motion.div>
   );

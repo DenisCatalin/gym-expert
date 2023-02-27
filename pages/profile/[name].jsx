@@ -3,7 +3,6 @@ import UseRedirectUser from "../../utils/redirectUser";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { MotionTypo } from "../../interface/MotionTypo";
 import fetchData from "../../utils/fetchData";
 import { cropImages } from "../../lib/cropImages";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -31,7 +30,7 @@ export async function getServerSideProps(context) {
 const ViewProfile = ({ displayName }) => {
   const [dataProfile, setData] = useState([]);
   const [fetched, setFetched] = useState(false);
-  const [isFriend, setIsFriend] = useState(true);
+  const [isFriend, setIsFriend] = useState(false);
   const [img, setImage] = useState();
 
   const userRedux = useSelector(state => state.user.user);
@@ -40,7 +39,7 @@ const ViewProfile = ({ displayName }) => {
   const notificationsRef = firestore.collection("notifications");
   const friendsRef = firestore.collection("friends");
   const queryQ = notificationsRef.orderBy("createdAt");
-  const queryW = notificationsRef.orderBy("id");
+  const queryW = friendsRef.orderBy("id");
   //@ts-ignore
   const [notifications] = useCollectionData(queryQ, { id: "id" });
   const [friends] = useCollectionData(queryW, { id: "id" });
@@ -65,12 +64,10 @@ const ViewProfile = ({ displayName }) => {
         const { issuer, friendName } = friend;
         if (issuer === userRedux.issuer && displayName === friendName) {
           setIsFriend(true);
-        } else {
-          setIsFriend(false);
         }
       });
     })();
-  }, []);
+  }, [friends]);
 
   useEffect(() => {
     (async () => {
@@ -101,8 +98,7 @@ const ViewProfile = ({ displayName }) => {
 
   async function getDocumentIdByFieldValue(field, value, field2, value2) {
     try {
-      const querySnapshot = await firestore
-        .collection("friends")
+      const querySnapshot = await friendsRef
         .where(field, "==", value)
         .where(field2, "==", value2)
         .get();
