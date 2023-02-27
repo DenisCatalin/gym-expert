@@ -1,6 +1,7 @@
 import React from "react";
 import MuiMenu from "@mui/material/Menu";
 import { ThemeProvider } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import { theme2 } from "../utils/muiTheme";
 import { MenuItem } from "./MenuItem";
 import Image from "next/image";
@@ -9,7 +10,7 @@ import { useSelector } from "react-redux";
 
 export type MenuOptions = {
   key: string;
-  label: string;
+  label: string | React.ReactNode;
   icon: React.ReactNode;
   onClick: () => void;
   show: boolean;
@@ -22,9 +23,20 @@ type IMenuProps = {
   options: MenuOptions[];
   title?: string;
   content?: string;
+  width?: string;
+  overflow?: string;
 };
 
-export const Menu = ({ id, anchor, handleClose, options, title, content }: IMenuProps) => {
+export const Menu = ({
+  id,
+  anchor,
+  handleClose,
+  options,
+  title,
+  content,
+  width,
+  overflow,
+}: IMenuProps) => {
   const open = Boolean(anchor);
   const userRedux = useSelector((state: any) => state.user.user);
   const focus = useRef<HTMLDivElement>(null);
@@ -48,7 +60,8 @@ export const Menu = ({ id, anchor, handleClose, options, title, content }: IMenu
       PaperProps={{
         elevation: 0,
         sx: {
-          overflow: "visible",
+          width: { width },
+          overflow: { overflow },
           filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
           color: "white",
           cursor: "pointer",

@@ -49,7 +49,7 @@
 }
 
 .navbar {
-    width: 85%;
+    width: 100%;
     color: var(--white);
     list-style: none;
     font-family: var(--font);
