@@ -7,7 +7,7 @@ import { Menu } from "../../interface/Menu";
 import firebase from "../../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import styles from "../../css/components/Notifications.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
 import { Dialog } from "../../interface/Dialog";
