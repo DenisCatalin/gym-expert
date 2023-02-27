@@ -31,8 +31,8 @@ const Notifications = () => {
   const firestore = firebase.firestore();
   const notificationsRef = firestore.collection("notifications");
   const friendsRef = firestore.collection("friends");
-  const queryQ = notificationsRef.orderBy("createdAt");
-  const queryW = notificationsRef.orderBy("createdAt");
+  const queryQ = notificationsRef.orderBy("createdAt", "desc");
+  const queryW = friendsRef.orderBy("id");
   //@ts-ignore
   const [notifications] = useCollectionData(queryQ, { id: "id" });
   //@ts-ignore
@@ -148,8 +148,6 @@ const Notifications = () => {
     const name = await getFriendDisplayName(userIssuer.current);
     {
       friends &&
-        name !== undefined &&
-        profileData !== undefined &&
         (await friendsRef.add({
           id: friends.length + 1,
           issuer: userRedux.issuer,

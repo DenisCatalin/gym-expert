@@ -59,15 +59,19 @@ const ViewProfile = ({ displayName }) => {
 
       setData(data?.profileDetails?.data?.users[0]);
       setFetched(true);
+    })();
+  }, []);
 
+  useEffect(() => {
+    if (fetched === true) {
       friends?.map(friend => {
-        const { issuer, friendName } = friend;
-        if (issuer === userRedux.issuer && displayName === friendName) {
+        const { issuer, friendIssuer } = friend;
+        if (issuer === userRedux.issuer && friendIssuer === dataProfile.issuer) {
           setIsFriend(true);
         }
       });
-    })();
-  }, [friends]);
+    }
+  }, [fetched, friends]);
 
   useEffect(() => {
     (async () => {
@@ -123,8 +127,30 @@ const ViewProfile = ({ displayName }) => {
       "friendName",
       displayName
     );
+    const actualID2 = await getDocumentIdByFieldValue(
+      "issuer",
+      dataProfile.issuer,
+      "friendName",
+      userRedux.displayName
+    );
+    {
+      notifications &&
+        (await notificationsRef.add({
+          id: notifications.length + 1,
+          content: `${userRedux.displayName} has sent removed you from their friend list.`,
+          forUser: dataProfile.issuer,
+          read: false,
+          sender: userRedux.displayName,
+          senderIssuer: userRedux.issuer,
+          title: `${userRedux.displayName} removed you from their friend list`,
+          type: "friends",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          responded: false,
+        }));
+    }
     try {
       await firestore.collection("friends").doc(actualID).delete();
+      await firestore.collection("friends").doc(actualID2).delete();
       console.log(`Document with ID ${actualID} was successfully deleted.`);
       dispatch(
         setSnackbar({
@@ -132,6 +158,7 @@ const ViewProfile = ({ displayName }) => {
           content: `You have successfully removed ${displayName} from your friends list`,
         })
       );
+      setIsFriend(false);
     } catch (error) {
       console.error(`Error deleting document with ID ${actualID}:`, error);
     }
