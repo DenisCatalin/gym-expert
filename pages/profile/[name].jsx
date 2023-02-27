@@ -3,7 +3,6 @@ import UseRedirectUser from "../../utils/redirectUser";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { MotionTypo } from "../../interface/MotionTypo";
 import fetchData from "../../utils/fetchData";
 import { cropImages } from "../../lib/cropImages";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -63,12 +62,8 @@ const ViewProfile = ({ displayName }) => {
 
       friends?.map(friend => {
         const { issuer, friendName } = friend;
-        console.log(friend);
-        console.log("friend name: " + friendName);
         if (issuer === userRedux.issuer && displayName === friendName) {
           setIsFriend(true);
-        } else {
-          setIsFriend(false);
         }
       });
     })();
