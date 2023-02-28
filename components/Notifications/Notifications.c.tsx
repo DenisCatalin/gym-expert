@@ -20,7 +20,6 @@ const Notifications = () => {
   const [countNotifications, setCountNotifications] = useState<number>(0);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [titleDialog, setTitleDialog] = useState<string>("");
-  const [profileData, setProfileData] = useState<any>([]);
   const [contentDialog, setContentDialog] = useState<React.ReactNode>(<></>);
   const [actionsDialog, setActionsDialog] = useState<React.ReactNode>(<></>);
   const docIDref = useRef<number>(0);
@@ -117,7 +116,7 @@ const Notifications = () => {
     }
   }
 
-  async function getFriendDisplayName(issuer: string) {
+  const addUserAsFriend = async (issuer: string) => {
     const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
       method: "GET",
       headers: {
@@ -126,9 +125,27 @@ const Notifications = () => {
         }),
       },
     });
-    setProfileData(data?.profileDetails?.data?.users);
-    return data?.profileDetails?.data?.users[0]?.displayName;
-  }
+    {
+      friends &&
+        (await friendsRef.add({
+          id: friends.length + 1,
+          issuer: userRedux.issuer,
+          friendIssuer: userIssuer.current,
+          friendName: data?.profileDetails?.data?.users[0].displayName,
+          friendPhoto: data?.profileDetails?.data?.users[0].profilePic,
+        }));
+    }
+    {
+      friends &&
+        (await friendsRef.add({
+          id: friends.length + 2,
+          issuer: userIssuer.current,
+          friendIssuer: userRedux.issuer,
+          friendName: userRedux.displayName,
+          friendPhoto: userRedux.profilePic,
+        }));
+    }
+  };
 
   const acceptRequest = async () => {
     closeDialog();
@@ -147,27 +164,7 @@ const Notifications = () => {
           responded: true,
         }));
     }
-    const name = await getFriendDisplayName(userIssuer.current);
-    {
-      friends &&
-        (await friendsRef.add({
-          id: friends.length + 1,
-          issuer: userRedux.issuer,
-          friendIssuer: userIssuer.current,
-          friendName: name,
-          friendPhoto: profileData.profilePic,
-        }));
-    }
-    {
-      friends &&
-        (await friendsRef.add({
-          id: friends.length + 2,
-          issuer: userIssuer.current,
-          friendIssuer: userRedux.issuer,
-          friendName: userRedux.displayName,
-          friendPhoto: userRedux.profilePic,
-        }));
-    }
+    await addUserAsFriend(userIssuer.current);
     if (docIDref.current > 0) {
       const getID: any = await getDocumentIdByFieldValue("id", docIDref.current);
       const docRef = firestore.collection("notifications").doc(getID);
@@ -238,11 +235,17 @@ const Notifications = () => {
                     <Button onClick={declineRequest} label="Decline" color="secondary" />
                   </>
                 ) : (
-                  <Button onClick={closeDialog} label="Close" color="secondary" />
+                  <>
+                    <Button onClick={deleteNotification} label="Delete" color="secondary" />
+                    <Button onClick={closeDialog} label="Close" color="secondary" />
+                  </>
                 )}
               </>
             ) : (
-              <Button onClick={closeDialog} label="Close" color="secondary" />
+              <>
+                <Button onClick={deleteNotification} label="Delete" color="secondary" />
+                <Button onClick={closeDialog} label="Close" color="secondary" />
+              </>
             )}
           </>
         );
@@ -259,6 +262,13 @@ const Notifications = () => {
           }));
       }
     }
+  };
+
+  const deleteNotification = async () => {
+    const getID: any = await getDocumentIdByFieldValue("id", docIDref.current);
+    await firestore.collection("notifications").doc(getID).delete();
+    closeDialog();
+    console.log("hey", getID, docIDref.current);
   };
 
   return (
