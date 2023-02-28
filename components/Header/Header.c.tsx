@@ -29,8 +29,10 @@ const Header = ({ sticky = false }) => {
       const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_NAMES}`, {
         method: "GET",
       });
-      console.log(data?.names?.data?.users);
-      setDataSearch(data?.names?.data?.users);
+      const filteredUsers = data?.names?.data?.users.filter(
+        (user: any) => user.displayName !== null
+      );
+      setDataSearch(filteredUsers);
     })();
   }, []);
 
