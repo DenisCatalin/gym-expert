@@ -64,10 +64,15 @@ const Chat = () => {
               value={formValue}
               onChange={e => setFormValue(e.target.value)}
               className={styles.chatInput}
-              placeholder="Your message..."
+              placeholder={
+                displayName === null
+                  ? "You haven't set your display name so you cannot send any messages"
+                  : "Your message..."
+              }
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 1] }}
               transition={{ delay: 0.5 }}
+              disabled={displayName === null ? true : false}
             />
 
             <motion.button
