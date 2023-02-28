@@ -176,7 +176,7 @@ const ViewProfile = ({ displayName }) => {
       ) : (
         <>
           {fetched === true ? (
-            <div className={styles.content}>
+            <div className={styles.content} style={{ color: "white" }}>
               <p>{dataProfile.displayName}</p>
               <p>{dataProfile.email}</p>
               {img && (
