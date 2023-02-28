@@ -20,6 +20,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: var(--font);
 }
 
 .contentDialog {
@@ -41,4 +42,12 @@
 .date {
     color: rgba(255, 255, 255, .5);
     font-size: .9em;
+}
+
+.contentBold {
+    font-weight: bold;
+}
+
+.contentRead {
+    font-weight: 100;
 }

@@ -145,7 +145,7 @@ const ViewProfile = ({ displayName }) => {
           title: `${userRedux.displayName} removed you from their friend list`,
           type: "friends",
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          responded: false,
+          responded: true,
         }));
     }
     try {

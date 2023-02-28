@@ -57,8 +57,10 @@ const Notifications = () => {
             onClick: () => handleOpenDialog(id),
             label: (
               <div className={styles.notification}>
-                <h5>{title}</h5>
-                <h5>{convertSecondsToDate(notification?.createdAt?.seconds)}</h5>
+                <h5 className={read ? styles.contentRead : styles.contentBold}>{title}</h5>
+                <h5 className={read ? styles.contentRead : styles.contentBold}>
+                  {convertSecondsToDate(notification?.createdAt?.seconds)}
+                </h5>
               </div>
             ),
             icon: (
@@ -124,7 +126,7 @@ const Notifications = () => {
         }),
       },
     });
-    setProfileData(data?.profileDetails?.data?.users[0]);
+    setProfileData(data?.profileDetails?.data?.users);
     return data?.profileDetails?.data?.users[0]?.displayName;
   }
 
