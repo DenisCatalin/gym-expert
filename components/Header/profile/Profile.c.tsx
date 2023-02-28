@@ -176,7 +176,7 @@ const ProfileButton = () => {
     })();
 
     return () => {
-      isMounted.current = false;
+      isMounted.current = userRedux.displayName === null ? true : false;
     };
   }, [userRedux]);
 

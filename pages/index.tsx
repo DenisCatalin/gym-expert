@@ -28,6 +28,8 @@ const Home = () => {
       (userRedux.secretKeyword === "NULL" && !popup && userFetched)
     ) {
       setShowPopup(true);
+    } else {
+      setShowPopup(false);
     }
   }, [userRedux]);
 
