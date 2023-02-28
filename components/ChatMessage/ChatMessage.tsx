@@ -58,16 +58,22 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
               className={styles.chatProfileImg}
               style={{ marginLeft: ".3rem", position: "relative" }}
             >
-              <Image
-                src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
-                alt=""
-                layout="fill"
-                objectFit="cover"
-                priority
-                blurDataURL={
-                  userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
-                }
-              />
+              {userRedux.profilePic === null ? (
+                <div className={styles.noPicture}>
+                  <p className={styles.asd}>{displayName[0]}</p>
+                </div>
+              ) : (
+                <Image
+                  src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
+                  alt=""
+                  layout="fill"
+                  objectFit="cover"
+                  priority
+                  blurDataURL={
+                    userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
+                  }
+                />
+              )}
             </div>
           </div>
         </motion.div>
@@ -83,17 +89,19 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
               className={styles.chatProfileImg}
               style={{ marginRight: ".3rem", position: "relative" }}
             >
-              {profilePic !== null ? (
-                <>
-                  <Image
-                    src={img || profilePic}
-                    alt=""
-                    priority
-                    blurDataURL={profilePic}
-                    layout="fill"
-                  />
-                </>
-              ) : null}
+              {profilePic === null ? (
+                <div className={styles.noPicture}>
+                  <p className={styles.asd}>{displayName[0]}</p>
+                </div>
+              ) : (
+                <Image
+                  src={img || profilePic}
+                  alt=""
+                  priority
+                  blurDataURL={profilePic}
+                  layout="fill"
+                />
+              )}
             </div>
           </div>
           <div className={styles.receiverMessage}>

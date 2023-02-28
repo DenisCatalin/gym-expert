@@ -105,6 +105,23 @@
     cursor: pointer;
 }
 
+.noPicture {
+    width: 100px;
+    height: 100px;
+    background: var(--purple);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    font-weight: bold;
+}
+
+.asd {
+    position: absolute;
+    top: 3%;
+    left: 25%;
+}
+
 @media only screen and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 370px) and (max-device-width : 540px) {
     .sender {
         width: 90%;
