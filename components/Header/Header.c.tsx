@@ -14,6 +14,7 @@ import Autocomplete from "../../interface/Autocomplete";
 import { ThemeProvider } from "@mui/material";
 import { autocompleteTheme } from "../../utils/muiTheme";
 import fetchData from "../../utils/fetchData";
+import PersonalMessages from "../PersonalMessages/PersonalMessages.c";
 
 const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact"];
 
@@ -57,6 +58,7 @@ const Header = ({ sticky = false }) => {
                   </Link>
                 ))}
                 <FriendList />
+                <PersonalMessages />
                 <Notifications />
                 <ProfileButton />
               </ul>

@@ -32,17 +32,21 @@ const ViewProfile = ({ displayName }) => {
   const [fetched, setFetched] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
   const [img, setImage] = useState();
+  const [hasConversation, setHasConversation] = useState(false);
 
   const userRedux = useSelector(state => state.user.user);
 
   const firestore = firebase.firestore();
   const notificationsRef = firestore.collection("notifications");
   const friendsRef = firestore.collection("friends");
+  const conversationsRef = firestore.collection("conversations");
   const queryQ = notificationsRef.orderBy("createdAt");
   const queryW = friendsRef.orderBy("id");
-  //@ts-ignore
+  const queryY = conversationsRef.orderBy("createdAt");
+
   const [notifications] = useCollectionData(queryQ, { id: "id" });
   const [friends] = useCollectionData(queryW, { id: "id" });
+  const [conversations] = useCollectionData(queryY, { id: "id" });
 
   const dispatch = useDispatch();
 
@@ -164,6 +168,35 @@ const ViewProfile = ({ displayName }) => {
     }
   };
 
+  useEffect(() => {
+    conversations?.map(conversation => {
+      const { participants } = conversation;
+      if (participants.length === 2) {
+        if (
+          (participants[0] === userRedux.issuer && participants[1] === dataProfile.issuer) ||
+          (participants[0] === dataProfile.issuer && participants[1] === userRedux.issuer)
+        ) {
+          setHasConversation(true);
+        }
+      }
+    });
+  }, [conversations, userRedux]);
+
+  const addConversation = async () => {
+    {
+      conversations &&
+        (await conversationsRef.add({
+          id: conversations.length + 1,
+          participants: [userRedux.issuer, dataProfile.issuer],
+          messages: [],
+          lastMessage: "",
+          conversationName: null,
+          conversationPhoto: null,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        }));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -197,6 +230,13 @@ const ViewProfile = ({ displayName }) => {
                   ) : (
                     <button onClick={() => removeFriend("")}>Remove friend</button>
                   )}
+                </>
+              )}
+              {displayName === userRedux.displayName ? null : (
+                <>
+                  {hasConversation === false ? (
+                    <button onClick={addConversation}>Start conversation</button>
+                  ) : null}
                 </>
               )}
             </div>

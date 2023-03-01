@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 
 const FriendList = () => {
   const [anchorEl, setAnchorEl] = useState(null);

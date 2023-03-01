@@ -12,9 +12,10 @@ type IChatMessage = {
   message?: any;
   date: number;
   id?: any;
+  type: string;
 };
 
-const ChatMessage = ({ message, date }: IChatMessage) => {
+const ChatMessage = ({ message, date, type }: IChatMessage) => {
   const { text, sender, profilePic, displayName, cropArea } = message;
   const output = new Date(Math.floor(date * 1000));
   const startingDate = output.toString().split("GMT");
@@ -33,7 +34,6 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
       }));
       if (cropArea !== undefined) {
         setImg(await cropImages(profilePic, cropArea));
-        console.log("Yess", cropArea);
       }
       setData(data);
     })();
@@ -41,76 +41,80 @@ const ChatMessage = ({ message, date }: IChatMessage) => {
 
   return (
     <>
-      {userRedux.issuer === sender ? (
-        <motion.div
-          className={styles.sender}
-          animate={{ opacity: [0, 1], scale: [0.9, 1] }}
-          tabIndex={0}
-          aria-label={`${displayName} says: ${text} at ${startingDate[0]}`}
-        >
-          <div className={styles.senderMessage}>
-            <h1 className={styles.profileName}>{displayName}</h1>
-            <h1 className={styles.chatMessage}>{text}</h1>
-            <span className={styles.tooltipS}>{startingDate[0]}</span>
-          </div>
-          <div className={styles.chatProfilePic}>
-            <div
-              className={styles.chatProfileImg}
-              style={{ marginLeft: ".3rem", position: "relative" }}
+      {type === "global" ? (
+        <>
+          {userRedux.issuer === sender ? (
+            <motion.div
+              className={styles.sender}
+              animate={{ opacity: [0, 1], scale: [0.9, 1] }}
+              tabIndex={0}
+              aria-label={`${displayName} says: ${text} at ${startingDate[0]}`}
             >
-              {userRedux.profilePic === null ? (
-                <div className={styles.noPicture}>
-                  <p className={styles.asd}>{displayName[0]}</p>
+              <div className={styles.senderMessage}>
+                <h1 className={styles.profileName}>{displayName}</h1>
+                <h1 className={styles.chatMessage}>{text}</h1>
+                <span className={styles.tooltipS}>{startingDate[0]}</span>
+              </div>
+              <div className={styles.chatProfilePic}>
+                <div
+                  className={styles.chatProfileImg}
+                  style={{ marginLeft: ".3rem", position: "relative" }}
+                >
+                  {userRedux.profilePic === null ? (
+                    <div className={styles.noPicture}>
+                      <p className={styles.asd}>{displayName[0]}</p>
+                    </div>
+                  ) : (
+                    <Image
+                      src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
+                      alt=""
+                      layout="fill"
+                      objectFit="cover"
+                      priority
+                      blurDataURL={
+                        userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
+                      }
+                    />
+                  )}
                 </div>
-              ) : (
-                <Image
-                  src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
-                  alt=""
-                  layout="fill"
-                  objectFit="cover"
-                  priority
-                  blurDataURL={
-                    userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
-                  }
-                />
-              )}
-            </div>
-          </div>
-        </motion.div>
-      ) : (
-        <motion.div
-          className={styles.receiver}
-          animate={{ opacity: [0, 1], scale: [0.9, 1] }}
-          tabIndex={0}
-          aria-label={`${displayName} says: ${text} at ${startingDate[0]}`}
-        >
-          <div className={styles.chatProfilePic}>
-            <div
-              className={styles.chatProfileImg}
-              style={{ marginRight: ".3rem", position: "relative" }}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              className={styles.receiver}
+              animate={{ opacity: [0, 1], scale: [0.9, 1] }}
+              tabIndex={0}
+              aria-label={`${displayName} says: ${text} at ${startingDate[0]}`}
             >
-              {profilePic === null ? (
-                <div className={styles.noPicture}>
-                  <p className={styles.asd}>{displayName[0]}</p>
+              <div className={styles.chatProfilePic}>
+                <div
+                  className={styles.chatProfileImg}
+                  style={{ marginRight: ".3rem", position: "relative" }}
+                >
+                  {profilePic === null ? (
+                    <div className={styles.noPicture}>
+                      <p className={styles.asd}>{displayName[0]}</p>
+                    </div>
+                  ) : (
+                    <Image
+                      src={img || profilePic}
+                      alt=""
+                      priority
+                      blurDataURL={profilePic}
+                      layout="fill"
+                    />
+                  )}
                 </div>
-              ) : (
-                <Image
-                  src={img || profilePic}
-                  alt=""
-                  priority
-                  blurDataURL={profilePic}
-                  layout="fill"
-                />
-              )}
-            </div>
-          </div>
-          <div className={styles.receiverMessage}>
-            <h1 className={styles.profileName}>{displayName}</h1>
-            <h1 className={styles.chatMessage}>{text}</h1>
-            <span className={styles.tooltip}>{startingDate[0]}</span>
-          </div>
-        </motion.div>
-      )}
+              </div>
+              <div className={styles.receiverMessage}>
+                <h1 className={styles.profileName}>{displayName}</h1>
+                <h1 className={styles.chatMessage}>{text}</h1>
+                <span className={styles.tooltip}>{startingDate[0]}</span>
+              </div>
+            </motion.div>
+          )}
+        </>
+      ) : null}
     </>
   );
 };
