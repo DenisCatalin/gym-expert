@@ -241,6 +241,7 @@ const PersonalMessages = () => {
                         type="personal"
                         date={conversation?.createdAt?.seconds}
                         message={message}
+                        key={idx}
                       />
                     ))}
                   </>
