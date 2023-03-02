@@ -188,7 +188,12 @@ const ViewProfile = ({ displayName }) => {
         (await conversationsRef.add({
           id: conversations.length + 1,
           participants: [userRedux.issuer, dataProfile.issuer],
-          messages: [],
+          messages: [
+            {
+              sender: userRedux.issuer,
+              text: "Ala bala portocala",
+            },
+          ],
           lastMessage: "",
           conversationName: null,
           conversationPhoto: null,

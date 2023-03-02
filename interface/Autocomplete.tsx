@@ -19,7 +19,6 @@ const Autocomplete = ({ label, completions }: IAutocomplete) => {
         disableClearable
         options={completions?.map((option: any) => option.displayName)}
         onChange={(_event: any, value: any) => {
-          router.push("/");
           router.push(`/profile/${value}`);
         }}
         renderInput={params => (

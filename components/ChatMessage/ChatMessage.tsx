@@ -7,6 +7,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { getDocs, query, collection } from "firebase/firestore";
 import { cropImages } from "../../lib/cropImages";
+import fetchData from "../../utils/fetchData";
 
 type IChatMessage = {
   message?: any;
@@ -22,6 +23,7 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
   const userRedux = useSelector((state: any) => state.user.user);
   const [data, setData] = useState<any>();
   const [img, setImg] = useState<any>();
+  const [senderName, setSenderName] = useState<string>("");
 
   const firestore = firebase.firestore();
 
@@ -37,6 +39,22 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
       }
       setData(data);
     })();
+  }, []);
+
+  useEffect(() => {
+    if (type === "personal") {
+      (async () => {
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
+          method: "GET",
+          headers: {
+            body: JSON.stringify({
+              issuer: message?.sender,
+            }),
+          },
+        });
+        setSenderName(data?.profileDetails?.data?.users[0].displayName);
+      })();
+    }
   }, []);
 
   return (
@@ -114,7 +132,12 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
             </motion.div>
           )}
         </>
-      ) : null}
+      ) : (
+        <>
+          <p>{senderName}</p>
+          <p>{message.text}</p>
+        </>
+      )}
     </>
   );
 };

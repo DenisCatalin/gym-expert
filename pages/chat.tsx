@@ -18,7 +18,7 @@ const Chat = () => {
   //@ts-ignore
   const [messages] = useCollectionData(query, { id: "id" });
 
-  const [formValue, setFormValue] = useState("");
+  const [formValue, setFormValue] = useState<string>("");
 
   const sendMessage = async (e: any) => {
     e.preventDefault();
