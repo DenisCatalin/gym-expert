@@ -163,6 +163,7 @@ const PersonalMessages = () => {
             docRef &&
               (await docRef.update({
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                lastMessage: formValue,
                 messages: [
                   ...conversation?.messages,
                   {
@@ -290,21 +291,3 @@ const PersonalMessages = () => {
 };
 
 export default PersonalMessages;
-
-/* 
-conversations {
-    id: number,
-    participants: [],
-    messages: [
-        {
-    orderBy createdAt: timestamp,
-            sender: issuer,
-            text: string,
-            read: boolean,
-        }
-    ],
-    lastMessage: lastInput,
-    createdAt: timestamp,
-    conversationPhoto: get it from the frontend if participants.length === 2 to each other user profile pic else users should choose one. Default will be a circle
-}
-*/
