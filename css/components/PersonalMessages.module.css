@@ -84,3 +84,15 @@
     cursor: pointer;
     background-color: rgba(84, 197, 99, 0.795);
 }
+
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1em;
+}
+
+.button {
+    background: var(--buttonGradient);
+}

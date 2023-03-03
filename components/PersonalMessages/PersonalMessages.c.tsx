@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IconButton } from "../../interface/IconButton";
+import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import { ThemeProvider } from "@mui/material";
 import { tooltipTheme } from "../../utils/muiTheme";
 import { Menu } from "../../interface/Menu";
@@ -39,12 +42,18 @@ const PersonalMessages = () => {
   const [conversations] = useCollectionData(queryW, { id: "id" });
 
   useEffect(() => {
-    let count = 0;
-    setDataFetched(false);
-    setFetched(false);
+    console.log("ceva s-a schimbat");
     setToBeFetched([]);
     conversations?.map((conversation: any) => {
-      const { id, participants, createdAt, conversationName, conversationPhoto } = conversation;
+      const {
+        id,
+        participants,
+        createdAt,
+        conversationName,
+        conversationPhoto,
+        lastMessage,
+        lastMessageIssuer,
+      } = conversation;
       participants?.map((participant: any) => {
         if (participants.includes(userRedux.issuer) && participant !== userRedux.issuer) {
           if (!toBeFetched.includes(participant)) {
@@ -55,13 +64,12 @@ const PersonalMessages = () => {
                 createdAt: createdAt,
                 conversationName: conversationName,
                 conversationPhoto: conversationPhoto,
+                lastMessage: lastMessage,
+                lastMessageIssuer: lastMessageIssuer,
                 participant,
               },
             ]);
-            count++;
-            if (count === toBeFetched.length) {
-              setFetched(true);
-            }
+            setFetched(true);
           }
         }
       });
@@ -69,7 +77,6 @@ const PersonalMessages = () => {
   }, [conversations, userRedux]);
 
   useEffect(() => {
-    let count = 0;
     console.log("to be fetched", toBeFetched);
     setDataProfile([]);
     toBeFetched?.map((user: any) => {
@@ -87,15 +94,14 @@ const PersonalMessages = () => {
           {
             id: user.id,
             createdAt: user.createdAt,
+            lastMessage: user.lastMessage,
+            lastMessageIssuer: user.lastMessageIssuer,
             conversationName: user.conversationName,
             conversationPhoto: user.conversationPhoto,
             details: data?.profileDetails?.data?.users[0],
           },
         ]);
-        count++;
-        if (count === toBeFetched.length) {
-          setDataFetched(true);
-        }
+        setDataFetched(true);
       })();
     });
   }, [fetched]);
@@ -104,7 +110,9 @@ const PersonalMessages = () => {
     setMenuOptions([]);
     if (dataFetched === true) {
       dataProfile?.map((conversation: any, idx: number) => {
-        const { id, details, conversationName, conversationPhoto } = conversation;
+        const { id, details, conversationName, conversationPhoto, lastMessage, lastMessageIssuer } =
+          conversation;
+        console.log("lastissuer: " + lastMessageIssuer);
 
         setMenuOptions(oldArray => [
           ...oldArray,
@@ -112,7 +120,8 @@ const PersonalMessages = () => {
             key: id,
             label: (
               <div className={styles.notification} style={{ marginLeft: "1em" }}>
-                <h5>{conversationName === null ? details.displayName : conversationName}</h5>
+                <h5>{conversationName === null ? details?.displayName : conversationName}</h5>
+                <p>{lastMessageIssuer === userRedux.issuer ? null : "hey"}</p>
               </div>
             ),
             icon: (
@@ -132,7 +141,7 @@ const PersonalMessages = () => {
         ]);
       });
     }
-  }, [conversations, userRedux, dataFetched]);
+  }, [userRedux, dataFetched]);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -146,6 +155,7 @@ const PersonalMessages = () => {
     const doc = await getDocumentIdByFieldValue("id", dataProfile[idx].id);
     setConversationDoc(doc);
     setCurrentConversationID(dataProfile[idx].id);
+    console.log("convertsation ID :", dataProfile[idx].id);
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
   };
@@ -166,6 +176,7 @@ const PersonalMessages = () => {
               (await docRef.update({
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 lastMessage: formValue,
+                lastMessageIssuer: userRedux.issuer,
                 messages: [
                   ...conversation?.messages,
                   {
@@ -178,7 +189,6 @@ const PersonalMessages = () => {
         })();
       }
     });
-
     setFormValue("");
   };
 
@@ -231,13 +241,43 @@ const PersonalMessages = () => {
         open={openDialog}
         onClose={handleCloseDialog}
         title={
-          <>
-            <button onClick={handleCloseDialog}>X</button>
-            <p style={{ fontWeight: "bold", color: "var(--white)", fontFamily: "var(--font)" }}>
+          <div className={styles2.header}>
+            <ThemeProvider theme={tooltipTheme}>
+              <IconButton
+                label={
+                  <>
+                    <ClearRoundedIcon htmlColor="#fff" />
+                  </>
+                }
+                color="secondary"
+                role="button"
+                ariaLabel="Close conversation"
+                tooltip="Close conversation"
+                tooltipPlacement="bottom"
+                className={styles2.button}
+                onClick={handleCloseDialog}
+              />
+            </ThemeProvider>
+            <h4 style={{ fontWeight: "bold", color: "var(--white)", fontFamily: "var(--font)" }}>
               {conversationName}
-            </p>
-            <button onClick={scrollToBottom}>sageata-n jos</button>
-          </>
+            </h4>
+            <ThemeProvider theme={tooltipTheme}>
+              <IconButton
+                label={
+                  <>
+                    <KeyboardDoubleArrowDownRoundedIcon htmlColor="#fff" />
+                  </>
+                }
+                color="secondary"
+                role="button"
+                ariaLabel="Scroll to the last message"
+                tooltip="Scroll to bottom"
+                tooltipPlacement="bottom"
+                className={styles2.button}
+                onClick={scrollToBottom}
+              />
+            </ThemeProvider>
+          </div>
         }
         contentStyles={styles2.background}
         contentOther={
@@ -246,12 +286,12 @@ const PersonalMessages = () => {
               <React.Fragment key={idx}>
                 {conversation.id === currentConversationID ? (
                   <>
-                    {conversation?.messages?.map((message: any) => (
+                    {conversation?.messages?.map((message: any, index: number) => (
                       <ChatMessage
                         type="personal"
                         date={conversation?.createdAt?.seconds}
                         message={message}
-                        key={idx}
+                        key={index}
                       />
                     ))}
                   </>
