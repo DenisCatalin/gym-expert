@@ -1,0 +1,86 @@
+.background {
+    background: var(--background);
+    width: 100%;
+    padding: 0;
+}
+
+.receiver {
+    width: 45%;
+    height: auto;
+    color: white;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-self: flex-start;
+    background-color: var(--buttonGradient);
+    cursor: pointer;
+}
+
+.sender {
+    width: 45%;
+    height: auto;
+    color: white;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.sender:hover .tooltipS {
+    visibility: visible;
+}
+
+.receiver:hover .tooltip {
+    visibility: visible;
+}
+
+.chat {
+    width: 100%;
+    padding: 1rem;
+    height: 95%;
+    overflow: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    overflow-x: hidden;
+    font-family: var(--font);
+}
+
+.chatForm {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.chatInput {
+    width: 100%;
+    height: 6.4vh;
+    border-radius: 0 0 0 10px;
+    padding: 1rem .5rem;
+    border: none;
+    outline: none;
+    font-family: var(--font);
+    font-size: 1em;
+    color: var(--white);
+    background: rgb(44, 44, 44);
+}
+
+.chatInput::placeholder {
+    color: var(--white);
+    opacity: .7;
+}
+
+.chatButton {
+    width: 10%;
+    height: 6.4vh;
+    border-radius: 0 0 10px 0;
+    border: none;
+    cursor: pointer;
+    background-color: rgba(84, 197, 99, 0.795);
+}

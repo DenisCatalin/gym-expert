@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "../../css/components/ChatMessage.module.css";
+import styles2 from "../../css/components/PersonalMessages.module.css";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import firebase from "firebase/compat/app";
@@ -23,7 +24,7 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
   const userRedux = useSelector((state: any) => state.user.user);
   const [data, setData] = useState<any>();
   const [img, setImg] = useState<any>();
-  const [senderName, setSenderName] = useState<string>("");
+  const [senderName, setSenderName] = useState<any>();
 
   const firestore = firebase.firestore();
 
@@ -52,11 +53,16 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
             }),
           },
         });
-        setSenderName(data?.profileDetails?.data?.users[0].displayName);
+        setSenderName(data?.profileDetails?.data?.users[0]);
+        // setImg(
+        //   await cropImages(
+        //     data?.profileDetails?.data?.users[0].profilePic,
+        //     data?.profileDetails?.data?.users[0].cropArea
+        //   )
+        // );
       })();
     }
   }, []);
-
   return (
     <>
       {type === "global" ? (
@@ -134,8 +140,82 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
         </>
       ) : (
         <>
-          <p>{senderName}</p>
-          <p>{message.text}</p>
+          {senderName !== undefined ? (
+            <>
+              {userRedux.issuer === sender ? (
+                <motion.div
+                  className={styles2.sender}
+                  animate={{ opacity: [0, 1], scale: [0.9, 1] }}
+                  tabIndex={0}
+                  aria-label={`${userRedux.displayName} says: ${message.text} at ${startingDate[0]}`}
+                >
+                  <div className={styles.senderMessage}>
+                    <h1 className={styles.profileName}>{userRedux.displayName}</h1>
+                    <h1 className={styles.chatMessage}>{message.text}</h1>
+                    <span className={styles.tooltipS}>{startingDate[0]}</span>
+                  </div>
+                  <div className={styles.chatProfilePic}>
+                    <div
+                      className={styles.chatProfileImg}
+                      style={{ marginLeft: ".3rem", position: "relative" }}
+                    >
+                      {userRedux.profilePic === null ? (
+                        <div className={styles.noPicture}>
+                          <p className={styles.asd}>{userRedux.displayName[0]}</p>
+                        </div>
+                      ) : (
+                        <Image
+                          src={
+                            userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
+                          }
+                          alt=""
+                          layout="fill"
+                          objectFit="cover"
+                          priority
+                          blurDataURL={
+                            userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
+                          }
+                        />
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  className={styles2.receiver}
+                  animate={{ opacity: [0, 1], scale: [0.9, 1] }}
+                  tabIndex={0}
+                  aria-label={`${senderName.displayName} says: ${message.text} at ${startingDate[0]}`}
+                >
+                  <div className={styles.chatProfilePic}>
+                    <div
+                      className={styles.chatProfileImg}
+                      style={{ marginRight: ".3rem", position: "relative" }}
+                    >
+                      {profilePic === null ? (
+                        <div className={styles.noPicture}>
+                          <p className={styles.asd}>{senderName.displayName[0]}</p>
+                        </div>
+                      ) : (
+                        <Image
+                          src={img || senderName.profilePic}
+                          alt=""
+                          priority
+                          blurDataURL={senderName.profilePic}
+                          layout="fill"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.receiverMessage}>
+                    <h1 className={styles.profileName}>{senderName.displayName}</h1>
+                    <h1 className={styles.chatMessage}>{message.text}</h1>
+                    <span className={styles.tooltip}>{startingDate[0]}</span>
+                  </div>
+                </motion.div>
+              )}
+            </>
+          ) : null}
         </>
       )}
     </>

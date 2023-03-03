@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IconButton } from "../../interface/IconButton";
 import { ThemeProvider } from "@mui/material";
 import { tooltipTheme } from "../../utils/muiTheme";
@@ -6,6 +6,7 @@ import { Menu } from "../../interface/Menu";
 import firebase from "../../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import styles from "../../css/components/Notifications.module.css";
+import styles2 from "../../css/components/PersonalMessages.module.css";
 import { useSelector } from "react-redux";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import Image from "next/image";
@@ -27,6 +28,7 @@ const PersonalMessages = () => {
   const [formValue, setFormValue] = useState<string>("");
   const [conversationDoc, setConversationDoc] = useState<any>("");
   const [conversationName, setConversationName] = useState<string>("");
+  const dummy = useRef<any>(null);
 
   const userRedux = useSelector((state: any) => state.user.user);
 
@@ -197,6 +199,10 @@ const PersonalMessages = () => {
     }
   }
 
+  const scrollToBottom = () => {
+    dummy.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       <ThemeProvider theme={tooltipTheme}>
@@ -227,11 +233,15 @@ const PersonalMessages = () => {
         title={
           <>
             <button onClick={handleCloseDialog}>X</button>
-            <p>{conversationName}</p>
+            <p style={{ fontWeight: "bold", color: "var(--white)", fontFamily: "var(--font)" }}>
+              {conversationName}
+            </p>
+            <button onClick={scrollToBottom}>sageata-n jos</button>
           </>
         }
+        contentStyles={styles2.background}
         contentOther={
-          <>
+          <div className={styles2.chat}>
             {conversations?.map((conversation: any, idx) => (
               <React.Fragment key={idx}>
                 {conversation.id === currentConversationID ? (
@@ -248,19 +258,20 @@ const PersonalMessages = () => {
                 ) : null}
               </React.Fragment>
             ))}
-          </>
+            <span ref={dummy}></span>
+          </div>
         }
         actions={
-          <>
+          <div style={{ width: "100%" }}>
             <motion.form
               onSubmit={sendMessage}
-              className={styles.chatForm}
+              className={styles2.chatForm}
               animate={{ opacity: [0, 1], scale: [0.9, 1] }}
             >
               <motion.input
                 value={formValue}
                 onChange={e => setFormValue(e.target.value)}
-                className={styles.chatInput}
+                className={styles2.chatInput}
                 placeholder={"Your message..."}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1] }}
@@ -270,7 +281,7 @@ const PersonalMessages = () => {
               <motion.button
                 type="submit"
                 disabled={!formValue}
-                className={styles.chatButton}
+                className={styles2.chatButton}
                 style={
                   formValue
                     ? { backgroundColor: "rgba(84, 197, 99, 1)" }
@@ -284,7 +295,7 @@ const PersonalMessages = () => {
                 <SendIcon htmlColor={formValue ? "#fff" : "#ffffff4e"} />
               </motion.button>
             </motion.form>
-          </>
+          </div>
         }
       />
     </>
