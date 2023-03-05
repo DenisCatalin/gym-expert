@@ -64,10 +64,11 @@ const PersonalMessages = () => {
       } = conversation;
       participants?.map((participant: any) => {
         if (id === currentConversationID && participants.includes(userRedux.issuer)) {
-          if (blockedBy.includes(participant) && participant !== userRedux.issuer) {
+          if (
+            (blockedBy.includes(participant) && participant !== userRedux.issuer) ||
+            (blockedBy.includes(participant) && participant === userRedux.issuer)
+          ) {
             setBlockedConversation(true);
-          } else {
-            setBlockedConversation(false);
           }
         }
 
