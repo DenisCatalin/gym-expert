@@ -75,7 +75,6 @@ const PersonalMessages = () => {
                 });
 
                 await batch.commit();
-                console.log("s-a dat read");
               })();
             }
             setToBeFetched(oldArray => [
@@ -201,11 +200,8 @@ const PersonalMessages = () => {
   };
 
   useEffect(() => {
-    console.log("Um.. what?");
     (async () => {
-      console.log("vrea sa se dea read");
       if (conversationDoc && currentConversationID !== 0 && messageRead === true) {
-        console.log("set da read", currentConversationID);
         const docRef = firestore.collection("conversations").doc(conversationDoc);
         const batch = firestore.batch();
 
@@ -237,7 +233,6 @@ const PersonalMessages = () => {
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
     setMessageRead(true);
-    console.log("YESSS");
   };
 
   const handleCloseDialog = () => {
