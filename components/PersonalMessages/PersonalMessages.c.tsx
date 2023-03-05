@@ -201,6 +201,7 @@ const PersonalMessages = () => {
   };
 
   useEffect(() => {
+    console.log("Um.. what?");
     (async () => {
       console.log("vrea sa se dea read");
       if (conversationDoc && currentConversationID !== 0 && messageRead === true) {
@@ -241,6 +242,7 @@ const PersonalMessages = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setCurrentConversationID(0);
+    setMessageRead(false);
   };
 
   const triggerDeleteDialog = () => {
