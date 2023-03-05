@@ -18,6 +18,8 @@ import { motion } from "framer-motion";
 import SendIcon from "@mui/icons-material/Send";
 import ChatMessage from "../ChatMessage/ChatMessage";
 import { Button } from "../../interface/Button";
+import DoNotDisturbOnRoundedIcon from "@mui/icons-material/DoNotDisturbOnRounded";
+import DoDisturbOffRoundedIcon from "@mui/icons-material/DoDisturbOffRounded";
 
 const PersonalMessages = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,6 +34,7 @@ const PersonalMessages = () => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
   const [messageRead, setMessageRead] = useState<boolean>(false);
   const [countMessages, setCountMessages] = useState<number>(0);
+  const [blockedConversation, setBlockedConversation] = useState<boolean>(false);
   const dummy = useRef<any>(null);
 
   const userRedux = useSelector((state: any) => state.user.user);
@@ -57,8 +60,14 @@ const PersonalMessages = () => {
         lastMessage,
         readBy,
         removedUsers,
+        blockedBy,
       } = conversation;
       participants?.map((participant: any) => {
+        console.log("you", blockedBy);
+        if (blockedBy.includes(participant) && blockedBy.includes(userRedux.issuer)) {
+          console.log("Aici");
+          setBlockedConversation(true);
+        }
         if (participants.includes(userRedux.issuer) && participant !== userRedux.issuer) {
           if (!toBeFetched.includes(participant)) {
             if (
@@ -144,6 +153,7 @@ const PersonalMessages = () => {
         if (!readBy?.includes(userRedux.issuer) && !removedUsers?.includes(userRedux.issuer)) {
           count++;
         }
+
         const date = new Date(createdAt?.seconds * 1000).toLocaleTimeString("en-US");
         if (!removedUsers?.includes(userRedux.issuer)) {
           setMenuOptions(oldArray => [
@@ -321,6 +331,38 @@ const PersonalMessages = () => {
     dummy.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  const blockConversation = async (e: any) => {
+    e.preventDefault();
+    const docRef = firestore.collection("conversations").doc(conversationDoc);
+
+    const conversation = conversations?.find((conversation: any) => {
+      const { id, participants } = conversation;
+      return id === currentConversationID && participants.includes(userRedux.issuer);
+    });
+
+    docRef &&
+      (await docRef.update({
+        blockedBy: [...conversation?.blockedBy, userRedux.issuer],
+      }));
+  };
+
+  const unblockConversation = async (e: any) => {
+    e.preventDefault();
+    const docRef = firestore.collection("conversations").doc(conversationDoc);
+    setBlockedConversation(false);
+    conversations?.map((conversation: any) => {
+      const { id, blockedBy } = conversation;
+      if (id === currentConversationID && blockedBy.includes(userRedux.issuer)) {
+        (async () => {
+          docRef &&
+            (await docRef.update({
+              blockedBy: [],
+            }));
+        })();
+      }
+    });
+  };
+
   return (
     <>
       <ThemeProvider theme={tooltipTheme}>
@@ -413,6 +455,41 @@ const PersonalMessages = () => {
                 className={styles2.button}
                 onClick={triggerDeleteDialog}
               />
+              {blockedConversation ? (
+                <>
+                  <IconButton
+                    label={
+                      <>
+                        <DoDisturbOffRoundedIcon htmlColor="#fff" />
+                      </>
+                    }
+                    color="secondary"
+                    role="button"
+                    ariaLabel="Unblock user"
+                    tooltip="Unblock user"
+                    tooltipPlacement="bottom"
+                    className={styles2.button}
+                    onClick={unblockConversation}
+                  />
+                </>
+              ) : (
+                <>
+                  <IconButton
+                    label={
+                      <>
+                        <DoNotDisturbOnRoundedIcon htmlColor="#fff" />
+                      </>
+                    }
+                    color="secondary"
+                    role="button"
+                    ariaLabel="Block user"
+                    tooltip="Block user"
+                    tooltipPlacement="bottom"
+                    className={styles2.button}
+                    onClick={blockConversation}
+                  />
+                </>
+              )}
             </ThemeProvider>
           </div>
         }
@@ -449,10 +526,15 @@ const PersonalMessages = () => {
                 value={formValue}
                 onChange={e => setFormValue(e.target.value)}
                 className={styles2.chatInput}
-                placeholder={"Your message..."}
+                placeholder={
+                  blockedConversation
+                    ? "This conversation is blocked by one of the participants"
+                    : "Your message..."
+                }
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1] }}
                 transition={{ delay: 0.5 }}
+                disabled={blockedConversation}
               />
 
               <motion.button
