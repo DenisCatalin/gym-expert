@@ -10,12 +10,13 @@ type IDialogProps = {
   maxWidth?: DialogProps["maxWidth"];
   open: boolean;
   onClose: () => void;
-  title: string;
+  title: string | React.ReactNode;
   contentStyles?: string;
   contentText?: string;
   textStyles?: string;
   contentOther?: React.ReactNode;
   actions?: React.ReactNode;
+  fullScreen?: boolean;
 };
 
 export const Dialog = ({
@@ -29,9 +30,11 @@ export const Dialog = ({
   textStyles,
   contentOther,
   actions,
+  fullScreen,
 }: IDialogProps) => {
   return (
     <MuiDialog
+      fullScreen={fullScreen}
       fullWidth={fullWidth}
       maxWidth={maxWidth}
       open={open}

@@ -18,7 +18,7 @@ const Chat = () => {
   //@ts-ignore
   const [messages] = useCollectionData(query, { id: "id" });
 
-  const [formValue, setFormValue] = useState("");
+  const [formValue, setFormValue] = useState<string>("");
 
   const sendMessage = async (e: any) => {
     e.preventDefault();
@@ -50,7 +50,12 @@ const Chat = () => {
           <div className={styles.chat}>
             {messages &&
               messages?.map((msg, idx) => (
-                <ChatMessage key={idx} date={msg?.createdAt?.seconds || null} message={msg} />
+                <ChatMessage
+                  type="global"
+                  key={idx}
+                  date={msg?.createdAt?.seconds || null}
+                  message={msg}
+                />
               ))}
 
             <span ref={dummy}></span>

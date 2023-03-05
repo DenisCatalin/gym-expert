@@ -9,6 +9,7 @@ import { exercisesReducer } from "./exercises.slice";
 import { otherReducer } from "./others.slice";
 import { scheduleReducer } from "./schedule.slice";
 import { nutritionReducer } from "./nutrition.slice";
+import { conversationReducer } from "./conversation.slice";
 
 const store = configureStore({
   reducer: {
@@ -21,7 +22,8 @@ const store = configureStore({
     exercises: exercisesReducer,
     other: otherReducer,
     schedule: scheduleReducer,
-    nutrition: nutritionReducer
+    nutrition: nutritionReducer,
+    conversation: conversationReducer
   },
 });
 

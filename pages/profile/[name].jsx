@@ -32,17 +32,21 @@ const ViewProfile = ({ displayName }) => {
   const [fetched, setFetched] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
   const [img, setImage] = useState();
+  const [hasConversation, setHasConversation] = useState(false);
 
   const userRedux = useSelector(state => state.user.user);
 
   const firestore = firebase.firestore();
   const notificationsRef = firestore.collection("notifications");
   const friendsRef = firestore.collection("friends");
+  const conversationsRef = firestore.collection("conversations");
   const queryQ = notificationsRef.orderBy("createdAt");
   const queryW = friendsRef.orderBy("id");
-  //@ts-ignore
+  const queryY = conversationsRef.orderBy("createdAt");
+
   const [notifications] = useCollectionData(queryQ, { id: "id" });
   const [friends] = useCollectionData(queryW, { id: "id" });
+  const [conversations] = useCollectionData(queryY, { id: "id" });
 
   const dispatch = useDispatch();
 
@@ -120,6 +124,23 @@ const ViewProfile = ({ displayName }) => {
     }
   }
 
+  async function getDocumentIdByFieldValueSingle(field, value) {
+    try {
+      const querySnapshot = await conversationsRef.where(field, "==", value).get();
+      if (querySnapshot.empty) {
+        console.log(`No documents found with ${field} equal to ${value}.`);
+        return null;
+      } else {
+        const document = querySnapshot.docs[0];
+        console.log(`Document data:`, document.data());
+        return document.id;
+      }
+    } catch (error) {
+      console.error(`Error getting document with ${field} equal to ${value}:`, error);
+      return null;
+    }
+  }
+
   const removeFriend = async () => {
     const actualID = await getDocumentIdByFieldValue(
       "issuer",
@@ -164,6 +185,68 @@ const ViewProfile = ({ displayName }) => {
     }
   };
 
+  useEffect(() => {
+    conversations?.map((_conversation, idx) => {
+      if (
+        conversations[idx].participants.includes(userRedux.issuer) &&
+        conversations[idx].participants.includes(dataProfile.issuer) &&
+        !conversations[idx].removedUsers.includes(userRedux.issuer)
+      ) {
+        setHasConversation(true);
+      }
+    });
+  }, [conversations, dataProfile, userRedux]);
+
+  const checkConversation = async () => {
+    if (conversations.length === 0) {
+      await addConversation();
+    } else {
+      conversations?.map((conversation, idx) => {
+        if (
+          conversations[idx].participants.includes(userRedux.issuer) &&
+          conversations[idx].participants.includes(dataProfile.issuer)
+        ) {
+          (async () => {
+            const docID = await getDocumentIdByFieldValueSingle("id", conversations[idx].id);
+            const docRef = firestore.collection("conversations").doc(docID);
+
+            const party = conversation?.removedUsers.filter(
+              participant => participant !== userRedux.issuer
+            );
+            {
+              docRef &&
+                (await docRef.update({
+                  removedUsers: party,
+                }));
+            }
+            console.log("test");
+          })();
+          console.log("test");
+        } else {
+          (async () => {
+            await addConversation();
+          })();
+        }
+      });
+    }
+  };
+
+  const addConversation = async () => {
+    {
+      conversations &&
+        (await conversationsRef.add({
+          id: conversations.length + 1,
+          participants: [userRedux.issuer, dataProfile.issuer],
+          messages: [],
+          removedUsers: [],
+          lastMessage: "",
+          conversationName: null,
+          conversationPhoto: null,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        }));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -197,6 +280,13 @@ const ViewProfile = ({ displayName }) => {
                   ) : (
                     <button onClick={() => removeFriend("")}>Remove friend</button>
                   )}
+                </>
+              )}
+              {displayName === userRedux.displayName ? null : (
+                <>
+                  {hasConversation === false ? (
+                    <button onClick={checkConversation}>Start conversation</button>
+                  ) : null}
                 </>
               )}
             </div>
