@@ -253,6 +253,7 @@ const PersonalMessages = () => {
     setOpenDialog(false);
     setCurrentConversationID(0);
     setMessageRead(false);
+    setBlockedConversation(false);
   };
 
   const triggerDeleteDialog = () => {
