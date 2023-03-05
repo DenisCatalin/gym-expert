@@ -54,12 +54,6 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
           },
         });
         setSenderName(data?.profileDetails?.data?.users[0]);
-        // setImg(
-        //   await cropImages(
-        //     data?.profileDetails?.data?.users[0].profilePic,
-        //     data?.profileDetails?.data?.users[0].cropArea
-        //   )
-        // );
       })();
     }
   }, []);

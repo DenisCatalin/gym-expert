@@ -169,18 +169,15 @@ const ViewProfile = ({ displayName }) => {
   };
 
   useEffect(() => {
-    conversations?.map(conversation => {
-      const { participants } = conversation;
-      if (participants.length === 2) {
-        if (
-          (participants[0] === userRedux.issuer && participants[1] === dataProfile.issuer) ||
-          (participants[0] === dataProfile.issuer && participants[1] === userRedux.issuer)
-        ) {
-          setHasConversation(true);
-        }
+    conversations?.map((_conversation, idx) => {
+      if (
+        conversations[idx].participants.includes(userRedux.issuer) &&
+        conversations[idx].participants.includes(dataProfile.issuer)
+      ) {
+        setHasConversation(true);
       }
     });
-  }, [conversations, userRedux]);
+  }, [conversations, dataProfile, userRedux]);
 
   const addConversation = async () => {
     {
@@ -188,12 +185,7 @@ const ViewProfile = ({ displayName }) => {
         (await conversationsRef.add({
           id: conversations.length + 1,
           participants: [userRedux.issuer, dataProfile.issuer],
-          messages: [
-            {
-              sender: userRedux.issuer,
-              text: "Ala bala portocala",
-            },
-          ],
+          messages: [],
           lastMessage: "",
           conversationName: null,
           conversationPhoto: null,

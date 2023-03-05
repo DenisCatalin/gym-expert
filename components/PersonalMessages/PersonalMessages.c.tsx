@@ -8,7 +8,6 @@ import { tooltipTheme } from "../../utils/muiTheme";
 import { Menu } from "../../interface/Menu";
 import firebase from "../../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import styles from "../../css/components/Notifications.module.css";
 import styles2 from "../../css/components/PersonalMessages.module.css";
 import { useSelector } from "react-redux";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
@@ -18,19 +17,19 @@ import { Dialog } from "../../interface/Dialog";
 import { motion } from "framer-motion";
 import SendIcon from "@mui/icons-material/Send";
 import ChatMessage from "../ChatMessage/ChatMessage";
+import { Button } from "../../interface/Button";
 
 const PersonalMessages = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuOptions, setMenuOptions] = useState<any[]>([]);
   const [dataProfile, setDataProfile] = useState<any[]>([]);
-  const [dataFetched, setDataFetched] = useState<boolean>(false);
   const [toBeFetched, setToBeFetched] = useState<any[]>([]);
-  const [fetched, setFetched] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [currentConversationID, setCurrentConversationID] = useState<number>(0);
   const [formValue, setFormValue] = useState<string>("");
   const [conversationDoc, setConversationDoc] = useState<any>("");
   const [conversationName, setConversationName] = useState<string>("");
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
   const dummy = useRef<any>(null);
 
   const userRedux = useSelector((state: any) => state.user.user);
@@ -42,7 +41,6 @@ const PersonalMessages = () => {
   const [conversations] = useCollectionData(queryW, { id: "id" });
 
   useEffect(() => {
-    console.log("ceva s-a schimbat");
     setToBeFetched([]);
     conversations?.map((conversation: any) => {
       const {
@@ -52,7 +50,7 @@ const PersonalMessages = () => {
         conversationName,
         conversationPhoto,
         lastMessage,
-        lastMessageIssuer,
+        readBy,
       } = conversation;
       participants?.map((participant: any) => {
         if (participants.includes(userRedux.issuer) && participant !== userRedux.issuer) {
@@ -65,11 +63,10 @@ const PersonalMessages = () => {
                 conversationName: conversationName,
                 conversationPhoto: conversationPhoto,
                 lastMessage: lastMessage,
-                lastMessageIssuer: lastMessageIssuer,
                 participant,
+                readBy,
               },
             ]);
-            setFetched(true);
           }
         }
       });
@@ -77,10 +74,9 @@ const PersonalMessages = () => {
   }, [conversations, userRedux]);
 
   useEffect(() => {
-    console.log("to be fetched", toBeFetched);
     setDataProfile([]);
-    toBeFetched?.map((user: any) => {
-      (async () => {
+    if (toBeFetched.length > 0) {
+      const promises = toBeFetched?.map(async (user: any) => {
         const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
           method: "GET",
           headers: {
@@ -89,39 +85,53 @@ const PersonalMessages = () => {
             }),
           },
         });
-        setDataProfile(oldArray => [
-          ...oldArray,
-          {
-            id: user.id,
-            createdAt: user.createdAt,
-            lastMessage: user.lastMessage,
-            lastMessageIssuer: user.lastMessageIssuer,
-            conversationName: user.conversationName,
-            conversationPhoto: user.conversationPhoto,
-            details: data?.profileDetails?.data?.users[0],
-          },
-        ]);
-        setDataFetched(true);
-      })();
-    });
-  }, [fetched]);
+        return {
+          id: user.id,
+          createdAt: user.createdAt,
+          lastMessage: user.lastMessage,
+          conversationName: user.conversationName,
+          conversationPhoto: user.conversationPhoto,
+          details: data?.profileDetails?.data?.users[0],
+          readBy: user.readBy,
+        };
+      });
+
+      Promise.all(promises).then(results => {
+        setDataProfile(results);
+      });
+    }
+  }, [toBeFetched]);
 
   useEffect(() => {
     setMenuOptions([]);
-    if (dataFetched === true) {
+    if (dataProfile.length > 0) {
       dataProfile?.map((conversation: any, idx: number) => {
-        const { id, details, conversationName, conversationPhoto, lastMessage, lastMessageIssuer } =
+        const { id, details, conversationName, conversationPhoto, lastMessage, readBy, createdAt } =
           conversation;
-        console.log("lastissuer: " + lastMessageIssuer);
 
+        const date = new Date(createdAt.seconds * 1000).toLocaleTimeString("en-US");
         setMenuOptions(oldArray => [
           ...oldArray,
           {
             key: id,
             label: (
-              <div className={styles.notification} style={{ marginLeft: "1em" }}>
-                <h5>{conversationName === null ? details?.displayName : conversationName}</h5>
-                <p>{lastMessageIssuer === userRedux.issuer ? null : "hey"}</p>
+              <div className={styles2.itemMessage}>
+                <h5 className={styles2.messageName}>
+                  {conversationName === null ? details?.displayName : conversationName}
+                </h5>
+                <h5 className={styles2.messageDate}>{date}</h5>
+                {readBy?.includes(userRedux.issuer) ? null : (
+                  <span className={styles2.messageRead}></span>
+                )}
+                {lastMessage !== "" ? (
+                  <h5 className={styles2.itemText}>
+                    {lastMessage.length > 40 ? (
+                      <>{lastMessage.substring(0, 40)}... </>
+                    ) : (
+                      lastMessage
+                    )}
+                  </h5>
+                ) : null}
               </div>
             ),
             icon: (
@@ -141,7 +151,7 @@ const PersonalMessages = () => {
         ]);
       });
     }
-  }, [userRedux, dataFetched]);
+  }, [dataProfile]);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -155,13 +165,59 @@ const PersonalMessages = () => {
     const doc = await getDocumentIdByFieldValue("id", dataProfile[idx].id);
     setConversationDoc(doc);
     setCurrentConversationID(dataProfile[idx].id);
-    console.log("convertsation ID :", dataProfile[idx].id);
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
+
+    if (doc !== null) {
+      const docRef = firestore.collection("conversations").doc(conversationDoc);
+      const batch = firestore.batch();
+
+      conversations?.some((conversation: any) => {
+        const { id, readBy } = conversation;
+        if (id === dataProfile[idx].id && !readBy?.includes(userRedux.issuer)) {
+          batch.update(docRef, {
+            readBy: [...conversation?.readBy, userRedux.issuer],
+          });
+          return true;
+        }
+        return false;
+      });
+
+      await batch.commit();
+    }
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+
+  const triggerDeleteDialog = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+  };
+
+  const deleteConversation = async (e: any) => {
+    e.preventDefault();
+    const docRef = firestore.collection("conversations").doc(conversationDoc);
+
+    const conversation = conversations?.find((conversation: any) => {
+      const { id, participants } = conversation;
+      return id === currentConversationID && participants.includes(userRedux.issuer);
+    });
+
+    const party = conversation?.participants.filter(
+      (participant: any) => participant !== userRedux.issuer
+    );
+
+    docRef &&
+      (await docRef.update({
+        participants: party,
+      }));
+    setOpenDialog(false);
+    setOpenDeleteDialog(false);
   };
 
   const sendMessage = async (e: any) => {
@@ -176,7 +232,6 @@ const PersonalMessages = () => {
               (await docRef.update({
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 lastMessage: formValue,
-                lastMessageIssuer: userRedux.issuer,
                 messages: [
                   ...conversation?.messages,
                   {
@@ -184,6 +239,7 @@ const PersonalMessages = () => {
                     text: formValue,
                   },
                 ],
+                readBy: [userRedux.issuer],
               }));
           }
         })();
@@ -237,6 +293,20 @@ const PersonalMessages = () => {
         overflow="auto"
       />
       <Dialog
+        open={openDeleteDialog}
+        onClose={closeDeleteDialog}
+        title="Remove conversation"
+        contentText="Are you sure you want to delete this conversation?"
+        contentStyles={styles2.backgroundDelete}
+        textStyles={styles2.text}
+        actions={
+          <>
+            <Button color="secondary" role="button" label="No" onClick={closeDeleteDialog} />
+            <Button color="secondary" role="button" label="Yes" onClick={deleteConversation} />
+          </>
+        }
+      />
+      <Dialog
         fullScreen={true}
         open={openDialog}
         onClose={handleCloseDialog}
@@ -273,8 +343,22 @@ const PersonalMessages = () => {
                 ariaLabel="Scroll to the last message"
                 tooltip="Scroll to bottom"
                 tooltipPlacement="bottom"
-                className={styles2.button}
+                className={styles2.delete}
                 onClick={scrollToBottom}
+              />
+              <IconButton
+                label={
+                  <>
+                    <DeleteForeverRoundedIcon htmlColor="#fff" />
+                  </>
+                }
+                color="secondary"
+                role="button"
+                ariaLabel="Delete the conversation"
+                tooltip="Delete conversation"
+                tooltipPlacement="bottom"
+                className={styles2.button}
+                onClick={triggerDeleteDialog}
               />
             </ThemeProvider>
           </div>
