@@ -219,9 +219,7 @@ const ViewProfile = ({ displayName }) => {
                   removedUsers: party,
                 }));
             }
-            console.log("test");
           })();
-          console.log("test");
         } else {
           (async () => {
             await addConversation();
@@ -239,6 +237,7 @@ const ViewProfile = ({ displayName }) => {
           participants: [userRedux.issuer, dataProfile.issuer],
           messages: [],
           removedUsers: [],
+          blockedBy: [],
           lastMessage: "",
           conversationName: null,
           conversationPhoto: null,
