@@ -202,8 +202,9 @@ const PersonalMessages = () => {
 
   useEffect(() => {
     (async () => {
+      console.log("vrea sa se dea read");
       if (conversationDoc && currentConversationID !== 0 && messageRead === true) {
-        console.log(currentConversationID);
+        console.log("set da read", currentConversationID);
         const docRef = firestore.collection("conversations").doc(conversationDoc);
         const batch = firestore.batch();
 
@@ -217,6 +218,7 @@ const PersonalMessages = () => {
             batch.update(docRef, {
               readBy: [...conversation.readBy, userRedux.issuer],
             });
+            setMessageRead(false);
             return true;
           }
           return false;
