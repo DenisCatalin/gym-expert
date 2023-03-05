@@ -64,10 +64,13 @@ const PersonalMessages = () => {
       } = conversation;
       participants?.map((participant: any) => {
         console.log("you", blockedBy);
-        if (blockedBy.includes(participant) && blockedBy.includes(userRedux.issuer)) {
-          console.log("Aici");
-          setBlockedConversation(true);
+        if (participants.includes(userRedux.issuer)) {
+          if (blockedBy.includes(participant)) {
+            console.log("Aici");
+            setBlockedConversation(true);
+          }
         }
+
         if (participants.includes(userRedux.issuer) && participant !== userRedux.issuer) {
           if (!toBeFetched.includes(participant)) {
             if (
@@ -457,20 +460,29 @@ const PersonalMessages = () => {
               />
               {blockedConversation ? (
                 <>
-                  <IconButton
-                    label={
-                      <>
-                        <DoDisturbOffRoundedIcon htmlColor="#fff" />
-                      </>
-                    }
-                    color="secondary"
-                    role="button"
-                    ariaLabel="Unblock user"
-                    tooltip="Unblock user"
-                    tooltipPlacement="bottom"
-                    className={styles2.button}
-                    onClick={unblockConversation}
-                  />
+                  {conversations?.map((conversation: any, idx) => (
+                    <React.Fragment key={idx}>
+                      {conversation.id === currentConversationID &&
+                      conversation.blockedBy.includes(userRedux.issuer) ? (
+                        <>
+                          <IconButton
+                            label={
+                              <>
+                                <DoDisturbOffRoundedIcon htmlColor="#fff" />
+                              </>
+                            }
+                            color="secondary"
+                            role="button"
+                            ariaLabel="Unblock user"
+                            tooltip="Unblock user"
+                            tooltipPlacement="bottom"
+                            className={styles2.button}
+                            onClick={unblockConversation}
+                          />
+                        </>
+                      ) : null}
+                    </React.Fragment>
+                  ))}
                 </>
               ) : (
                 <>
