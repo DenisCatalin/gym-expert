@@ -147,7 +147,7 @@
 .delete {
     position: absolute;
     background: var(--buttonGradient);
-    left: 90%;
+    left: 10%;
 }
 
 

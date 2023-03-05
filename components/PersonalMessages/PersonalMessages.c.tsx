@@ -109,7 +109,7 @@ const PersonalMessages = () => {
         const { id, details, conversationName, conversationPhoto, lastMessage, readBy, createdAt } =
           conversation;
 
-        const date = new Date(createdAt.seconds * 1000).toLocaleTimeString("en-US");
+        const date = new Date(createdAt?.seconds * 1000).toLocaleTimeString("en-US");
         setMenuOptions(oldArray => [
           ...oldArray,
           {
@@ -168,7 +168,7 @@ const PersonalMessages = () => {
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
 
-    if (doc !== null) {
+    if (doc !== null && conversationDoc) {
       const docRef = firestore.collection("conversations").doc(conversationDoc);
       const batch = firestore.batch();
 
