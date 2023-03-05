@@ -30,6 +30,8 @@ const PersonalMessages = () => {
   const [conversationDoc, setConversationDoc] = useState<any>("");
   const [conversationName, setConversationName] = useState<string>("");
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+  const [messageRead, setMessageRead] = useState<boolean>(false);
+  const [countMessages, setCountMessages] = useState<number>(0);
   const dummy = useRef<any>(null);
 
   const userRedux = useSelector((state: any) => state.user.user);
@@ -40,7 +42,10 @@ const PersonalMessages = () => {
   //@ts-ignore
   const [conversations] = useCollectionData(queryW, { id: "id" });
 
+  let count = 0;
+
   useEffect(() => {
+    setCountMessages(0);
     setToBeFetched([]);
     conversations?.map((conversation: any) => {
       const {
@@ -51,10 +56,28 @@ const PersonalMessages = () => {
         conversationPhoto,
         lastMessage,
         readBy,
+        removedUsers,
       } = conversation;
       participants?.map((participant: any) => {
         if (participants.includes(userRedux.issuer) && participant !== userRedux.issuer) {
           if (!toBeFetched.includes(participant)) {
+            if (
+              currentConversationID !== 0 &&
+              !readBy?.includes(userRedux.issuer) &&
+              conversation?.readBy
+            ) {
+              (async () => {
+                const docRef = firestore.collection("conversations").doc(conversationDoc);
+                const batch = firestore.batch();
+
+                batch.update(docRef, {
+                  readBy: [...conversation?.readBy, userRedux.issuer],
+                });
+
+                await batch.commit();
+                console.log("s-a dat read");
+              })();
+            }
             setToBeFetched(oldArray => [
               ...oldArray,
               {
@@ -65,6 +88,7 @@ const PersonalMessages = () => {
                 lastMessage: lastMessage,
                 participant,
                 readBy,
+                removedUsers,
               },
             ]);
           }
@@ -93,6 +117,7 @@ const PersonalMessages = () => {
           conversationPhoto: user.conversationPhoto,
           details: data?.profileDetails?.data?.users[0],
           readBy: user.readBy,
+          removedUsers: user.removedUsers,
         };
       });
 
@@ -106,51 +131,65 @@ const PersonalMessages = () => {
     setMenuOptions([]);
     if (dataProfile.length > 0) {
       dataProfile?.map((conversation: any, idx: number) => {
-        const { id, details, conversationName, conversationPhoto, lastMessage, readBy, createdAt } =
-          conversation;
+        const {
+          id,
+          details,
+          conversationName,
+          conversationPhoto,
+          lastMessage,
+          readBy,
+          createdAt,
+          removedUsers,
+        } = conversation;
 
+        if (!readBy?.includes(userRedux.issuer) && !removedUsers?.includes(userRedux.issuer)) {
+          count++;
+        }
         const date = new Date(createdAt?.seconds * 1000).toLocaleTimeString("en-US");
-        setMenuOptions(oldArray => [
-          ...oldArray,
-          {
-            key: id,
-            label: (
-              <div className={styles2.itemMessage}>
-                <h5 className={styles2.messageName}>
-                  {conversationName === null ? details?.displayName : conversationName}
-                </h5>
-                <h5 className={styles2.messageDate}>{date}</h5>
-                {readBy?.includes(userRedux.issuer) ? null : (
-                  <span className={styles2.messageRead}></span>
-                )}
-                {lastMessage !== "" ? (
-                  <h5 className={styles2.itemText}>
-                    {lastMessage.length > 40 ? (
-                      <>{lastMessage.substring(0, 40)}... </>
-                    ) : (
-                      lastMessage
-                    )}
+        if (!removedUsers?.includes(userRedux.issuer)) {
+          setMenuOptions(oldArray => [
+            ...oldArray,
+            {
+              key: id,
+              label: (
+                <div className={styles2.itemMessage}>
+                  <h5 className={styles2.messageName}>
+                    {conversationName === null ? details?.displayName : conversationName}
                   </h5>
-                ) : null}
-              </div>
-            ),
-            icon: (
-              <>
-                <Image
-                  src={conversationPhoto === null ? details.profilePic : conversationPhoto}
-                  alt=""
-                  width={50}
-                  height={50}
-                  style={{ borderRadius: "50%", objectFit: "cover" }}
-                />
-              </>
-            ),
-            onClick: () => handleOpenDialog(idx),
-            show: true,
-          },
-        ]);
+                  <h5 className={styles2.messageDate}>{date}</h5>
+                  {readBy?.includes(userRedux.issuer) ? null : (
+                    <span className={styles2.messageRead}></span>
+                  )}
+                  {lastMessage !== "" ? (
+                    <h5 className={styles2.itemText}>
+                      {lastMessage.length > 40 ? (
+                        <>{lastMessage.substring(0, 40)}... </>
+                      ) : (
+                        lastMessage
+                      )}
+                    </h5>
+                  ) : null}
+                </div>
+              ),
+              icon: (
+                <>
+                  <Image
+                    src={conversationPhoto === null ? details.profilePic : conversationPhoto}
+                    alt=""
+                    width={50}
+                    height={50}
+                    style={{ borderRadius: "50%", objectFit: "cover" }}
+                  />
+                </>
+              ),
+              onClick: () => handleOpenDialog(idx),
+              show: true,
+            },
+          ]);
+        }
       });
     }
+    setCountMessages(count);
   }, [dataProfile]);
 
   const handleClick = (event: any) => {
@@ -161,34 +200,45 @@ const PersonalMessages = () => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    (async () => {
+      if (conversationDoc && currentConversationID !== 0 && messageRead === true) {
+        console.log(currentConversationID);
+        const docRef = firestore.collection("conversations").doc(conversationDoc);
+        const batch = firestore.batch();
+
+        conversations?.some((conversation: any) => {
+          const { id, readBy } = conversation;
+          if (
+            id === currentConversationID &&
+            conversation?.readBy &&
+            !readBy.includes(userRedux.issuer)
+          ) {
+            batch.update(docRef, {
+              readBy: [...conversation.readBy, userRedux.issuer],
+            });
+            return true;
+          }
+          return false;
+        });
+
+        await batch.commit();
+      }
+    })();
+  }, [messageRead]);
+
   const handleOpenDialog = async (idx: number) => {
     const doc = await getDocumentIdByFieldValue("id", dataProfile[idx].id);
     setConversationDoc(doc);
     setCurrentConversationID(dataProfile[idx].id);
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
-
-    if (doc !== null && conversationDoc) {
-      const docRef = firestore.collection("conversations").doc(conversationDoc);
-      const batch = firestore.batch();
-
-      conversations?.some((conversation: any) => {
-        const { id, readBy } = conversation;
-        if (id === dataProfile[idx].id && !readBy?.includes(userRedux.issuer)) {
-          batch.update(docRef, {
-            readBy: [...conversation?.readBy, userRedux.issuer],
-          });
-          return true;
-        }
-        return false;
-      });
-
-      await batch.commit();
-    }
+    setMessageRead(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setCurrentConversationID(0);
   };
 
   const triggerDeleteDialog = () => {
@@ -208,13 +258,14 @@ const PersonalMessages = () => {
       return id === currentConversationID && participants.includes(userRedux.issuer);
     });
 
-    const party = conversation?.participants.filter(
-      (participant: any) => participant !== userRedux.issuer
-    );
+    // const party = conversation?.participants.filter(
+    //   (participant: any) => participant !== userRedux.issuer
+    // );
 
     docRef &&
       (await docRef.update({
-        participants: party,
+        // participants: party,
+        removedUsers: [...conversation?.removedUsers, userRedux.issuer],
       }));
     setOpenDialog(false);
     setOpenDeleteDialog(false);
@@ -239,6 +290,7 @@ const PersonalMessages = () => {
                     text: formValue,
                   },
                 ],
+                removedUsers: [],
                 readBy: [userRedux.issuer],
               }));
           }
@@ -284,6 +336,7 @@ const PersonalMessages = () => {
           onClick={(event): any => handleClick(event)}
           onKeyDown={event => event.code === "Enter" && handleClick(event)}
         />
+        {countMessages > 0 && <span className={styles2.countMessages}>{countMessages}</span>}
       </ThemeProvider>
       <Menu
         id="messages-menu"

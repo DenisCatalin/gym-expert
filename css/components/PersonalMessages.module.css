@@ -161,3 +161,20 @@
 .text {
     color: var(--white);
 }
+
+.countMessages {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: 2.8%;
+    left: 88.7%;
+    font-size: .6em;
+    color: var(--white);
+    background: var(--purple);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    pointer-events: none;
+}

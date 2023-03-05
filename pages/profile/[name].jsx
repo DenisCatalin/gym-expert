@@ -172,12 +172,43 @@ const ViewProfile = ({ displayName }) => {
     conversations?.map((_conversation, idx) => {
       if (
         conversations[idx].participants.includes(userRedux.issuer) &&
-        conversations[idx].participants.includes(dataProfile.issuer)
+        conversations[idx].participants.includes(dataProfile.issuer) &&
+        conversations[idx].removedUsers.includes(userRedux.issuer) &&
+        conversations[idx].removedUsers.includes(dataProfile.issuer)
       ) {
         setHasConversation(true);
       }
     });
   }, [conversations, dataProfile, userRedux]);
+
+  const checkConversation = async () => {
+    if (conversations.length === 0) {
+      await addConversation();
+    } else {
+      conversations?.map((_conversation, idx) => {
+        if (
+          conversations[idx].participants.includes(userRedux.issuer) &&
+          conversations[idx].participants.includes(dataProfile.issuer) &&
+          conversations[idx].removedUsers.includes(userRedux.issuer)
+        ) {
+          const docRef = firestore.collection("conversations").doc(conversations[idx].id);
+          (async () => {
+            {
+              docRef &&
+                (await docRef.update({
+                  removedUsers: [],
+                }));
+            }
+          })();
+          console.log("test");
+        } else {
+          (async () => {
+            await addConversation();
+          })();
+        }
+      });
+    }
+  };
 
   const addConversation = async () => {
     {
@@ -186,6 +217,7 @@ const ViewProfile = ({ displayName }) => {
           id: conversations.length + 1,
           participants: [userRedux.issuer, dataProfile.issuer],
           messages: [],
+          removedUsers: [],
           lastMessage: "",
           conversationName: null,
           conversationPhoto: null,
@@ -232,7 +264,7 @@ const ViewProfile = ({ displayName }) => {
               {displayName === userRedux.displayName ? null : (
                 <>
                   {hasConversation === false ? (
-                    <button onClick={addConversation}>Start conversation</button>
+                    <button onClick={checkConversation}>Start conversation</button>
                   ) : null}
                 </>
               )}
