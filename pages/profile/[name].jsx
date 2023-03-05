@@ -124,6 +124,23 @@ const ViewProfile = ({ displayName }) => {
     }
   }
 
+  async function getDocumentIdByFieldValueSingle(field, value) {
+    try {
+      const querySnapshot = await conversationsRef.where(field, "==", value).get();
+      if (querySnapshot.empty) {
+        console.log(`No documents found with ${field} equal to ${value}.`);
+        return null;
+      } else {
+        const document = querySnapshot.docs[0];
+        console.log(`Document data:`, document.data());
+        return document.id;
+      }
+    } catch (error) {
+      console.error(`Error getting document with ${field} equal to ${value}:`, error);
+      return null;
+    }
+  }
+
   const removeFriend = async () => {
     const actualID = await getDocumentIdByFieldValue(
       "issuer",
@@ -173,8 +190,7 @@ const ViewProfile = ({ displayName }) => {
       if (
         conversations[idx].participants.includes(userRedux.issuer) &&
         conversations[idx].participants.includes(dataProfile.issuer) &&
-        conversations[idx].removedUsers.includes(userRedux.issuer) &&
-        conversations[idx].removedUsers.includes(dataProfile.issuer)
+        !conversations[idx].removedUsers.includes(userRedux.issuer)
       ) {
         setHasConversation(true);
       }
@@ -185,20 +201,25 @@ const ViewProfile = ({ displayName }) => {
     if (conversations.length === 0) {
       await addConversation();
     } else {
-      conversations?.map((_conversation, idx) => {
+      conversations?.map((conversation, idx) => {
         if (
           conversations[idx].participants.includes(userRedux.issuer) &&
-          conversations[idx].participants.includes(dataProfile.issuer) &&
-          conversations[idx].removedUsers.includes(userRedux.issuer)
+          conversations[idx].participants.includes(dataProfile.issuer)
         ) {
-          const docRef = firestore.collection("conversations").doc(conversations[idx].id);
           (async () => {
+            const docID = await getDocumentIdByFieldValueSingle("id", conversations[idx].id);
+            const docRef = firestore.collection("conversations").doc(docID);
+
+            const party = conversation?.removedUsers.filter(
+              participant => participant !== userRedux.issuer
+            );
             {
               docRef &&
                 (await docRef.update({
-                  removedUsers: [],
+                  removedUsers: party,
                 }));
             }
+            console.log("test");
           })();
           console.log("test");
         } else {
