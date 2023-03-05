@@ -237,6 +237,7 @@ const PersonalMessages = () => {
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
     setMessageRead(true);
+    console.log("YESSS");
   };
 
   const handleCloseDialog = () => {
