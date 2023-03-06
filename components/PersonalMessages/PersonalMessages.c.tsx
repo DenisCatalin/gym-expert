@@ -159,6 +159,9 @@ const PersonalMessages = () => {
         }
 
         const date = new Date(createdAt?.seconds * 1000).toLocaleTimeString("en-US");
+
+        console.log("CE PLM s-a intamplat cu details?", details, id);
+
         if (!removedUsers?.includes(userRedux.issuer)) {
           setMenuOptions(oldArray => [
             ...oldArray,

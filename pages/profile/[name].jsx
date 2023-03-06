@@ -37,7 +37,7 @@ const ViewProfile = ({ displayName }) => {
   const userRedux = useSelector(state => state.user.user);
 
   const firestore = firebase.firestore();
-  const [conversationsCount, setConversationsCount] = useState<number>(0);
+  const [conversationsCount, setConversationsCount] = useState(0);
   const notificationsRef = firestore.collection("notifications");
   const friendsRef = firestore.collection("friends");
   const conversationsRef = firestore.collection("conversations");
@@ -187,7 +187,7 @@ const ViewProfile = ({ displayName }) => {
   };
 
   useEffect(() => {
-    setConversationsCount(conversations.length);
+    setConversationsCount(conversations?.length);
     conversations?.map((_conversation, idx) => {
       if (
         conversations[idx].participants.includes(userRedux.issuer) &&
