@@ -9,7 +9,7 @@ import { Menu } from "../../interface/Menu";
 import firebase from "../../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import styles2 from "../../css/components/PersonalMessages.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import Image from "next/image";
 import fetchData from "../../utils/fetchData";
@@ -20,7 +20,6 @@ import ChatMessage from "../ChatMessage/ChatMessage";
 import { Button } from "../../interface/Button";
 import DoNotDisturbOnRoundedIcon from "@mui/icons-material/DoNotDisturbOnRounded";
 import DoDisturbOffRoundedIcon from "@mui/icons-material/DoDisturbOffRounded";
-import { setConversationState } from "../../redux/conversation.slice";
 
 const PersonalMessages = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,14 +32,12 @@ const PersonalMessages = () => {
   const [conversationDoc, setConversationDoc] = useState<any>("");
   const [conversationName, setConversationName] = useState<string>("");
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+  const [messageRead, setMessageRead] = useState<boolean>(false);
   const [countMessages, setCountMessages] = useState<number>(0);
   const [blockedConversation, setBlockedConversation] = useState<boolean>(false);
   const dummy = useRef<any>(null);
 
   const userRedux = useSelector((state: any) => state.user.user);
-  const conversationsRedux = useSelector((state: any) => state.conversation.conversation);
-  const { conversationsForUser } = conversationsRedux;
-  const dispatch = useDispatch();
 
   const firestore = firebase.firestore();
   const conversationsRef = firestore.collection("conversations");
@@ -51,30 +48,10 @@ const PersonalMessages = () => {
   let count = 0;
 
   useEffect(() => {
-    console.log("conversations updated");
-    let convs: any[] = [];
-    conversations?.forEach((conversation: any) => {
-      const { participants, createdAt } = conversation;
-      if (participants.includes(userRedux.issuer)) {
-        convs.push({
-          ...conversation,
-          createdAt: createdAt?.toDate().toLocaleTimeString(),
-        });
-      }
-    });
-    dispatch(
-      setConversationState({
-        conversationsForUser: convs,
-      })
-    );
-  }, [conversations, userRedux]);
-
-  useEffect(() => {
     setCountMessages(0);
+    setToBeFetched([]);
     setDataProfile([]);
-    let mortiimasii: any[] = [];
-    console.log("conversations for user: ", conversationsForUser);
-    conversationsForUser?.map((conversation: any) => {
+    conversations?.map((conversation: any) => {
       const {
         id,
         participants,
@@ -97,7 +74,7 @@ const PersonalMessages = () => {
         }
 
         if (participants.includes(userRedux.issuer) && participant !== userRedux.issuer) {
-          if (!mortiimasii.includes(participant)) {
+          if (!toBeFetched.includes(participant)) {
             if (
               currentConversationID !== 0 &&
               !readBy?.includes(userRedux.issuer) &&
@@ -114,23 +91,26 @@ const PersonalMessages = () => {
                 await batch.commit();
               })();
             }
-            mortiimasii.push({
-              id: id,
-              createdAt: createdAt,
-              conversationName: conversationName,
-              conversationPhoto: conversationPhoto,
-              lastMessage: lastMessage,
-              participant,
-              readBy,
-              removedUsers,
-            });
+            setToBeFetched(oldArray => [
+              ...oldArray,
+              {
+                id: id,
+                createdAt: createdAt,
+                conversationName: conversationName,
+                conversationPhoto: conversationPhoto,
+                lastMessage: lastMessage,
+                participant,
+                readBy,
+                removedUsers,
+              },
+            ]);
           }
         }
       });
     });
 
-    if (mortiimasii.length > 0) {
-      const promises = mortiimasii?.map(async (user: any) => {
+    if (toBeFetched.length > 0) {
+      const promises = toBeFetched?.map(async (user: any) => {
         const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
           method: "GET",
           headers: {
@@ -156,7 +136,7 @@ const PersonalMessages = () => {
         console.log(" haida");
       });
     }
-  }, [conversationsForUser]);
+  }, [userRedux]);
 
   useEffect(() => {
     setMenuOptions([]);
@@ -177,6 +157,8 @@ const PersonalMessages = () => {
           count++;
         }
 
+        const date = new Date(createdAt?.seconds * 1000).toLocaleTimeString("en-US");
+
         if (!removedUsers?.includes(userRedux.issuer)) {
           setMenuOptions(oldArray => [
             ...oldArray,
@@ -187,7 +169,7 @@ const PersonalMessages = () => {
                   <h5 className={styles2.messageName}>
                     {conversationName === null ? details?.displayName : conversationName}
                   </h5>
-                  <h5 className={styles2.messageDate}>{createdAt}</h5>
+                  <h5 className={styles2.messageDate}>{date}</h5>
                   {readBy?.includes(userRedux.issuer) ? null : (
                     <span className={styles2.messageRead}></span>
                   )}
@@ -233,45 +215,46 @@ const PersonalMessages = () => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    (async () => {
+      if (conversationDoc && currentConversationID !== 0 && messageRead === true) {
+        const docRef = firestore.collection("conversations").doc(conversationDoc);
+        const batch = firestore.batch();
+
+        conversations?.some((conversation: any) => {
+          const { id, readBy } = conversation;
+          if (
+            id === currentConversationID &&
+            conversation?.readBy &&
+            !readBy.includes(userRedux.issuer)
+          ) {
+            batch.update(docRef, {
+              readBy: [...conversation.readBy, userRedux.issuer],
+            });
+            setMessageRead(false);
+            return true;
+          }
+          return false;
+        });
+
+        await batch.commit();
+      }
+    })();
+  }, [messageRead]);
+
   const handleOpenDialog = async (idx: number) => {
     const doc = await getDocumentIdByFieldValue("id", dataProfile[idx].id);
     setConversationDoc(doc);
     setCurrentConversationID(dataProfile[idx].id);
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
-    readMessage(dataProfile[idx].id, doc);
-  };
-
-  const readMessage = (conversationID: number, documentID: any) => {
-    if (conversationsForUser) {
-      for (let i = 0; i < conversationsForUser?.length; i++) {
-        const conversation = conversationsForUser[i];
-        const { id, participants, readBy } = conversation;
-        if (
-          participants.includes(userRedux.issuer) &&
-          id === conversationID &&
-          !readBy?.includes(userRedux.issuer) &&
-          conversation?.readBy
-        ) {
-          (async () => {
-            const docRef = firestore.collection("conversations").doc(documentID);
-            const batch = firestore.batch();
-
-            batch.update(docRef, {
-              readBy: [...conversation?.readBy, userRedux.issuer],
-            });
-
-            await batch.commit();
-          })();
-          break;
-        }
-      }
-    }
+    setMessageRead(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setCurrentConversationID(0);
+    setMessageRead(false);
     setBlockedConversation(false);
   };
 
@@ -287,7 +270,7 @@ const PersonalMessages = () => {
     e.preventDefault();
     const docRef = firestore.collection("conversations").doc(conversationDoc);
 
-    const conversation = conversationsForUser?.find((conversation: any) => {
+    const conversation = conversations?.find((conversation: any) => {
       const { id, participants } = conversation;
       return id === currentConversationID && participants.includes(userRedux.issuer);
     });
@@ -308,7 +291,7 @@ const PersonalMessages = () => {
   const sendMessage = async (e: any) => {
     e.preventDefault();
     const docRef = firestore.collection("conversations").doc(conversationDoc);
-    conversationsForUser?.map((conversation: any) => {
+    conversations?.map((conversation: any) => {
       const { id } = conversation;
       if (id === currentConversationID) {
         (async () => {
@@ -359,7 +342,7 @@ const PersonalMessages = () => {
     e.preventDefault();
     const docRef = firestore.collection("conversations").doc(conversationDoc);
 
-    const conversation = conversationsForUser?.find((conversation: any) => {
+    const conversation = conversations?.find((conversation: any) => {
       const { id, participants } = conversation;
       return id === currentConversationID && participants.includes(userRedux.issuer);
     });
@@ -374,7 +357,7 @@ const PersonalMessages = () => {
     e.preventDefault();
     const docRef = firestore.collection("conversations").doc(conversationDoc);
     setBlockedConversation(false);
-    conversationsForUser?.map((conversation: any) => {
+    conversations?.map((conversation: any) => {
       const { id, blockedBy } = conversation;
       if (id === currentConversationID && blockedBy.includes(userRedux.issuer)) {
         (async () => {
@@ -481,7 +464,7 @@ const PersonalMessages = () => {
               />
               {blockedConversation ? (
                 <>
-                  {conversationsForUser?.map((conversation: any, idx: number) => (
+                  {conversations?.map((conversation: any, idx) => (
                     <React.Fragment key={idx}>
                       {conversation.id === currentConversationID &&
                       conversation.blockedBy.includes(userRedux.issuer) ? (
@@ -529,7 +512,7 @@ const PersonalMessages = () => {
         contentStyles={styles2.background}
         contentOther={
           <div className={styles2.chat}>
-            {conversationsForUser?.map((conversation: any, idx: number) => (
+            {conversations?.map((conversation: any, idx) => (
               <React.Fragment key={idx}>
                 {conversation.id === currentConversationID ? (
                   <>
