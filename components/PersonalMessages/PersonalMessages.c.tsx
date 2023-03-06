@@ -136,7 +136,7 @@ const PersonalMessages = () => {
         console.log(" haida");
       });
     }
-  }, [conversations, userRedux, currentConversationID]);
+  }, [userRedux]);
 
   useEffect(() => {
     setMenuOptions([]);
@@ -254,7 +254,7 @@ const PersonalMessages = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setCurrentConversationID(0);
-    // setMessageRead(false);
+    setMessageRead(false);
     setBlockedConversation(false);
   };
 
