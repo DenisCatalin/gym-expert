@@ -35,8 +35,6 @@ const PersonalMessages = () => {
   const [messageRead, setMessageRead] = useState<boolean>(false);
   const [countMessages, setCountMessages] = useState<number>(0);
   const [blockedConversation, setBlockedConversation] = useState<boolean>(false);
-  const [fetched, setFetched] = useState<boolean>(false);
-  const [dataProfileFetched, setDataProfileFetched] = useState<boolean>(false);
   const dummy = useRef<any>(null);
 
   const userRedux = useSelector((state: any) => state.user.user);
@@ -52,8 +50,7 @@ const PersonalMessages = () => {
   useEffect(() => {
     setCountMessages(0);
     setToBeFetched([]);
-    setFetched(false);
-    setDataProfileFetched(false);
+    setDataProfile([]);
     conversations?.map((conversation: any) => {
       const {
         id,
@@ -107,122 +104,108 @@ const PersonalMessages = () => {
                 removedUsers,
               },
             ]);
-            setFetched(true);
           }
         }
       });
     });
-  }, [conversations, userRedux]);
+
+    if (toBeFetched.length > 0) {
+      const promises = toBeFetched?.map(async (user: any) => {
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
+          method: "GET",
+          headers: {
+            body: JSON.stringify({
+              issuer: user.participant,
+            }),
+          },
+        });
+        return {
+          id: user.id,
+          createdAt: user.createdAt,
+          lastMessage: user.lastMessage,
+          conversationName: user.conversationName,
+          conversationPhoto: user.conversationPhoto,
+          details: data?.profileDetails?.data?.users[0],
+          readBy: user.readBy,
+          removedUsers: user.removedUsers,
+        };
+      });
+
+      Promise.all(promises).then(results => {
+        setDataProfile(results);
+        console.log(" haida");
+      });
+    }
+  }, [conversations, userRedux, currentConversationID]);
 
   useEffect(() => {
-    if (fetched === true) {
-      setDataProfile([]);
-      if (toBeFetched.length > 0) {
-        const promises = toBeFetched?.map(async (user: any) => {
-          const data = await fetchData(
-            `${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`,
+    setMenuOptions([]);
+    if (dataProfile.length > 0) {
+      dataProfile?.map((conversation: any, idx: number) => {
+        const {
+          id,
+          details,
+          conversationName,
+          conversationPhoto,
+          lastMessage,
+          readBy,
+          createdAt,
+          removedUsers,
+        } = conversation;
+
+        if (!readBy?.includes(userRedux.issuer) && !removedUsers?.includes(userRedux.issuer)) {
+          count++;
+        }
+
+        const date = new Date(createdAt?.seconds * 1000).toLocaleTimeString("en-US");
+
+        if (!removedUsers?.includes(userRedux.issuer)) {
+          setMenuOptions(oldArray => [
+            ...oldArray,
             {
-              method: "GET",
-              headers: {
-                body: JSON.stringify({
-                  issuer: user.participant,
-                }),
-              },
-            }
-          );
-          console.log("Details for user", data);
-          return {
-            id: user.id,
-            createdAt: user.createdAt,
-            lastMessage: user.lastMessage,
-            conversationName: user.conversationName,
-            conversationPhoto: user.conversationPhoto,
-            details: data?.profileDetails?.data?.users[0],
-            readBy: user.readBy,
-            removedUsers: user.removedUsers,
-          };
-        });
-
-        Promise.all(promises).then(results => {
-          setDataProfile(results);
-          setDataProfileFetched(true);
-        });
-      }
-    }
-  }, [fetched]);
-
-  useEffect(() => {
-    if (dataProfileFetched === true) {
-      setMenuOptions([]);
-      if (dataProfile.length > 0) {
-        dataProfile?.map((conversation: any, idx: number) => {
-          const {
-            id,
-            details,
-            conversationName,
-            conversationPhoto,
-            lastMessage,
-            readBy,
-            createdAt,
-            removedUsers,
-          } = conversation;
-
-          if (!readBy?.includes(userRedux.issuer) && !removedUsers?.includes(userRedux.issuer)) {
-            count++;
-          }
-
-          const date = new Date(createdAt?.seconds * 1000).toLocaleTimeString("en-US");
-
-          console.log("CE PLM s-a intamplat cu details?", details, id);
-
-          if (!removedUsers?.includes(userRedux.issuer)) {
-            setMenuOptions(oldArray => [
-              ...oldArray,
-              {
-                key: id,
-                label: (
-                  <div className={styles2.itemMessage}>
-                    <h5 className={styles2.messageName}>
-                      {conversationName === null ? details?.displayName : conversationName}
+              key: id,
+              label: (
+                <div className={styles2.itemMessage}>
+                  <h5 className={styles2.messageName}>
+                    {conversationName === null ? details?.displayName : conversationName}
+                  </h5>
+                  <h5 className={styles2.messageDate}>{date}</h5>
+                  {readBy?.includes(userRedux.issuer) ? null : (
+                    <span className={styles2.messageRead}></span>
+                  )}
+                  {lastMessage !== "" ? (
+                    <h5 className={styles2.itemText}>
+                      {lastMessage.length > 40 ? (
+                        <>{lastMessage.substring(0, 40)}... </>
+                      ) : (
+                        lastMessage
+                      )}
                     </h5>
-                    <h5 className={styles2.messageDate}>{date}</h5>
-                    {readBy?.includes(userRedux.issuer) ? null : (
-                      <span className={styles2.messageRead}></span>
-                    )}
-                    {lastMessage !== "" ? (
-                      <h5 className={styles2.itemText}>
-                        {lastMessage.length > 40 ? (
-                          <>{lastMessage.substring(0, 40)}... </>
-                        ) : (
-                          lastMessage
-                        )}
-                      </h5>
-                    ) : null}
-                  </div>
-                ),
-                icon: (
-                  <>
-                    {details && (
-                      <Image
-                        src={conversationPhoto === null ? details.profilePic : conversationPhoto}
-                        alt=""
-                        width={50}
-                        height={50}
-                        style={{ borderRadius: "50%", objectFit: "cover" }}
-                      />
-                    )}
-                  </>
-                ),
-                onClick: () => handleOpenDialog(idx),
-                show: true,
-              },
-            ]);
-          }
-        });
-      }
-      setCountMessages(count);
+                  ) : null}
+                </div>
+              ),
+              icon: (
+                <>
+                  {details && (
+                    <Image
+                      src={conversationPhoto === null ? details.profilePic : conversationPhoto}
+                      alt=""
+                      width={50}
+                      height={50}
+                      style={{ borderRadius: "50%", objectFit: "cover" }}
+                    />
+                  )}
+                </>
+              ),
+              onClick: () => handleOpenDialog(idx),
+              show: true,
+            },
+          ]);
+        }
+      });
     }
-  }, [dataProfileFetched]);
+    setCountMessages(count);
+  }, [dataProfile]);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -265,15 +248,13 @@ const PersonalMessages = () => {
     setCurrentConversationID(dataProfile[idx].id);
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
-    setFetched(false);
-    setDataProfileFetched(false);
     setMessageRead(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setCurrentConversationID(0);
-    setMessageRead(false);
+    // setMessageRead(false);
     setBlockedConversation(false);
   };
 
