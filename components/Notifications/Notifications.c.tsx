@@ -183,12 +183,12 @@ const Notifications = () => {
       notifications &&
         (await notificationsRef.add({
           id: notifications.length + 1,
-          content: `${userRedux.displayName} declined your friend request`,
+          content: `${userRedux.displayName} declined your friend request. Unfortunately, you cannot make everyone your friend :(`,
           forUser: userIssuer.current,
           read: false,
           sender: userRedux.displayName,
           senderIssuer: userRedux.issuer,
-          title: `${userRedux.displayName} has declined your friend request. Unfortunately, you cannot make everyone your friend :(`,
+          title: `${userRedux.displayName} has declined your friend request.`,
           type: "friends",
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           responded: true,
