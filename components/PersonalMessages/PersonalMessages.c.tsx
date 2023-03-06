@@ -186,13 +186,15 @@ const PersonalMessages = () => {
               ),
               icon: (
                 <>
-                  <Image
-                    src={conversationPhoto === null ? details.profilePic : conversationPhoto}
-                    alt=""
-                    width={50}
-                    height={50}
-                    style={{ borderRadius: "50%", objectFit: "cover" }}
-                  />
+                  {details?.profilePic !== null ? (
+                    <Image
+                      src={conversationPhoto === null ? details.profilePic : conversationPhoto}
+                      alt=""
+                      width={50}
+                      height={50}
+                      style={{ borderRadius: "50%", objectFit: "cover" }}
+                    />
+                  ) : null}
                 </>
               ),
               onClick: () => handleOpenDialog(idx),
