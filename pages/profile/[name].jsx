@@ -200,34 +200,32 @@ const ViewProfile = ({ displayName }) => {
   }, [conversations, dataProfile, userRedux]);
 
   const checkConversation = async () => {
-    if (conversations.length === 0) {
-      await addConversation();
-    } else {
-      conversations?.map((conversation, idx) => {
-        if (
-          conversations[idx].participants.includes(userRedux.issuer) &&
-          conversations[idx].participants.includes(dataProfile.issuer)
-        ) {
-          (async () => {
-            const docID = await getDocumentIdByFieldValueSingle("id", conversations[idx].id);
-            const docRef = firestore.collection("conversations").doc(docID);
+    let conversationFound = false;
 
-            const party = conversation?.removedUsers.filter(
-              participant => participant !== userRedux.issuer
-            );
-            {
-              docRef &&
-                (await docRef.update({
-                  removedUsers: party,
-                }));
-            }
-          })();
-        } else {
-          (async () => {
-            await addConversation();
-          })();
+    conversations?.forEach(async (conversation, idx) => {
+      if (
+        conversations[idx].participants.includes(userRedux.issuer) &&
+        conversations[idx].participants.includes(dataProfile.issuer)
+      ) {
+        const docID = await getDocumentIdByFieldValueSingle("id", conversations[idx].id);
+        const docRef = firestore.collection("conversations").doc(docID);
+
+        const party = conversation?.removedUsers.filter(
+          participant => participant !== userRedux.issuer
+        );
+        {
+          docRef &&
+            (await docRef.update({
+              removedUsers: party,
+            }));
         }
-      });
+
+        conversationFound = true;
+      }
+    });
+
+    if (!conversationFound) {
+      await addConversation();
     }
   };
 
@@ -263,15 +261,7 @@ const ViewProfile = ({ displayName }) => {
             <div className={styles.content} style={{ color: "white" }}>
               <p>{dataProfile.displayName}</p>
               <p>{dataProfile.email}</p>
-              {img && (
-                <Image
-                  src={img}
-                  alt=""
-                  width={100}
-                  height={100}
-                  // layout="fill"
-                />
-              )}
+              {img && <Image src={img} alt="" width={100} height={100} />}
               <p>{dataProfile.testimonial}</p>
               <p>{dataProfile.registerDate}</p>
               {displayName === userRedux.displayName ? null : (
