@@ -2,9 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   conversation: {
-    conversationID: 0,
-    conversationMessages: [],
-    conversations: [],
+    conversationsForUser: [],
   },
 };
 
