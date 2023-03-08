@@ -25,7 +25,6 @@ const PersonalMessages = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuOptions, setMenuOptions] = useState<any[]>([]);
   const [dataProfile, setDataProfile] = useState<any[]>([]);
-  const [toBeFetched, setToBeFetched] = useState<any[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [currentConversationID, setCurrentConversationID] = useState<number>(0);
   const [formValue, setFormValue] = useState<string>("");
@@ -49,7 +48,7 @@ const PersonalMessages = () => {
 
   useEffect(() => {
     setCountMessages(0);
-    setToBeFetched([]);
+    let toFetch: any[] = [];
     setDataProfile([]);
     conversations?.map((conversation: any) => {
       const {
@@ -74,7 +73,7 @@ const PersonalMessages = () => {
         }
 
         if (participants.includes(userRedux.issuer) && participant !== userRedux.issuer) {
-          if (!toBeFetched.includes(participant)) {
+          if (!toFetch.includes(participant)) {
             if (
               currentConversationID !== 0 &&
               !readBy?.includes(userRedux.issuer) &&
@@ -91,26 +90,23 @@ const PersonalMessages = () => {
                 await batch.commit();
               })();
             }
-            setToBeFetched(oldArray => [
-              ...oldArray,
-              {
-                id: id,
-                createdAt: createdAt,
-                conversationName: conversationName,
-                conversationPhoto: conversationPhoto,
-                lastMessage: lastMessage,
-                participant,
-                readBy,
-                removedUsers,
-              },
-            ]);
+            toFetch.push({
+              id: id,
+              createdAt: createdAt,
+              conversationName: conversationName,
+              conversationPhoto: conversationPhoto,
+              lastMessage: lastMessage,
+              participant,
+              readBy,
+              removedUsers,
+            });
           }
         }
       });
     });
 
-    if (toBeFetched.length > 0) {
-      const promises = toBeFetched?.map(async (user: any) => {
+    if (toFetch.length > 0) {
+      const promises = toFetch?.map(async (user: any) => {
         const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
           method: "GET",
           headers: {
@@ -136,7 +132,7 @@ const PersonalMessages = () => {
         console.log(" haida");
       });
     }
-  }, [userRedux]);
+  }, [conversations, userRedux]);
 
   useEffect(() => {
     setMenuOptions([]);
