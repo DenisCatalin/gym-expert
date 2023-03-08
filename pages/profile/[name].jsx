@@ -41,13 +41,16 @@ const ViewProfile = ({ displayName }) => {
   const notificationsRef = firestore.collection("notifications");
   const friendsRef = firestore.collection("friends");
   const conversationsRef = firestore.collection("conversations");
+  const conversationsMessagesRef = firestore.collection("conversationsMessages");
   const queryQ = notificationsRef.orderBy("createdAt");
   const queryW = friendsRef.orderBy("id");
   const queryY = conversationsRef.orderBy("createdAt");
+  const queryZ = conversationsMessagesRef.orderBy("id");
 
   const [notifications] = useCollectionData(queryQ, { id: "id" });
   const [friends] = useCollectionData(queryW, { id: "id" });
   const [conversations] = useCollectionData(queryY, { id: "id" });
+  const [conversationsMessages] = useCollectionData(queryZ, { id: "id" });
 
   const dispatch = useDispatch();
 
@@ -231,11 +234,17 @@ const ViewProfile = ({ displayName }) => {
 
   const addConversation = async () => {
     {
+      conversationsMessages &&
+        (await conversationsMessagesRef.add({
+          id: conversationsCount + 1,
+          messages: [],
+        }));
+    }
+    {
       conversations &&
         (await conversationsRef.add({
           id: conversationsCount + 1,
           participants: [userRedux.issuer, dataProfile.issuer],
-          messages: [],
           removedUsers: [],
           blockedBy: [],
           lastMessage: "",
