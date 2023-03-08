@@ -5,6 +5,7 @@ const initialState = {
     popup: false,
     loadingUpload: false,
     userFetched: false,
+    loading: false,
   },
 };
 

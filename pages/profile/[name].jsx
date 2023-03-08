@@ -68,7 +68,7 @@ const ViewProfile = ({ displayName }) => {
       setData(data?.profileDetails?.data?.users[0]);
       setFetched(true);
     })();
-  }, []);
+  }, [displayName]);
 
   useEffect(() => {
     if (fetched === true) {
@@ -84,8 +84,12 @@ const ViewProfile = ({ displayName }) => {
   useEffect(() => {
     (async () => {
       if (dataProfile !== undefined && dataProfile.cropArea !== undefined) {
-        const img = await cropImages(dataProfile.profilePic, JSON.parse(dataProfile.cropArea));
-        setImage(img);
+        if (dataProfile.cropArea !== "{}") {
+          const img = await cropImages(dataProfile.profilePic, JSON.parse(dataProfile.cropArea));
+          setImage(img);
+        } else {
+          setImage(dataProfile.profilePic);
+        }
       }
     })();
   }, [dataProfile]);

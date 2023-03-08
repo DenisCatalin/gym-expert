@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { userContext } from "../../lib/userContext";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import styles from "../../css/Profile.module.css";
 import Image from "next/image";
@@ -15,7 +14,6 @@ import { CircularProgress } from "@mui/material";
 import { setOtherState } from "../../redux/others.slice";
 
 const ProfilePic = () => {
-  const { user, setUser } = useContext(userContext);
   const [uploadData, setUploadData] = useState(false);
   const [hasImg, setHasImg] = useState(false);
   const [imgSrc, setImgSrc] = useState();
@@ -37,7 +35,7 @@ const ProfilePic = () => {
         cropPhoto();
       }
     }
-  }, [user, open]);
+  }, [open]);
 
   useEffect(() => {
     if (otherRedux.loadingUpload) {
