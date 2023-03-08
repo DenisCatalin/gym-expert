@@ -25,11 +25,11 @@ const PersonalMessages = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuOptions, setMenuOptions] = useState<any[]>([]);
   const [dataProfile, setDataProfile] = useState<any[]>([]);
-  const [toBeFetched, setToBeFetched] = useState<any[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [currentConversationID, setCurrentConversationID] = useState<number>(0);
   const [formValue, setFormValue] = useState<string>("");
   const [conversationDoc, setConversationDoc] = useState<any>("");
+  const [conversationMessages, setConversationMessages] = useState<any>("");
   const [conversationName, setConversationName] = useState<string>("");
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
   const [messageRead, setMessageRead] = useState<boolean>(false);
@@ -41,17 +41,22 @@ const PersonalMessages = () => {
 
   const firestore = firebase.firestore();
   const conversationsRef = firestore.collection("conversations");
-  const queryW = conversationsRef.orderBy("id");
+  const messagesRef = firestore.collection("conversationsMessages");
+  const queryW = conversationsRef.orderBy("createdAt");
+  const queryQ = messagesRef.orderBy("id");
   //@ts-ignore
   const [conversations] = useCollectionData(queryW, { id: "id" });
+  //@ts-ignore
+  const [convMessages] = useCollectionData(queryQ, { id: "id" });
 
   let count = 0;
 
   useEffect(() => {
     setCountMessages(0);
-    setToBeFetched([]);
+    let toFetch: any[] = [];
     setDataProfile([]);
     conversations?.map((conversation: any) => {
+      console.log("si aici iar e important");
       const {
         id,
         participants,
@@ -74,43 +79,24 @@ const PersonalMessages = () => {
         }
 
         if (participants.includes(userRedux.issuer) && participant !== userRedux.issuer) {
-          if (!toBeFetched.includes(participant)) {
-            if (
-              currentConversationID !== 0 &&
-              !readBy?.includes(userRedux.issuer) &&
-              conversation?.readBy
-            ) {
-              (async () => {
-                const docRef = firestore.collection("conversations").doc(conversationDoc);
-                const batch = firestore.batch();
-
-                batch.update(docRef, {
-                  readBy: [...conversation?.readBy, userRedux.issuer],
-                });
-
-                await batch.commit();
-              })();
-            }
-            setToBeFetched(oldArray => [
-              ...oldArray,
-              {
-                id: id,
-                createdAt: createdAt,
-                conversationName: conversationName,
-                conversationPhoto: conversationPhoto,
-                lastMessage: lastMessage,
-                participant,
-                readBy,
-                removedUsers,
-              },
-            ]);
+          if (!toFetch.includes(participant)) {
+            toFetch.push({
+              id: id,
+              createdAt: createdAt,
+              conversationName: conversationName,
+              conversationPhoto: conversationPhoto,
+              lastMessage: lastMessage,
+              participant,
+              readBy,
+              removedUsers,
+            });
           }
         }
       });
     });
 
-    if (toBeFetched.length > 0) {
-      const promises = toBeFetched?.map(async (user: any) => {
+    if (toFetch.length > 0) {
+      const promises = toFetch?.map(async (user: any) => {
         const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
           method: "GET",
           headers: {
@@ -136,7 +122,7 @@ const PersonalMessages = () => {
         console.log(" haida");
       });
     }
-  }, [userRedux]);
+  }, [conversations, userRedux]);
 
   useEffect(() => {
     setMenuOptions([]);
@@ -243,8 +229,14 @@ const PersonalMessages = () => {
   }, [messageRead]);
 
   const handleOpenDialog = async (idx: number) => {
-    const doc = await getDocumentIdByFieldValue("id", dataProfile[idx].id);
+    const doc = await getDocumentIdByFieldValue("id", dataProfile[idx].id, "conversations");
+    const doc2 = await getDocumentIdByFieldValue(
+      "id",
+      dataProfile[idx].id,
+      "conversationsMessages"
+    );
     setConversationDoc(doc);
+    setConversationMessages(doc2);
     setCurrentConversationID(dataProfile[idx].id);
     setConversationName(dataProfile[idx]?.details?.displayName);
     setOpenDialog(true);
@@ -291,6 +283,7 @@ const PersonalMessages = () => {
   const sendMessage = async (e: any) => {
     e.preventDefault();
     const docRef = firestore.collection("conversations").doc(conversationDoc);
+    const docRef2 = firestore.collection("conversationsMessages").doc(conversationMessages);
     conversations?.map((conversation: any) => {
       const { id } = conversation;
       if (id === currentConversationID) {
@@ -300,15 +293,27 @@ const PersonalMessages = () => {
               (await docRef.update({
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 lastMessage: formValue,
+                removedUsers: [],
+                readBy: [userRedux.issuer],
+              }));
+          }
+        })();
+      }
+    });
+    convMessages?.map((convMessage: any) => {
+      const { id, messages } = convMessage;
+      if (id === currentConversationID) {
+        (async () => {
+          {
+            docRef2 &&
+              (await docRef2.update({
                 messages: [
-                  ...conversation?.messages,
+                  ...messages,
                   {
                     sender: userRedux.issuer,
                     text: formValue,
                   },
                 ],
-                removedUsers: [],
-                readBy: [userRedux.issuer],
               }));
           }
         })();
@@ -317,9 +322,9 @@ const PersonalMessages = () => {
     setFormValue("");
   };
 
-  async function getDocumentIdByFieldValue(field: string, value: any) {
+  async function getDocumentIdByFieldValue(field: string, value: any, collection: string) {
     try {
-      const querySnapshot = await conversationsRef.where(field, "==", value).get();
+      const querySnapshot = await firestore.collection(collection).where(field, "==", value).get();
       if (querySnapshot.empty) {
         console.log(`No documents found with ${field} equal to ${value}.`);
         return null;
@@ -512,14 +517,14 @@ const PersonalMessages = () => {
         contentStyles={styles2.background}
         contentOther={
           <div className={styles2.chat}>
-            {conversations?.map((conversation: any, idx) => (
+            {convMessages?.map((convMessage: any, idx) => (
               <React.Fragment key={idx}>
-                {conversation.id === currentConversationID ? (
+                {convMessage.id === currentConversationID ? (
                   <>
-                    {conversation?.messages?.map((message: any, index: number) => (
+                    {convMessage?.messages?.map((message: any, index: number) => (
                       <ChatMessage
                         type="personal"
-                        date={conversation?.createdAt?.seconds}
+                        date={convMessage?.createdAt?.seconds}
                         message={message}
                         key={index}
                       />
