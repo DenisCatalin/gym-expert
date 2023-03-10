@@ -4,11 +4,10 @@ import styles from "../../css/components/ChatMessage.module.css";
 import styles2 from "../../css/components/PersonalMessages.module.css";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
+import firebase from "../../lib/firebase";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { getDocs, query, collection } from "firebase/firestore";
 import { cropImages } from "../../lib/cropImages";
-import fetchData from "../../utils/fetchData";
 
 type IChatMessage = {
   message?: any;
@@ -27,6 +26,10 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
   const [senderName, setSenderName] = useState<any>();
 
   const firestore = firebase.firestore();
+  const usersRef = firestore.collection("users");
+  const queryY = usersRef.orderBy("id");
+  //@ts-ignore
+  const [users] = useCollectionData(queryY, { id: "id" });
 
   useEffect(() => {
     (async () => {
@@ -44,19 +47,13 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
 
   useEffect(() => {
     if (type === "personal") {
-      (async () => {
-        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
-          method: "GET",
-          headers: {
-            body: JSON.stringify({
-              issuer: message?.sender,
-            }),
-          },
-        });
-        setSenderName(data?.profileDetails?.data?.users[0]);
-      })();
+      users?.forEach((user: any) => {
+        if (user.issuer === message.sender) {
+          setSenderName(user);
+        }
+      });
     }
-  }, []);
+  }, [users]);
   return (
     <>
       {type === "global" ? (

@@ -2,6 +2,7 @@ import { magicAdmin } from "../../lib/magic";
 import jwt from "jsonwebtoken";
 import { isNewUser, createNewUser } from "../../lib/db/hasura";
 import { setTokenCookie } from "../../lib/cookies";
+import firebase from "../../lib/firebase";
 
 export default async function login(req, res) {
   if (req.method === "POST") {

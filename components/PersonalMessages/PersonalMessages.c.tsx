@@ -41,22 +41,50 @@ const PersonalMessages = () => {
 
   const firestore = firebase.firestore();
   const conversationsRef = firestore.collection("conversations");
+  const usersRef = firestore.collection("users");
   const messagesRef = firestore.collection("conversationsMessages");
   const queryW = conversationsRef.orderBy("createdAt");
   const queryQ = messagesRef.orderBy("id");
+  const queryY = usersRef.orderBy("id");
   //@ts-ignore
   const [conversations] = useCollectionData(queryW, { id: "id" });
   //@ts-ignore
   const [convMessages] = useCollectionData(queryQ, { id: "id" });
+  //@ts-ignore
+  const [users] = useCollectionData(queryY, { id: "id" });
 
   let count = 0;
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_DETAILS_FOR_USERS}`, {
+        method: "GET",
+      });
+      const objects = data.details.data.users;
+      objects?.forEach((user: any) => {
+        (async () => {
+          {
+            users &&
+              (await usersRef.add({
+                id: user.id,
+                admin: user.admin,
+                cropArea: JSON.parse(user.cropArea),
+                displayName: user.displayName,
+                email: user.email,
+                issuer: user.issuer,
+                profilePic: user.profilePic,
+              }));
+          }
+        })();
+      });
+    })();
+  }, []);
 
   useEffect(() => {
     setCountMessages(0);
     let toFetch: any[] = [];
     setDataProfile([]);
     conversations?.map((conversation: any) => {
-      console.log("si aici iar e important");
       const {
         id,
         participants,
@@ -96,31 +124,24 @@ const PersonalMessages = () => {
     });
 
     if (toFetch.length > 0) {
-      const promises = toFetch?.map(async (user: any) => {
-        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS_BY_ISSUER}`, {
-          method: "GET",
-          headers: {
-            body: JSON.stringify({
-              issuer: user.participant,
-            }),
-          },
-        });
-        return {
-          id: user.id,
-          createdAt: user.createdAt,
-          lastMessage: user.lastMessage,
-          conversationName: user.conversationName,
-          conversationPhoto: user.conversationPhoto,
-          details: data?.profileDetails?.data?.users[0],
-          readBy: user.readBy,
-          removedUsers: user.removedUsers,
-        };
-      });
-
-      Promise.all(promises).then(results => {
-        setDataProfile(results);
-        console.log(" haida");
-      });
+      for (const userFetch of toFetch) {
+        const matchingUser = users?.find(user => userFetch.participant === user.issuer);
+        if (matchingUser) {
+          setDataProfile(oldArray => [
+            ...oldArray,
+            {
+              id: userFetch.id,
+              createdAt: userFetch.createdAt,
+              lastMessage: userFetch.lastMessage,
+              conversationName: userFetch.conversationName,
+              conversationPhoto: userFetch.conversationPhoto,
+              details: matchingUser,
+              readBy: userFetch.readBy,
+              removedUsers: userFetch.removedUsers,
+            },
+          ]);
+        }
+      }
     }
   }, [conversations, userRedux]);
 
