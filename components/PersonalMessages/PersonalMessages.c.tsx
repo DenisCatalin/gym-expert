@@ -61,24 +61,42 @@ const PersonalMessages = () => {
         method: "GET",
       });
       const objects = data.details.data.users;
-      objects?.forEach((user: any) => {
-        (async () => {
-          {
-            users &&
-              (await usersRef.add({
-                id: user.id,
-                admin: user.admin,
-                cropArea: JSON.parse(user.cropArea),
-                displayName: user.displayName,
-                email: user.email,
-                issuer: user.issuer,
-                profilePic: user.profilePic,
-              }));
-          }
-        })();
-      });
+      console.log("users", users);
+      console.log("objects", objects);
+      if (users && objects.length !== 0) {
+        if (objects.length === users.length) {
+          console.log("No update needed");
+        } else {
+          console.log("Update needed");
+          // usersRef.get().then(querySnapshot => {
+          //   querySnapshot.forEach(doc => {
+          //     doc.ref.delete();
+          //   });
+          // });
+          await addUsersToFirebase(objects);
+        }
+      }
     })();
-  }, []);
+  }, [userRedux]);
+
+  const addUsersToFirebase = async (objects: any) => {
+    objects?.forEach((user: any) => {
+      (async () => {
+        {
+          users &&
+            (await usersRef.add({
+              id: user.id,
+              admin: user.admin,
+              cropArea: JSON.parse(user.cropArea),
+              displayName: user.displayName,
+              email: user.email,
+              issuer: user.issuer,
+              profilePic: user.profilePic,
+            }));
+        }
+      })();
+    });
+  };
 
   useEffect(() => {
     setCountMessages(0);

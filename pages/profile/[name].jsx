@@ -1,4 +1,4 @@
-import styles from "../../css/NewsID.module.css";
+import styles from "../../css/ProfileID.module.css";
 import UseRedirectUser from "../../utils/redirectUser";
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -10,6 +10,11 @@ import firebase from "../../lib/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { setSnackbar } from "../../redux/snackbar.slice";
+import { Button } from "../../interface/Button";
+import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
+import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
+import PersonRemoveRoundedIcon from "@mui/icons-material/PersonRemoveRounded";
+import RedeemRoundedIcon from "@mui/icons-material/RedeemRounded";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);
@@ -55,6 +60,9 @@ const ViewProfile = ({ displayName }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setIsFriend(false);
+    setFetched(false);
+    setHasConversation(false);
     (async () => {
       const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_DETAILS}`, {
         method: "GET",
@@ -79,7 +87,7 @@ const ViewProfile = ({ displayName }) => {
         }
       });
     }
-  }, [fetched, friends]);
+  }, [fetched, friends, isFriend]);
 
   useEffect(() => {
     (async () => {
@@ -209,12 +217,12 @@ const ViewProfile = ({ displayName }) => {
   const checkConversation = async () => {
     let conversationFound = false;
 
-    conversations?.forEach(async (conversation, idx) => {
+    for (const [idx, conversation] of conversations.entries()) {
       if (
-        conversations[idx].participants.includes(userRedux.issuer) &&
-        conversations[idx].participants.includes(dataProfile.issuer)
+        conversation.participants.includes(userRedux.issuer) &&
+        conversation.participants.includes(dataProfile.issuer)
       ) {
-        const docID = await getDocumentIdByFieldValueSingle("id", conversations[idx].id);
+        const docID = await getDocumentIdByFieldValueSingle("id", conversation.id);
         const docRef = firestore.collection("conversations").doc(docID);
 
         const party = conversation?.removedUsers.filter(
@@ -228,8 +236,9 @@ const ViewProfile = ({ displayName }) => {
         }
 
         conversationFound = true;
+        break;
       }
-    });
+    }
 
     if (!conversationFound) {
       await addConversation();
@@ -271,28 +280,136 @@ const ViewProfile = ({ displayName }) => {
       ) : (
         <>
           {fetched === true ? (
-            <div className={styles.content} style={{ color: "white" }}>
-              <p>{dataProfile.displayName}</p>
-              <p>{dataProfile.email}</p>
-              {img && <Image src={img} alt="" width={100} height={100} />}
-              <p>{dataProfile.testimonial}</p>
-              <p>{dataProfile.registerDate}</p>
-              {displayName === userRedux.displayName ? null : (
-                <>
-                  {isFriend === false ? (
-                    <button onClick={addFriend}>Add friend</button>
-                  ) : (
-                    <button onClick={() => removeFriend("")}>Remove friend</button>
-                  )}
-                </>
-              )}
-              {displayName === userRedux.displayName ? null : (
-                <>
-                  {hasConversation === false ? (
-                    <button onClick={checkConversation}>Start conversation</button>
-                  ) : null}
-                </>
-              )}
+            <div className={styles.content}>
+              <div className={styles.profileInformations}>
+                <div className={styles.profileTextInfo}>
+                  <div className={styles.profilePicContainer}>
+                    {img && <Image src={img} alt="" layout="fill" className={styles.profilePic} />}
+                  </div>
+                  <div className={styles.profileName}>
+                    <p className={styles.displayName}>{dataProfile.displayName}</p>
+                    <p className={styles.registerDate}>Member since: {dataProfile.registerDate}</p>
+                    <div className={styles.profileDescription}>
+                      <p className={styles.description}>
+                        Member since: Member since: Member since: Member since: Member since: Member
+                        since: Member since: Member since: Member since: Member since: Member since:
+                        Member since: Member since: Member since: Member since: Member since: Member
+                        since: Member since: since: Member since: Member since: Member since: Member
+                        since: Member since: since: Member since: Member since: Member since: Member
+                        since: Member since:since: Member since: Member since: Member since: Member
+                        since: Member since:since: Member
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.profileButtonsInfo}>
+                  <div className={styles.profileButtosSpacer}>
+                    <div className={styles.socialAndBadges}>
+                      <p className={styles.socialText}>Badges</p>
+                      <div className={styles.social}>
+                        <div className={styles.socialBox}></div>
+                        <div className={styles.socialBox}></div>
+                        <div className={styles.socialBox}></div>
+                        <div className={styles.socialBox}></div>
+                        <div className={styles.socialBox}></div>
+                        <div className={styles.socialBox}></div>
+                      </div>
+                      <div className={styles.badges}></div>
+                    </div>
+                    <div className={styles.socialAndBadges}>
+                      <p className={styles.socialText}>Social</p>
+                      <div className={styles.social}>
+                        <div className={styles.socialBox}></div>
+                        <div className={styles.socialBox}></div>
+                        <div className={styles.socialBox}></div>
+                      </div>
+                      <div className={styles.badges}></div>
+                    </div>
+                  </div>
+                  <div className={styles.profileButtons}>
+                    {displayName === userRedux.displayName ? null : (
+                      <Button
+                        ariaLabel="Gift a subscription"
+                        role="button"
+                        className={styles.giftButton}
+                        label={
+                          <div className={styles.insideButton}>
+                            <RedeemRoundedIcon htmlColor="#fff" />
+                            <p>Gift sub</p>
+                          </div>
+                        }
+                      />
+                    )}
+                    {displayName === userRedux.displayName ? null : (
+                      <>
+                        {isFriend === false ? (
+                          <Button
+                            ariaLabel="Add friend"
+                            role="button"
+                            className={styles.normalButton}
+                            onClick={addFriend}
+                            label={
+                              <div className={styles.insideButton}>
+                                <PersonAddRoundedIcon htmlColor="#fff" />
+                                <p>Add friend</p>
+                              </div>
+                            }
+                          />
+                        ) : (
+                          <Button
+                            ariaLabel="Remove friend"
+                            role="button"
+                            className={styles.removeButton}
+                            onClick={() => removeFriend()}
+                            label={
+                              <div className={styles.insideButton}>
+                                <PersonRemoveRoundedIcon htmlColor="#fff" />
+                                <p>Remove friend</p>
+                              </div>
+                            }
+                          />
+                        )}
+                      </>
+                    )}
+                    {displayName === userRedux.displayName ? null : (
+                      <>
+                        {hasConversation === false ? (
+                          <Button
+                            ariaLabel="Start a conversation"
+                            role="button"
+                            className={styles.normalButton}
+                            onClick={checkConversation}
+                            label={
+                              <div className={styles.insideButton}>
+                                <CommentRoundedIcon htmlColor="#fff" />
+                                <p>Message</p>
+                              </div>
+                            }
+                          />
+                        ) : null}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className={styles.galleryContainer}>
+                <p className={styles.title}>Gallery</p>
+                <div className={styles.gallery}>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                  <div className={styles.galleryPhoto}></div>
+                </div>
+              </div>
             </div>
           ) : (
             <CircularProgress color="secondary" />

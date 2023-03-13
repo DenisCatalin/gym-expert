@@ -1,0 +1,185 @@
+.container {
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    font-family: var(--font);
+}
+
+.content {
+    width: 100%;
+    height: 90vh;
+    color: white;
+}
+
+.profileInformations {
+    width: 100%;
+    height: 40vh;
+    padding: 2rem;
+    display: flex;
+}
+
+.profilePicContainer {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px 2px var(--purple);
+}
+
+.profilePic {
+    object-fit: cover;
+}
+
+.profileName {
+    width: 80%;
+    height: 30vh;
+    margin-left: 2em;
+    transform: translateY(-10%);
+}
+
+.displayName {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.registerDate {
+    font-size: 1em;
+    transform: translateY(-100%);
+    font-weight: 100;
+}
+
+.profileTextInfo {
+    width: 60%;
+    display: flex;
+}
+
+.profileDescription {
+    width: 100%;
+}
+
+.description {
+    width: 100%;
+}
+
+.profileButtonsInfo {
+    width: 50%;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileButtosSpacer {
+    height: 80%;
+    width: 100%;
+    display: flex;
+}
+
+.socialAndBadges {
+    width: 50%;
+    height: 100%;
+}
+
+.social {
+    width: 70%;
+    height: 50%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.socialText {
+    font-size: 1.5em;
+}
+
+.socialBox {
+    width: 30%;
+    height: 5vh;
+    background: rgba(0, 0, 0, 0.404);
+    border-radius: 10px;
+}
+
+.profileButtons {
+    width: 100%;
+    height: 20%;
+    transform: translateY(-55%);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.giftButton {
+    width: 16%;
+    height: 70%;
+    background: var(--purple);
+    color: var(--white);
+    font-weight: bold;
+    font-family: var(--font);
+}
+
+.giftButton:hover {
+    background: var(--purple);
+}
+
+.insideButton {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.normalButton {
+    width: 18%;
+    height: 70%;
+    background: var(--pink);
+    color: var(--white);
+    font-weight: bold;
+    font-family: var(--font);
+}
+
+.normalButton:hover {
+    background: var(--pink);
+}
+
+.removeButton {
+    width: 24%;
+    height: 70%;
+    background: var(--pink);
+    color: var(--white);
+    font-weight: bold;
+    font-family: var(--font);
+}
+
+.removeButton:hover {
+    background: var(--pink);
+}
+
+.galleryContainer {
+    width: 75%;
+    height: 70%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-15%);
+}
+
+.title {
+    font-size: 1.4em;
+}
+
+.gallery {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.galleryPhoto {
+    margin: 0 2.5em 2.5em 0;
+    width: 180px;
+    height: 180px;
+    border-radius: 10px;
+    background: var(--pink);
+}
