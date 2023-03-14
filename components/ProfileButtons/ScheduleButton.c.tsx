@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../css/components/ScheduleButton.module.css";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import { IconButton } from "../../interface/IconButton";
 import { Dialog } from "../../interface/Dialog";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +13,7 @@ import Image from "next/image";
 import DialogSchedule from "../Dialogs/DialogSchedule.c";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import moment from "moment";
+import ScheduleButtonIcon from "../../styles/ScheduleButtonIcon.style";
 
 const months = [
   "January",
@@ -133,7 +133,7 @@ const ScheduleButton = () => {
   return (
     <>
       <ThemeProvider theme={tooltipTheme}>
-        <IconButton
+        <ScheduleButtonIcon
           color="secondary"
           label={
             <>

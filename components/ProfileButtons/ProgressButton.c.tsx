@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from "../../css/components/ProgressButton.module.css";
 import QueryStatsRoundedIcon from "@mui/icons-material/QueryStatsRounded";
-import { IconButton } from "../../interface/IconButton";
 import { Dialog } from "../../interface/Dialog";
 import AddIcon from "@mui/icons-material/Add";
 import Table from "../../interface/Table";
@@ -15,7 +14,7 @@ import { MotionTypo } from "../../interface/MotionTypo";
 import { useDispatch } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import Input from "../../interface/Input";
-import SuccessSlider from "../../utils/newStyling";
+import ProgressIconButton from "../../styles/ProgressButtonIcon.style";
 
 const ProgressButton = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -97,7 +96,7 @@ const ProgressButton = () => {
   return (
     <>
       <ThemeProvider theme={tooltipTheme}>
-        <SuccessSlider
+        <ProgressIconButton
           color="secondary"
           label={
             <>
@@ -111,20 +110,6 @@ const ProgressButton = () => {
           tooltip="Track your progress"
           tooltipPlacement="right"
         />
-        {/* <IconButton
-          color="secondary"
-          label={
-            <>
-              <QueryStatsRoundedIcon htmlColor="#fff" />
-            </>
-          }
-          role="button"
-          ariaLabel="Track your progress"
-          className={styles.trackingButton}
-          onClick={handleClick}
-          tooltip="Track your progress"
-          tooltipPlacement="right"
-        /> */}
       </ThemeProvider>
       <Dialog
         fullWidth={true}

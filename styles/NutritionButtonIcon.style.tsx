@@ -23,11 +23,11 @@ type Props = {
   tooltipPlacement: "top" | "bottom" | "left" | "right";
 };
 
-const SuccessSlider = styled(IconButton)<IButtonProps>(() => ({
+const NutritionButtonIcon = styled(IconButton)<IButtonProps>(() => ({
   background: "var(--buttonGradient)",
   position: "absolute",
-  top: "15%",
-  right: "10%",
+  top: "22%",
+  right: "87%",
 }));
 
 export default function StyledCustomization({
@@ -42,7 +42,7 @@ export default function StyledCustomization({
   tooltipPlacement,
 }: Props) {
   return (
-    <SuccessSlider
+    <NutritionButtonIcon
       tooltip={tooltip}
       tooltipPlacement={tooltipPlacement}
       label={label}

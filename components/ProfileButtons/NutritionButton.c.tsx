@@ -23,6 +23,7 @@ import Table from "../../interface/Table";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import { setNutrition } from "../../redux/nutrition.slice";
 import Input from "../../interface/Input";
+import NutritionButtonIcon from "../../styles/NutritionButtonIcon.style";
 
 const months = [
   "January",
@@ -172,7 +173,7 @@ const NutritionButton = () => {
   return (
     <>
       <ThemeProvider theme={tooltipTheme}>
-        <IconButton
+        <NutritionButtonIcon
           color="secondary"
           label={
             <>

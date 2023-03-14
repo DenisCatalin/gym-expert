@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from "../../css/components/WorkoutButton.module.css";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import { IconButton } from "../../interface/IconButton";
 import { Dialog } from "../../interface/Dialog";
 import AddIcon from "@mui/icons-material/Add";
 import Table from "../../interface/Table";
@@ -15,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import Input from "../../interface/Input";
 import firebase from "../../lib/firebase";
+import WorkoutButtonIcon from "../../styles/WorkoutButtonIcon.style";
 
 const WorkoutButton = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -130,7 +130,7 @@ const WorkoutButton = () => {
   return (
     <>
       <ThemeProvider theme={tooltipTheme}>
-        <IconButton
+        <WorkoutButtonIcon
           color="secondary"
           label={
             <>
