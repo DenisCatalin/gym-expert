@@ -2,7 +2,7 @@ import React from "react";
 import MuiButton from "@mui/material/Button";
 import MuiTooltip from "@mui/material/Tooltip";
 
-type IButtonProps = {
+export type IButtonProps = {
   color?:
     | "inherit"
     | "primary"
