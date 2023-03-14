@@ -156,7 +156,7 @@
 
 .galleryContainer {
     width: 75%;
-    height: 70%;
+    height: 100%;
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -167,7 +167,8 @@
     font-size: 1.4em;
 }
 
-.gallery {
+.gallery,
+.favExercises {
     width: 100%;
     height: 100%;
     overflow: auto;
@@ -180,6 +181,29 @@
     margin: 0 2.5em 2.5em 0;
     width: 180px;
     height: 180px;
+    border-radius: 10px;
+    background: var(--pink);
+}
+
+.otherContainer {
+    width: 100%;
+    height: 70%;
+    display: flex;
+}
+
+.favouriteExercises {
+    width: 25%;
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-15%);
+}
+
+.favExercisesPhoto {
+    margin: 0 2.5em 2.5em 0;
+    width: 150px;
+    height: 150px;
     border-radius: 10px;
     background: var(--pink);
 }

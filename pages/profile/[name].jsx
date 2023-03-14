@@ -392,22 +392,36 @@ const ViewProfile = ({ displayName }) => {
                   </div>
                 </div>
               </div>
-              <div className={styles.galleryContainer}>
-                <p className={styles.title}>Gallery</p>
-                <div className={styles.gallery}>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
-                  <div className={styles.galleryPhoto}></div>
+              <div className={styles.otherContainer}>
+                <div className={styles.galleryContainer}>
+                  <p className={styles.title}>Gallery</p>
+                  <div className={styles.gallery}>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                    <div className={styles.galleryPhoto}></div>
+                  </div>
+                </div>
+                <div className={styles.favouriteExercises}>
+                  <p className={styles.title}>Favourite exercises</p>
+                  <div className={styles.favExercises}>
+                    <div className={styles.favExercisesPhoto}></div>
+                    <div className={styles.favExercisesPhoto}></div>
+                    <div className={styles.favExercisesPhoto}></div>
+                    <div className={styles.favExercisesPhoto}></div>
+                    <div className={styles.favExercisesPhoto}></div>
+                    <div className={styles.favExercisesPhoto}></div>
+                    <div className={styles.favExercisesPhoto}></div>
+                  </div>
                 </div>
               </div>
             </div>
