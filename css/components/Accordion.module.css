@@ -65,3 +65,98 @@
     transition: all .3s ease-in-out;
     text-decoration: underline;
 }
+
+.privacyContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.privacyItem {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.socialSaveButton {
+    width: 10%;
+    height: 100%;
+    background: var(--purple);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font);
+    font-weight: bold;
+    border: none !important;
+    outline: none !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.nonSelectedPrivacy {
+    background: var(--background);
+}
+
+.selectedPrivacy {
+    background: var(--purple);
+}
+
+.socialItem {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .5em;
+}
+
+.textSocial {
+    color: var(--white);
+    font-weight: bold;
+    font-family: var(--font);
+    font-size: 1em;
+    width: 5%;
+}
+
+.profileDescription {
+    display: flex;
+    width: 100%;
+    height: 40vh;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .5em;
+}
+
+.textarea {
+    width: 90%;
+    margin: 5px 5px 0 0;
+    outline: 1px solid rgba(0, 0, 0, .5);
+    border: none;
+    border-radius: 5px;
+    padding: .3rem;
+    color: var(--white);
+    background: var(--background);
+    resize: none;
+    padding: .5rem;
+}
+
+.textarea:focus {
+    outline: 2px solid #c700d5cb;
+}
+
+.profileDescSaveButton {
+    width: 10%;
+    height: 25%;
+    background: var(--purple);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font);
+    font-weight: bold;
+    border: none !important;
+    outline: none !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: .5em;
+}

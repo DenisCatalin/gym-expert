@@ -11,12 +11,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
-import { MotionButton } from "../../interface/MotionButton";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";
-import Input from "../../interface/Input";
+import { Button } from "../../interface/Button";
 
-const ChangeNameAccordion = ({ ariaControls, name, expanded, handleChange }: IAccordion) => {
+const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccordion) => {
   const [isLoading, setIsLoading] = useState(false);
   const [secretKeyword, setSecretKeyword] = useState("");
   const [newName, setNewName] = useState("");
@@ -95,50 +95,63 @@ const ChangeNameAccordion = ({ ariaControls, name, expanded, handleChange }: IAc
           aria-controls={`${ariaControls}-panel`}
           id={`${ariaControls}-header`}
         >
-          <div className={styles.spacer2}>
-            <MotionTypo
-              className={styles.text}
-              animateOptions="opacityScale"
-              content="Display Name"
-            />
-            <MotionTypo
-              className={styles.text}
-              animateOptions="opacityScale"
-              content={<>{userRedux.displayName}</>}
-            />
-          </div>
+          <MotionTypo className={styles.text} animateOptions="opacityScale" content="Privacy" />
         </AccordionSummary>
       </ThemeProvider>
       <AccordionDetails className={styles.accordionDetails}>
-        <div>
-          <Input
-            label={"Desired display name"}
-            color="warning"
-            type={"text"}
-            className={styles.textField}
-            value={newName}
-            onChange={(e: any) => setNewName(e.target.value)}
-          />
-          <Input
-            label={"Secret keyword"}
-            color="warning"
-            type="password"
-            onChange={(e: any) => setSecretKeyword(e.target.value)}
-            className={styles.textField}
-            value={secretKeyword}
-          />
+        <div className={styles.privacyContainer}>
+          <div className={styles.privacyItem}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Who can see my gallery?"
+            />
+            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+              <Button label={"Me"} className={styles.nonSelectedPrivacy} />
+              <Button label={"Friends"} className={styles.selectedPrivacy} />
+              <Button label={"Everyone"} className={styles.nonSelectedPrivacy} />
+            </ButtonGroup>
+          </div>
+          <div className={styles.privacyItem}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Who can see my favorite exercises?"
+            />
+            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+              <Button label={"Me"} className={styles.nonSelectedPrivacy} />
+              <Button label={"Friends"} className={styles.selectedPrivacy} />
+              <Button label={"Everyone"} className={styles.nonSelectedPrivacy} />
+            </ButtonGroup>
+          </div>
+          <div className={styles.privacyItem}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Who can see my badges?"
+            />
+            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+              <Button label={"Me"} className={styles.nonSelectedPrivacy} />
+              <Button label={"Friends"} className={styles.selectedPrivacy} />
+              <Button label={"Everyone"} className={styles.nonSelectedPrivacy} />
+            </ButtonGroup>
+          </div>
+          <div className={styles.privacyItem}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Who can see my social links?"
+            />
+            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+              <Button label={"Me"} className={styles.nonSelectedPrivacy} />
+              <Button label={"Friends"} className={styles.selectedPrivacy} />
+              <Button label={"Everyone"} className={styles.nonSelectedPrivacy} />
+            </ButtonGroup>
+          </div>
         </div>
-        <MotionButton
-          hover={"opacity"}
-          tap
-          initialOptions={{ y: 0 }}
-          className={styles.accordionButton}
-          onClick={handleClick}
-          label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
-        />
       </AccordionDetails>
     </MuiAccordion>
   );
 };
 
-export default ChangeNameAccordion;
+export default PrivacyAccordion;

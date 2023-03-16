@@ -8,6 +8,9 @@ import SetKeywordAccordion from "./SetKeywordAccordion.c";
 import ChangeKeywordAccordion from "./ChangeKeywordAccordion.c";
 import ChangeNameAccordion from "./ChangeNameAccordion.c";
 import ManageSubscriptionAccordion from "./ManageSubscriptionAccordion.c";
+import PrivacyAccordion from "./PrivacyAccordion.c";
+import SocialAccordion from "./SocialAccordion.c";
+import ProfileDescAccordion from "./ProfileDescAccordion.c";
 
 export type IAccordion = {
   ariaControls: string;
@@ -53,27 +56,24 @@ const Accordions = () => {
         expanded={expanded}
         handleChange={handleChange}
       />
-      {/* <Accordion
-        type="subscription"
-        ariaControls="subscription"
-        name="hey"
+      <PrivacyAccordion
+        ariaControls="privacy"
+        name="privacy"
         expanded={expanded}
         handleChange={handleChange}
       />
-      <Accordion
-        type="subscription"
-        ariaControls="subscription"
-        name="hey2"
+      <SocialAccordion
+        ariaControls="social"
+        name="social"
         expanded={expanded}
         handleChange={handleChange}
       />
-      <Accordion
-        type="subscription"
-        ariaControls="subscription"
-        name="hey3"
+      <ProfileDescAccordion
+        ariaControls="profile-description"
+        name="profile-description"
         expanded={expanded}
         handleChange={handleChange}
-      /> */}
+      />
       <MuiAccordion disabled className={styles.accordion}>
         <AccordionSummary
           aria-controls="panel3a-content"

@@ -6,17 +6,17 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import EditIcon from "@mui/icons-material/Edit";
 import styles from "../../css/components/Accordion.module.css";
 import { theme2 } from "../../utils/muiTheme";
-import { ThemeProvider } from "@mui/material";
+import { TextareaAutosize, ThemeProvider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
-import { MotionButton } from "../../interface/MotionButton";
 import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";
 import Input from "../../interface/Input";
+import { MotionButton } from "../../interface/MotionButton";
 
-const ChangeNameAccordion = ({ ariaControls, name, expanded, handleChange }: IAccordion) => {
+const ProfileDescAccordion = ({ ariaControls, name, expanded, handleChange }: IAccordion) => {
   const [isLoading, setIsLoading] = useState(false);
   const [secretKeyword, setSecretKeyword] = useState("");
   const [newName, setNewName] = useState("");
@@ -95,50 +95,41 @@ const ChangeNameAccordion = ({ ariaControls, name, expanded, handleChange }: IAc
           aria-controls={`${ariaControls}-panel`}
           id={`${ariaControls}-header`}
         >
-          <div className={styles.spacer2}>
-            <MotionTypo
-              className={styles.text}
-              animateOptions="opacityScale"
-              content="Display Name"
-            />
-            <MotionTypo
-              className={styles.text}
-              animateOptions="opacityScale"
-              content={<>{userRedux.displayName}</>}
-            />
-          </div>
+          <MotionTypo
+            className={styles.text}
+            animateOptions="opacityScale"
+            content="Profile Description"
+          />
         </AccordionSummary>
       </ThemeProvider>
       <AccordionDetails className={styles.accordionDetails}>
-        <div>
-          <Input
-            label={"Desired display name"}
-            color="warning"
-            type={"text"}
-            className={styles.textField}
-            value={newName}
-            onChange={(e: any) => setNewName(e.target.value)}
-          />
-          <Input
-            label={"Secret keyword"}
-            color="warning"
-            type="password"
-            onChange={(e: any) => setSecretKeyword(e.target.value)}
-            className={styles.textField}
-            value={secretKeyword}
-          />
+        <div className={styles.privacyContainer}>
+          <div className={styles.profileDescription}>
+            <MotionTypo
+              className={styles.text}
+              animateOptions="opacityScale"
+              content="Set or edit yourProfile Description"
+            />
+            <TextareaAutosize
+              aria-label="empty textarea"
+              placeholder={"hey"}
+              style={{ height: "100%" }}
+              onChange={(e: any) => setSecretKeyword(e.target.value)}
+              className={styles.textarea}
+            />
+            <MotionButton
+              hover={"opacity"}
+              tap
+              initialOptions={{ y: 0 }}
+              className={styles.profileDescSaveButton}
+              onClick={handleClick}
+              label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+            />
+          </div>
         </div>
-        <MotionButton
-          hover={"opacity"}
-          tap
-          initialOptions={{ y: 0 }}
-          className={styles.accordionButton}
-          onClick={handleClick}
-          label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
-        />
       </AccordionDetails>
     </MuiAccordion>
   );
 };
 
-export default ChangeNameAccordion;
+export default ProfileDescAccordion;
