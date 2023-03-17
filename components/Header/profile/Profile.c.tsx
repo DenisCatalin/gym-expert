@@ -75,6 +75,7 @@ const ProfileButton = () => {
           subscribedSince: data?.userDetails?.data?.users[0].subscribedIn,
           profileAvatar: data?.userDetails?.data?.users[0].profileAvatar,
           secretKeyword: data?.userDetails?.data?.users[0].secretKeyword,
+          privacy: JSON.parse(data?.userDetails?.data?.users[0].privacy),
           logged: true,
         })
       );

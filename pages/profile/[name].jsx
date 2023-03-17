@@ -38,6 +38,7 @@ const ViewProfile = ({ displayName }) => {
   const [isFriend, setIsFriend] = useState(false);
   const [img, setImage] = useState();
   const [hasConversation, setHasConversation] = useState(false);
+  const [privacySettings, setPrivacySettings] = useState({});
 
   const userRedux = useSelector(state => state.user.user);
 
@@ -75,6 +76,9 @@ const ViewProfile = ({ displayName }) => {
 
       setData(data?.profileDetails?.data?.users[0]);
       setFetched(true);
+      setPrivacySettings(JSON.parse(data?.profileDetails?.data?.users[0].privacy));
+
+      console.log("data", data);
     })();
   }, [displayName]);
 
@@ -268,6 +272,66 @@ const ViewProfile = ({ displayName }) => {
     }
   };
 
+  const renderFavoriteExercises = () => {
+    return (
+      <div className={styles.favExercises}>
+        <div className={styles.favExercisesPhoto}></div>
+        <div className={styles.favExercisesPhoto}></div>
+        <div className={styles.favExercisesPhoto}></div>
+        <div className={styles.favExercisesPhoto}></div>
+        <div className={styles.favExercisesPhoto}></div>
+        <div className={styles.favExercisesPhoto}></div>
+        <div className={styles.favExercisesPhoto}></div>
+      </div>
+    );
+  };
+
+  const renderGallery = () => {
+    return (
+      <div className={styles.gallery}>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+        <div className={styles.galleryPhoto}></div>
+      </div>
+    );
+  };
+
+  const renderBadges = () => {
+    return (
+      <div className={styles.social}>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+      </div>
+    );
+  };
+
+  const renderSocialLinks = () => {
+    return (
+      <div className={styles.social}>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+        <div className={styles.socialBox}></div>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -306,24 +370,29 @@ const ViewProfile = ({ displayName }) => {
                   <div className={styles.profileButtosSpacer}>
                     <div className={styles.socialAndBadges}>
                       <p className={styles.socialText}>Badges</p>
-                      <div className={styles.social}>
-                        <div className={styles.socialBox}></div>
-                        <div className={styles.socialBox}></div>
-                        <div className={styles.socialBox}></div>
-                        <div className={styles.socialBox}></div>
-                        <div className={styles.socialBox}></div>
-                        <div className={styles.socialBox}></div>
-                      </div>
-                      <div className={styles.badges}></div>
+                      {privacySettings.badges === "everyone"
+                        ? renderBadges()
+                        : (privacySettings.badges === "friends" && isFriend) ||
+                          dataProfile.issuer === userRedux.issuer
+                        ? renderBadges()
+                        : privacySettings.badges === "friends" && !isFriend
+                        ? "This user only allow friends to see their badges"
+                        : privacySettings.badges === "me" && dataProfile.issuer === userRedux.issuer
+                        ? renderBadges()
+                        : "This user does not allow anyone to see their badges"}
                     </div>
                     <div className={styles.socialAndBadges}>
                       <p className={styles.socialText}>Social</p>
-                      <div className={styles.social}>
-                        <div className={styles.socialBox}></div>
-                        <div className={styles.socialBox}></div>
-                        <div className={styles.socialBox}></div>
-                      </div>
-                      <div className={styles.badges}></div>
+                      {privacySettings.links === "everyone"
+                        ? renderSocialLinks()
+                        : (privacySettings.links === "friends" && isFriend) ||
+                          dataProfile.issuer === userRedux.issuer
+                        ? renderSocialLinks()
+                        : privacySettings.links === "friends" && !isFriend
+                        ? "This user only allow friends to see their social media links"
+                        : privacySettings.links === "me" && dataProfile.issuer === userRedux.issuer
+                        ? renderSocialLinks()
+                        : "This user does not allow anyone to see their social media links"}
                     </div>
                   </div>
                   <div className={styles.profileButtons}>
@@ -395,33 +464,29 @@ const ViewProfile = ({ displayName }) => {
               <div className={styles.otherContainer}>
                 <div className={styles.galleryContainer}>
                   <p className={styles.title}>Gallery</p>
-                  <div className={styles.gallery}>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                    <div className={styles.galleryPhoto}></div>
-                  </div>
+                  {privacySettings.gallery === "everyone"
+                    ? renderGallery()
+                    : (privacySettings.gallery === "friends" && isFriend) ||
+                      dataProfile.issuer === userRedux.issuer
+                    ? renderGallery()
+                    : privacySettings.gallery === "friends" && !isFriend
+                    ? "This user only allow friends to see their gallery"
+                    : privacySettings.gallery === "me" && dataProfile.issuer === userRedux.issuer
+                    ? renderGallery()
+                    : "This user does not allow anyone to see their gallery"}
                 </div>
                 <div className={styles.favouriteExercises}>
                   <p className={styles.title}>Favourite exercises</p>
-                  <div className={styles.favExercises}>
-                    <div className={styles.favExercisesPhoto}></div>
-                    <div className={styles.favExercisesPhoto}></div>
-                    <div className={styles.favExercisesPhoto}></div>
-                    <div className={styles.favExercisesPhoto}></div>
-                    <div className={styles.favExercisesPhoto}></div>
-                    <div className={styles.favExercisesPhoto}></div>
-                    <div className={styles.favExercisesPhoto}></div>
-                  </div>
+                  {privacySettings.exercises === "everyone"
+                    ? renderFavoriteExercises()
+                    : (privacySettings.exercises === "friends" && isFriend) ||
+                      dataProfile.issuer === userRedux.issuer
+                    ? renderFavoriteExercises()
+                    : privacySettings.exercises === "friends" && !isFriend
+                    ? "This user only allow friends to see their favorite exercises"
+                    : privacySettings.exercises === "me" && dataProfile.issuer === userRedux.issuer
+                    ? renderFavoriteExercises()
+                    : "This user does not allow anyone to see their favorite exercises"}
                 </div>
               </div>
             </div>

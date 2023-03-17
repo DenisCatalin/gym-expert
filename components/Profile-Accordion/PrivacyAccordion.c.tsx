@@ -16,12 +16,18 @@ import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";
 import { Button } from "../../interface/Button";
 
-const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccordion) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [secretKeyword, setSecretKeyword] = useState("");
-  const [newName, setNewName] = useState("");
+interface UserPrivacy {
+  gallery: string;
+  badges: string;
+  exercises: string;
+  links: string;
+}
 
-  const userRedux = useSelector((state: any) => state.user.user);
+const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccordion) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [galleryPrivacy, setGalleryPrivacy] = useState<string>("");
+
+  const userRedux: any = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
 
   function setSnackbarMessage(message: string) {
@@ -33,53 +39,36 @@ const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccor
     );
   }
 
-  const handleClick = async () => {
+  const handleClick = async (value: string, field: string) => {
     setIsLoading(true);
     if (userRedux.logged) {
-      if (newName === "") {
-        setSnackbarMessage("The new display name must be provided.");
-        setIsLoading(false);
-        return;
-      }
-      if (newName.length < 3) {
-        setSnackbarMessage("The new display name must be at least 3 characters long.");
-        setIsLoading(false);
-        return;
-      }
-      if (secretKeyword === "") {
-        setSnackbarMessage("The secret keyword must be provided.");
-        setIsLoading(false);
-        return;
-      }
-      if (secretKeyword !== userRedux.secretKeyword) {
-        setSnackbarMessage("Wrong secret keyword.");
-        setIsLoading(false);
-        return;
-      }
-      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_NAME}`, {
+      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_USERS_PRIVACY}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
             issuer: userRedux.issuer,
-            newName: newName,
+            privacy: {
+              gallery: field === "gallery" ? value : userRedux.privacy.gallery,
+              badges: field === "badges" ? value : userRedux.privacy.badges,
+              exercises: field === "exercises" ? value : userRedux.privacy.exercises,
+              links: field === "links" ? value : userRedux.privacy.links,
+            },
           }),
         },
       });
-      if (data2.CheckDisplayNameQueryForUser === 0) {
-        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_NAME}`, {
-          method: "POST",
-          headers: {
-            body: JSON.stringify({
-              issuer: userRedux.issuer,
-              newName: newName,
-            }),
+      console.log("hei", data2);
+      dispatch(
+        setUserState({
+          ...userRedux,
+          privacy: {
+            gallery: field === "gallery" ? value : userRedux.privacy.gallery,
+            badges: field === "badges" ? value : userRedux.privacy.badges,
+            exercises: field === "exercises" ? value : userRedux.privacy.exercises,
+            links: field === "links" ? value : userRedux.privacy.links,
           },
-        });
-        setSecretKeyword("");
-        setNewName("");
-        dispatch(setUserState({ ...userRedux, displayName: newName }));
-        setSnackbarMessage("You have successfully changed your display name.");
-      } else setSnackbarMessage("Display name already exists!");
+        })
+      );
+      setSnackbarMessage("You have successfully changed your privacy for your gallery.");
     }
     setIsLoading(false);
   };
@@ -107,9 +96,39 @@ const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccor
               content="Who can see my gallery?"
             />
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-              <Button label={"Me"} className={styles.nonSelectedPrivacy} />
-              <Button label={"Friends"} className={styles.selectedPrivacy} />
-              <Button label={"Everyone"} className={styles.nonSelectedPrivacy} />
+              {isLoading ? (
+                <CircularProgress color="secondary" />
+              ) : (
+                <>
+                  <Button
+                    label={"me"}
+                    onClick={() => handleClick("me", "gallery")}
+                    className={
+                      userRedux.privacy.gallery === "me"
+                        ? styles.selectedPrivacy
+                        : styles.nonSelectedPrivacy
+                    }
+                  />
+                  <Button
+                    label={"friends"}
+                    className={
+                      userRedux.privacy.gallery === "friends"
+                        ? styles.selectedPrivacy
+                        : styles.nonSelectedPrivacy
+                    }
+                    onClick={() => handleClick("friends", "gallery")}
+                  />
+                  <Button
+                    label={"everyone"}
+                    className={
+                      userRedux.privacy.gallery === "everyone"
+                        ? styles.selectedPrivacy
+                        : styles.nonSelectedPrivacy
+                    }
+                    onClick={() => handleClick("everyone", "gallery")}
+                  />
+                </>
+              )}
             </ButtonGroup>
           </div>
           <div className={styles.privacyItem}>
@@ -119,9 +138,33 @@ const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccor
               content="Who can see my favorite exercises?"
             />
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-              <Button label={"Me"} className={styles.nonSelectedPrivacy} />
-              <Button label={"Friends"} className={styles.selectedPrivacy} />
-              <Button label={"Everyone"} className={styles.nonSelectedPrivacy} />
+              <Button
+                label={"me"}
+                onClick={() => handleClick("me", "exercises")}
+                className={
+                  userRedux.privacy.exercises === "me"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
+              <Button
+                label={"friends"}
+                onClick={() => handleClick("friends", "exercises")}
+                className={
+                  userRedux.privacy.exercises === "friends"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
+              <Button
+                label={"everyone"}
+                onClick={() => handleClick("everyone", "exercises")}
+                className={
+                  userRedux.privacy.exercises === "everyone"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
             </ButtonGroup>
           </div>
           <div className={styles.privacyItem}>
@@ -131,9 +174,33 @@ const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccor
               content="Who can see my badges?"
             />
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-              <Button label={"Me"} className={styles.nonSelectedPrivacy} />
-              <Button label={"Friends"} className={styles.selectedPrivacy} />
-              <Button label={"Everyone"} className={styles.nonSelectedPrivacy} />
+              <Button
+                label={"me"}
+                onClick={() => handleClick("me", "badges")}
+                className={
+                  userRedux.privacy.badges === "me"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
+              <Button
+                label={"friends"}
+                onClick={() => handleClick("friends", "badges")}
+                className={
+                  userRedux.privacy.badges === "friends"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
+              <Button
+                label={"everyone"}
+                onClick={() => handleClick("everyone", "badges")}
+                className={
+                  userRedux.privacy.badges === "everyone"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
             </ButtonGroup>
           </div>
           <div className={styles.privacyItem}>
@@ -143,9 +210,33 @@ const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccor
               content="Who can see my social links?"
             />
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-              <Button label={"Me"} className={styles.nonSelectedPrivacy} />
-              <Button label={"Friends"} className={styles.selectedPrivacy} />
-              <Button label={"Everyone"} className={styles.nonSelectedPrivacy} />
+              <Button
+                label={"me"}
+                onClick={() => handleClick("me", "links")}
+                className={
+                  userRedux.privacy.links === "me"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
+              <Button
+                label={"friends"}
+                onClick={() => handleClick("friends", "links")}
+                className={
+                  userRedux.privacy.links === "friends"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
+              <Button
+                label={"everyone"}
+                onClick={() => handleClick("everyone", "links")}
+                className={
+                  userRedux.privacy.links === "everyone"
+                    ? styles.selectedPrivacy
+                    : styles.nonSelectedPrivacy
+                }
+              />
             </ButtonGroup>
           </div>
         </div>
