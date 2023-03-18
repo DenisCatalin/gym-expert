@@ -21,6 +21,7 @@ const GalleryButton = () => {
   const [currentPhoto, setCurrentPhoto] = useState<string>("");
   const [viewDialog, setViewDialog] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
 
   const userRedux = useSelector((state: any) => state.user.user);
   const { issuer, gallery } = userRedux;
@@ -59,6 +60,14 @@ const GalleryButton = () => {
       method: "POST",
       body: formData,
     });
+
+    dispatch(
+      setUserState({
+        ...userRedux,
+        gallery: gallery === null ? [data.secure_url] : [...gallery, data.secure_url],
+        needsUpdate: true,
+      })
+    );
 
     await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_USERS_GALLERY}`, {
       method: "POST",
@@ -122,6 +131,15 @@ const GalleryButton = () => {
       })
     );
     closeViewDialog();
+    closeDeleteDialog();
+  };
+
+  const openDeleteDialog = () => {
+    setDeleteDialog(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialog(false);
   };
 
   return (
@@ -216,8 +234,24 @@ const GalleryButton = () => {
         }
         actions={
           <>
-            <Button label="Delete" color="warning" onClick={deleteFromGallery} />
+            <Button label="Delete" color="warning" onClick={openDeleteDialog} />
             <Button label="Close" color="warning" onClick={closeViewDialog} />
+          </>
+        }
+      />
+      <Dialog
+        open={deleteDialog}
+        onClose={closeDeleteDialog}
+        title={"Delete photo"}
+        fullWidth={true}
+        maxWidth={"sm"}
+        textStyles={styles.text}
+        contentStyles={styles.background}
+        contentText="Are you sure you want to delete this photo from your gallery?"
+        actions={
+          <>
+            <Button label="No" color="secondary" onClick={closeDeleteDialog} />
+            <Button label="Yes" color="secondary" onClick={deleteFromGallery} />
           </>
         }
       />

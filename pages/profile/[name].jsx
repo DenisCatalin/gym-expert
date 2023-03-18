@@ -20,6 +20,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import { Dialog } from "../../interface/Dialog";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);
@@ -40,11 +41,14 @@ export async function getServerSideProps(context) {
 const ViewProfile = ({ displayName }) => {
   const [dataProfile, setData] = useState([]);
   const [links, setLinks] = useState({});
+  const [gallery, setGallery] = useState([]);
   const [fetched, setFetched] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
   const [img, setImage] = useState();
   const [hasConversation, setHasConversation] = useState(false);
   const [privacySettings, setPrivacySettings] = useState({});
+  const [viewDialog, setViewDialog] = useState(false);
+  const [currentPhoto, setCurrentPhoto] = useState("");
 
   const userRedux = useSelector(state => state.user.user);
 
@@ -85,6 +89,7 @@ const ViewProfile = ({ displayName }) => {
 
       setData(data?.profileDetails?.data?.users[0]);
       setLinks(JSON.parse(data?.profileDetails?.data?.users[0].links));
+      setGallery(JSON.parse(data?.profileDetails?.data?.users[0].gallery));
       setFetched(true);
       setPrivacySettings(JSON.parse(data?.profileDetails?.data?.users[0].privacy));
     })();
@@ -300,19 +305,18 @@ const ViewProfile = ({ displayName }) => {
   const renderGallery = () => {
     return (
       <div className={styles.gallery}>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
-        <div className={styles.galleryPhoto}></div>
+        {gallery &&
+          gallery?.map(photo => (
+            <div className={styles.galleryPhoto}>
+              <Image
+                src={photo}
+                alt=""
+                layout="fill"
+                className={styles.actualPhoto}
+                onClick={() => openViewDialog(photo)}
+              />
+            </div>
+          ))}
       </div>
     );
   };
@@ -394,6 +398,15 @@ const ViewProfile = ({ displayName }) => {
         ) : null}
       </div>
     );
+  };
+
+  const openViewDialog = photo => {
+    setViewDialog(true);
+    setCurrentPhoto(photo);
+  };
+
+  const closeViewDialog = () => {
+    setViewDialog(false);
   };
 
   return (
@@ -551,6 +564,25 @@ const ViewProfile = ({ displayName }) => {
           )}
         </>
       )}
+      <Dialog
+        open={viewDialog}
+        onClose={closeViewDialog}
+        title={"View photo"}
+        fullWidth={true}
+        maxWidth={"xl"}
+        textStyles={styles.text}
+        contentStyles={styles.backgroundView}
+        contentOther={
+          <>
+            <Image src={currentPhoto} alt="" layout="fill" className={styles.galleryPhoto} />
+          </>
+        }
+        actions={
+          <>
+            <Button label="Close" color="warning" onClick={closeViewDialog} />
+          </>
+        }
+      />
     </div>
   );
 };
