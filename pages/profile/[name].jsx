@@ -306,8 +306,8 @@ const ViewProfile = ({ displayName }) => {
     return (
       <div className={styles.gallery}>
         {gallery &&
-          gallery?.map(photo => (
-            <div className={styles.galleryPhoto}>
+          gallery?.map((photo, idx) => (
+            <div className={styles.galleryPhoto} key={idx}>
               <Image
                 src={photo}
                 alt=""
