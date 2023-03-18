@@ -76,6 +76,9 @@ const ProfileButton = () => {
           profileAvatar: data?.userDetails?.data?.users[0].profileAvatar,
           secretKeyword: data?.userDetails?.data?.users[0].secretKeyword,
           privacy: JSON.parse(data?.userDetails?.data?.users[0].privacy),
+          links: JSON.parse(data?.userDetails?.data?.users[0].links),
+          description: data?.userDetails?.data?.users[0].description,
+          gallery: JSON.parse(data?.userDetails?.data?.users[0].gallery),
           logged: true,
         })
       );

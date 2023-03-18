@@ -18,7 +18,6 @@ import {
   themePagination,
   theme2,
   inputTheme,
-  tooltipTheme,
   scheduleButton,
 } from "../utils/muiTheme";
 import { useSelector, useDispatch } from "react-redux";
@@ -213,7 +212,6 @@ const Exercises = () => {
   }, [userRedux]);
 
   useEffect(() => {
-    console.log("Test");
     if (bodyPart === "favourites") {
     } else {
       (async function () {

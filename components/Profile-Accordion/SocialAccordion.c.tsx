@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IAccordion } from "./Accordions.c";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -18,11 +18,24 @@ import { MotionButton } from "../../interface/MotionButton";
 
 const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccordion) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [secretKeyword, setSecretKeyword] = useState("");
-  const [newName, setNewName] = useState("");
+  const [instagram, setInstagram] = useState<string>("");
+  const [twitter, setTwitter] = useState<string>("");
+  const [youtube, setYoutube] = useState<string>("");
+  const [twitch, setTwitch] = useState<string>("");
+  const [linkedIn, setLinkedIn] = useState<string>("");
+  const [facebook, setFacebook] = useState<string>("");
 
   const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setInstagram(userRedux?.links?.instagram);
+    setTwitch(userRedux?.links?.twitch);
+    setTwitter(userRedux?.links?.twitter);
+    setYoutube(userRedux?.links?.youtube);
+    setFacebook(userRedux?.links?.facebook);
+    setLinkedIn(userRedux?.links?.linkedIn);
+  }, [userRedux]);
 
   function setSnackbarMessage(message: string) {
     dispatch(
@@ -36,50 +49,37 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
   const handleClick = async () => {
     setIsLoading(true);
     if (userRedux.logged) {
-      if (newName === "") {
-        setSnackbarMessage("The new display name must be provided.");
-        setIsLoading(false);
-        return;
-      }
-      if (newName.length < 3) {
-        setSnackbarMessage("The new display name must be at least 3 characters long.");
-        setIsLoading(false);
-        return;
-      }
-      if (secretKeyword === "") {
-        setSnackbarMessage("The secret keyword must be provided.");
-        setIsLoading(false);
-        return;
-      }
-      if (secretKeyword !== userRedux.secretKeyword) {
-        setSnackbarMessage("Wrong secret keyword.");
-        setIsLoading(false);
-        return;
-      }
-      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_NAME}`, {
+      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_USERS_LINKS}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
             issuer: userRedux.issuer,
-            newName: newName,
+            links: {
+              instagram,
+              twitter,
+              twitch,
+              youtube,
+              facebook,
+              linkedIn,
+            },
           }),
         },
       });
-      if (data2.CheckDisplayNameQueryForUser === 0) {
-        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_NAME}`, {
-          method: "POST",
-          headers: {
-            body: JSON.stringify({
-              issuer: userRedux.issuer,
-              newName: newName,
-            }),
+      console.log(data2);
+      dispatch(
+        setUserState({
+          ...userRedux,
+          links: {
+            instagram,
+            twitter,
+            twitch,
+            youtube,
+            facebook,
+            linkedIn,
           },
-        });
-        setSecretKeyword("");
-        setNewName("");
-        dispatch(setUserState({ ...userRedux, displayName: newName }));
-        setSnackbarMessage("You have successfully changed your display name.");
-      } else setSnackbarMessage("Display name already exists!");
+        })
+      );
+      setSnackbarMessage("You have successfully changed your display name.");
     }
     setIsLoading(false);
   };
@@ -113,18 +113,10 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
             <Input
               label={"Instagram link"}
               color="warning"
-              type="password"
-              onChange={(e: any) => setSecretKeyword(e.target.value)}
+              type="text"
+              onChange={(e: any) => setInstagram(e.target.value)}
               className={styles.textField}
-              value={secretKeyword}
-            />
-            <MotionButton
-              hover={"opacity"}
-              tap
-              initialOptions={{ y: 0 }}
-              className={styles.socialSaveButton}
-              onClick={handleClick}
-              label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+              value={instagram}
             />
           </div>
           <div className={styles.socialItem}>
@@ -136,18 +128,10 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
             <Input
               label={"Facebook link"}
               color="warning"
-              type="password"
-              onChange={(e: any) => setSecretKeyword(e.target.value)}
+              type="text"
+              onChange={(e: any) => setFacebook(e.target.value)}
               className={styles.textField}
-              value={secretKeyword}
-            />
-            <MotionButton
-              hover={"opacity"}
-              tap
-              initialOptions={{ y: 0 }}
-              className={styles.socialSaveButton}
-              onClick={handleClick}
-              label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+              value={facebook}
             />
           </div>
           <div className={styles.socialItem}>
@@ -159,18 +143,10 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
             <Input
               label={"Twitter link"}
               color="warning"
-              type="password"
-              onChange={(e: any) => setSecretKeyword(e.target.value)}
+              type="text"
+              onChange={(e: any) => setTwitter(e.target.value)}
               className={styles.textField}
-              value={secretKeyword}
-            />
-            <MotionButton
-              hover={"opacity"}
-              tap
-              initialOptions={{ y: 0 }}
-              className={styles.socialSaveButton}
-              onClick={handleClick}
-              label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+              value={twitter}
             />
           </div>
           <div className={styles.socialItem}>
@@ -182,18 +158,10 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
             <Input
               label={"LinkedIn link"}
               color="warning"
-              type="password"
-              onChange={(e: any) => setSecretKeyword(e.target.value)}
+              type="text"
+              onChange={(e: any) => setLinkedIn(e.target.value)}
               className={styles.textField}
-              value={secretKeyword}
-            />
-            <MotionButton
-              hover={"opacity"}
-              tap
-              initialOptions={{ y: 0 }}
-              className={styles.socialSaveButton}
-              onClick={handleClick}
-              label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+              value={linkedIn}
             />
           </div>
           <div className={styles.socialItem}>
@@ -205,18 +173,10 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
             <Input
               label={"Twitch link"}
               color="warning"
-              type="password"
-              onChange={(e: any) => setSecretKeyword(e.target.value)}
+              type="text"
+              onChange={(e: any) => setTwitch(e.target.value)}
               className={styles.textField}
-              value={secretKeyword}
-            />
-            <MotionButton
-              hover={"opacity"}
-              tap
-              initialOptions={{ y: 0 }}
-              className={styles.socialSaveButton}
-              onClick={handleClick}
-              label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+              value={twitch}
             />
           </div>
           <div className={styles.socialItem}>
@@ -228,20 +188,20 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
             <Input
               label={"Youtube link"}
               color="warning"
-              type="password"
-              onChange={(e: any) => setSecretKeyword(e.target.value)}
+              type="text"
+              onChange={(e: any) => setYoutube(e.target.value)}
               className={styles.textField}
-              value={secretKeyword}
-            />
-            <MotionButton
-              hover={"opacity"}
-              tap
-              initialOptions={{ y: 0 }}
-              className={styles.socialSaveButton}
-              onClick={handleClick}
-              label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+              value={youtube}
             />
           </div>
+          <MotionButton
+            hover={"opacity"}
+            tap
+            initialOptions={{ y: 0 }}
+            className={styles.socialSaveButton}
+            onClick={handleClick}
+            label={<>{isLoading ? <CircularProgress color="inherit" /> : "Save"}</>}
+          />
         </div>
       </AccordionDetails>
     </MuiAccordion>

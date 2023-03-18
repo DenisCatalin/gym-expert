@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IAccordion } from "./Accordions.c";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -13,13 +13,11 @@ import { setUserState } from "../../redux/user.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import fetchData from "../../utils/fetchData";
 import { MotionTypo } from "../../interface/MotionTypo";
-import Input from "../../interface/Input";
 import { MotionButton } from "../../interface/MotionButton";
 
 const ProfileDescAccordion = ({ ariaControls, name, expanded, handleChange }: IAccordion) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [secretKeyword, setSecretKeyword] = useState("");
-  const [newName, setNewName] = useState("");
+  const [profileDescription, setProfileDescription] = useState<string>("");
 
   const userRedux = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
@@ -33,53 +31,25 @@ const ProfileDescAccordion = ({ ariaControls, name, expanded, handleChange }: IA
     );
   }
 
+  useEffect(() => {
+    setProfileDescription(userRedux?.description);
+  }, [userRedux]);
+
   const handleClick = async () => {
     setIsLoading(true);
     if (userRedux.logged) {
-      if (newName === "") {
-        setSnackbarMessage("The new display name must be provided.");
-        setIsLoading(false);
-        return;
-      }
-      if (newName.length < 3) {
-        setSnackbarMessage("The new display name must be at least 3 characters long.");
-        setIsLoading(false);
-        return;
-      }
-      if (secretKeyword === "") {
-        setSnackbarMessage("The secret keyword must be provided.");
-        setIsLoading(false);
-        return;
-      }
-      if (secretKeyword !== userRedux.secretKeyword) {
-        setSnackbarMessage("Wrong secret keyword.");
-        setIsLoading(false);
-        return;
-      }
-      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHECK_NAME}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_USERS_DESCRIPTION}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
             issuer: userRedux.issuer,
-            newName: newName,
+            description: profileDescription,
           }),
         },
       });
-      if (data2.CheckDisplayNameQueryForUser === 0) {
-        await fetchData(`${process.env.NEXT_PUBLIC_FETCH_CHANGE_NAME}`, {
-          method: "POST",
-          headers: {
-            body: JSON.stringify({
-              issuer: userRedux.issuer,
-              newName: newName,
-            }),
-          },
-        });
-        setSecretKeyword("");
-        setNewName("");
-        dispatch(setUserState({ ...userRedux, displayName: newName }));
-        setSnackbarMessage("You have successfully changed your display name.");
-      } else setSnackbarMessage("Display name already exists!");
+
+      dispatch(setUserState({ ...userRedux, description: profileDescription }));
+      setSnackbarMessage("You have successfully changed your profile description.");
     }
     setIsLoading(false);
   };
@@ -112,10 +82,13 @@ const ProfileDescAccordion = ({ ariaControls, name, expanded, handleChange }: IA
             />
             <TextareaAutosize
               aria-label="empty textarea"
-              placeholder={"hey"}
+              placeholder={
+                userRedux.description === "" ? "Your profile description" : userRedux.description
+              }
               style={{ height: "100%" }}
-              onChange={(e: any) => setSecretKeyword(e.target.value)}
+              onChange={(e: any) => setProfileDescription(e.target.value)}
               className={styles.textarea}
+              value={profileDescription}
             />
             <MotionButton
               hover={"opacity"}

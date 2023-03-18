@@ -15,6 +15,11 @@ import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
 import PersonRemoveRoundedIcon from "@mui/icons-material/PersonRemoveRounded";
 import RedeemRoundedIcon from "@mui/icons-material/RedeemRounded";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);
@@ -34,6 +39,7 @@ export async function getServerSideProps(context) {
 
 const ViewProfile = ({ displayName }) => {
   const [dataProfile, setData] = useState([]);
+  const [links, setLinks] = useState({});
   const [fetched, setFetched] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
   const [img, setImage] = useState();
@@ -52,11 +58,14 @@ const ViewProfile = ({ displayName }) => {
   const queryW = friendsRef.orderBy("id");
   const queryY = conversationsRef.orderBy("createdAt");
   const queryZ = conversationsMessagesRef.orderBy("id");
+  const exercisesRef = firestore.collection("favourites");
+  const queryExercises = exercisesRef.orderBy("name");
 
   const [notifications] = useCollectionData(queryQ, { id: "id" });
   const [friends] = useCollectionData(queryW, { id: "id" });
   const [conversations] = useCollectionData(queryY, { id: "id" });
   const [conversationsMessages] = useCollectionData(queryZ, { id: "id" });
+  const [favouriteExercises] = useCollectionData(queryExercises, { id: "id" });
 
   const dispatch = useDispatch();
 
@@ -75,10 +84,9 @@ const ViewProfile = ({ displayName }) => {
       });
 
       setData(data?.profileDetails?.data?.users[0]);
+      setLinks(JSON.parse(data?.profileDetails?.data?.users[0].links));
       setFetched(true);
       setPrivacySettings(JSON.parse(data?.profileDetails?.data?.users[0].privacy));
-
-      console.log("data", data);
     })();
   }, [displayName]);
 
@@ -275,13 +283,16 @@ const ViewProfile = ({ displayName }) => {
   const renderFavoriteExercises = () => {
     return (
       <div className={styles.favExercises}>
-        <div className={styles.favExercisesPhoto}></div>
-        <div className={styles.favExercisesPhoto}></div>
-        <div className={styles.favExercisesPhoto}></div>
-        <div className={styles.favExercisesPhoto}></div>
-        <div className={styles.favExercisesPhoto}></div>
-        <div className={styles.favExercisesPhoto}></div>
-        <div className={styles.favExercisesPhoto}></div>
+        {favouriteExercises &&
+          favouriteExercises?.map(exercise => (
+            <>
+              {exercise.issuer === dataProfile.issuer ? (
+                <div className={styles.favExercisesPhoto}>
+                  <Image src={exercise.gifUrl} alt="" layout="fill" className={styles.photo} />
+                </div>
+              ) : null}
+            </>
+          ))}
       </div>
     );
   };
@@ -322,12 +333,65 @@ const ViewProfile = ({ displayName }) => {
   const renderSocialLinks = () => {
     return (
       <div className={styles.social}>
-        <div className={styles.socialBox}></div>
-        <div className={styles.socialBox}></div>
-        <div className={styles.socialBox}></div>
-        <div className={styles.socialBox}></div>
-        <div className={styles.socialBox}></div>
-        <div className={styles.socialBox}></div>
+        {links.facebook !== null ? (
+          <div className={styles.socialBox}>
+            {links && (
+              <a href={`${links.facebook}`} target="_blank">
+                <FacebookIcon htmlColor="#4267B2" className={styles.socialIcon} />
+              </a>
+            )}
+          </div>
+        ) : null}
+        {links.instagram !== null ? (
+          <div className={styles.socialBox}>
+            {links && (
+              <a href={`${links.instagram}`} target="_blank">
+                <InstagramIcon htmlColor="#C13584" className={styles.socialIcon} />
+              </a>
+            )}
+          </div>
+        ) : null}
+        {links.twitter !== null ? (
+          <div className={styles.socialBox}>
+            {links && (
+              <a href={`${links.twitter}`} target="_blank">
+                <TwitterIcon htmlColor="#1DA1F2" className={styles.socialIcon} />
+              </a>
+            )}
+          </div>
+        ) : null}
+        {links.linkedIn !== null ? (
+          <div className={styles.socialBox}>
+            {links && (
+              <a href={`${links.linkedIn}`} target="_blank">
+                <LinkedInIcon htmlColor="#0077B5" className={styles.socialIcon} />
+              </a>
+            )}
+          </div>
+        ) : null}
+        {links.youtube !== null ? (
+          <div className={styles.socialBox}>
+            {links && (
+              <a href={`${links.youtube}`} target="_blank">
+                <YouTubeIcon htmlColor="#FF0000" className={styles.socialIcon} />
+              </a>
+            )}
+          </div>
+        ) : null}
+        {links.twitch !== null ? (
+          <div className={styles.socialBox}>
+            {links && (
+              <a href={`${links.twitch}`} target="_blank">
+                <Image
+                  src={"https://www.vectorlogo.zone/logos/twitch/twitch-icon.svg"}
+                  alt=""
+                  width={30}
+                  height={30}
+                />
+              </a>
+            )}
+          </div>
+        ) : null}
       </div>
     );
   };
@@ -354,15 +418,7 @@ const ViewProfile = ({ displayName }) => {
                     <p className={styles.displayName}>{dataProfile.displayName}</p>
                     <p className={styles.registerDate}>Member since: {dataProfile.registerDate}</p>
                     <div className={styles.profileDescription}>
-                      <p className={styles.description}>
-                        Member since: Member since: Member since: Member since: Member since: Member
-                        since: Member since: Member since: Member since: Member since: Member since:
-                        Member since: Member since: Member since: Member since: Member since: Member
-                        since: Member since: since: Member since: Member since: Member since: Member
-                        since: Member since: since: Member since: Member since: Member since: Member
-                        since: Member since:since: Member since: Member since: Member since: Member
-                        since: Member since:since: Member
-                      </p>
+                      <p className={styles.description}>{dataProfile.description}</p>
                     </div>
                   </div>
                 </div>

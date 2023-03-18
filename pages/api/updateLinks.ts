@@ -1,16 +1,16 @@
-import { updatePrivacyQuery } from "../../lib/db/hasura";
+import { updateLinksQuery } from "../../lib/db/hasura";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function updatePrivacy(req: NextApiRequest, res: NextApiResponse) {
+export default async function updateLinks(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     try {
       const token = req ? req.cookies?.token : null;
       //@ts-ignore
       const issuer = req ? JSON.parse(req.headers.body).issuer : null;
       //@ts-ignore
-      const privacy = req ? JSON.parse(req.headers.body).privacy : null;
+      const links = req ? JSON.parse(req.headers.body).links : null;
       //@ts-ignore
-      const data = await updatePrivacyQuery(token, issuer, JSON.stringify(privacy));
+      const data = await updateLinksQuery(token, issuer, JSON.stringify(links));
 
       res.send({ done: true, data });
     } catch (error) {
