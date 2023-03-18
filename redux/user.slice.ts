@@ -27,7 +27,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUserState(state, action) {
-      console.log("[REDUX-UPDATE] User state: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] User state: ", action.payload);
+      }
       state.user = {
         ...action.payload,
       };
