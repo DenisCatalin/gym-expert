@@ -336,7 +336,7 @@ const ViewProfile = ({ displayName }) => {
         {links.facebook !== null ? (
           <div className={styles.socialBox}>
             {links && (
-              <a href={`${links.facebook}`} target="_blank">
+              <a href={`${links.facebook}`} target="_blank" rel="noreferrer">
                 <FacebookIcon htmlColor="#4267B2" className={styles.socialIcon} />
               </a>
             )}
@@ -345,7 +345,7 @@ const ViewProfile = ({ displayName }) => {
         {links.instagram !== null ? (
           <div className={styles.socialBox}>
             {links && (
-              <a href={`${links.instagram}`} target="_blank">
+              <a href={`${links.instagram}`} target="_blank" rel="noreferrer">
                 <InstagramIcon htmlColor="#C13584" className={styles.socialIcon} />
               </a>
             )}
@@ -354,7 +354,7 @@ const ViewProfile = ({ displayName }) => {
         {links.twitter !== null ? (
           <div className={styles.socialBox}>
             {links && (
-              <a href={`${links.twitter}`} target="_blank">
+              <a href={`${links.twitter}`} target="_blank" rel="noreferrer">
                 <TwitterIcon htmlColor="#1DA1F2" className={styles.socialIcon} />
               </a>
             )}
@@ -363,7 +363,7 @@ const ViewProfile = ({ displayName }) => {
         {links.linkedIn !== null ? (
           <div className={styles.socialBox}>
             {links && (
-              <a href={`${links.linkedIn}`} target="_blank">
+              <a href={`${links.linkedIn}`} target="_blank" rel="noreferrer">
                 <LinkedInIcon htmlColor="#0077B5" className={styles.socialIcon} />
               </a>
             )}
@@ -372,7 +372,7 @@ const ViewProfile = ({ displayName }) => {
         {links.youtube !== null ? (
           <div className={styles.socialBox}>
             {links && (
-              <a href={`${links.youtube}`} target="_blank">
+              <a href={`${links.youtube}`} target="_blank" rel="noreferrer">
                 <YouTubeIcon htmlColor="#FF0000" className={styles.socialIcon} />
               </a>
             )}
@@ -381,7 +381,7 @@ const ViewProfile = ({ displayName }) => {
         {links.twitch !== null ? (
           <div className={styles.socialBox}>
             {links && (
-              <a href={`${links.twitch}`} target="_blank">
+              <a href={`${links.twitch}`} target="_blank" rel="noreferrer">
                 <Image
                   src={"https://www.vectorlogo.zone/logos/twitch/twitch-icon.svg"}
                   alt=""
