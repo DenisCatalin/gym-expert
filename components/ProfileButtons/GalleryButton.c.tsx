@@ -199,8 +199,8 @@ const GalleryButton = () => {
           <>
             <div className={styles.dates}>
               {gallery &&
-                gallery.map((photo: any) => (
-                  <div className={styles.photoGallery}>
+                gallery.map((photo: any, idx: number) => (
+                  <div className={styles.photoGallery} key={idx}>
                     <Image
                       src={photo}
                       alt=""
