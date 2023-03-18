@@ -9,7 +9,9 @@ export const dialogSlice = createSlice({
   initialState,
   reducers: {
     setDialog(state, action) {
-      console.log("[REDUX-UPDATE] Dialog State: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Dialog State: ", action.payload);
+      }
       state.dialog = action.payload;
     },
   },

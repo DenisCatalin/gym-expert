@@ -42,7 +42,7 @@ const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccor
   const handleClick = async (value: string, field: string) => {
     setIsLoading(true);
     if (userRedux.logged) {
-      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_USERS_PRIVACY}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_USERS_PRIVACY}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -56,7 +56,6 @@ const PrivacyAccordion = ({ ariaControls, name, expanded, handleChange }: IAccor
           }),
         },
       });
-      console.log("hei", data2);
       dispatch(
         setUserState({
           ...userRedux,

@@ -17,10 +17,14 @@ export const scheduleSlice = createSlice({
     removeItem: (state, action) => {
       const index = action.payload;
       state.schedule.exercises = state.schedule.exercises.filter((_:any, i) => i !== index);
-      console.log("[REDUX-UPDATE] Schedule state: ", state.schedule.exercises);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Schedule state: ", state.schedule.exercises);
+      }
     },
     setScheduleState(state, action) {
-      console.log("[REDUX-UPDATE] Schedule state: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Schedule state: ", action.payload);
+      }  
       state.schedule = {
         ...action.payload,
       };

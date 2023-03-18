@@ -12,7 +12,9 @@ export const subscriptionSlice = createSlice({
   initialState,
   reducers: {
     setSubscriptionState(state, action) {
-      console.log("[REDUX-UPDATE] Subscription State: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Subscription State: ", action.payload);
+      }
       state.subscription = {
         ...action.payload,
       };

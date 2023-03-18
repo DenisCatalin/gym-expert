@@ -114,10 +114,6 @@ const ScheduleButton = () => {
     );
   };
 
-  useEffect(() => {
-    console.log("ROWID:", rowID);
-  }, [rowID]);
-
   const d = new Date();
   const currentDay = d.getDate();
   const month = months[d.getMonth()];

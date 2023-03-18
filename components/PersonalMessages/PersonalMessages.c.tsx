@@ -61,8 +61,6 @@ const PersonalMessages = () => {
         method: "GET",
       });
       const objects = data.details.data.users;
-      console.log("users", users);
-      console.log("objects", objects);
       if (users && objects.length !== 0) {
         if (objects.length === users.length) {
           console.log("No update needed");

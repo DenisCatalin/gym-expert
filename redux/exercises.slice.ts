@@ -13,7 +13,9 @@ export const exercisesSlice = createSlice({
   initialState,
   reducers: {
     setExercisesState(state, action) {
-      console.log("[REDUX-UPDATE] Exercises State: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Exercises State: ", action.payload);
+      }  
       state.exercises = {
         ...action.payload
       };

@@ -77,9 +77,6 @@ const StripeCheckoutButton = ({ price, period }: IStripeButton) => {
         plan: "",
       })
     );
-
-    const dateToExpire = new Date(Math.round(expireDate) * 1000);
-    console.log(typeof dateToExpire);
     const dateString = `${months[currentMonth]}-${currentDay}-${currentYear}`;
 
     await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_PURCHASE}`, {

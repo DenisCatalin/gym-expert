@@ -12,7 +12,9 @@ export const snackbarSlice = createSlice({
   initialState,
   reducers: {
     setSnackbar(state, action) {
-      console.log("[REDUX-UPDATE] Snackbar State: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Snackbar State: ", action.payload);
+      }  
       state.snackbar = {
         ...action.payload,
       };

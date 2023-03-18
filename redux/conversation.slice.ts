@@ -11,7 +11,9 @@ export const conversationSlice = createSlice({
   initialState,
   reducers: {
     setConversationState(state, action) {
-      console.log("[REDUX-UPDATE] Conversation state: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Conversation state: ", action.payload);
+      }
       state.conversation = {
         ...action.payload,
       };

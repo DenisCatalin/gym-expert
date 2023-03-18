@@ -9,7 +9,9 @@ export const reviewSlice = createSlice({
   initialState,
   reducers: {
     setReviewState(state, action) {
-      console.log("[REDUX-UPDATE] Review State: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Review State: ", action.payload);
+      }  
       state.review = action.payload;
     },
   },

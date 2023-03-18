@@ -12,7 +12,9 @@ export const nutritionSlice = createSlice({
   initialState,
   reducers: {
     setNutrition(state, action) {
-      console.log("[REDUX-UPDATE] Nutrition State: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Nutrition State: ", action.payload);
+      }  
       state.nutrition = {
         ...action.payload,
       };

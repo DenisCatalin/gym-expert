@@ -268,7 +268,6 @@ const Notifications = () => {
     const getID: any = await getDocumentIdByFieldValue("id", docIDref.current);
     await firestore.collection("notifications").doc(getID).delete();
     closeDialog();
-    console.log("hey", getID, docIDref.current);
   };
 
   return (

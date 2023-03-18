@@ -14,7 +14,9 @@ export const otherSlice = createSlice({
   initialState,
   reducers: {
     setOtherState(state, action) {
-      console.log("[REDUX-UPDATE] Other state: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Other state: ", action.payload);
+      }  
       state.other = {
         ...action.payload,
       };

@@ -9,7 +9,9 @@ export const testimonialSlice = createSlice({
   initialState,
   reducers: {
     setTestimonialState(state, action) {
-      console.log("[REDUX-UPDATE] Testimonial State: ", action.payload);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("[REDUX-UPDATE] Testimonial State: ", action.payload);
+      }  
       state.testimonial = action.payload;
     },
   },

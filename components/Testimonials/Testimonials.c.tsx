@@ -63,13 +63,8 @@ const Testimonials = () => {
     }
   };
 
-  const handleClose = () => {
-    setOpen(reviewRedux);
-  };
-
   useEffect(() => {
     setTestimonial(testimonials[count.current]);
-    console.log(reviewRedux);
   }, [testimonials]);
 
   useEffect(() => {

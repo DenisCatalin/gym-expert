@@ -49,7 +49,7 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
   const handleClick = async () => {
     setIsLoading(true);
     if (userRedux.logged) {
-      const data2 = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_USERS_LINKS}`, {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_USERS_LINKS}`, {
         method: "POST",
         headers: {
           body: JSON.stringify({
@@ -65,7 +65,6 @@ const SocialAccordion = ({ ariaControls, name, expanded, handleChange }: IAccord
           }),
         },
       });
-      console.log(data2);
       dispatch(
         setUserState({
           ...userRedux,

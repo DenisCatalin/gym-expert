@@ -78,7 +78,6 @@ const DialogSchedule = ({ open, onClose, duplicate, exercises }: IDialogProps) =
   const setCurrentDay = async () => {
     if (dayCheck) {
       const fullDate = `${day} ${month} ${date.getFullYear()}`;
-      console.log(`send for ${fullDate}`);
       onClose();
       setDay(0);
       if (duplicate === true && schedule) {
@@ -123,7 +122,7 @@ const DialogSchedule = ({ open, onClose, duplicate, exercises }: IDialogProps) =
           name: name,
         })
       );
-    } else console.log("fail");
+    }
   };
 
   return (
