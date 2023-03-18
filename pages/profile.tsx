@@ -8,6 +8,7 @@ import ProgressButton from "../components/ProfileButtons/ProgressButton.c";
 import ScheduleButton from "../components/ProfileButtons/ScheduleButton.c";
 import NutritionButton from "../components/ProfileButtons/NutritionButton.c";
 import WorkoutButton from "../components/ProfileButtons/WorkoutButton.c";
+import GalleryButton from "../components/ProfileButtons/GalleryButton.c";
 
 const Profile = () => {
   const userRedux = useSelector((state: any) => state.user.user);
@@ -23,6 +24,7 @@ const Profile = () => {
             <ScheduleButton />
             <NutritionButton />
             <WorkoutButton />
+            <GalleryButton />
             <ProfilePic />
             <Accordions />
           </>
