@@ -61,8 +61,8 @@ const ManageSubscriptionAccordion = ({
       headers: {
         body: JSON.stringify({
           issuer: userRedux.issuer,
-          planExpireDate: userRedux.planExpireDate,
-          paidPlan: userRedux.paidPlan,
+          planExpireDate: 0,
+          paidPlan: null,
           subscribedIn: 0,
         }),
       },
@@ -100,7 +100,7 @@ const ManageSubscriptionAccordion = ({
             <MotionTypo
               animateOptions="opacityScale"
               className={styles.text}
-              content={<>{userRedux.paidPlan ? "Subscribed" : "Not subscribed"}</>}
+              content={<>{userRedux.paidPlan !== null ? "Subscribed" : "Not subscribed"}</>}
             />
           </div>
         </AccordionSummary>
