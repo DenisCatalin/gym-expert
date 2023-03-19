@@ -7,12 +7,14 @@ import { Menu } from "../../interface/Menu";
 import firebase from "../../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import styles from "../../css/components/Notifications.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
 import { Dialog } from "../../interface/Dialog";
 import { Button } from "../../interface/Button";
 import fetchData from "../../utils/fetchData";
+import { setUserState } from "../../redux/user.slice";
+import { setSnackbar } from "../../redux/snackbar.slice";
 
 const Notifications = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -26,6 +28,7 @@ const Notifications = () => {
   const userIssuer = useRef<string>("");
 
   const userRedux = useSelector((state: any) => state.user.user);
+  const dispatch = useDispatch();
 
   const firestore = firebase.firestore();
   const notificationsRef = firestore.collection("notifications");
@@ -206,6 +209,54 @@ const Notifications = () => {
     }
   };
 
+  const acceptSubscription = async (period: string) => {
+    const correctPeriod = period === "year" ? 365 : period === "month" ? 30 : 7;
+    const initialDate = Math.floor(Date.now() / 1000 + correctPeriod * 24 * 60 * 60);
+    const difference = userRedux.planExpireDate - Date.now() / 1000;
+    const expireDate =
+      userRedux.planExpireDate === 0 ? Math.floor(initialDate) : initialDate + difference;
+
+    if (docIDref.current > 0) {
+      const getID: any = await getDocumentIdByFieldValue("id", docIDref.current);
+      const docRef = firestore.collection("notifications").doc(getID);
+      {
+        docRef &&
+          (await docRef.update({
+            receivedGift: true,
+          }));
+      }
+    }
+    closeDialog();
+
+    await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
+      method: "POST",
+      headers: {
+        body: JSON.stringify({
+          issuer: userRedux.issuer,
+          planExpireDate: Math.round(expireDate),
+          paidPlan: period,
+          subscribedIn: initialDate,
+        }),
+      },
+    });
+
+    dispatch(
+      setUserState({
+        ...userRedux,
+        paidPlan: period,
+        planExpireDate: Math.round(expireDate),
+        subscribedSince: Math.floor(Date.now() / 1000),
+      })
+    );
+
+    dispatch(
+      setSnackbar({
+        open: true,
+        content: "Gift successfully received. Now you may access the exercise page.",
+      })
+    );
+  };
+
   const handleOpenDialog = async (index: number) => {
     setOpenDialog(true);
     notifications?.map((notification: any) => {
@@ -223,6 +274,16 @@ const Notifications = () => {
               </p>
             </div>
             <p className={styles.content}>{content}</p>
+            {type === "gift" &&
+              notification.clickableLink &&
+              notification.receivedGift === false && (
+                <p
+                  className={styles.clickForGift}
+                  onClick={() => acceptSubscription(notification.gift.period)}
+                >
+                  {notification.clickableLink}
+                </p>
+              )}
           </div>
         );
         setActionsDialog(

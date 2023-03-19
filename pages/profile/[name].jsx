@@ -21,6 +21,9 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Dialog } from "../../interface/Dialog";
+import { setOtherState } from "../../redux/others.slice";
+import { ROUTES } from "../../Routes";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(context) {
   const { userId } = await UseRedirectUser(context);
@@ -51,6 +54,7 @@ const ViewProfile = ({ displayName }) => {
   const [currentPhoto, setCurrentPhoto] = useState("");
 
   const userRedux = useSelector(state => state.user.user);
+  const otherRedux = useSelector(state => state.other.other);
 
   const firestore = firebase.firestore();
   const [conversationsCount, setConversationsCount] = useState(0);
@@ -72,6 +76,7 @@ const ViewProfile = ({ displayName }) => {
   const [favouriteExercises] = useCollectionData(queryExercises, { id: "id" });
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     setIsFriend(false);
@@ -409,6 +414,19 @@ const ViewProfile = ({ displayName }) => {
     setViewDialog(false);
   };
 
+  const selectUserForGift = () => {
+    dispatch(
+      setOtherState({
+        ...otherRedux,
+        userSelectedForGift: {
+          nameForGift: dataProfile.displayName,
+          issuerForGift: dataProfile.issuer,
+        },
+      })
+    );
+    router.push(ROUTES.pricing);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -470,6 +488,7 @@ const ViewProfile = ({ displayName }) => {
                         ariaLabel="Gift a subscription"
                         role="button"
                         className={styles.giftButton}
+                        onClick={selectUserForGift}
                         label={
                           <div className={styles.insideButton}>
                             <RedeemRoundedIcon htmlColor="#fff" />

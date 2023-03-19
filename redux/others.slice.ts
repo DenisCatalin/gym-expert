@@ -6,6 +6,10 @@ const initialState = {
     loadingUpload: false,
     userFetched: false,
     loading: false,
+    userSelectedForGift: {
+      issuerForGift: "",
+      nameForGift: "",
+    }
   },
 };
 

@@ -10,6 +10,7 @@ export default async function AddPurchase(req, res) {
       const paymentId = req ? JSON.parse(req.headers.body).paymentId : null;
       const email = req ? JSON.parse(req.headers.body).email : null;
       const date = req ? JSON.parse(req.headers.body).date : null;
+      const forUser = req ? JSON.parse(req.headers.body).forUser : null;
 
       const addPurchaseForUser = await addPurchaseQuery(
         token,
@@ -18,7 +19,8 @@ export default async function AddPurchase(req, res) {
         planPrice,
         paymentId,
         email,
-        date
+        date,
+        forUser
       );
 
       res.send({ message: "Complete", addPurchaseForUser });

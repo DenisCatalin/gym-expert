@@ -51,3 +51,12 @@
 .contentRead {
     font-weight: 100;
 }
+
+.clickForGift {
+    color: var(--pink);
+    cursor: pointer;
+}
+
+.clickForGift:hover {
+    text-decoration: underline;
+}
