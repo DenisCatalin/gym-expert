@@ -5,9 +5,7 @@ import { IconButton } from "../../interface/IconButton";
 import { tooltipTheme } from "../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import { Button } from "../../interface/Button";
-import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import CollectionsRoundedIcon from "@mui/icons-material/CollectionsRounded";
-import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbar } from "../../redux/snackbar.slice";
 import GalleryButtonIcon from "../../styles/GalleryButtonIcon.style";
@@ -24,7 +22,7 @@ const GalleryButton = () => {
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
 
   const userRedux = useSelector((state: any) => state.user.user);
-  const { issuer, gallery } = userRedux;
+  const { gallery } = userRedux;
   const dispatch = useDispatch();
 
   const handleOpen = () => {

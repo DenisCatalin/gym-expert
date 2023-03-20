@@ -9,8 +9,6 @@ export default async function UpdateSubscription(req, res) {
       const planExpireDate = req ? JSON.parse(req.headers.body).planExpireDate : null;
       const subscribedIn = req ? JSON.parse(req.headers.body).subscribedIn : null;
 
-      console.log(issuer, planName, planExpireDate, subscribedIn);
-
       const updateSubscriptionForUser = await updateSubscription(
         token,
         issuer,
