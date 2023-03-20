@@ -2,7 +2,6 @@ import styles from "../../css/components/ExerciseCard.module.css";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { setExercisesState } from "../../redux/exercises.slice";
 import { Button } from "../../interface/Button";

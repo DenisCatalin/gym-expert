@@ -1,0 +1,30 @@
+.background {
+    background: var(--background);
+    color: white;
+}
+
+.thButton {
+    background: var(--buttonGradient);
+    position: absolute;
+    top: 21%;
+    right: 47.5%;
+}
+
+.text {
+    color: var(--white);
+    font-size: 1em;
+}
+
+.thHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.thFields {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}

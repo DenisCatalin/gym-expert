@@ -9,6 +9,7 @@ import ScheduleButton from "../components/ProfileButtons/ScheduleButton.c";
 import NutritionButton from "../components/ProfileButtons/NutritionButton.c";
 import WorkoutButton from "../components/ProfileButtons/WorkoutButton.c";
 import GalleryButton from "../components/ProfileButtons/GalleryButton.c";
+import TransactionHistoryButton from "../components/ProfileButtons/TransactionHistory.c";
 
 const Profile = () => {
   const userRedux = useSelector((state: any) => state.user.user);
@@ -25,6 +26,7 @@ const Profile = () => {
             <NutritionButton />
             <WorkoutButton />
             <GalleryButton />
+            <TransactionHistoryButton />
             <ProfilePic />
             <Accordions />
           </>
