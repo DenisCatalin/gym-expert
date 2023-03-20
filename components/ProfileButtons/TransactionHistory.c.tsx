@@ -15,7 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useSelector } from "react-redux";
-import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const TransactionHistoryButton = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
