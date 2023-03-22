@@ -148,6 +148,10 @@ export const autocompleteTheme = createTheme({
           "@media screen and (max-width: 1380px)": {
             width: "20%",
           },
+          "@media screen and (max-width: 480px)": {
+            width: "80%",
+            position: "initial",
+          },
         },
       },
     },

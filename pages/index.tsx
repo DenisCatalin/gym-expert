@@ -14,6 +14,7 @@ import { autocompleteTheme } from "../utils/muiTheme";
 import Autocomplete from "../interface/Autocomplete";
 import { ThemeProvider } from "@mui/material";
 import fetchData from "../utils/fetchData";
+import useWindowDimensions from "../utils/useWindowDimensions";
 
 const Home = () => {
   const router = useRouter();
@@ -24,6 +25,8 @@ const Home = () => {
 
   const { displayName, secretKeyword, email, logged } = userRedux;
   const { popup, userFetched } = otherRedux;
+
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     (async () => {
@@ -54,9 +57,13 @@ const Home = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
-      <ThemeProvider theme={autocompleteTheme}>
-        <Autocomplete label={"Search for profile name"} completions={dataSearch} />
-      </ThemeProvider>
+      {width > 910 ? (
+        <>
+          <ThemeProvider theme={autocompleteTheme}>
+            <Autocomplete label={"Search for profile name"} completions={dataSearch} />
+          </ThemeProvider>
+        </>
+      ) : null}
       {showPopup ? (
         <Popup
           popupFor="newUser"

@@ -10,7 +10,6 @@ import Burger from "../Burger/Burger.c";
 import { ROUTES } from "../../Routes";
 import Notifications from "../Notifications/Notifications.c";
 import FriendList from "../Friends/FriendList.c";
-import fetchData from "../../utils/fetchData";
 import PersonalMessages from "../PersonalMessages/PersonalMessages.c";
 import { useSelector } from "react-redux";
 
