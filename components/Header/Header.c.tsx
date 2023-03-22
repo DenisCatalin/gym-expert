@@ -10,32 +10,27 @@ import Burger from "../Burger/Burger.c";
 import { ROUTES } from "../../Routes";
 import Notifications from "../Notifications/Notifications.c";
 import FriendList from "../Friends/FriendList.c";
-import Autocomplete from "../../interface/Autocomplete";
-import { ThemeProvider } from "@mui/material";
-import { autocompleteTheme } from "../../utils/muiTheme";
 import fetchData from "../../utils/fetchData";
 import PersonalMessages from "../PersonalMessages/PersonalMessages.c";
+import { useSelector } from "react-redux";
 
 const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact"];
 
 const Header = ({ sticky = false }) => {
   const { width } = useWindowDimensions();
   const router = useRouter();
+  const userRedux = useSelector((state: any) => state.user.user);
 
+  const [logged, setLogged] = useState<boolean>(false);
   const [mounted, setMounted] = useState<React.ReactNode | null>(null);
-  const [dataSearch, setDataSearch] = useState<any[]>([]);
 
   useEffect(() => {
-    (async () => {
-      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_NAMES}`, {
-        method: "GET",
-      });
-      const filteredUsers = data?.names?.data?.users.filter(
-        (user: any) => user.displayName !== null
-      );
-      setDataSearch(filteredUsers);
-    })();
-  }, []);
+    if (userRedux.logged) {
+      setLogged(true);
+    } else {
+      setLogged(false);
+    }
+  }, [userRedux]);
 
   useEffect(() => {
     setMounted(
@@ -57,9 +52,15 @@ const Header = ({ sticky = false }) => {
                     </a>
                   </Link>
                 ))}
-                <FriendList />
-                <PersonalMessages />
-                <Notifications />
+
+                {logged && (
+                  <>
+                    <FriendList />
+                    <PersonalMessages />
+                    <Notifications />
+                  </>
+                )}
+
                 <ProfileButton />
               </ul>
             </motion.div>
@@ -69,7 +70,7 @@ const Header = ({ sticky = false }) => {
         )}
       </>
     );
-  }, [width]);
+  }, [width, logged]);
 
   return (
     <motion.div
@@ -95,9 +96,6 @@ const Header = ({ sticky = false }) => {
           GYM EXPERT
         </h1>
       </div>
-      <ThemeProvider theme={autocompleteTheme}>
-        <Autocomplete label={"Search for profile name"} completions={dataSearch} />
-      </ThemeProvider>
       {mounted}
     </motion.div>
   );

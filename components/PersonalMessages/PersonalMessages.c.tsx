@@ -35,6 +35,7 @@ const PersonalMessages = () => {
   const [messageRead, setMessageRead] = useState<boolean>(false);
   const [countMessages, setCountMessages] = useState<number>(0);
   const [blockedConversation, setBlockedConversation] = useState<boolean>(false);
+  const [timeoutCalled, setTimeoutCalled] = useState<boolean>(false);
   const dummy = useRef<any>(null);
 
   const userRedux = useSelector((state: any) => state.user.user);
@@ -56,44 +57,46 @@ const PersonalMessages = () => {
   let count = 0;
 
   useEffect(() => {
-    (async () => {
-      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_DETAILS_FOR_USERS}`, {
-        method: "GET",
-      });
-      const objects = data.details.data.users;
-      if (users && objects.length !== 0) {
-        if (objects.length === users.length) {
-          console.log("No update needed");
-        } else {
-          console.log("Update needed");
-          // usersRef.get().then(querySnapshot => {
-          //   querySnapshot.forEach(doc => {
-          //     doc.ref.delete();
-          //   });
-          // });
-          await addUsersToFirebase(objects);
+    if (userRedux.logged) {
+      (async () => {
+        const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_DETAILS_FOR_USERS}`, {
+          method: "GET",
+        });
+        const objects = data.details.data.users;
+
+        if (users && objects.length !== 0) {
+          if (objects.length === users.length) {
+          } else {
+            usersRef.get().then(querySnapshot => {
+              querySnapshot.forEach(doc => {
+                doc.ref.delete();
+              });
+            });
+
+            if (!timeoutCalled) {
+              setTimeoutCalled(true);
+              setTimeout(async () => {
+                await addUsersToFirebase(objects);
+              }, 5000);
+            }
+          }
         }
-      }
-    })();
+      })();
+    }
   }, [userRedux]);
 
   const addUsersToFirebase = async (objects: any) => {
-    objects?.forEach((user: any) => {
-      (async () => {
-        {
-          users &&
-            (await usersRef.add({
-              id: user.id,
-              admin: user.admin,
-              cropArea: JSON.parse(user.cropArea),
-              displayName: user.displayName,
-              email: user.email,
-              issuer: user.issuer,
-              profilePic: user.profilePic,
-            }));
-        }
-      })();
-    });
+    for (const user of objects) {
+      await usersRef.add({
+        id: user.id,
+        admin: user.admin,
+        cropArea: JSON.parse(user.cropArea),
+        displayName: user.displayName,
+        email: user.email,
+        issuer: user.issuer,
+        profilePic: user.profilePic,
+      });
+    }
   };
 
   useEffect(() => {

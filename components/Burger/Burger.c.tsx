@@ -2,6 +2,9 @@ import styles from "../../css/components/Burger.module.css";
 import Link from "next/link";
 import { useState } from "react";
 import ProfileButton from "../Header/profile/Profile.c";
+import FriendList from "../Friends/FriendList.c";
+import PersonalMessages from "../PersonalMessages/PersonalMessages.c";
+import Notifications from "../Notifications/Notifications.c";
 
 const links = ["home", "exercises", "pricing", "news", "chat", "about", "contact"];
 
@@ -38,6 +41,9 @@ const Burger = () => {
           <div className={styles.drawerAvatar}>
             <ProfileButton />
           </div>
+          <FriendList />
+          <PersonalMessages />
+          <Notifications />
           {links.map((item, i) => (
             <Link href={i === 0 ? "/" : `/${item}`} key={i}>
               <a>

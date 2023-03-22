@@ -9,7 +9,7 @@
 }
 
 .logoContainer {
-    width: 45%;
+    width: 20%;
     height: 100%;
     display: flex;
     justify-content: flex-start;
@@ -84,13 +84,19 @@
     color: var(--pink);
 }
 
-@media screen and (max-width: 1550px) {
+@media screen and (max-width: 1680px) {
     .navbarContainer {
-        width: 60%;
+        width: 65%;
     }
 
     .navbar {
         width: 100%;
+    }
+}
+
+@media screen and (max-width: 1680px) {
+    .link {
+        margin-left: .5em;
     }
 }
 
@@ -109,7 +115,7 @@
     }
 
     .navbarContainer {
-        width: 60%;
+        width: 70%;
     }
 
     .navbar {
@@ -136,8 +142,7 @@
     }
 
     .navbarContainer {
-        /* background-color: var(--white); */
-        width: 60%;
+        width: 70%;
     }
 
     .navbar {
@@ -164,8 +169,7 @@
     }
 
     .navbarContainer {
-        /* background-color: var(--white); */
-        width: 60%;
+        width: 70%;
     }
 
     .navbar {

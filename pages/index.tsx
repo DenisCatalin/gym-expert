@@ -2,30 +2,46 @@ import Head from "next/head";
 import styles from "../css/Home.module.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { MotionButton } from "../interface/MotionButton";
 import { MotionTypo } from "../interface/MotionTypo";
 import { useSelector } from "react-redux";
-import { useState } from "react";
 import Popup from "../components/Popup/Popup";
 import { ROUTES } from "../Routes";
+import { autocompleteTheme } from "../utils/muiTheme";
+import Autocomplete from "../interface/Autocomplete";
+import { ThemeProvider } from "@mui/material";
+import fetchData from "../utils/fetchData";
 
 const Home = () => {
   const router = useRouter();
   const userRedux = useSelector((state: any) => state.user.user);
   const otherRedux = useSelector((state: any) => state.other.other);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [dataSearch, setDataSearch] = useState<any[]>([]);
 
-  const { displayName, secretKeyword, email } = userRedux;
+  const { displayName, secretKeyword, email, logged } = userRedux;
   const { popup, userFetched } = otherRedux;
 
   useEffect(() => {
+    (async () => {
+      const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_PROFILE_NAMES}`, {
+        method: "GET",
+      });
+      const filteredUsers = data?.names?.data?.users.filter(
+        (user: any) => user.displayName !== null
+      );
+      setDataSearch(filteredUsers);
+    })();
+  }, []);
+
+  useEffect(() => {
     if (
-      (userRedux.displayName === null && !popup && userFetched) ||
-      (userRedux.secretKeyword === null && !popup && userFetched) ||
-      (userRedux.secretKeyword === "NULL" && !popup && userFetched)
+      (userRedux.displayName === null && !popup && userFetched && logged) ||
+      (userRedux.secretKeyword === null && !popup && userFetched && logged) ||
+      (userRedux.secretKeyword === "NULL" && !popup && userFetched && logged)
     ) {
       setShowPopup(true);
     } else {
@@ -38,6 +54,9 @@ const Home = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
+      <ThemeProvider theme={autocompleteTheme}>
+        <Autocomplete label={"Search for profile name"} completions={dataSearch} />
+      </ThemeProvider>
       {showPopup ? (
         <Popup
           popupFor="newUser"

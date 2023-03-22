@@ -139,8 +139,15 @@ export const autocompleteTheme = createTheme({
         root: {
           position: "absolute",
           width: "12%",
-          left: "25%",
+          top: "3%",
+          left: "1%",
           fontFamily: "var(--font)",
+          "@media screen and (max-width: 1680px)": {
+            width: "15%",
+          },
+          "@media screen and (max-width: 1380px)": {
+            width: "20%",
+          },
         },
       },
     },
