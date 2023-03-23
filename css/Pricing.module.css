@@ -130,6 +130,11 @@
 @media screen and (max-width: 1600px) {
     .card {
         width: 25%;
+        height: 90%;
+    }
+
+    .featureText {
+        font-size: 1.2em;
     }
 }
 

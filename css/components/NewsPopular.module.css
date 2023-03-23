@@ -17,6 +17,7 @@
     width: 85%;
     height: 90vh;
     border-radius: 20px;
+    overflow: auto;
 }
 
 .postMin {
@@ -69,9 +70,23 @@
     color: var(--white);
 }
 
-@media screen and (max-width: 1350px) {
-    .postsContainer {
-        width: 100%;
+@media only screen and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 1400px) and (max-device-width : 1700px) {
+    .title {
+        font-size: 1.5em;
+    }
+
+    .postMin {
+        height: 15vh;
+    }
+}
+
+@media only screen and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 320px) and (max-device-width : 450px) {
+    .title {
+        font-size: 1em;
+    }
+
+    .postMin {
+        height: 10vh;
     }
 
     .popularPostPic {
@@ -82,9 +97,16 @@
     .postTitle {
         font-size: .7em;
     }
+}
 
-    .contentPopular {
-        font-size: .75em;
+@media screen and (max-width: 1350px) {
+    .postsContainer {
+        width: 100%;
+    }
+
+    .popularPostPic {
+        width: 60px;
+        height: 60px;
     }
 
     .title {
@@ -123,19 +145,6 @@
         transform: translateY(10%);
     }
 
-    .postMin {
-        height: 10vh;
-    }
-
-    .popularPostPic {
-        width: 90px;
-        height: 90px;
-    }
-
-    .title {
-        font-size: 1.5em;
-    }
-
     .postTitle {
         font-size: 1.2em;
     }
@@ -170,5 +179,36 @@
 
     .contentPopular {
         font-size: .6em;
+    }
+}
+
+@media only screen and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 320px) and (max-device-width : 450px) {
+    .title {
+        font-size: 1em;
+    }
+
+    .postMin {
+        height: 10vh;
+    }
+
+    .popularPostPic {
+        width: 60px;
+        height: 60px;
+    }
+
+    .postTitle {
+        font-size: .8em;
+    }
+
+    .contentPopular {
+        font-size: .75em;
+    }
+
+    .postsContainer {
+        height: 100%;
+    }
+
+    .popularPosts {
+        height: 25vh;
     }
 }

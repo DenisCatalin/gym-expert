@@ -76,23 +76,18 @@
     color: var(--white);
 }
 
-@media screen and (max-width: 1600px) {
-    .title {
-        font-size: 3.5em;
+@media only screen and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 1400px) and (max-device-width : 1700px) and (max-device-height : 1000px) and (min-device-height : 600px) {
+    .hero {
+        transform: translateY(10%);
     }
 
     .mainButton {
-        width: 40%;
+        height: 15%;
+        font-size: 1.6em;
     }
-}
 
-@media screen and (max-width: 1450px) {
     .title {
-        font-size: 2.6em;
-    }
-
-    .mainButton {
-        width: 40%;
+        font-size: 3.2em;
     }
 }
 
@@ -104,16 +99,6 @@
 
     .mainButton {
         width: 50%;
-    }
-}
-
-@media screen and (max-width: 1300px) {
-    .title {
-        font-size: 3em;
-    }
-
-    .mainButton {
-        width: 40%;
     }
 }
 
