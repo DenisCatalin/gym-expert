@@ -53,3 +53,61 @@
     padding: 0 2rem;
     overflow: auto;
 }
+
+@media only screen and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 650px) and (max-device-width : 950px) and (max-device-height : 450px) {
+    .mainContent {
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .postImage {
+        width: 80%;
+        height: 80%;
+        margin-left: 1em;
+    }
+
+    .textContent {
+        width: 100%;
+    }
+
+    .contentText {
+        font-size: 1em;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
+}
+
+@media only screen and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 320px) and (max-device-width : 450px) {
+    .mainContent {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .titleSpace {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .postImage {
+        width: 90%;
+        height: 40%;
+    }
+
+    .textContent {
+        width: 100%;
+    }
+
+    .contentText {
+        font-size: 1em;
+    }
+
+    .title {
+        font-size: 1.4em;
+    }
+}

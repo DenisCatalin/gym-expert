@@ -22,6 +22,7 @@ const Home = () => {
   const otherRedux = useSelector((state: any) => state.other.other);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [dataSearch, setDataSearch] = useState<any[]>([]);
+  const [hydration, setHydration] = useState<boolean>(false);
 
   const { displayName, secretKeyword, email, logged } = userRedux;
   const { popup, userFetched } = otherRedux;
@@ -50,6 +51,7 @@ const Home = () => {
     } else {
       setShowPopup(false);
     }
+    setHydration(true);
   }, [userRedux]);
 
   return (
@@ -57,7 +59,7 @@ const Home = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
-      {width > 910 ? (
+      {width > 910 && hydration ? (
         <>
           <ThemeProvider theme={autocompleteTheme}>
             <Autocomplete label={"Search for profile name"} completions={dataSearch} />
