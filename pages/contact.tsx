@@ -31,7 +31,7 @@ const Contact = () => {
       <Head>
         <title>Gym Expert - Contact</title>
       </Head>
-      {height > 550 ? (
+      {height > 350 ? (
         <>
           <motion.div className={styles.content} animate={{ opacity: [0, 1] }}>
             <div className={styles.imageSide}>

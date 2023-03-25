@@ -38,7 +38,12 @@ const ChatMessage = ({ message, date, type }: IChatMessage) => {
       const data = res.docs.map(doc => ({
         id: doc.id,
       }));
-      if (cropArea !== undefined) {
+      if (
+        (cropArea === null && profilePic === null) ||
+        profilePic === null ||
+        Object.keys(cropArea).length === 0
+      ) {
+      } else {
         setImg(await cropImages(profilePic, cropArea));
       }
       setData(data);

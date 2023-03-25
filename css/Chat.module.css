@@ -67,3 +67,9 @@
     cursor: pointer;
     background-color: rgba(84, 197, 99, 0.795);
 }
+
+@media only screen and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 320px) and (max-device-width : 450px) {
+    .chat {
+        padding: .5rem;
+    }
+}
