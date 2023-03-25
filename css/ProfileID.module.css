@@ -233,3 +233,147 @@
     width: 100%;
     height: 40vh;
 }
+
+@media only screen and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 1150px) and (max-device-width : 1450px) {
+    .profilePicContainer {
+        width: 150px;
+        height: 150px;
+    }
+
+    .displayName {
+        font-size: 1.3em;
+    }
+
+    .registerDate {
+        font-size: .9em;
+    }
+
+    .description {
+        font-size: 1em;
+    }
+
+    .socialText {
+        font-size: 1.2em;
+    }
+
+    .socialIcon {
+        font-size: 1.7em;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
+}
+
+@media only screen and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 950px) and (max-device-width : 1149px) {
+    .profilePicContainer {
+        width: 120px;
+        height: 120px;
+    }
+
+    .displayName {
+        font-size: 1.1em;
+    }
+
+    .registerDate {
+        font-size: .7em;
+    }
+
+    .description {
+        font-size: 0.9em;
+    }
+
+    .socialText {
+        font-size: 1em;
+    }
+
+    .socialIcon {
+        font-size: 1.5em;
+    }
+
+    .title {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 750px) and (max-device-width : 949px) {
+    .profilePicContainer {
+        width: 100px;
+        height: 100px;
+    }
+
+    .displayName {
+        font-size: .9em;
+    }
+
+    .registerDate {
+        font-size: .6em;
+    }
+
+    .description {
+        font-size: 0.7em;
+    }
+
+    .socialText {
+        font-size: .8em;
+    }
+
+    .socialIcon {
+        font-size: 1.3em;
+    }
+
+    .title {
+        font-size: .8em;
+    }
+
+    .galleryPhoto {
+        width: 160px;
+        height: 160px;
+    }
+
+    .favExercisesPhoto {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media only screen and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 550px) and (max-device-width : 749px) {
+    .profilePicContainer {
+        width: 90px;
+        height: 80px;
+    }
+
+    .displayName {
+        font-size: .8em;
+    }
+
+    .registerDate {
+        font-size: .55em;
+    }
+
+    .description {
+        font-size: 0.65em;
+    }
+
+    .socialText {
+        font-size: .7em;
+    }
+
+    .socialIcon {
+        font-size: 1em;
+    }
+
+    .title {
+        font-size: .75em;
+    }
+
+    .galleryPhoto {
+        width: 120px;
+        height: 120px;
+    }
+
+    .favExercisesPhoto {
+        width: 180px;
+        height: 100px;
+    }
+}

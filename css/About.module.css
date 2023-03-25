@@ -158,3 +158,9 @@
         font-size: 2em;
     }
 }
+
+@media only screen and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1) and (min-device-width : 550px) and (max-device-width : 749px) {
+    .aboutTitle {
+        font-size: 1em;
+    }
+}

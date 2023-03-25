@@ -532,7 +532,7 @@ const Exercises = () => {
                   defaultPage={1}
                   variant="outlined"
                   color="secondary"
-                  size={height > 420 ? "large" : "medium"}
+                  size={height > 950 ? "large" : "medium"}
                 />
               </ThemeProvider>
             )}
