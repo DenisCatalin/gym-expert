@@ -161,29 +161,33 @@ const ScheduleButton = () => {
             />
             <div className={styles.dates}>
               {array?.map((item: any, idx: number) => (
-                <Button
-                  label={
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <p>{item.day}</p>
-                      <p>{getDayName(parseInt(item.day))}</p>
-                    </div>
-                  }
-                  key={idx}
-                  onClick={() => setupDialog(idx)}
-                  color="inherit"
-                  className={
-                    currentDay === parseInt(item.day)
-                      ? styles.dateContainerCurrent
-                      : styles.dateContainer
-                  }
-                />
+                <>
+                  {item.month === month && (
+                    <Button
+                      label={
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <p>{item.day}</p>
+                          <p>{getDayName(parseInt(item.day))}</p>
+                        </div>
+                      }
+                      key={idx}
+                      onClick={() => setupDialog(idx)}
+                      color="inherit"
+                      className={
+                        currentDay === parseInt(item.day)
+                          ? styles.dateContainerCurrent
+                          : styles.dateContainer
+                      }
+                    />
+                  )}
+                </>
               ))}
             </div>
           </>

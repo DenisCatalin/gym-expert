@@ -104,6 +104,7 @@ const Home = () => {
           }
         />
       </motion.div>
+
       <motion.div
         className={styles.heroImage}
         animate={{ opacity: [0, 1], y: [500, 0] }}

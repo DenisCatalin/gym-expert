@@ -10,6 +10,7 @@ import NutritionButton from "../components/ProfileButtons/NutritionButton.c";
 import WorkoutButton from "../components/ProfileButtons/WorkoutButton.c";
 import GalleryButton from "../components/ProfileButtons/GalleryButton.c";
 import TransactionHistoryButton from "../components/ProfileButtons/TransactionHistory.c";
+import MusicPlayer from "../components/MusicPlayer/MusicPlayer.c";
 
 const Profile = () => {
   const userRedux = useSelector((state: any) => state.user.user);
@@ -19,6 +20,7 @@ const Profile = () => {
         <title>Gym Expert - Profile</title>
       </Head>
       <div className={styles.content}>
+        {/* <MusicPlayer /> */}
         {userRedux.logged ? (
           <>
             <ProgressButton />

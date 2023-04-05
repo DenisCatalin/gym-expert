@@ -1,12 +1,11 @@
 import styles from "../../css/components/ExerciseCard.module.css";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setExercisesState } from "../../redux/exercises.slice";
 import { Button } from "../../interface/Button";
-import fetchData from "../../utils/fetchData";
-import { buttonTheme, exerciseButtonTheme } from "../../utils/muiTheme";
+import { exerciseButtonTheme } from "../../utils/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import { setScheduleState } from "../../redux/schedule.slice";
 import { setSnackbar } from "../../redux/snackbar.slice";
