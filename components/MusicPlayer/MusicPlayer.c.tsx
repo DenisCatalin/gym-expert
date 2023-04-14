@@ -6,11 +6,13 @@ import { PlayArrow, Pause, SkipPrevious, SkipNext, VolumeUp } from "@mui/icons-m
 const audioFiles = [
   {
     src: "/audio/song1.mp3",
-    title: "Song 1",
+    title: "Calare pe motoare",
+    artist: "Cargo",
   },
   {
     src: "/audio/song2.mp3",
-    title: "Song 2",
+    title: "Ziua Vrajitoarelor",
+    artist: "Cargo",
   },
   // add more audio files as needed
 ];
@@ -66,41 +68,60 @@ const MusicPlayer = () => {
     <Box
       display="flex"
       alignItems="center"
-      flexDirection="column"
-      width="200px"
-      marginLeft="1em"
+      flexDirection="row"
+      width="100%"
       color="var(--white)"
-      position="absolute"
-      top="15%"
-      left="23%"
+      justifyContent="space-evenly"
     >
-      <Typography variant="subtitle1">{currentTrack.title}</Typography>
-      <Box display="flex" alignItems="center" flexDirection="row">
-        <IconButton onClick={playPrevTrack}>
-          <SkipPrevious htmlColor="var(--pink)" />
-        </IconButton>
-        {isPlaying ? (
-          <IconButton onClick={pauseTrack}>
-            <Pause htmlColor="var(--pink)" />
-          </IconButton>
-        ) : (
-          <IconButton onClick={playTrack}>
-            <PlayArrow htmlColor="var(--pink)" />
-          </IconButton>
-        )}
-        <IconButton onClick={playNextTrack}>
-          <SkipNext htmlColor="var(--pink)" />
-        </IconButton>
+      <Box
+        display="flex"
+        alignItems="flex-start"
+        flexDirection="column"
+        justifyContent="flex-start"
+        width="25%"
+      >
+        <Typography variant="subtitle1" style={{ width: "auto" }}>
+          {currentTrack.title}
+        </Typography>
+        <Typography variant="subtitle1" style={{ width: "auto" }}>
+          {currentTrack.artist}
+        </Typography>
       </Box>
-      <Slider
-        value={currentTime}
-        max={duration}
-        onChange={handleSliderChange}
-        style={{ margin: "0 10px", flexGrow: 1 }}
-        color="secondary"
-      />
-      <Typography variant="subtitle2">{formatTime(currentTime)}</Typography>
-      <Box display="flex" alignItems="center" flexDirection="row">
+      <Box
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
+        color="var(--white)"
+        justifyContent="space-evenly"
+        width="50%"
+      >
+        <Box display="flex" alignItems="center" flexDirection="row">
+          <IconButton onClick={playPrevTrack}>
+            <SkipPrevious htmlColor="var(--secondaryMUI)" />
+          </IconButton>
+          {isPlaying ? (
+            <IconButton onClick={pauseTrack}>
+              <Pause htmlColor="var(--secondaryMUI)" style={{ fontSize: "1.5em" }} />
+            </IconButton>
+          ) : (
+            <IconButton onClick={playTrack}>
+              <PlayArrow htmlColor="var(--secondaryMUI)" style={{ fontSize: "1.5em" }} />
+            </IconButton>
+          )}
+          <IconButton onClick={playNextTrack}>
+            <SkipNext htmlColor="var(--secondaryMUI)" />
+          </IconButton>
+        </Box>
+        <Slider
+          value={currentTime}
+          max={duration}
+          onChange={handleSliderChange}
+          style={{ margin: "0 10px", flexGrow: 1, width: "50%" }}
+          color="secondary"
+        />
+        <Typography variant="subtitle2">{formatTime(currentTime)}</Typography>
+      </Box>
+      <Box display="flex" alignItems="center" flexDirection="row" width="25%" padding="1.5rem">
         <VolumeUp style={{ marginLeft: "auto" }} />
         <Slider
           value={volume * 100}

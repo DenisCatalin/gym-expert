@@ -26,7 +26,7 @@ type Props = {
 const ScheduleButtonIcon = styled(IconButton)<IButtonProps>(() => ({
   background: "var(--buttonGradient)",
   position: "absolute",
-  top: "29%",
+  top: "35%",
   right: "87%",
 }));
 
