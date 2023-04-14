@@ -27,7 +27,7 @@ type Props = {
 const TransactionHistoryButtonIcon = styled(IconButton)<IButtonProps>(() => ({
   background: "var(--buttonGradient)",
   position: "absolute",
-  top: "29%",
+  top: "35%",
   right: "10%",
 }));
 

@@ -26,7 +26,7 @@ type Props = {
 const ProgressIconButton = styled(IconButton)<IButtonProps>(() => ({
   background: "var(--buttonGradient)",
   position: "absolute",
-  top: "15%",
+  top: "21%",
   right: "87%",
 }));
 

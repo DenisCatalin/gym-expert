@@ -27,7 +27,7 @@ type Props = {
 const GalleryButtonIcon = styled(IconButton)<IButtonProps>(() => ({
   background: "var(--buttonGradient)",
   position: "absolute",
-  top: "22%",
+  top: "28%",
   right: "10%",
 }));
 

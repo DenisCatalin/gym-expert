@@ -56,4 +56,5 @@ a {
   --buttonGradient: linear-gradient(93.71deg, #E87BFF 1.75%, rgba(220, 130, 242, 0.65) 100%);
   --heroButton: linear-gradient(271.28deg, #622CCE 5.16%, rgba(220, 130, 242, 0.65) 98.9%);
   --menuBackground: #141414;
+  --secondaryMUI: #9c27b0;
 }

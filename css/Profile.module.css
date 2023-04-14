@@ -109,3 +109,9 @@
     text-align: center;
     background: var(--background);
 }
+
+.musicPlayer {
+    width: 100%;
+    height: 10vh;
+    display: flex;
+}

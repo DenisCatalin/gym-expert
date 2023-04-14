@@ -20,7 +20,10 @@ const Profile = () => {
         <title>Gym Expert - Profile</title>
       </Head>
       <div className={styles.content}>
-        {/* <MusicPlayer /> */}
+        <div className={styles.musicPlayer}>
+          <MusicPlayer />
+        </div>
+
         {userRedux.logged ? (
           <>
             <ProgressButton />
