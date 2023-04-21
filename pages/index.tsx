@@ -59,7 +59,7 @@ const Home = () => {
       <Head>
         <title>Gym Expert - Homepage</title>
       </Head>
-      {width > 910 && hydration ? (
+      {width > 910 && hydration && userRedux.logged ? (
         <>
           <ThemeProvider theme={autocompleteTheme}>
             <Autocomplete label={"Search for profile name"} completions={dataSearch} />

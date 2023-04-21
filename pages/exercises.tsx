@@ -148,6 +148,12 @@ const Exercises = () => {
   const [favouriteExercises] = useCollectionData(queryExercises, { id: "id" });
 
   useEffect(() => {
+    if (!userRedux.logged) {
+      router.push("/login");
+    }
+  }, []);
+
+  useEffect(() => {
     (async () => {
       if (exercisesRedux.filter === "All" || exercisesRedux.filter === "all") {
         setFavExercises("issuer");
@@ -188,27 +194,29 @@ const Exercises = () => {
   }
 
   useEffect(() => {
-    (async () => {
-      if (userRedux.logged) {
-        setFavExercises("issuer");
-        if (userRedux.paidPlan === null && userRedux.planExpireDate === 0) {
-          router.push(ROUTES.pricing);
+    if (userRedux.logged) {
+      (async () => {
+        if (userRedux.logged) {
+          setFavExercises("issuer");
+          if (userRedux.paidPlan === null && userRedux.planExpireDate === 0) {
+            router.push(ROUTES.pricing);
+          } else {
+            setIsLoading(false);
+          }
         } else {
-          setIsLoading(false);
-        }
-      } else {
-        //@ts-ignore
-        const isLoggedIn = await magic.user.isLoggedIn();
-        if (!isLoggedIn) router.push(ROUTES.login);
-        else {
-          const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
+          //@ts-ignore
+          const isLoggedIn = await magic.user.isLoggedIn();
+          if (!isLoggedIn) router.push(ROUTES.login);
+          else {
+            const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_USER_DETAILS}`);
 
-          const { paidPlan, planExpireDate } = data?.userDetails?.data?.users[0];
-          if (paidPlan === null && planExpireDate === 0) router.push(ROUTES.pricing);
-          else setIsLoading(false);
+            const { paidPlan, planExpireDate } = data?.userDetails?.data?.users[0];
+            if (paidPlan === null && planExpireDate === 0) router.push(ROUTES.pricing);
+            else setIsLoading(false);
+          }
         }
-      }
-    })();
+      })();
+    }
   }, [userRedux]);
 
   useEffect(() => {

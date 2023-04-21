@@ -14,7 +14,7 @@ const Chat = () => {
   const messagesRef = firestore.collection("messages");
   const query = messagesRef.orderBy("createdAt").limit(25);
   const userRedux = useSelector((state: any) => state.user.user);
-  const { issuer, profilePic, displayName, cropArea } = userRedux;
+  const { issuer, profilePic, displayName, cropArea, logged } = userRedux;
   //@ts-ignore
   const [messages] = useCollectionData(query, { id: "id" });
 
@@ -77,7 +77,7 @@ const Chat = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 1] }}
               transition={{ delay: 0.5 }}
-              disabled={displayName === null ? true : false}
+              disabled={!logged ? true : displayName === null ? true : false}
             />
 
             <motion.button

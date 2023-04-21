@@ -28,7 +28,7 @@ const Testimonials = () => {
   const [testimonial, setTestimonial] = useState<ITestimonial | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
-  const [testimonials, setTestimonials] = useState<any>([]);
+  const [testimonials, setTestimonials] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
 
   const count = useRef<number>(0);
@@ -64,10 +64,6 @@ const Testimonials = () => {
   };
 
   useEffect(() => {
-    setTestimonial(testimonials[count.current]);
-  }, [testimonials]);
-
-  useEffect(() => {
     setFetched(false);
     (async () => {
       const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_GET_TESTIMONIALS}`, {
@@ -75,8 +71,15 @@ const Testimonials = () => {
       });
       setFetched(true);
       setTestimonials(data?.getTestimonialsForUser?.data?.testimonials);
+      console.log("CE PLM", data);
     })();
   }, [testimonialsRedux]);
+
+  useEffect(() => {
+    if (testimonials) {
+      setTestimonial(testimonials[count.current]);
+    }
+  }, [testimonials]);
 
   const decreaseReview = () => {
     const reviews = testimonials.length;

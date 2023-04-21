@@ -7,12 +7,23 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { motion } from "framer-motion";
 import useWindowDimensions from "../utils/useWindowDimensions";
 import fetchData from "../utils/fetchData";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const News = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [fetched, setFetched] = useState(false);
   const [search, setSearch] = useState("");
   const { width, height } = useWindowDimensions();
+
+  const router = useRouter();
+  const userRedux = useSelector((state: any) => state.user.user);
+
+  useEffect(() => {
+    if (!userRedux.logged) {
+      router.push("/login");
+    }
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -53,7 +64,7 @@ const News = () => {
       {width > 820 && width > height ? (
         <div className={styles.content}>
           <div className={styles.rightSide}>
-            {fetched ? (
+            {fetched && userRedux.logged ? (
               <>
                 {posts.length !== 0 ? (
                   <>

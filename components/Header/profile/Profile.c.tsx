@@ -89,7 +89,7 @@ const ProfileButton = () => {
     if (userRedux.paidPlan !== null && userRedux.planExpireDate !== 0) {
       const dateNow = Math.floor(Date.now() / 1000);
       if (dateNow > userRedux.planExpireDate) {
-        userRedux.paidPlan = null;
+        userRedux.paidPlan = undefined;
         userRedux.planExpireDate = 0;
         dispatch(
           setSnackbar({
