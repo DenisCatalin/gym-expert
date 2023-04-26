@@ -1,5 +1,4 @@
 import StripeCheckout from "react-stripe-checkout";
-import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserState } from "../../redux/user.slice";
 import { setSubscriptionState } from "../../redux/subscription.slice";
@@ -79,7 +78,7 @@ const StripeCheckoutButton = ({ price, period }: IStripeButton) => {
     );
     const dateString = `${months[currentMonth]}-${currentDay}-${currentYear}`;
 
-    const data = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_PURCHASE}`, {
+    await fetchData(`${process.env.NEXT_PUBLIC_FETCH_ADD_PURCHASE}`, {
       method: "POST",
       headers: {
         body: JSON.stringify({
@@ -97,7 +96,83 @@ const StripeCheckoutButton = ({ price, period }: IStripeButton) => {
       },
     });
 
-    console.log(data);
+    if (otherRedux.userSelectedForGift.issuerForGift !== "") {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+        method: "POST",
+        headers: {
+          body: JSON.stringify({
+            type: "gift",
+            email: userRedux.email,
+            subject: `A gift for ${otherRedux.userSelectedForGift.nameForGift}!`,
+            message: `
+              <div
+                style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
+                        style="width: 50px; height: 50px;" alt="Logo" />
+                    <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
+                </div>
+
+                <h4 style="font-weight: 100;">Your gift has been successfully sent to ${otherRedux.userSelectedForGift.nameForGift}. \r\nNOTE: You have received this e-mail because you sent a gift to someone.</h4>
+                <h4 style="font-weight: 100;">Summary:\r\nPayment ID: ${token.id}\r\nPlan: ${period}\r\nPrice: $${finalPrice}</h4>
+                <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
+              </div>
+            `,
+          }),
+        },
+      });
+
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+        method: "POST",
+        headers: {
+          body: JSON.stringify({
+            type: "gift",
+            email: otherRedux.userSelectedForGift.emailForGift,
+            subject: `A gift from ${userRedux.displayName}!`,
+            message: `
+              <div
+                style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
+                        style="width: 50px; height: 50px;" alt="Logo" />
+                    <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
+                </div>
+
+                <h4 style="font-weight: 100;">${userRedux.displayName} has sent you a ${period}ly subscription. You have received this e-mail because a gift has been sent to you. You can claim it visiting our platform and click on the notifications bell.</h4>
+                <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
+              </div>
+            `,
+          }),
+        },
+      });
+    } else {
+      await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+        method: "POST",
+        headers: {
+          body: JSON.stringify({
+            type: "gift",
+            email: userRedux.email,
+            subject: `Your ${period}ly subscription on Gym-Expert`,
+            message: `
+              <div
+                style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
+                        style="width: 50px; height: 50px;" alt="Logo" />
+                    <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
+                </div>
+
+                <h4 style="font-weight: 100;">Thank you for purchasing a subscription on our platform. \r\nNOTE: You have received this e-mail because you purchased a subscription on Gym-Expert.</h4>
+                <h4 style="font-weight: 100;">Summary:\r\nPayment ID: ${token.id}\r\nPlan: ${period}\r\nPrice: $${finalPrice}</h4>
+                <h4 style="font-weight: 100;">If you ever have any issues, please feel free to contact us.</h4>
+                <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
+              </div>
+            `,
+          }),
+        },
+      });
+    }
+
     if (otherRedux.userSelectedForGift.issuerForGift === "") {
       await fetchData(`${process.env.NEXT_PUBLIC_FETCH_UPDATE_SUBSCRIPTION}`, {
         method: "POST",
@@ -143,7 +218,6 @@ const StripeCheckoutButton = ({ price, period }: IStripeButton) => {
           // we need: correctPeriod, initialDate, expireDate, difference
         }));
     }
-    console.log("send");
 
     dispatch(
       setOtherState({

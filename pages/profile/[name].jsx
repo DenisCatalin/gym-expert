@@ -125,6 +125,29 @@ const ViewProfile = ({ displayName }) => {
   }, [dataProfile]);
 
   const addFriend = async () => {
+    await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+      method: "POST",
+      headers: {
+        body: JSON.stringify({
+          type: "friendrequest",
+          email: dataProfile.email,
+          subject: "New friend request",
+          message: `
+              <div
+                style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
+                        style="width: 50px; height: 50px;" alt="Logo" />
+                    <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
+                </div>
+                <h4 style="font-weight: 100;">${userRedux.displayName} wants to be your friend.\r\nYou can accept or ignore it on our platform.\r\n\r\nNOTE: You have received this e-mail because someone has send you a friend request.</h4>
+                <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
+              </div>
+            `,
+        }),
+      },
+    });
+
     {
       notifications &&
         (await notificationsRef.add({
@@ -421,6 +444,7 @@ const ViewProfile = ({ displayName }) => {
         userSelectedForGift: {
           nameForGift: dataProfile.displayName,
           issuerForGift: dataProfile.issuer,
+          emailForGift: dataProfile.email,
         },
       })
     );

@@ -296,6 +296,38 @@ const Exercises = () => {
           name: scheduleRedux.name,
         }));
     }
+
+    const date = new Date();
+    const actualMonth = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+    const ISOString = `${date.getFullYear()}-${actualMonth}-${scheduleRedux.day}T09:00:00`;
+
+    try {
+      await fetchData("/api/scheduledEmail", {
+        method: "POST",
+        headers: {
+          body: JSON.stringify({
+            type: "schedule",
+            email: userRedux.email,
+            scheduledDate: ISOString,
+            message: `
+              <div
+                style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
+                        style="width: 50px; height: 50px;" alt="Logo" />
+                    <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
+                </div>
+                <h4 style="font-weight: 100;">Hello!\r\nThis is just a reminder for your scheduled set of exercises on our platform for today (${scheduleRedux.name}).\r\n\r\nNOTE: You have received this e-mail because you have scheduled a set of exercises for this day.</h4>
+                <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
+              </div>
+            `,
+          }),
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+
     setOpenDialog(false);
     dispatch(
       setSnackbar({

@@ -93,7 +93,7 @@
 }
 
 .textarea:focus {
-    outline: 2px solid #c700d5cb;
+    outline: 2px solid var(--secondaryMUI);
 }
 
 .bottomPart {
