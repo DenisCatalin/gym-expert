@@ -101,17 +101,19 @@ export const Menu = ({
                 marginBottom: "1rem",
               }}
             >
-              <Image
-                src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
-                alt=""
-                layout="fill"
-                objectFit="cover"
-                priority
-                style={{ borderRadius: "50%" }}
-                blurDataURL={
-                  userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
-                }
-              />
+              {userRedux.profileAvatar && (
+                <Image
+                  src={userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic}
+                  alt=""
+                  layout="fill"
+                  objectFit="cover"
+                  priority
+                  style={{ borderRadius: "50%" }}
+                  blurDataURL={
+                    userRedux.profileAvatar ? userRedux.profileAvatar : userRedux.profilePic
+                  }
+                />
+              )}
             </div>
             <div>{title}</div>
             <div style={{ fontWeight: "100", opacity: "0.8" }}>{content}</div>
