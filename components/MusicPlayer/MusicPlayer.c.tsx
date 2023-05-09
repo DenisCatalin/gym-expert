@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import ReactPlayer from "react-player";
+import { useSelector, useDispatch } from "react-redux";
 import { Box, IconButton, Slider, Typography } from "@mui/material";
 import { PlayArrow, Pause, SkipPrevious, SkipNext, VolumeUp } from "@mui/icons-material";
+import { setMusic } from "../../redux/music.slice";
 
 const audioFiles = [
   {
@@ -24,25 +26,52 @@ const MusicPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.5);
 
+  const musicRedux = useSelector((state: any) => state.music.music);
+  const dispatch = useDispatch();
+
   const playerRef = useRef<ReactPlayer>(null);
   const currentTrack = audioFiles[currentTrackIndex];
 
   const playTrack = () => {
     setIsPlaying(true);
+    dispatch(
+      setMusic({
+        ...musicRedux,
+        playing: true,
+      })
+    );
   };
 
   const pauseTrack = () => {
     setIsPlaying(false);
+    dispatch(
+      setMusic({
+        ...musicRedux,
+        playing: false,
+      })
+    );
   };
 
   const playNextTrack = () => {
     setCurrentTrackIndex(prevIndex => (prevIndex === audioFiles.length - 1 ? 0 : prevIndex + 1));
     setIsPlaying(true);
+    dispatch(
+      setMusic({
+        ...musicRedux,
+        playing: true,
+      })
+    );
   };
 
   const playPrevTrack = () => {
     setCurrentTrackIndex(prevIndex => (prevIndex === 0 ? audioFiles.length - 1 : prevIndex - 1));
     setIsPlaying(true);
+    dispatch(
+      setMusic({
+        ...musicRedux,
+        playing: true,
+      })
+    );
   };
 
   const handleSliderChange = (event: any, newValue: any) => {
@@ -50,6 +79,12 @@ const MusicPlayer = () => {
     playerRef.current?.seekTo(newValue, "seconds");
     if (!isPlaying) {
       setIsPlaying(true);
+      dispatch(
+        setMusic({
+          ...musicRedux,
+          playing: true,
+        })
+      );
     }
   };
 
@@ -66,7 +101,7 @@ const MusicPlayer = () => {
 
   return (
     <Box
-      display="flex"
+      display={musicRedux.show ? "flex" : "none"}
       alignItems="center"
       flexDirection="row"
       width="100%"
@@ -79,11 +114,12 @@ const MusicPlayer = () => {
         flexDirection="column"
         justifyContent="flex-start"
         width="25%"
+        padding={"1em"}
       >
-        <Typography variant="subtitle1" style={{ width: "auto" }}>
+        <Typography variant="subtitle1" style={{ width: "100%" }}>
           {currentTrack.title}
         </Typography>
-        <Typography variant="subtitle1" style={{ width: "auto" }}>
+        <Typography variant="subtitle1" style={{ width: "100%" }}>
           {currentTrack.artist}
         </Typography>
       </Box>
