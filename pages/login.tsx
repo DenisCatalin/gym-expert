@@ -83,11 +83,11 @@ const Login = () => {
               router.push(ROUTES.homepage);
               dispatch(setUserState({ ...userRedux, needsUpdate: true }));
             } else {
-              console.error("Something went wrong");
+              console.error("[Eroare 1] Something went wrong");
             }
           }
         } catch (error) {
-          console.error("Something went wrong", error);
+          console.error("[Eroare 2]Something went wrong", error);
           setIsLoading(false);
         }
       } else {

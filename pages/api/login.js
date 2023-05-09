@@ -51,7 +51,7 @@ export default async function login(req, res) {
 
       res.send({ done: true, message: isNewUserQuery });
     } catch (error) {
-      console.error("Something went wrong logging in", error);
+      console.error(" [Eroare 4]Something went wrong logging in", error);
       res.status(500).send({ done: false });
     }
   } else {
