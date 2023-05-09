@@ -45,6 +45,7 @@ const Login = () => {
           const Token = await magic.auth.loginWithMagicLink({
             email,
           });
+          console.log(Token);
           if (Token) {
             setDidToken(Token);
             const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
@@ -54,6 +55,7 @@ const Login = () => {
                 "Content-type": "application/json",
               },
             });
+            console.log(loggedInResponse);
             // if (loggedInResponse.message) {
             //   await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
             //     method: "POST",
