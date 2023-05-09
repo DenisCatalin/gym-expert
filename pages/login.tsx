@@ -47,6 +47,7 @@ const Login = () => {
           });
           console.log(Token);
           if (Token) {
+            console.log("la if");
             setDidToken(Token);
             const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
               method: "POST",
