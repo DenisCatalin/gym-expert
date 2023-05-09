@@ -46,7 +46,13 @@ const MusicPlayerButton = () => {
         label={
           <>
             {musicRedux.playing ? (
-              <span className={styles.loader}></span>
+              <>
+                <span className={styles.loader}></span>
+                <span className={styles.loader}></span>
+                <span className={styles.loader}></span>
+                <span className={styles.loader}></span>
+                <span className={styles.loader}></span>
+              </>
             ) : (
               <MusicNoteIcon htmlColor="#fff" className={styles.musicPlayerButtonIcon} />
             )}

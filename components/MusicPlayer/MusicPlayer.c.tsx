@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, IconButton, Slider, Typography } from "@mui/material";
 import { PlayArrow, Pause, SkipPrevious, SkipNext, VolumeUp } from "@mui/icons-material";
 import { setMusic } from "../../redux/music.slice";
+import styles from "../../css/components/MusicPlayer.module.css";
+import useWindowDimensions from "../../utils/useWindowDimensions";
 
 const audioFiles = [
   {
@@ -20,6 +22,7 @@ const audioFiles = [
 ];
 
 const MusicPlayer = () => {
+  const { width } = useWindowDimensions();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -100,85 +103,115 @@ const MusicPlayer = () => {
   };
 
   return (
-    <Box
-      display={musicRedux.show ? "flex" : "none"}
-      alignItems="center"
-      flexDirection="row"
-      width="100%"
-      color="var(--white)"
-      justifyContent="space-evenly"
-    >
-      <Box
-        display="flex"
-        alignItems="flex-start"
-        flexDirection="column"
-        justifyContent="flex-start"
-        width="25%"
-        padding={"1em"}
-      >
-        <Typography variant="subtitle1" style={{ width: "100%" }}>
-          {currentTrack.title}
-        </Typography>
-        <Typography variant="subtitle1" style={{ width: "100%" }}>
-          {currentTrack.artist}
-        </Typography>
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        flexDirection="column"
-        color="var(--white)"
-        justifyContent="space-evenly"
-        width="50%"
-      >
-        <Box display="flex" alignItems="center" flexDirection="row">
-          <IconButton onClick={playPrevTrack}>
-            <SkipPrevious htmlColor="var(--secondaryMUI)" />
-          </IconButton>
-          {isPlaying ? (
-            <IconButton onClick={pauseTrack}>
-              <Pause htmlColor="var(--secondaryMUI)" style={{ fontSize: "1.5em" }} />
-            </IconButton>
-          ) : (
-            <IconButton onClick={playTrack}>
-              <PlayArrow htmlColor="var(--secondaryMUI)" style={{ fontSize: "1.5em" }} />
-            </IconButton>
-          )}
-          <IconButton onClick={playNextTrack}>
-            <SkipNext htmlColor="var(--secondaryMUI)" />
-          </IconButton>
+    <>
+      {width < 910 && (
+        <React.Fragment>
+          <Box
+            display={musicRedux.show ? "flex" : "none"}
+            alignItems="center"
+            flexDirection="column"
+            color="var(--white)"
+            justifyContent="space-evenly"
+            width="100%"
+          >
+            <Box display="flex" alignItems="center" flexDirection="row">
+              <IconButton onClick={playPrevTrack}>
+                <SkipPrevious htmlColor="var(--secondaryMUI)" />
+              </IconButton>
+              {isPlaying ? (
+                <IconButton onClick={pauseTrack}>
+                  <Pause htmlColor="var(--secondaryMUI)" style={{ fontSize: "1.5em" }} />
+                </IconButton>
+              ) : (
+                <IconButton onClick={playTrack}>
+                  <PlayArrow htmlColor="var(--secondaryMUI)" style={{ fontSize: "1.5em" }} />
+                </IconButton>
+              )}
+              <IconButton onClick={playNextTrack}>
+                <SkipNext htmlColor="var(--secondaryMUI)" />
+              </IconButton>
+            </Box>
+            <Slider
+              value={currentTime}
+              max={duration}
+              onChange={handleSliderChange}
+              style={{ margin: "0 10px", flexGrow: 1, width: "80%" }}
+              color="secondary"
+            />
+            <Typography variant="subtitle2">{formatTime(currentTime)}</Typography>
+          </Box>
+        </React.Fragment>
+      )}
+      <Box display={musicRedux.show ? "flex" : "none"} className={styles.container}>
+        <Box className={styles.typo}>
+          <Typography variant="subtitle1" style={{ width: "100%" }}>
+            {currentTrack.title}
+          </Typography>
+          <Typography variant="subtitle1" style={{ width: "100%" }}>
+            {currentTrack.artist}
+          </Typography>
         </Box>
-        <Slider
-          value={currentTime}
-          max={duration}
-          onChange={handleSliderChange}
-          style={{ margin: "0 10px", flexGrow: 1, width: "50%" }}
-          color="secondary"
+        {width > 910 && (
+          <React.Fragment>
+            <Box
+              display="flex"
+              alignItems="center"
+              flexDirection="column"
+              color="var(--white)"
+              justifyContent="space-evenly"
+              width="50%"
+            >
+              <Box display="flex" alignItems="center" flexDirection="row">
+                <IconButton onClick={playPrevTrack}>
+                  <SkipPrevious htmlColor="var(--secondaryMUI)" />
+                </IconButton>
+                {isPlaying ? (
+                  <IconButton onClick={pauseTrack}>
+                    <Pause htmlColor="var(--secondaryMUI)" style={{ fontSize: "1.5em" }} />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={playTrack}>
+                    <PlayArrow htmlColor="var(--secondaryMUI)" style={{ fontSize: "1.5em" }} />
+                  </IconButton>
+                )}
+                <IconButton onClick={playNextTrack}>
+                  <SkipNext htmlColor="var(--secondaryMUI)" />
+                </IconButton>
+              </Box>
+              <Slider
+                value={currentTime}
+                max={duration}
+                onChange={handleSliderChange}
+                style={{ margin: "0 10px", flexGrow: 1, width: "50%" }}
+                color="secondary"
+              />
+              <Typography variant="subtitle2">{formatTime(currentTime)}</Typography>
+            </Box>
+          </React.Fragment>
+        )}
+        <Box className={styles.volume}>
+          <VolumeUp style={{ marginLeft: "auto" }} />
+          <Slider
+            value={volume * 100}
+            onChange={handleVolumeChange}
+            color="secondary"
+            style={{ width: 100 }}
+          />
+        </Box>
+        <ReactPlayer
+          url={currentTrack.src}
+          playing={isPlaying}
+          ref={playerRef}
+          volume={volume}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onEnded={playNextTrack}
+          onProgress={({ playedSeconds }) => setCurrentTime(playedSeconds)}
+          onDuration={setDuration}
+          style={{ display: "none" }}
         />
-        <Typography variant="subtitle2">{formatTime(currentTime)}</Typography>
       </Box>
-      <Box display="flex" alignItems="center" flexDirection="row" width="25%" padding="1.5rem">
-        <VolumeUp style={{ marginLeft: "auto" }} />
-        <Slider
-          value={volume * 100}
-          onChange={handleVolumeChange}
-          color="secondary"
-          style={{ width: 100 }}
-        />
-      </Box>
-      <ReactPlayer
-        url={currentTrack.src}
-        playing={isPlaying}
-        ref={playerRef}
-        volume={volume}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onEnded={playNextTrack}
-        onProgress={({ playedSeconds }) => setCurrentTime(playedSeconds)}
-        onDuration={setDuration}
-        style={{ display: "none" }}
-      />
-    </Box>
+    </>
   );
 };
 

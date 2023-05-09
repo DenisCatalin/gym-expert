@@ -21,9 +21,9 @@ function MyApp({ Component, pageProps }) {
       <cropContext.Provider value={{ cropImage, setCropImage }}>
         <Provider store={store}>
           <Header sticky={router.pathname === "/about" ? true : false} />
+          <MusicPlayer />
           <Component {...pageProps} />
           <MusicPlayerButton />
-          <MusicPlayer />
           <CustomSnackbar />
         </Provider>
       </cropContext.Provider>
