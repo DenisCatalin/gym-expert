@@ -39,31 +39,29 @@ const Login = () => {
       if (email.includes("@") && email.includes(".com")) {
         setUserMsg("Waiting for magic link...");
 
-        try {
-          setIsLoading(true);
-          //@ts-ignore
-          const Token = await magic.auth.loginWithMagicLink({
-            email,
+        setIsLoading(true);
+        //@ts-ignore
+        const Token = await magic.auth.loginWithMagicLink({
+          email,
+        });
+        if (Token) {
+          setDidToken(Token);
+          const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${Token}`,
+              "Content-type": "application/json",
+            },
           });
-          if (Token) {
-            setDidToken(Token);
-            try {
-              const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
-                method: "POST",
-                headers: {
-                  Authorization: `Bearer ${Token}`,
-                  "Content-type": "application/json",
-                },
-              });
-              if (loggedInResponse.message) {
-                await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
-                  method: "POST",
-                  headers: {
-                    body: JSON.stringify({
-                      type: "newaccount",
-                      email: email,
-                      subject: "Welcome to Gym-Expert",
-                      message: `
+          if (loggedInResponse.message) {
+            await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+              method: "POST",
+              headers: {
+                body: JSON.stringify({
+                  type: "newaccount",
+                  email: email,
+                  subject: "Welcome to Gym-Expert",
+                  message: `
                     <div
                       style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
                       <div style="display: flex; justify-content: center; align-items: center;">
@@ -76,23 +74,16 @@ const Login = () => {
                       <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
                     </div>
                   `,
-                    }),
-                  },
-                });
-              }
-              if (loggedInResponse.done) {
-                router.push(ROUTES.homepage);
-                dispatch(setUserState({ ...userRedux, needsUpdate: true }));
-              } else {
-                console.error("Something went wrong");
-              }
-            } catch (error) {
-              console.log("EROARE", error);
-            }
+                }),
+              },
+            });
           }
-        } catch (error) {
-          console.error("Something went wrong", error);
-          setIsLoading(false);
+          if (loggedInResponse.done) {
+            router.push(ROUTES.homepage);
+            dispatch(setUserState({ ...userRedux, needsUpdate: true }));
+          } else {
+            console.error("Something went wrong");
+          }
         }
       } else {
         setUserMsg("Something went wrong");

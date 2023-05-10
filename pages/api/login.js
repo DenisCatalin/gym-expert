@@ -49,7 +49,7 @@ export default async function login(req, res) {
       isNewUserQuery && (await createNewUser(token, metadata, dateString));
       setTokenCookie(token, res);
 
-      res.status(200).send({ done: true, message: isNewUserQuery });
+      res.send({ done: true, message: isNewUserQuery });
     } catch (error) {
       console.error("Something went wrong logging in", error);
       res.status(500).send({ done: false });
