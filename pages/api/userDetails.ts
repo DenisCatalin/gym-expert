@@ -7,6 +7,7 @@ export default async function getUserDetails(req: NextApiRequest, res: NextApiRe
   if (req.method === "GET") {
     try {
       const token = req ? req.cookies?.token : null;
+      //@ts-ignore
       const decodedToken = jwt.verify(token, process.env.SECRET_KEY_HASURA);
       const userDetails = await getUserDetailsQuery(token, decodedToken.issuer);
 
