@@ -47,7 +47,7 @@ const Login = () => {
           });
           if (Token) {
             setDidToken(Token);
-            console.log("Am ajuns aici");
+            console.error("Am ajuns aici");
             const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
               method: "POST",
               headers: {
@@ -57,7 +57,7 @@ const Login = () => {
                 }),
               },
             });
-            console.log(typeof loggedInResponse);
+            console.error(typeof loggedInResponse);
             if (loggedInResponse.message) {
               await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
                 method: "POST",
