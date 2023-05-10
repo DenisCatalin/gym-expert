@@ -8,7 +8,7 @@ import Header from "../components/Header/Header.c";
 import { useRouter } from "next/router";
 import CustomSnackbar from "../components/Snackbar/Snackbar.c";
 import MusicPlayerButton from "../components/MusicPlayer/MusicPlayerButton.c";
-import MusicPlayer from "../components/MusicPlayer/MusicPlayer.c";
+// import MusicPlayer from "../components/MusicPlayer/MusicPlayer.c";
 
 function MyApp({ Component, pageProps }) {
   const [didToken, setDidToken] = useState("");
@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
       <cropContext.Provider value={{ cropImage, setCropImage }}>
         <Provider store={store}>
           <Header sticky={router.pathname === "/about" ? true : false} />
-          <MusicPlayer />
+          {/* <MusicPlayer /> */}
           <Component {...pageProps} />
           <MusicPlayerButton />
           <CustomSnackbar />
