@@ -57,31 +57,31 @@ const Login = () => {
               },
             });
             console.log(loggedInResponse);
-            // if (loggedInResponse.message) {
-            //   await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
-            //     method: "POST",
-            //     headers: {
-            //       body: JSON.stringify({
-            //         type: "newaccount",
-            //         email: email,
-            //         subject: "Welcome to Gym-Expert",
-            //         message: `
-            //         <div
-            //           style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
-            //           <div style="display: flex; justify-content: center; align-items: center;">
-            //               <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
-            //                   style="width: 50px; height: 50px;" alt="Logo" />
-            //               <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
-            //           </div>
+            if (loggedInResponse.message) {
+              await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+                method: "POST",
+                headers: {
+                  body: JSON.stringify({
+                    type: "newaccount",
+                    email: email,
+                    subject: "Welcome to Gym-Expert",
+                    message: `
+                    <div
+                      style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
+                      <div style="display: flex; justify-content: center; align-items: center;">
+                          <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
+                              style="width: 50px; height: 50px;" alt="Logo" />
+                          <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
+                      </div>
 
-            //           <h4 style="font-weight: 100;">Welcome to Gym-Expert.\r\nWe hope that ...</h4>
-            //           <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
-            //         </div>
-            //       `,
-            //       }),
-            //     },
-            //   });
-            // }
+                      <h4 style="font-weight: 100;">Welcome to Gym-Expert.\r\nWe hope that ...</h4>
+                      <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
+                    </div>
+                  `,
+                  }),
+                },
+              });
+            }
             if (loggedInResponse.done) {
               router.push(ROUTES.homepage);
               dispatch(setUserState({ ...userRedux, needsUpdate: true }));
