@@ -1,9 +1,8 @@
 import { getUserDetailsQuery } from "../../lib/db/hasura";
-import type { NextApiRequest, NextApiResponse } from "next";
 // @ts-ignore
 import jwt from "jsonwebtoken";
 
-export default async function getUserDetails(req: NextApiRequest, res: NextApiResponse) {
+export default async function getUserDetails(req, res) {
   if (req.method === "GET") {
     try {
       const token = req ? req.cookies?.token : null;
