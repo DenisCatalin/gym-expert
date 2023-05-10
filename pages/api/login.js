@@ -11,6 +11,7 @@ export default async function login(req, res) {
 
       const metadata = await magicAdmin.users.getMetadataByToken(didToken);
 
+      console.log("auth", auth, didToken, metadata);
       const token = jwt.sign(
         {
           ...metadata,
@@ -49,7 +50,7 @@ export default async function login(req, res) {
       isNewUserQuery && (await createNewUser(token, metadata, dateString));
       setTokenCookie(token, res);
 
-      res.send({ done: true, message: isNewUserQuery });
+      res.send({ done: true });
     } catch (error) {
       console.error(" [Eroare 4]Something went wrong logging in", error);
       res.status(500).send({ done: false });
