@@ -10,6 +10,7 @@ import { otherReducer } from "./others.slice";
 import { scheduleReducer } from "./schedule.slice";
 import { nutritionReducer } from "./nutrition.slice";
 import { conversationReducer } from "./conversation.slice";
+import { musicReducer } from "./music.slice";
 
 const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ const store = configureStore({
     other: otherReducer,
     schedule: scheduleReducer,
     nutrition: nutritionReducer,
-    conversation: conversationReducer
+    conversation: conversationReducer,
+    music: musicReducer,
   },
 });
 
