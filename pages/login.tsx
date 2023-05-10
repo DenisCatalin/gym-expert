@@ -54,6 +54,7 @@ const Login = () => {
                 "Content-type": "application/json",
               },
             });
+            console.log("loggedInResponse", loggedInResponse);
             if (loggedInResponse.message) {
               await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
                 method: "POST",
