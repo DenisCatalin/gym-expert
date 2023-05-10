@@ -6,12 +6,15 @@ import { setTokenCookie } from "../../lib/cookies";
 export default async function login(req, res) {
   if (req.method === "POST") {
     try {
-      const auth = req.headers.authorization;
+      //@ts-ignore
+      const auth = req ? JSON.parse(req.headers.body).Authorization : null;
       const didToken = auth ? auth.substr(7) : "";
 
       const metadata = await magicAdmin.users.getMetadataByToken(didToken);
 
-      console.log("auth", auth, didToken, metadata);
+      console.log(auth);
+      console.log(didToken);
+
       const token = jwt.sign(
         {
           ...metadata,
@@ -50,9 +53,9 @@ export default async function login(req, res) {
       isNewUserQuery && (await createNewUser(token, metadata, dateString));
       setTokenCookie(token, res);
 
-      res.send({ done: true });
+      res.send({ done: true, message: isNewUserQuery });
     } catch (error) {
-      console.error(" [Eroare 4]Something went wrong logging in", error);
+      console.error("Something went wrong logging in", error);
       res.status(500).send({ done: false });
     }
   } else {

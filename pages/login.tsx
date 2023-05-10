@@ -45,52 +45,53 @@ const Login = () => {
           const Token = await magic.auth.loginWithMagicLink({
             email,
           });
-          console.log(Token);
           if (Token) {
-            console.log("la if");
             setDidToken(Token);
+            console.log("Am ajuns aici");
             const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
               method: "POST",
               headers: {
-                Authorization: `Bearer ${Token}`,
                 "Content-type": "application/json",
+                body: JSON.stringify({
+                  Authorization: `Bearer ${Token}`,
+                }),
               },
             });
-            console.log(loggedInResponse);
-            // if (loggedInResponse.message) {
-            //   await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
-            //     method: "POST",
-            //     headers: {
-            //       body: JSON.stringify({
-            //         type: "newaccount",
-            //         email: email,
-            //         subject: "Welcome to Gym-Expert",
-            //         message: `
-            //         <div
-            //           style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
-            //           <div style="display: flex; justify-content: center; align-items: center;">
-            //               <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
-            //                   style="width: 50px; height: 50px;" alt="Logo" />
-            //               <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
-            //           </div>
+            console.log(typeof loggedInResponse);
+            if (loggedInResponse.message) {
+              await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+                method: "POST",
+                headers: {
+                  body: JSON.stringify({
+                    type: "newaccount",
+                    email: email,
+                    subject: "Welcome to Gym-Expert",
+                    message: `
+                    <div
+                      style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
+                      <div style="display: flex; justify-content: center; align-items: center;">
+                          <img src="https://res.cloudinary.com/dgkdpysp5/image/upload/v1682434325/logo-gym_k9lpki.png"
+                              style="width: 50px; height: 50px;" alt="Logo" />
+                          <h2 style="color: #DC82F2;">GYM-EXPERT</h2>
+                      </div>
 
-            //           <h4 style="font-weight: 100;">Welcome to Gym-Expert.\r\nWe hope that ...</h4>
-            //           <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
-            //         </div>
-            //       `,
-            //       }),
-            //     },
-            //   });
-            // }
+                      <h4 style="font-weight: 100;">Welcome to Gym-Expert.\r\nWe hope that ...</h4>
+                      <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
+                    </div>
+                  `,
+                  }),
+                },
+              });
+            }
             if (loggedInResponse.done) {
               router.push(ROUTES.homepage);
               dispatch(setUserState({ ...userRedux, needsUpdate: true }));
             } else {
-              console.error("[Eroare 1] Something went wrong");
+              console.error("Something went wrong");
             }
           }
         } catch (error) {
-          console.error("[Eroare 2]Something went wrong", error);
+          console.error("Something went wrong", error);
           setIsLoading(false);
         }
       } else {
