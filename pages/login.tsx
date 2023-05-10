@@ -49,7 +49,7 @@ const Login = () => {
           if (Token) {
             console.log("la if");
             setDidToken(Token);
-            const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
+            const loggedInResponse = await fetchData("/api/login", {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${Token}`,
