@@ -1,14 +1,12 @@
 import { magicAdmin } from "../../lib/magic";
-import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { isNewUser, createNewUser } from "../../lib/db/hasura";
 import { setTokenCookie } from "../../lib/cookies";
 
-export default async function login(req: NextApiRequest, res: NextApiResponse) {
+export default async function login(req, res) {
   if (req.method === "POST") {
     try {
-      //@ts-ignore
-      const auth = req ? JSON.parse(req.headers.body).Authorization : null;
+      const auth = req.headers.authorization;
       const didToken = auth ? auth.substr(7) : "";
 
       const metadata = await magicAdmin.users.getMetadataByToken(didToken);
@@ -24,7 +22,6 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
             "x-hasura-user-id": `${metadata.issuer}`,
           },
         },
-        //@ts-ignore
         process.env.SECRET_KEY_HASURA
       );
 
@@ -52,9 +49,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
       isNewUserQuery && (await createNewUser(token, metadata, dateString));
       setTokenCookie(token, res);
 
-      console.error("CE PLM");
-
-      res.send({ done: true, message: isNewUserQuery });
+      res.status(200).send({ done: true, message: isNewUserQuery });
     } catch (error) {
       console.error("Something went wrong logging in", error);
       res.status(500).send({ done: false });

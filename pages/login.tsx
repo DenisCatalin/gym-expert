@@ -47,26 +47,23 @@ const Login = () => {
           });
           if (Token) {
             setDidToken(Token);
-            console.error("Am ajuns aici");
-            const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
-                body: JSON.stringify({
-                  Authorization: `Bearer ${Token}`,
-                }),
-              },
-            });
-            console.error(typeof loggedInResponse);
-            if (loggedInResponse.message) {
-              await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+            try {
+              const loggedInResponse = await fetchData(`${process.env.NEXT_PUBLIC_FETCH_LOGIN}`, {
                 method: "POST",
                 headers: {
-                  body: JSON.stringify({
-                    type: "newaccount",
-                    email: email,
-                    subject: "Welcome to Gym-Expert",
-                    message: `
+                  Authorization: `Bearer ${Token}`,
+                  "Content-type": "application/json",
+                },
+              });
+              if (loggedInResponse.message) {
+                await fetchData(`${process.env.NEXT_PUBLIC_FETCH_SEND_MAIL}`, {
+                  method: "POST",
+                  headers: {
+                    body: JSON.stringify({
+                      type: "newaccount",
+                      email: email,
+                      subject: "Welcome to Gym-Expert",
+                      message: `
                     <div
                       style="background: #140630; border-radius: 20px; color: #DC82F2; padding: 1rem; font-family: 'Kodchasan', sans-serif;">
                       <div style="display: flex; justify-content: center; align-items: center;">
@@ -79,15 +76,18 @@ const Login = () => {
                       <h4 style="font-weight: 100;">Best wishes,\r\nGym-Expert Team</h4>
                     </div>
                   `,
-                  }),
-                },
-              });
-            }
-            if (loggedInResponse.done) {
-              router.push(ROUTES.homepage);
-              dispatch(setUserState({ ...userRedux, needsUpdate: true }));
-            } else {
-              console.error("Something went wrong");
+                    }),
+                  },
+                });
+              }
+              if (loggedInResponse.done) {
+                router.push(ROUTES.homepage);
+                dispatch(setUserState({ ...userRedux, needsUpdate: true }));
+              } else {
+                console.error("Something went wrong");
+              }
+            } catch (error) {
+              console.log("EROARE", error);
             }
           }
         } catch (error) {
