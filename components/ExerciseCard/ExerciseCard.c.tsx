@@ -106,7 +106,6 @@ const ExerciseCard = ({ item, last = false, toSave, fav }: IExerciseCard) => {
       })
     );
   };
-
   return (
     <motion.div
       className={last === true ? styles.lastExerciseCard : styles.exerciseCard}

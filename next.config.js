@@ -14,6 +14,8 @@ module.exports = {
       "iso.500px.com",
       "deniscatalin.vercel.app",
       "www.vectorlogo.zone",
+      "api.exercisedb.io",
+      "v2.exercisedb.io",
     ],
   },
 };
