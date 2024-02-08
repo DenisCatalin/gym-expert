@@ -117,7 +117,13 @@ const ExerciseCard = ({ item, last = false, toSave, fav }: IExerciseCard) => {
       tabIndex={0}
       aria-label={item?.name}
     >
-      <Image src={item?.gifUrl} alt="" layout="fill" />
+      <Image
+        src={item?.gifUrl}
+        alt=""
+        layout="fill"
+        blurDataURL={item?.gifUrl}
+        placeholder="blur"
+      />
       <motion.div
         className={styles.hoverContainer}
         animate={{ y: hover ? 0 : 280 }}

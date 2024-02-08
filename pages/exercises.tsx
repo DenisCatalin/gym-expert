@@ -94,14 +94,6 @@ const options = {
   },
 };
 
-// const options = {
-//   method: "GET",
-//   headers: {
-//     "X-RapidAPI-Key": "3fb777c1b0msh9d24b739a3e998ep18c66fjsn68f4a6654b4b",
-//     "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-//   },
-// };
-
 const Exercises = () => {
   const [page, setPage] = useState(1);
   const [bodyPart, setBodyPart] = useState("favourites");
@@ -224,7 +216,7 @@ const Exercises = () => {
     } else {
       (async function () {
         const data = await fetchData(
-          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
+          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?limit=350`,
           options
         );
         for (const exercise of data) {

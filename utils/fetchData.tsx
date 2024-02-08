@@ -4,5 +4,6 @@ export default async function fetchData(endpoint: string, options?: Object) {
   if (process.env.NODE_ENV !== "production") {
     console.log("S-a facut request");
   }
+  console.log(data);
   return data;
 }
