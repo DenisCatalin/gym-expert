@@ -31,7 +31,7 @@
     "jsonwebtoken": "^8.5.1",
     "magic-sdk": "^8.1.1",
     "moment": "^2.29.4",
-    "next": "12.2.2",
+    "next": "12.3.0",
     "node-schedule": "^2.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
