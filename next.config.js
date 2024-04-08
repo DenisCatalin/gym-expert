@@ -6,6 +6,7 @@ const nextConfig = {
 module.exports = {
   nextConfig,
   images: {
+    unomptimized: true,
     domains: [
       "res.cloudinary.com",
       "d205bpvrqc9yn1.cloudfront.net",
