@@ -261,7 +261,7 @@ const ProfileButton = () => {
               </ThemeProvider>
             </div>
           ) : (
-            <Link href={"/login"}>
+            <Link href={"/login"} legacyBehavior>
               <a>
                 <h2>Sign In</h2>
               </a>

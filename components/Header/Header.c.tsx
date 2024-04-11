@@ -43,7 +43,7 @@ const Header = ({ sticky = false }) => {
             >
               <ul className={styles.navbar} aria-label="navigation bar">
                 {links.map((item, i) => (
-                  <Link href={i === 0 ? "/" : `${item}`} key={i}>
+                  <Link href={i === 0 ? "/" : `${item}`} key={i} legacyBehavior>
                     <a>
                       <li role="link" className={styles.link} key={i}>
                         {item}
