@@ -73,12 +73,10 @@ const Burger = () => {
           )}
           <div className={styles.links}>
             {links.map((item, i) => (
-              <Link href={i === 0 ? "/" : `/${item}`} key={i} legacyBehavior>
-                <a>
-                  <h1 className={styles.drawerLink} key={i} onClick={() => setState(false)}>
-                    {item}
-                  </h1>
-                </a>
+              <Link href={i === 0 ? "/" : `/${item}`} key={i}>
+                <h1 className={styles.drawerLink} key={i} onClick={() => setState(false)}>
+                  {item}
+                </h1>
               </Link>
             ))}
           </div>
